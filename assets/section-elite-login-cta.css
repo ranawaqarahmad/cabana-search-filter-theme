@@ -1,0 +1,49 @@
+.elite-login-cta {
+    border-radius: var(--radius-15);
+}
+
+.elite-banner__content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 3rem 0.1rem;
+}
+
+.elite-banner__text {
+    display: flex;
+    flex-direction: column;
+}
+
+.elite-banner__buttons {
+    display: flex;
+    flex-direction: row;
+    gap: var(--Spacingspacing-sm);
+}
+
+.elite-banner__text h3,
+.elite-banner__text p {
+    margin-block-start: 0;
+    margin-block-end: 0;
+}
+
+.elite-banner__text p {
+    font-size: var(--text-small);
+}
+
+@media screen and (max-width: 764px) {
+    .elite-banner__content {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: var(--grid-mobile-vertical-spacing);
+    }
+
+    .elite-banner__text {
+        text-align: center;
+    }
+
+    .elite-banner__text h3 {
+        font-size: var(--text-small);
+    }
+}

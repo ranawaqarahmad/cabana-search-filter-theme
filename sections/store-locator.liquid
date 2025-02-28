@@ -1,0 +1,605 @@
+{{ 'leaflet.css' | asset_url | stylesheet_tag }}
+{{ 'section-store-locator.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'leaflet.js' | asset_url }}"></script>
+{% render 'locations-js' %}
+
+<style>
+  @media only screen and (max-width:768px){
+    .location-list-item__buttons .button{
+    padding: 10px;
+}
+  }
+</style>
+
+<div
+  class="js-store-locator store-locator color-{{ section.settings.color_scheme }} gradient{% if section.settings.title == blank %} no-heading{% endif %}">
+  <div
+    class="section-{{ section.id }}-padding isolate{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+    {% if settings.animations_reveal_on_scroll %}
+      data-cascade
+    {% endif %}
+  >
+    <div class="js-location-not-found-error-toast toast__location-not-found">
+      {% render 'toast', title: 'Uh oh!', description: 'Searched location could not be found. Please be more specific.', toast-type: 'error', store_id: store_id %}
+    </div>
+    <div class="map-store-wrapper page-width">
+      <div class="js-draggable-section store-list-wrapper page-width">
+        <div class="js-location-draggable-handle location-draggable-handle">
+          <span class="visually-hidden">Drag Down</span>
+        </div>
+        <form class="js-search-form">
+          <div class="locations-search-row page-width">
+            <div class="section-heading__bar sp-small mgb-small text-{{ section.settings.heading_alignment }}">
+              {%- unless section.settings.title == blank -%}
+                <h2 class="title {{ section.settings.heading_size }} mg-none">
+                  {{ section.settings.title }}
+                </h2>
+              {%- endunless -%}
+              <label for="address-input" class="text-small">Search by Postal Code or City and Province</label>
+            </div>
+
+            <div class="location-control">
+              <div class="location-control__inner-row">
+                <div class="field">
+                  <input id="address-input" name="address" class="search__input field__input" placeholder="Search">
+                  <button class="search__button field__button" aria-label="{{ 'general.search.search' | t }}">
+                    {% render 'theme-icons', icon: 'search' %}
+                  </button>
+                </div>
+                <button class="location-control__filter-toggle js-location-control__filter-toggle button--no-style" onclick="toggleLocationFilter();">{% render 'theme-icons', icon: 'icon-filter-toggle' %} Filter</button>
+              </div>
+            </div>
+            <div class="js-location-filter location-control__inner-content hidden">
+              <div class="location-control">
+                <h3 class="text-base">{{ 'locations.store_services' | t }}</h3>
+
+                <div class=" radio-button-group">
+                  <div class="radio-button">
+                    <input type="radio" id="pickup" value="pickup" name="store-services" checked />
+                    <label for="pickup">{{ 'locations.pickup' | t }}</label>
+                  </div>
+
+                  <div class="radio-button">
+                    <input type="radio" id="delivery" value="delivery" name="store-services" />
+                    <label for="delivery">{{ 'locations.delivery' | t }}</label>
+                  </div>
+                </div>
+              </div>
+              <div class="location-control">
+                <label class="h6 text-base" for="radius-select">{{ 'locations.distance' | t }}</label>
+                <div class="location-control__distance">
+                  <input type="range" min="25" max="250" value="25" id="radius-select" name="radius" class="search__input select__select">
+                  <output class="js-radius-value location-control__distance-output"></output>
+
+                  <script>
+                  const value       = document.querySelector('.js-radius-value');
+                  const input       = document.querySelector('#radius-select');
+                  value.textContent = input.value + ' km';
+                  input.addEventListener('input', (event) => {
+                    value.textContent = event.target.value + ' km';
+                  });
+                  </script>
+                </div>
+              </div>
+              <div class="location-control">
+                <div class="check_box_left">
+                  <input type="checkbox" id="open-now-only" name="open-now-only" class="custom-checkbox">
+                  <span class="checkbox-styling">
+                    {% render 'theme-icons', icon: 'check' %}
+                  </span>
+                  <label class="h6 text-base" for="open-now-only">
+                    {{ 'locations.open_now_only' | t }}
+                  </label>
+                </div>
+              </div>
+              <div class="location-control__search-actions">
+                <button class="button button--secondary button--full-width js-search-clear" onclick="document.querySelector('.js-search-form').reset();">{{ 'locations.clear' | t }}</button>
+                <button class="button button--full-width js-search-submit" type="submit">{{ 'locations.search' | t }}</button>
+              </div>
+            </div>
+          </div>
+        </form>
+        <ul class="locations-list-items js-locations-list">
+          <li>{%- render 'theme-icons', icon: 'loader', class: 'loading__spinner' -%}</li>
+        </ul>
+      </div>
+      <div id="map" class="map-wrapper">
+        <div id="locations-map" class="js-locations-map locations-map">
+          {%- render 'theme-icons', icon: 'loader', class: 'loading__spinner' -%}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% include 'store-id' %}
+</div>
+
+{% render 'locations-js' %}
+
+<script>
+function toggleLocationFilter() {
+  const section = document.querySelector('.js-location-filter'),
+        _this   = document.querySelector('.js-location-control__filter-toggle');
+
+  if (section) {
+    section.classList.toggle('hidden');
+  }
+
+  _this.classList.toggle('active');
+}
+</script>
+
+<script>
+let map,
+    searchedLocation,
+    filterByOpen         = false,
+    filterByDeliveryOnly = false,
+    filterByPickupOnly   = false,
+    maxRadius            = 25;
+
+const pin = L.icon({
+  iconUrl : "{{ 'pin.png' | asset_url }}",
+  iconSize: [55, 70],
+});
+
+function generateLocationsGeoData() {
+  if (typeof window.stores === 'undefined') {
+    return {};
+  }
+
+  const mapStores = [];
+
+  Object.entries(window.stores).forEach(([key, store]) => {
+    if (!store.address.longitude || !store.address.latitude) {
+      return;
+    }
+
+    // TODO: Might be something off with isStoreOpen logic.
+    if (filterByOpen && !isStoreOpen(store)) {
+      return;
+    }
+
+    if (filterByDeliveryOnly && !store.has_delivery) {
+      return;
+    }
+
+    if (filterByDeliveryOnly && !store.has_pickup) {
+      return;
+    }
+
+    const locationFeature = {
+      lat          : parseFloat(store.address.latitude),
+      lon          : parseFloat(store.address.longitude),
+      name         : store.title,
+      city         : store.address.city,
+      street       : store.address.street1,
+      province     : store.address.province,
+      zip          : store.address.zip,
+      country      : store.address.country,
+      licence_id   : store.licence_id,
+      hours        : store.hours,
+      phone        : store.phone,
+      store_id     : store.store_id,
+      handle       : store.handle,
+      img          : store.img,
+      address      : {longitude: parseFloat(store.address.longitude)},
+      has_delivery : store.has_delivery,
+      hours_periods: store.hours_periods,
+    };
+
+    mapStores.push(locationFeature);
+  });
+
+  return mapStores;
+}
+
+function generateLocationsMap(geoData, attemptGeolocation = true) {
+  if (map) {
+    map.remove();
+  }
+
+  map = L.map('locations-map');
+
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
+  }).addTo(map);
+
+  let userLocation = null;
+
+  if (attemptGeolocation && navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(position => {
+      userLocation         = [position.coords.latitude, position.coords.longitude];
+      const filteredStores = geoData.map(store => {
+        const distance = calculateDistance(userLocation[0], userLocation[1], store.lat, store.lon);
+
+        return {...store, distance};
+      }).filter(store => store.distance <= maxRadius)
+                                    .sort((a, b) => a.distance - b.distance);
+
+      map.setView(userLocation, 12);
+
+      //L.marker(userLocation, {icon: pin}).addTo(map)
+      // .bindPopup('<p class="text-base">You are here!</p>')
+      // .openPopup();
+      panMapToMaxRadius(maxRadius, userLocation);
+      return renderMapLocations(true, map, filteredStores, false);
+    }, error => {
+      console.error('Error getting user location:', error);
+      panMapToMaxRadius(maxRadius);
+    });
+  } else {
+    panMapToMaxRadius(maxRadius, searchedLocation);
+  }
+
+  //if (searchedLocation) {
+  //  L.marker(searchedLocation, {icon: pin}).addTo(map)
+  //   .bindPopup('You searched here!')
+  //   .openPopup();
+  //}
+
+  return renderMapLocations(true, map, geoData);
+}
+
+function renderMapLocations(initialization, map, stores, recenter = true) {
+  let locationsList = document.querySelector('.js-locations-list');
+
+  while (locationsList.firstChild) {
+    locationsList.removeChild(locationsList.firstChild);
+  }
+
+  let bounds = L.latLngBounds();
+
+  stores.forEach((store) => {
+    const popupContent = `
+                <div class="rte">
+                  <h3 class="h6 mg-none">${store.name}</h3>
+                  <p class="text-base">${store.street}, ${store.province}</p>
+                  <p class="text-base"><a href="/pages/store/${store.handle}">{{ 'locations.see_store_details' | t }}</a></p>
+                </div>
+                `;
+    L.marker([store.lat, store.lon], {icon: pin}).addTo(map)
+     .bindPopup(popupContent);
+
+    bounds.extend([store.lat, store.lon]);
+
+    locationsList.append(createLocationAccordion(store));
+
+    const allListItems = document.querySelectorAll('.js-location-list-item');
+
+    allListItems.forEach(listItem => {
+      listItem.addEventListener('click', function () {
+
+        allListItems.forEach(element => {
+          element.classList.remove('active');
+        });
+
+        listItem.classList.add('active');
+      });
+    });
+  });
+
+  if (recenter && Object.keys(bounds).length) {
+    map.fitBounds(bounds);
+  }
+
+  return map;
+}
+
+function createLocationAccordion(store) {
+  let roundedDistance = null;
+  const status = generateStoreStatus(store, store.has_delivery);
+
+  if (store.distance) {
+    roundedDistance = store.distance.toFixed(2);
+  }
+
+  const content = `
+        <div class="location-list-item__wrapper">
+          <div class="location-list-item__inner">
+            <div class="location-list-item__image small-desktop-up-show">
+              ${store.img ?
+                `<img src="${store.img}" alt="" width="260" height="160">` :
+                `<img src="{{ 'cannacabana-store-default.webp' | asset_url }}" alt="" width="260" height="160">`
+              }
+            </div>
+            <div class="location-list-item__details">
+              <div class="location-list-item__head">
+                <h3 class="h6 mg-none">${store.name} | ${store.city}</h3>
+                ${status}
+                <p class="location__distance">${roundedDistance ? roundedDistance + '{{ 'locations.distance_away' | t }}' : ''}</p>
+              </div>
+              <p class="text-xs">${store.license_id ? 'Store License Number: ' + store.license_id : ''}</p>
+              <div class="location-list-item__image small-desktop-up-hide">
+                ${store.img ?
+                `<img src="${store.img}" alt="" width="260" height="160">` :
+                `<img src="{{ 'cannacabana-store-default.webp' | asset_url }}" alt="" width="260" height="160">`
+                }
+              </div>
+              <address class="location-list-item__address text-xs">
+                ${store.street}, ${store.city}, ${store.province} ${store.zip}
+              </address>
+              <div class="location-list-item__hours text-xs">
+                {% render 'theme-icons', icon: 'icon-clock' %} ${store.hours}
+              </div>
+              <div class="location-list-item__phone text-xs">
+                {% render 'theme-icons', icon: 'icon-phone-outgoing' %}${store.phone}
+              </div>
+            </div>
+          </div>
+          <div class="location-list-item__buttons">
+            <button onclick="shopThisStore(${store.store_id}, '${store.province}');" class="button button--primary button--full-width">Shop Now</button>
+            <a href="/pages/store/${store.handle}" class="button button--secondary button--full-width">Store Details</a>
+          </div>
+        </div>
+      `;
+
+  const listItem     = document.createElement('li');
+  listItem.className = 'panel location-list-item js-location-list-item';
+  listItem.id        = store.store_id;
+  listItem.innerHTML = content;
+
+  listItem.addEventListener('click', function () {
+    map.panTo([store.lat, store.lon]);
+  });
+
+  return listItem;
+}
+
+function calculateDistance(lat1, lon1, lat2, lon2) {
+  const R    = 6371;
+  const dLat = deg2rad(lat2 - lat1);
+  const dLon = deg2rad(lon2 - lon1);
+  const a    =
+          Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+          Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+          Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  const c    = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+  return R * c;
+}
+
+function searchStores(address) {
+  return geocodeAddress(address).then(location => {
+    if (location) {
+      const stores     = generateLocationsGeoData();
+      searchedLocation = [location.lat, location.lon];
+
+      return stores.map(store => {
+        const distance = calculateDistance(location.lat, location.lon, store.lat, store.lon);
+
+        return {...store, distance};
+      }).filter(store => store.distance <= maxRadius)
+                   .sort((a, b) => a.distance - b.distance);
+    } else {
+      throw 'Searched location could not be found. Please be more specific.';
+    }
+  });
+}
+
+async function geocodeAddress(address) {
+  const response = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(address)}&format=json&limit=1`);
+  const data     = await response.json();
+  if (data.length > 0) {
+    const {lat, lon} = data[0];
+
+    return {lat: parseFloat(lat), lon: parseFloat(lon)};
+  }
+
+  return null;
+}
+
+function initMap() {
+  generateLocationsMap(generateLocationsGeoData());
+}
+
+document.querySelector('.js-search-form').addEventListener('submit', (e) => {
+  e.preventDefault();
+  filterByOpen         = false;
+  filterByDeliveryOnly = false;
+  filterByPickupOnly   = false;
+  searchedLocation     = null;
+
+  const formData = new FormData(e.target),
+        services = formData.getAll('store-services');
+
+  if (formData.get('open-now-only') === 'on') {
+    filterByOpen = true;
+  }
+
+  if (services.includes('delivery')) {
+    filterByDeliveryOnly = true;
+  }
+
+  if (services.includes('pickup')) {
+    filterByPickupOnly = true;
+  }
+
+  maxRadius = formData.get('radius');
+
+  if (formData.get('address') !== '') {
+    hideErrorToast();
+    searchStores(formData.get('address'))
+      .then(filteredStores => {
+        generateLocationsMap(filteredStores, false);
+      })
+      .catch(e => {
+        showErrorToast();
+      });
+  } else {
+    initMap();
+  }
+});
+
+function panMapToMaxRadius(radius, userLocation) {
+  const zoomLevels = [
+    { radius: 250, zoom: 8 },
+    { radius: 150, zoom: 9 },
+    { radius: 100, zoom: 10 },
+    { radius: 50, zoom: 11 },
+    { radius: 25, zoom: 12 },
+  ];
+
+  const zoomLevel = zoomLevels.find(level => radius >= level.radius).zoom;
+  map.setView(userLocation, zoomLevel);
+}
+
+initMap();
+
+function showErrorToast() {
+  const toastError = document.querySelector('.js-location-not-found-error-toast'),
+        toastInner = toastError.querySelector('.js-toast');
+
+  toastError.style.display = 'block';
+  toastInner.style.display = 'flex';
+}
+
+function hideErrorToast() {
+  const toastError = document.querySelector('.js-location-not-found-error-toast');
+
+  toastError.style.display = 'none';
+}
+</script>
+
+<script>
+const draggableSection = document.querySelector('.js-draggable-section'),
+      handle           = document.querySelector('.js-location-draggable-handle'),
+      theMap           = document.querySelector('.js-locations-map');
+
+let isDragging       = false,
+    startY           = 0,
+    initialMarginTop = 0;
+
+function startDrag(e) {
+  e.preventDefault();
+  isDragging = true;
+  startY = (e.clientY || e.touches[0].clientY);
+  initialMarginTop = parseFloat(getComputedStyle(draggableSection).marginTop);
+  document.body.style.cursor = 'grabbing';
+  document.body.style.overflow = 'hidden';
+  theMap.style.height = '100vh';
+  map.invalidateSize();
+}
+
+function onDrag(e) {
+  if (isDragging) {
+    let clientY = (e.clientY || e.touches[0].clientY);
+    let newMarginTop = initialMarginTop + (clientY - startY);
+    if (newMarginTop >= 0 && newMarginTop <= window.innerHeight) {
+      draggableSection.style.marginTop = `${newMarginTop}px`;
+    }
+  }
+}
+
+function endDrag() {
+  if (isDragging) {
+    isDragging = false;
+    document.body.style.cursor = 'grab';
+    document.body.style.overflow = '';
+    initialMarginTop = parseFloat(getComputedStyle(draggableSection).marginTop);
+  }
+}
+
+handle.addEventListener('mousedown', startDrag);
+handle.addEventListener('touchstart', startDrag);
+
+document.addEventListener('mousemove', onDrag);
+document.addEventListener('touchmove', onDrag);
+
+document.addEventListener('mouseup', endDrag);
+document.addEventListener('touchend', endDrag);
+</script>
+
+{% schema %}
+{
+  "name": "t:sections.store_locator.name",
+  "class": "section",
+  "tag": "section",
+  "disabled_on": {
+    "groups": [
+      "header",
+      "footer",
+      "custom.popups"
+    ]
+  },
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "t:sections.all.heading.label"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        {
+          "value": "h3",
+          "label": "t:sections.all.heading_size.options__2.label"
+        },
+        {
+          "value": "h2",
+          "label": "t:sections.all.heading_size.options__3.label"
+        },
+        {
+          "value": "h1",
+          "label": "t:sections.all.heading_size.options__4.label"
+        },
+        {
+          "value": "h0",
+          "label": "t:sections.all.heading_size.options__5.label"
+        }
+      ],
+      "default": "h2",
+      "label": "t:sections.all.heading_size.label"
+    },
+    {
+      "type": "select",
+      "id": "heading_alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "t:sections.all.heading_alignment.options__1.label"
+        },
+        {
+          "value": "center",
+          "label": "t:sections.all.heading_alignment.options__2.label"
+        },
+        {
+          "value": "right",
+          "label": "t:sections.all.heading_alignment.options__3.label"
+        }
+      ],
+      "default": "center",
+      "label": "t:sections.all.heading_alignment.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.layout.content"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-2"
+    },
+    {
+      "type": "range",
+      "id": "columns_per_row",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "default": 3,
+      "label": "t:sections.store_locator.settings.columns_per_row.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.section_spacing.content",
+      "info": "t:sections.all.section_spacing.info"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.store_locator.presets.name"
+    }
+  ]
+}
+{% endschema %}

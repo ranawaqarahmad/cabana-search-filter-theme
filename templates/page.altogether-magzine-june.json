@@ -1,0 +1,563 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "hero_banner_DUxdq7": {
+      "type": "hero-banner",
+      "custom_css": [
+        "@media screen and (max-width: 768px) {.content-container p {display: none; }}"
+      ],
+      "settings": {
+        "title": "<h1>Altogether Magazine</h1>",
+        "content": "<p>Cabanalytics Customer Insights</p>",
+        "image": "shopify://shop_images/4e4bbc78669a9458deb1833684d2977c_4a07c052-1185-4a40-8086-7f4458095927.jpg",
+        "color_scheme": "scheme-9f459313-d482-46ca-b82d-99b7d5128e5d"
+      }
+    },
+    "breadcrumbs_mrNmVD": {
+      "type": "breadcrumbs",
+      "settings": {
+        "padding_top": 0,
+        "padding_bottom": 32
+      }
+    },
+    "main": {
+      "type": "main-page",
+      "custom_css": [
+        "h1 {display: none;}"
+      ],
+      "settings": {}
+    },
+    "custom_liquid_pzaBB8": {
+      "type": "custom-liquid",
+      "disabled": true,
+      "custom_css": [
+        "h1 {display: none !important;}"
+      ],
+      "settings": {
+        "custom_liquid": "<h2 style=\"margin-bottom: 0;\" class=\"h5\">Hot Off the Press!</h2>\n<p style=\"margin-top: 0;\" class=\"text-large\">Published on&nbsp;April 01, 2024</p>\n<div style=\"position: relative; padding-top: max(45%,326px); height: 0; width: 100%;\"><iframe style=\"position: absolute; border: none; width: 100%; height: 100%; left: 0; right: 0; top: 0; bottom: 0;\" src=\"https://e.issuu.com/embed.html?d=ca_may_20240515aw&amp;u=cannacabana.com\" allow=\"clipboard-write\" sandbox=\"allow-top-navigation allow-top-navigation-by-user-activation allow-downloads allow-scripts allow-same-origin allow-popups allow-modals allow-popups-to-escape-sandbox allow-forms\" allowfullscreen=\"true\"></iframe></div>",
+        "expand_width": false,
+        "remove_spacing": false,
+        "color_scheme": "",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "custom_liquid_TYjh8f": {
+      "type": "custom-liquid",
+      "settings": {
+        "custom_liquid": "<div class=\"text-center\">\n  <a href=\"https://7aef076d.flowpaper.com/CAOct20240911KCcompressed2/\" download class=\"button button--primary\">{{ 'sections.magazine.download_magazine' | t }}</a>\n\n  {% assign share_title = 'title' %}\n  {% assign share_link = ''\n%}\n\n  {% if share_title != '' and share_link != '' %}\n    <div class=\"text-center\">\n      <ul class=\"list-unstyled list-social list-social-center list-social__share\" role=\"list\">\n        <li class=\"list-social__item\">\n          <a href=\"https://twitter.com/intent/tweet?text=Check out this article about {{ share_title | escape }}&url={{ share_link | escape }}\" target=\"_blank\" class=\"link list-social__link list-social__link-share\">\n            {%- render 'theme-icons', icon: 'twitter' -%}\n            <span class=\"visually-hidden\">{{ 'general.social.alt_text.share_on_twitter' | t }}</span>\n          </a>\n        </li>\n\n        <li class=\"list-social__item\">\n          <a href=\"https://www.linkedin.com/feed/?shareActive=true&text=Check out this article about {{ share_title }} {{ share_link |  escape }} %23NewPost\" target=\"_blank\" class=\"link list-social__link list-social__link-share\">\n            {%- render 'theme-icons', icon: 'linkedin' -%}\n            <span class=\"visually-hidden\">{{ 'general.social.alt_text.share_on_linkedin' | t }}</span>\n          </a>\n        </li>\n\n        <li class=\"list-social__item\">\n          <a href=\"https://www.facebook.com/sharer/sharer.php?u={{ share_link | escape }}\" target=\"_blank\" class=\"link list-social__link list-social__link-share\">\n            {%- render 'theme-icons', icon: 'facebook' -%}\n            <span class=\"visually-hidden\">{{ 'general.social.alt_text.share_on_facebook' | t }}</span>\n          </a>\n        </li>\n\n        <li class=\"list-social__item\">\n          <a href=\"https://api.whatsapp.com/send?text={{ share_title | escape }}%20{{ share_link | escape }}\" target=\"_blank\" class=\"link list-social__link list-social__link-share\">\n            {%- render 'theme-icons', icon: 'whatsapp' -%}\n            <span class=\"visually-hidden\">{{ 'general.social.alt_text.share_on_whatsapp' | t }}</span>\n          </a>\n        </li>\n      </ul>\n    </div>\n  {% endif %}\n</div>",
+        "expand_width": false,
+        "remove_spacing": false,
+        "color_scheme": "",
+        "padding_top": 0,
+        "padding_bottom": 100
+      }
+    },
+    "featured_collection_6yN3JL": {
+      "type": "featured-collection",
+      "blocks": {
+        "featured_collection_6fzzVJ": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "best-sellers",
+            "color_scheme": "",
+            "title": "Featured in this Edition"
+          }
+        }
+      },
+      "block_order": [
+        "featured_collection_6fzzVJ"
+      ],
+      "disabled": true,
+      "settings": {
+        "title": "Featured in this Edition",
+        "heading_size": "h3",
+        "enable_shop_all": false,
+        "shop_all_link": "",
+        "shop_all_text": "",
+        "heading_alignment": "left",
+        "hide_for_bc": false,
+        "hide_for_ab": false,
+        "color_scheme": "scheme-1",
+        "products_to_show": 8,
+        "products_per_row": 4,
+        "enable_slider_scrollbar": true,
+        "show_view_all": true,
+        "grid_color_scheme": "",
+        "grid_style": "classic",
+        "image_ratio": "portrait",
+        "show_secondary_image": true,
+        "show_vendor": true,
+        "show_rating": false,
+        "show_color_swatches": false,
+        "grid_text_alignment": "left",
+        "products_per_row_mobile": "2",
+        "swipe_on_mobile": true,
+        "enable_elite_styling": false,
+        "elite_button_link": "",
+        "elite_subtitle": "",
+        "ab_subtitle": ""
+      }
+    },
+    "text_columns_8dzgTR": {
+      "type": "text-columns",
+      "blocks": {
+        "column_LAbMUN": {
+          "type": "column",
+          "settings": {
+            "color_scheme": "scheme-2228c99b-b974-436a-8ae7-a0c1bf2e3ea7",
+            "image": "shopify://shop_images/Group_1.png",
+            "title": "Know the hottest weed & accessories."
+          }
+        },
+        "column_igdcBP": {
+          "type": "column",
+          "settings": {
+            "color_scheme": "scheme-2228c99b-b974-436a-8ae7-a0c1bf2e3ea7",
+            "image": "shopify://shop_images/loupe_1_329b6351-bd19-4668-b44d-be6f2d0e5974.png",
+            "title": "Discover new cannabis trends & innovations."
+          }
+        },
+        "column_JpjdjM": {
+          "type": "column",
+          "settings": {
+            "color_scheme": "scheme-2228c99b-b974-436a-8ae7-a0c1bf2e3ea7",
+            "image": "shopify://shop_images/Group_724_b912ca8d-165e-4086-aa71-305581f2f65a.png",
+            "title": "Learn from curated Guides & Culture Pieces."
+          }
+        }
+      },
+      "block_order": [
+        "column_LAbMUN",
+        "column_igdcBP",
+        "column_JpjdjM"
+      ],
+      "settings": {
+        "title": "Altogether Magazine",
+        "description": "<p>Explore monthly trends across all Canna Cabana stores & watch the cannabis world evolve! Each edition highlights the bestselling weed, explores cutting-edge innovations, & offers expert-curated guides to streamline your shopping experience.</p>",
+        "color_scheme": "",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "newsletter_Xj4inR": {
+      "type": "newsletter",
+      "blocks": {
+        "heading_ACKkXW": {
+          "type": "heading",
+          "settings": {
+            "heading": "Get it in your inbox"
+          }
+        },
+        "paragraph_Uq99KM": {
+          "type": "paragraph",
+          "settings": {
+            "text": "<p>Want to be come the go-to expert in all things cannabis? Get the latest version of the exclusive altogether magazine on your inbox!</p>"
+          }
+        },
+        "email_form_ANVzEP": {
+          "type": "email_form",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "heading_ACKkXW",
+        "paragraph_Uq99KM",
+        "email_form_ANVzEP"
+      ],
+      "custom_css": [
+        ".newsletter {margin-top: 32px; margin-bottom: 32px;}"
+      ],
+      "settings": {
+        "expanded_width": false,
+        "text_alignment": "left",
+        "color_scheme": "scheme-a4d07b9f-a2b5-405d-ade2-428a5609613e",
+        "padding_top": 44,
+        "padding_bottom": 44
+      }
+    },
+    "text_columns_with_icons_cBK6Nr": {
+      "type": "text-columns-with-icons",
+      "blocks": {
+        "column_H8Aicj": {
+          "type": "column",
+          "settings": {
+            "color_scheme": "",
+            "image": "shopify://shop_images/Screenshot_2024-09-25_at_9.04.10_PM.png",
+            "title": "<a href=\"/pages/altogether-magazine-may-2024\" target=\"_blank\" title=\"Altogether Magazine May 2024\">May 2024</a>",
+            "text": "",
+            "ab_description": "",
+            "text_alignment": "center",
+            "button_label": "",
+            "button_link": "",
+            "button_style": "primary"
+          }
+        },
+        "column_rryGej": {
+          "type": "column",
+          "disabled": true,
+          "settings": {
+            "color_scheme": "",
+            "image": "shopify://shop_images/Screenshot_from_2024-08-06_16-10-07.png",
+            "title": "<a href=\"/pages/altogether-magazine-june\" target=\"_blank\" title=\"Altogether Magazine june\">June 2024</a>",
+            "text": "",
+            "ab_description": "",
+            "text_alignment": "center",
+            "button_label": "",
+            "button_link": "",
+            "button_style": "primary"
+          }
+        },
+        "column_RL6NiT": {
+          "type": "column",
+          "settings": {
+            "color_scheme": "",
+            "image": "shopify://shop_images/Screenshot_from_2024-08-06_16-09-00.png",
+            "title": "<a href=\"/pages/altogether-magazine-july-1\" target=\"_blank\" title=\"Altogether Magazine July\">July 2024</a>",
+            "text": "",
+            "ab_description": "",
+            "text_alignment": "center",
+            "button_label": "",
+            "button_link": "",
+            "button_style": "primary"
+          }
+        },
+        "column_LDTfTp": {
+          "type": "column",
+          "settings": {
+            "color_scheme": "scheme-1",
+            "image": "shopify://shop_images/Screenshot_2024-09-25_at_7.26.04_PM.png",
+            "title": "<a href=\"/pages/altogether-magazine-august-1\" title=\"Altogether Magazine August\">August 2024</a>",
+            "text": "",
+            "ab_description": "",
+            "text_alignment": "center",
+            "button_label": "",
+            "button_link": "",
+            "button_style": "primary"
+          }
+        },
+        "column_cxfMFp": {
+          "type": "column",
+          "settings": {
+            "color_scheme": "scheme-1",
+            "image": "shopify://shop_images/Screenshot_2024-09-25_at_8.19.58_PM.png",
+            "title": "<a href=\"/pages/altogether-magazine-september\" title=\"Altogether Magazine September\">September 2024</a>",
+            "text": "",
+            "ab_description": "",
+            "text_alignment": "center",
+            "button_label": "",
+            "button_link": "",
+            "button_style": "primary"
+          }
+        }
+      },
+      "block_order": [
+        "column_H8Aicj",
+        "column_rryGej",
+        "column_RL6NiT",
+        "column_LDTfTp",
+        "column_cxfMFp"
+      ],
+      "custom_css": [],
+      "settings": {
+        "title": "Check Out Our Past Editions",
+        "hide_for_ab": false,
+        "hide_for_bc": false,
+        "heading_size": "h2",
+        "heading_alignment": "center",
+        "color_scheme": "",
+        "style": "simple",
+        "column_per_row": 4,
+        "title_size": "h5",
+        "text_alignment": "center",
+        "column_per_row_mobile": "2",
+        "padding_top": 16,
+        "padding_bottom": 64
+      }
+    },
+    "collection_list_hLGWyB": {
+      "type": "collection-list",
+      "blocks": {
+        "featured_collection_HPMq6L": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "weed-online",
+            "color_scheme": "",
+            "image": "shopify://shop_images/Frame_724.png",
+            "title": "Dried Flower",
+            "link": "shopify://collections/weed-online",
+            "description": ""
+          }
+        },
+        "featured_collection_jpVHHi": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "pre-rolls",
+            "color_scheme": "",
+            "image": "shopify://shop_images/Rectangle_23858.png",
+            "title": "Pre-Rolls",
+            "link": "shopify://collections/pre-rolls",
+            "description": ""
+          }
+        },
+        "featured_collection_fPfnJD": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "vape-cartridges",
+            "color_scheme": "",
+            "image": "shopify://shop_images/Group_499.png",
+            "title": "Vape Cartridges",
+            "link": "shopify://collections/vape-cartridges",
+            "description": ""
+          }
+        },
+        "featured_collection_awnqFM": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "concentrates",
+            "color_scheme": "scheme-1",
+            "image": "shopify://shop_images/Rectangle_23858_1.png",
+            "title": "Concentrates",
+            "link": "shopify://collections/concentrates",
+            "description": ""
+          }
+        },
+        "featured_collection_zwYzVW": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "edibles",
+            "color_scheme": "scheme-1",
+            "image": "shopify://shop_images/Frame_41414.png",
+            "title": "Edibles",
+            "link": "shopify://collections/edibles",
+            "description": ""
+          }
+        },
+        "featured_collection_rNxyrq": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "cannabis-accessories",
+            "color_scheme": "scheme-1",
+            "image": "shopify://shop_images/Group_499_1.png",
+            "title": "Accessories",
+            "link": "shopify://collections/cannabis-accessories",
+            "description": ""
+          }
+        }
+      },
+      "block_order": [
+        "featured_collection_HPMq6L",
+        "featured_collection_jpVHHi",
+        "featured_collection_fPfnJD",
+        "featured_collection_awnqFM",
+        "featured_collection_zwYzVW",
+        "featured_collection_rNxyrq"
+      ],
+      "settings": {
+        "title": "<strong>Shop Top Categories</strong>",
+        "heading_size": "h2",
+        "heading_alignment": "center",
+        "color_scheme": "",
+        "collections_per_row": 6,
+        "enable_slider_scrollbar": false,
+        "show_view_all": true,
+        "view_all_text": "",
+        "style": "simple",
+        "image_width": "small",
+        "image_ratio": "square",
+        "custom_ratio": 1,
+        "title_size": "h6",
+        "grid_alignment": "center",
+        "show_product_count": false,
+        "collections_per_row_mobile": "2",
+        "swipe_on_mobile": false,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "masonry_grid_w39HmG": {
+      "type": "masonry-grid",
+      "blocks": {
+        "image_kTHzRb": {
+          "type": "image",
+          "settings": {
+            "color_scheme": "scheme-3",
+            "image": "shopify://shop_images/membership-banner_desktop_A.jpg",
+            "image_height": 50,
+            "mobile_image": "shopify://shop_images/membership-banner_mobile_A.jpg",
+            "hide_for_ab": false,
+            "hide_for_bc": false,
+            "hide_for_logged_in": false,
+            "hide_for_elite": false,
+            "subheading": "",
+            "title": "Join Cabana Club for Free",
+            "heading_size": "h3",
+            "description": "<p>Get instant access to our UNBEATABLE membership prices.</p>",
+            "secondary_description": "",
+            "make_button_full": false,
+            "button_label": "Learn More",
+            "button_link": "shopify://pages/cabana-club",
+            "button_style": "primary",
+            "text_alignment": "left",
+            "text_alignment_mobile": "center",
+            "content_position": "content_right",
+            "content_width": "half_width",
+            "scrolling_color_scheme": "",
+            "scrolling_text": ""
+          }
+        },
+        "image_kzP6Yx": {
+          "type": "image",
+          "settings": {
+            "color_scheme": "scheme-4",
+            "image": "shopify://shop_images/membership-banner_desktop_B.jpg",
+            "image_height": 50,
+            "mobile_image": "shopify://shop_images/membership-banner_mobile_B.jpg",
+            "hide_for_ab": false,
+            "hide_for_bc": false,
+            "hide_for_logged_in": false,
+            "hide_for_elite": false,
+            "subheading": "",
+            "title": "Upgrade to ELITE",
+            "heading_size": "h4",
+            "description": "<p>Unlock exclusive flash sales & weekly drops!</p>",
+            "secondary_description": "<p> *T&C apply. For complete ELITE program details <a href=\"/pages/terms-of-service\" title=\"Terms of service\">click here</a></p>",
+            "make_button_full": false,
+            "button_label": "Upgrade Now",
+            "button_link": "shopify://pages/elite",
+            "button_style": "secondary",
+            "text_alignment": "left",
+            "text_alignment_mobile": "center",
+            "content_position": "content_right",
+            "content_width": "half_width",
+            "scrolling_color_scheme": "scheme-2",
+            "scrolling_text": ""
+          }
+        }
+      },
+      "block_order": [
+        "image_kTHzRb",
+        "image_kzP6Yx"
+      ],
+      "settings": {
+        "title": "",
+        "heading_size": "h2",
+        "heading_alignment": "center",
+        "color_scheme": "",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "swipe_on_mobile": false,
+        "hide_for_ab": false,
+        "hide_for_bc": true,
+        "hide_for_other_province": false
+      }
+    },
+    "animated_text_columns_QT6J39": {
+      "type": "animated-text-columns",
+      "blocks": {
+        "column_39ka3T": {
+          "type": "column",
+          "settings": {
+            "color_scheme": "",
+            "image": "shopify://shop_images/design-demo-image-9.png",
+            "mobile_image": "shopify://shop_images/logo_mobile.png",
+            "title": "",
+            "metric": "1",
+            "unit_suffix": "+",
+            "animated_counting": false,
+            "text": "",
+            "button_label": "Learn More",
+            "button_link": "shopify://pages/altogether-magazine",
+            "text_alignment": "center",
+            "content_position": "content_center"
+          }
+        },
+        "column_kEKXgA": {
+          "type": "column",
+          "settings": {
+            "color_scheme": "",
+            "title": "",
+            "metric": "180",
+            "unit_suffix": "+",
+            "animated_counting": true,
+            "text": "<p><strong>Stores Across Canada</strong></p>",
+            "button_label": "",
+            "button_link": "",
+            "text_alignment": "left",
+            "content_position": "content_center"
+          }
+        },
+        "column_NWgAf9": {
+          "type": "column",
+          "settings": {
+            "color_scheme": "",
+            "title": "",
+            "metric": "1000",
+            "unit_suffix": "s of",
+            "animated_counting": true,
+            "text": "<p><strong>5-Star Reviews</strong></p>",
+            "button_label": "",
+            "button_link": "",
+            "text_alignment": "left",
+            "content_position": "content_center"
+          }
+        },
+        "column_WENtLd": {
+          "type": "column",
+          "settings": {
+            "color_scheme": "",
+            "title": "",
+            "metric": "1.5",
+            "unit_suffix": "m+",
+            "animated_counting": true,
+            "text": "<p><strong>Cabana Club Members</strong></p>",
+            "button_label": "",
+            "button_link": "",
+            "text_alignment": "left",
+            "content_position": "content_center"
+          }
+        }
+      },
+      "block_order": [
+        "column_39ka3T",
+        "column_kEKXgA",
+        "column_NWgAf9",
+        "column_WENtLd"
+      ],
+      "custom_css": [
+        ".text-columns-with-icons {margin-bottom: 0;}"
+      ],
+      "settings": {
+        "title": "",
+        "heading_size": "h2",
+        "heading_alignment": "left",
+        "color_scheme": "scheme-9f459313-d482-46ca-b82d-99b7d5128e5d",
+        "column_per_row": 4,
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    }
+  },
+  "order": [
+    "hero_banner_DUxdq7",
+    "breadcrumbs_mrNmVD",
+    "main",
+    "custom_liquid_pzaBB8",
+    "custom_liquid_TYjh8f",
+    "featured_collection_6yN3JL",
+    "text_columns_8dzgTR",
+    "newsletter_Xj4inR",
+    "text_columns_with_icons_cBK6Nr",
+    "collection_list_hLGWyB",
+    "masonry_grid_w39HmG",
+    "animated_text_columns_QT6J39"
+  ]
+}

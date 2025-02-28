@@ -1,0 +1,99 @@
+.customer:not(.account):not(.order):not(.addresses) {
+  max-width: 93rem;
+}
+
+.elite-signup-container.elite-signup-container.elite-signup-container {
+  background-color: var(--neutral-300);
+  max-width: unset !important;
+}
+
+.field-flex {
+  margin-bottom: var(--grid-desktop-vertical-spacing);
+}
+
+.elite-signup-block {
+  max-width: 93rem;
+  padding-left: 2.6rem;
+  padding-right: 2.6rem;
+  padding-top: 15rem;
+  margin: 0 auto;
+}
+
+.customer:not(.account):not(.order):not(.addresses) {
+  margin-top: 0;
+}
+
+.customer-register-heading {
+  margin-bottom: var(--Spacingspacing-xxl);
+}
+
+.customer-register-heading h2 {
+  margin-block-start: 0;
+  max-width: 42%;
+  margin: 0 auto;
+  color: var(--price-elite);
+}
+
+.tabs {
+  display: flex;
+  width: 100%;
+}
+
+.tab:not(.active) {
+  color: var(--neutral-500);
+  border-bottom: 2px solid var(--neutral-500);
+}
+
+.tab {
+  display: inline-block;
+  padding: 10px 20px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.tab.active {
+  font-weight: 800;
+  color: var(--price-elite);
+  border-bottom: 2px solid var(--price-elite);
+}
+
+.form-container {
+  display: none;
+  margin-top: var(--grid-tablet-vertical-spacing);
+}
+
+.accepts-marketing {
+  font-size: var(--text-small);
+}
+
+.form-sign-switch a {
+  font-weight: 700;
+}
+
+.form-container.active {
+  display: block;
+}
+
+.field {
+  margin-bottom: 20px;
+}
+
+@media screen and (max-width: 768px) {
+  .customer-register-heading h2 {
+    max-width: unset;
+  }
+
+  .elite-signup-block {
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 20px;
+  }
+
+  .field-flex {
+    flex-direction: column;
+    margin-bottom: 15px;
+  }
+.customer.register {
+    padding-top: 80px;
+}
+}

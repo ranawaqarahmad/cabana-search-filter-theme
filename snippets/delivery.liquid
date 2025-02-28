@@ -1,0 +1,53 @@
+<script>
+// Function to check tag
+const deliveryOption = async () => {
+  const currentDate = new Date();
+  const currentHour = currentDate.getHours();
+  const currentMins = currentDate.getMinutes();
+
+  const dataDelivery = {
+    currentHour: currentHour,
+    currentMins: currentMins,
+  };
+
+  try {
+    let requestId = '02b87b40-66f5-11ef-9a6a-875b4d2ae0d2';
+
+    if (environment === 'dev') {
+      requestId = '8ee1cae0-5fbb-11ef-9306-6fa94c278f94';
+    }
+
+    const queryParams = new URLSearchParams({
+      requestId: requestId,
+      bodyEmbedded: JSON.stringify(dataDelivery),
+      pathParamsEmbedded: JSON.stringify({store_id: localStorage.getItem('global_store_id')})
+    });
+
+    const resp = await fetch('/apps/apiease/integration/caller/call?' + queryParams);
+    const responseData = await resp.json();
+    const response = responseData.data;
+
+    if (responseData.status !== 200) {
+      throw new Error('Failed to fetch delivery slots');
+    }
+
+    const deliverySlots = response.data;
+
+    deliveryTime.innerHTML = ''; // Clear previous options
+
+    deliverySlots.forEach((slot) => {
+      const option = document.createElement('option');
+      option.value = slot;
+      option.text = slot;
+      deliveryTime.appendChild(option);
+    });
+
+    // Handle the result as needed
+  } catch (error) {
+    console.error('Error:', error);
+  }
+};
+
+// Call the function
+deliveryOption();
+</script>

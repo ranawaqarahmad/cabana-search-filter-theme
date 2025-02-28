@@ -1,0 +1,2694 @@
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+<script
+  src="https://kit.fontawesome.com/387d7c3cef.js"
+  crossorigin="anonymous"
+></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+{% comment %} For phone validations {% endcomment %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@19.5.5/build/css/intlTelInput.css">
+<script src="https://cdn.jsdelivr.net/npm/intl-tel-input@19.5.5/build/js/intlTelInput.min.js"></script>
+
+<style>
+  h2 {
+    font-size: 24px !important;
+  }
+
+  #review-section {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .delivery-options-tabs {
+    display: flex;
+    flex-direction: row;
+    overflow: auto hidden;
+    position: relative;
+    scrollbar-width: none;
+    width: 100%;
+  }
+
+  .delivery-option {
+    background: transparent;
+    border-width: 0px;
+    cursor: pointer;
+    pointer-events: initial;
+    width: auto;
+    flex-shrink: 0;
+    overflow: hidden;
+    transition: all 250ms ease 0s;
+    text-align: center;
+    padding: 16px 24px;
+    -webkit-box-flex: 1;
+    flex-grow: 1;
+    max-width: none;
+  }
+
+
+  .checkout-conditions {
+    color: #878787;
+    line-height: 24px;
+    font-size: 14px;
+    font-weight: 500;
+    max-width: 330px;
+    min-width: 230px;
+    width: auto;
+  }
+
+
+  .delivery-option-unselected {
+    box-shadow: rgb(218, 218, 218) 0px -1px inset;
+  }
+
+  .delivery-option-selected {
+    box-shadow: rgb(243, 39, 53) 0px -2px inset;
+  }
+
+  .checkout-div-v2 {
+    border: 1px solid rgb(218, 218, 218);
+    border-radius: 24px;
+  }
+
+  .checkout-div-content {
+    padding: 24px;
+  }
+
+  .text-underline {
+    text-decoration: underline;
+  }
+
+  .dollar-box-black {
+    color: #fff;
+    background-color: #1a3c34;
+    padding: 1px 5px;
+    border-radius: 1px;
+    font-size: 12px;
+    margin-right: 8px;
+  }
+
+  .custom-green {
+    color: #1a3c34;
+  }
+
+  #item-specials {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  #section-center {
+    display: flex;
+    justify-content: center;
+  }
+
+  .capitalize {
+    text-transform: uppercase;
+  }
+
+  .custom-checkout-section {
+    width: auto;
+  }
+
+  .f-14 {
+    font-size: 14px;
+  }
+
+  .disabled-checkout-btn {
+    opacity: 0.3 !important;
+    pointer-events: none;
+  }
+
+  .custom-checkout>textarea {
+    padding: 12px;
+    color: rgb(14, 14, 14);
+    border-radius: 16px;
+    display: block;
+    appearance: none;
+    border: 1px solid rgb(218, 218, 218);
+    resize: vertical;
+    font-size: 16px;
+  }
+
+  .custom-checkout>textarea:focus-visible {
+    outline: rgb(243, 39, 53) solid 2px;
+  }
+
+  .main-checkout {
+    display: grid;
+    padding: 0 10px;
+    gap: 24px;
+    width: 100%;
+    grid-template-columns: 70% 30%;
+  }
+
+  .checkout-div {
+    padding: 24px;
+    border: 1px solid rgb(218, 218, 218);
+    border-radius: 24px;
+  }
+
+  .inputs-grid {
+    margin-top: 16px;
+    display: grid;
+    gap: 24px 32px;
+  }
+
+  .flex {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .flex-product {
+    display: flex;
+    gap: 24px;
+  }
+
+  .flex-end {
+    display: flex;
+    justify-content: end;
+    gap: 5px;
+  }
+
+  .align-start {
+    align-items: start !important;
+  }
+
+  .active {
+    box-shadow: rgba(160, 161, 161, 0.5) 0px 4px 15px 0px;
+  }
+
+  .promo-code-input-div {
+    margin-bottom: 24px;
+    margin-top: 16px;
+    display: flex;
+    /*border: 1px solid rgb(218, 218, 218);*/
+    border-radius: 24px;
+    align-items: stretch;
+    overflow: hidden;
+    /* height: 4px; */
+  }
+
+  .w-30 {
+    width: 30%;
+  }
+
+  .mt-24 {
+    margin-top: 24px;
+  }
+
+  .promo-code-input-div>input[type='text'] {
+    width: 100%;
+    height: 48px;
+    border-radius: 24px;
+    padding: 0 15px;
+    border: 1px solid rgb(218, 218, 218);
+  }
+
+  .promo-code-input-div>button {
+    height: 50px;
+  }
+
+  .content {
+    padding: 24px 32px 40px 45px;
+  }
+
+  .flex-col {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+  }
+
+  .modal-items-center {
+    margin-bottom: 0px;
+    margin-top: 16px;
+    padding: 32px;
+    border: none;
+    border-radius: 24px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 30px;
+    justify-content: center;
+  }
+
+  .align-center {
+    align-items: center !important;
+  }
+
+  .flex-start {
+    display: flex;
+    justify-content: start;
+    align-items: start;
+  }
+
+  .gap-20 {
+    gap: 24px;
+  }
+
+  .gap-5 {
+    gap: 5px !important;
+  }
+
+  .f-16 {
+    font-size: 16px;
+    font-weight: 500;
+    margin: 0;
+  }
+
+  .flex-between {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .product-between {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .width-50,
+  .flex-between>p {
+    line-height: 25px;
+  }
+
+  .width-50 {
+    width: 50%;
+  }
+
+  .number-item {
+    border: 1px solid #000;
+    height: 28px;
+    width: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .mb-40 {
+    margin-bottom: 40px;
+  }
+
+  .custom-padding {
+    padding: 0px 16px;
+  }
+
+  .span-button {
+    color: rgb(14, 14, 14);
+    cursor: pointer;
+    display: inline-block;
+    height: fit-content;
+    outline: none;
+    width: fit-content;
+    background-image: linear-gradient(to right, rgb(135, 135, 135) 50%, transparent 50%);
+    background-position: center bottom;
+    background-repeat: repeat-x;
+    background-size: 4px 1px;
+    transition: all 250ms ease 0s;
+  }
+
+  a.span-button {
+  {
+  % comment %
+  }
+
+    text-decoration: none;
+
+  {
+  % endcomment %
+  }
+
+    background: none;
+    font-size: 10px;
+    margin-left: 4rem;
+  }
+
+  .custom-select {
+    padding: 12px 40px 12px 16px;
+    border: 1px solid rgb(218, 218, 218);
+    color: rgb(14, 14, 14);
+    appearance: none;
+    background: transparent;
+    cursor: pointer;
+    border-radius: 16px;
+    width: auto;
+    max-width: 400px;
+  }
+
+  .custom-select:focus-visible {
+    outline: rgb(243, 39, 53) solid 2px;
+  }
+
+  .mt-10 {
+    margin-top: 10px;
+  }
+
+  .mb-10 {
+    margin-bottom: 10px;
+  }
+
+  .weight-600 {
+    font-weight: 600;
+  }
+
+  .w-100 {
+    width: 100% !important;
+  }
+
+  .store-logo {
+    border-radius: 4px;
+    width: 50px;
+    height: 50px;
+  }
+
+  .custom-label {
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .pl-26 {
+    padding-left: 26px;
+  }
+
+  .grey {
+    color: #878787;
+  }
+
+  .pt-10 {
+    padding-top: 10px;
+  }
+
+  .custom-hr {
+    margin: 20px 0;
+    height: 0px;
+    border-width: 1px 0px 0px;
+    border-top-style: solid;
+    border-top-color: rgb(218, 218, 218);
+  }
+
+  .pointer {
+    cursor: pointer;
+  }
+
+  .align-right {
+    display: block;
+    text-align: right;
+  }
+
+  .free {
+    padding: 2px 8px;
+    background-color: rgb(26, 60, 52);
+    color: rgb(255, 255, 255);
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 4px 15px 0px;
+    border-radius: 4px;
+  }
+
+  .summary-grid {
+    display: grid;
+    row-gap: 15px;
+    grid-template-columns: auto auto;
+    width: 100%;
+  }
+
+  .h-max {
+    height: max-content;
+  }
+
+  .hidden-content {
+    display: none;
+  }
+
+  .custom-button {
+    border-radius: 24px;
+    cursor: pointer;
+    height: 48px;
+    text-align: center;
+    text-decoration: none;
+    transition: all 250ms ease 0s;
+    padding-left: 16px;
+    padding-right: 16px;
+    background: rgb(243, 39, 53);
+    border: 2px solid rgb(243, 39, 53);
+    color: rgb(255, 255, 255);
+  }
+
+  .margin-0 {
+    margin: 2px;
+  }
+
+  .text-start {
+    text-align: start;
+  }
+
+  .text-center {
+    text-align: center;
+  }
+
+  .custom-promo-icon {  
+    padding: 6px 5px 1px 5px;
+  }
+
+  .product-img {
+    width: auto;
+    height: 60px;
+    object-fit: cover;
+    border: 1px solid rgb(218, 218, 218);
+    border-radius: 24px;
+  }
+
+  .old-price {
+    color: rgb(135, 135, 135);
+    text-decoration: line-through;
+  }
+
+  .product-block-1 {
+    background-color: rgb(255, 255, 255);
+    border: 1px solid rgb(14, 14, 14);
+    color: rgb(14, 14, 14);
+    font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif;
+    padding: 2px 4px;
+    font-weight: 400;
+    text-transform: none;
+    font-size: 15px;
+    line-height: 24px;
+    text-align: center;
+    border-radius: 3px;
+    width: fit-content;
+  }
+
+  .custom-checkout>input[type='checkbox'] {
+    width: 18px;
+    height: 18px;
+    border-radius: 13px;
+    accent-color: #f32735;
+    border: 1px solid rgb(218, 218, 218);
+  }
+
+  .custom-checkout>input[type='radio'] {
+    width: 18px;
+    height: 18px;
+    accent-color: #f32735;
+    border: 1px solid rgb(218, 218, 218);
+  }
+
+  .inputs-grid-item>input[type='text'],
+  .inputs-grid-item>input[type='email'],
+  .inputs-grid-item>input[type='date'],
+  .inputs-grid-item>input[type='tel'] {
+    padding: 8px 0px;
+    width: 100%;
+    display: block;
+    outline: none;
+    background: transparent;
+    color: rgb(14, 14, 14);
+    border: 0px;
+    font-size: 16px;
+    border-bottom: 1px solid rgb(218, 218, 218);
+  }
+
+  .inputs-grid-item>input[type='text']:focus,
+  .inputs-grid-item>input[type='email']:focus,
+  .inputs-grid-item>input[type='date']:focus,
+  .inputs-grid-item>input[type='tel']:focus {
+    border-bottom: 2px solid #f32735;
+  }
+
+  .input-label {
+    font-size: 14px;
+  }
+
+  .red-color {
+    color: #f32735;
+  }
+
+  .modal-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    z-index: 10;
+
+    display: none;
+    justify-content: center;
+    align-items: center;
+
+    width: 100%;
+    height: 100%;
+
+    background: rgba(0, 0, 0, 0.4);
+    inset: 0px;
+    transition: opacity 200ms ease 0s;
+    z-index: 99999999;
+  }
+
+  .custom-modal {
+    position: relative;
+    background: #fff;
+    width: 90%;
+    max-width: 900px;
+    height: 60%;
+    border-radius: 0.8rem;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 24px;
+    overflow: hidden;
+  }
+
+  .modal-header {
+    padding: 16px 24px 0;
+  }
+
+  .modal-padding {
+    padding: 25px 40px;
+  }
+
+  .cart-header-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .responsive-flex {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .flex-between-responsive {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .custom-line-height {
+    line-height: 20px;
+  }
+
+  @media only screen and (max-width: 425px) {
+    .checkout-div {
+      padding: 12px;
+    }
+
+    .responsive-mb {
+      margin-bottom: 20px;
+    }
+
+    .responsive-gap {
+      gap: 10px;
+    }
+
+    .flex-between-responsive {
+      flex-direction: column;
+      align-items: start;
+    }
+
+    .modal-padding {
+      padding: 17px 15px;
+    }
+
+    .content {
+      padding: 10px 0px 10px 0px;
+    }
+
+    .inputs-grid {
+      display: flex;
+      flex-direction: column;
+      padding: 10px;
+    }
+
+    .inputs-grid-item {
+      min-width: 250px;
+      max-width: 350px;
+      width: 100%;
+    }
+
+    .modal-header {
+      padding: 16px 15px 0;
+    }
+
+    .responsive-text-start {
+      text-align: start !important;
+    }
+
+    .responsive-flex {
+      flex-direction: column;
+      align-items: start;
+    }
+
+    .custom-checkout-section {
+      padding: 10px !important;
+    }
+
+    .custom-padding {
+      padding: 0px 8px;
+    }
+
+    h2 {
+      font-size: 20px !important;
+    }
+
+    .cart-header-flex {
+      flex-direction: column;
+      align-items: start;
+    }
+
+    .custom-checkout-section {
+      padding: 0px;
+    }
+  }
+
+  @media screen and (max-width: 784px) {
+    .main-checkout {
+      padding: 0 10px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .custom-checkout-section {
+      padding: 20px;
+    }
+  }
+
+  @media screen and (max-width: 375px) {
+    .content {
+      padding: 0;
+    }
+  }
+
+  {% comment %} @media only screen and (min-width: 1000px) {
+    .custom-checkout-section-1,
+    .custom-checkout-section-2,
+    .custom-checkout-section-3,
+    .custom-checkout-section-4{
+      width: 860px;
+    }
+  } {% endcomment %}
+
+  @media screen and (max-width: 375px) {
+    .content {
+      padding: 0;
+    }
+
+    .inputs-grid {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  .loading {
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    background: #ffffffab;
+    z-index: 11111111111111;
+    display: grid;
+    place-items: center;
+  }
+
+  .error-message .error-text {
+    color: rgb(14, 14, 14);
+  }
+
+  .error-message .error-title {
+    color: rgb(255, 51, 51);
+    font-weight: 600;
+  }
+
+  .inputs-grid-item.phone-grid{
+    flex-direction: column;
+  }
+
+  .inputs-grid-item.phone-grid label{
+    margin-bottom: 10px;
+  }
+
+  .inputs-grid-item.phone-grid input {
+    width: 100%;
+    border-left-color: transparent;
+    border-top-color: transparent;
+    border-right-color: transparent;
+    border-bottom: 1px solid rgb(218, 218, 218);
+    padding-bottom: 6px;
+  }
+
+  .inputs-grid-item.phone-grid input:focus{
+    border-bottom: 2px solid #f32735;
+  }
+</style>
+
+<div class="hidden">
+  {% for item in cart.items %}
+    <span
+      class="variant-meta-strings"
+      id="line-item-{{ item.id }}"
+      data-item-id="{{ item.id }}"
+      data-product-id="{{ item.product.id }}"
+      data-variant-id="{{ item.variant.id }}"
+      data-meta-string="{{ item.variant.metafields.jane[store_id] }}"
+      data-elite-meta-string="{{ item.variant.metafields.elite[store_id] }}"
+    >
+    </span>
+  {% endfor %}
+</div>
+
+<div class="loading" id="loading">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    style="margin: auto; background: rgba(255, 255, 255, 0); display: block;"
+    width="200px"
+    height="200px"
+    viewBox="0 0 100 100"
+    preserveAspectRatio="xMidYMid"
+  >
+    <circle cx="50" cy="50" fill="none" stroke="#f32735" stroke-width="2" r="10" stroke-dasharray="47.12388980384689 17.707963267948966">
+      <animateTransform attributeName="transform" type="rotate" repeatCount="indefinite" dur="1s" values="0 50 50;360 50 50" keyTimes="0;1"></animateTransform>
+    </circle>
+  </svg>
+</div>
+
+<span id="customer-details" class="hidden">
+  <h1 id="customer-email">{{ customer.email }}</h1>
+  <h1 id="customer-phone">{{ customer.phone }}</h1>
+  <h1 id="customer-name">{{ customer.first_name }}</h1>
+  <h1 id="customer-last">{{ customer.last_name }}</h1>
+</span>
+
+<section
+  id="section-center"
+  class="custom-checkout-section"
+  style="margin-top:2rem;max-width: 1444px;margin-left: auto;margin-right: auto;"
+>
+  <section class="main-checkout" id="checkout-section-1">
+    <section class="flex-col gap-20">
+      <div class="h-max checkout-div">
+        <div class="custom-padding">
+          <div class="cart-header-flex mt-10 mb-10">
+            <div class="responsive-flex">
+              <img
+                src="{{ 'cannacabana-store-default.webp' | asset_url }}"
+                id="mainStoreLogo"
+                alt="pickup logo"
+                class="current-store-img product-img"
+                style="border:none;height:40px;"
+              >
+              <h3 class="weight-600" style="font-size:1.1rem;">Canna Cabana - <span class="store-title"></span></h3>
+            </div>
+            <a href="/" class="span-button">Continue Shopping</a>
+          </div>
+          <div class="responsive-flex align-start">
+            <div class="flex-col width-50">
+              <h3 class="f-16 grey pt-10">Location</h3>
+              <p class="margin-0">
+                <span id="main-address-line-1"></span>
+                <br>
+                <span id="main-address-line-2"></span>
+              </p>
+            </div>
+            <div class="flex-col width-50">
+              <h3 class="f-16 grey pt-10">Today's hours</h3>
+              <p class="margin-0">Pickup <span class="mainPickupTime"></span></p>
+            </div>
+          </div>
+        </div>
+
+        <hr class="custom-hr">
+
+        <div id="cart-item-list"></div>
+
+        <br>
+      </div>
+      <div class="modal-container" style="--m-background: transparent">
+        <div class="custom-modal">
+          <div class="modal-header flex">
+            <span class="pointer" onclick="handleModalClose()">
+              <i class="fa-solid fa-xmark fa-2x"></i>
+            </span>
+            <h2 class="margin-0">Edit order</h2>
+          </div>
+          <hr class="custom-hr">
+          <div class="flex-product modal-padding">
+            <div class="flex-start">
+              <img
+                id="modal-img"
+                class="product-img"
+                src=""
+                alt="product-assets"
+              >
+            </div>
+            <div class="flex-col w-100">
+              <div class="product-block-1 mb-10">Indica</div>
+              <div id="modal-product-title" class="weight-600 text-start"></div>
+              <div class="flex-col">
+                <p id="modal-vendor" class="margin-0"></p>
+                <p id="modal-quantity-with-price" class="margin-0"></p>
+                <p id="modal-sale-with-title" class="margin-0 custom-line-height"></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-items-center">
+            <div class="flex-col w-30 align-center">
+              <div class="weight-600 mb-10">Select quantity</div>
+              <div class="flex mt-10 gap-20">
+                <span class="pointer" id="decrementBtn" onclick="decrementQuantity()">
+                  <i class="fa-solid fa-minus fa-2x"></i>
+                </span>
+                <div id="modal-order-quantity" class="order-quantity"></div>
+                <span class="pointer" id="incrementBtn" onclick="incrementQuantity()">
+                  <i class="fa-solid fa-plus fa-2x"></i>
+                </span>
+              </div>
+            </div>
+            <div class="flex-col w-30 align-center">
+              <h2 id="modal-price" class="margin-0">$5.99</h2>
+              <button class="mt-10 custom-button" onclick="handleItemUpdate()">Update</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div>
+      <div class="h-max checkout-div-v2">
+        <div direction="horizontal" class="delivery-options-tabs">
+          <button
+            class="delivery-option delivery-option-selected"
+            id="order-pickup"
+            oncLick="handleTabChange('pickup')"
+          >
+            <p
+              class="f-16 weight-600  text-center "
+            >
+              Pickup
+              <span class="free"> Free </span>
+            </p>
+          </button>
+          <button
+            id="order-delivery"
+            class="delivery-option delivery-option-unselected hidden"
+            oncLick="handleTabChange('delivery')"
+          >
+            <p
+              class="f-16 weight-600  text-center "
+            >
+              Delivery
+              <span class="free"> $ </span>
+            </p>
+          </button>
+        </div>
+
+        <div class="checkout-div-content">
+          <div class="delivery-options hidden">
+            <p class="f-16 weight-600 ">Delivery Address</p>
+            <div class="inputs-grid-item pt-10">
+              <label class="input-label" for="delivery-address">Delivery Address</label>
+              <input type="text" name="delivery-address" id="checkout-delivery-address">
+              <div class="red-color pt-10 hidden f-14" id="checkout-delivery-address-error">
+                Please enter your address
+              </div>
+            </div>
+            <div class="inputs-grid-item pt-10">
+              <label class="input-label" for="unit-number">Address line 2</label>
+              <input type="text" name="unit-number" id="checkout-delivery-floor">
+              <div class="red-color pt-10 hidden f-14" id="checkout-delivery-floor-error"></div>
+            </div>
+
+            <div class="inputs-grid-item pt-10">
+              <label class="input-label" for="delivery-city">City</label>
+              <input type="text" name="delivery-city" id="checkout-delivery-city">
+              <div class="red-color pt-10 hidden f-14" id="checkout-delivery-city-error"></div>
+            </div>
+
+            <div class="inputs-grid-item pt-10">
+              <label class="input-label" for="delivery-state">State</label>
+              <input type="text" name="delivery-state" id="checkout-delivery-state">
+              <div class="red-color pt-10 hidden f-14" id="checkout-delivery-state-error"></div>
+            </div>
+
+            <div class="inputs-grid-item pt-10">
+              <label class="input-label" for="delivery-postal-code">Postal Code</label>
+              <input type="text" name="delivery-postal-code" id="checkout-delivery-postal-code">
+              <div class="red-color pt-10 hidden f-14" id="checkout-delivery-postal-code-error"></div>
+            </div>
+          </div>
+          <div class="pt-10 summary-grid pricing-summary"></div>
+          <hr class="custom-hr">
+          <div
+            class="flex-between mb-10 pointer promo-div"
+            onclick="handlePromoClick()"
+          >
+            <div class="flex">
+              <span class="custom-promo-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M20.59 12.7987L13.42 19.9687C13.2343 20.1546 13.0137 20.3021 12.7709 20.4028C12.5281 20.5034 12.2678 20.5552 12.005 20.5552C11.7422 20.5552 11.4819 20.5034 11.2391 20.4028C10.9963 20.3021 10.7757 20.1546 10.59 19.9687L2 11.3887V1.38867H12L20.59 9.97867C20.9625 10.3534 21.1716 10.8603 21.1716 11.3887C21.1716 11.917 20.9625 12.4239 20.59 12.7987Z" stroke="#2D2E34" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M7 6.38867H7.01" stroke="#2D2E34" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+
+
+              </span>
+              <p class="f-16 weight-600">Promo code OR gift card</p>
+            </div>
+            <span class="">
+              <i class="icon-transform fa-solid fa-angle-down"></i>
+            </span>
+          </div>
+          <br>
+          <div class="promo-code-div hidden">
+            <div class="promo-code-input-div">
+              <input type="text" placeholder="Enter code here" id="coupon-code">
+              <button class="custom-button w-30" id="apply-coupon-btn">Apply</button>
+            </div>
+          </div>
+
+          <div id="equivalence-div">
+            <button class="custom-button mt-10 w-100" id="checkout-btn-1">Proceed to checkout </button>
+
+            <div id="equivalence-error-message" class="error-message hidden">
+              <p class="error-title"><i class="fa fa-close"></i> Cart limit exceeded</p>
+              <p class="error-text"></p>
+            </div>
+          </div>
+
+          <p class="checkout-conditions pointer" onclick="handleConditionsClick()">
+            Some <span class="text-underline"> conditions</span> may apply to specials and discounts
+            <span class="">
+              <i class="icon-transform-conditions fa-solid fa-angle-down"></i>
+            </span>
+          </p>
+          <p id="all-conditions" class="checkout-conditions hidden">
+            Promotional discounts are only available while supplies last and are subject to any restrictions associated
+            with the promotion. Orders must be submitted and picked up/delivered within the timeframe that the promotion
+            is active. Any discounts will be applied by the dispensary (Canna Cabana - Calgary (Crowfoot) ) at the time
+            of payment, and the dispensary retains ultimate authority for verifying and applying the discount.
+          </p>
+        </div>
+      </div>
+
+      <div class="h-max checkout-div mt-24 js-specials hidden">
+        <p class="f-16 weight-600 mb-10">Specials</p>
+
+        <div id="item-specials">
+          {% comment %} will render through js {% endcomment %}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="main-checkout hidden" id="checkout-section-2">
+    <section class="flex-col gap-20">
+      <div class="active custom-checkout-section-1 checkout-div h-max">
+        <div class="flex pointer" onclick="handleStepHeader(1)">
+          <div class="icon-box step-1-icon">
+            <span class="number-item">1</span>
+          </div>
+          <h2>Order options</h2>
+        </div>
+        <div class="content section-1-content">
+          <div class="flex-col mb-40">
+            <h3 class="f-16">Pickup store</h3>
+            <div class="flex mt-10 mb-10">
+              <img
+                src="{{ 'cannacabana-store-default.webp' | asset_url }}"
+                alt="pickup logo"
+                class="store-logo"
+                id="checkout-main-img"
+              >
+              <p class="weight-600">Canna Cabana - <span class="checkout-main-store-title"></span></p>
+            </div>
+            <p class="checkout-main-address"></p>
+          </div>
+
+          <div class="flex-col mb-10 " id="pickup-day-div">
+            <p>Pickup day</p>
+            <select name="" id="pickupDay" class="custom-select">
+              <option value="today">Today</option>
+              <option value="tomorrow">Tomorrow</option>
+            </select>
+          </div>
+
+          <div class="flex-col mb-10 hidden" id="delivery-day-div">
+            <p>Delivery Time</p>
+            <select name="" id="delivery-time" class="custom-select"></select>
+          </div>
+
+          <div class="flex-col mb-10 custom-checkout">
+            <p>Pickup instructions</p>
+            <textarea
+              placeholder="e.g. Note to staff, special instructions"
+              rows="5"
+              id="specialInstructions"
+            ></textarea>
+          </div>
+          <br>
+          <div class="mt-10 custom-checkout">
+            <input
+              type="checkbox"
+              id="custom-condition-radio"
+              name="custom-condition-radio"
+              value="consent"
+              checked
+            >
+            <label class="custom-label" for="custom-condition-radio">
+              I consent to signup for the Canna Cabana rewards program where I will receive marketing communications. By
+              doing so, I understand that I am allowing Canna Cabana and its technology provider(s) to retain my
+              personal contact details/ engagement history for use in personalized marketing. Opt out at any time by
+              replying "STOP" to messages. Standard message and calling rates may apply.<span class="red-color"
+              >*</span
+              > </label
+            ><br>
+            <div class="red-color pt-10 hidden section1RadioError">Please agree to the store's required terms</div>
+          </div>
+          <br>
+          <div class="mt-10 mb-10 custom-checkout">
+            <input
+              type="checkbox"
+              id="condition-2"
+              name="condition-2"
+              value="consent"
+            >
+            <label class="custom-label" for="condition-2">
+              Heads up! For legal purposes, the customer whose name is on this pickup or delivery order must be the same
+              person receiving the pick up or delivery order. They are also required to show their valid ID and credit
+              card. </label
+            ><br>
+          </div>
+          <button class="mt-10 custom-button" onclick="handleStep(1)">Continue</button>
+        </div>
+      </div>
+
+      <div class="custom-checkout-section-2 checkout-div h-max">
+        <div class="flex pointer" onclick="handleStepHeader(2)">
+          <div class="icon-box step-2-icon">
+            <span class="number-item">2</span>
+          </div>
+          <h2>Your Information</h2>
+        </div>
+
+        <div class="content section-2-content hidden">
+          <h3 class="f-16">Enter customer/patient information</h3>
+          <div class="inputs-grid mb-10">
+            <div class="inputs-grid-item">
+              <label class="input-label" for="first-name">First name on photo id <sup style="color:red">*</sup></label>
+              <input type="text" name="first-name" id="section-2-first-name">
+              <div class="red-color pt-10 hidden f-14 section2FirstNameError">
+                Please enter your first name as it appears on your ID
+              </div>
+            </div>
+            <div class="inputs-grid-item">
+              <label class="input-label" for="last-name">Last name on photo id <sup style="color:red">*</sup></label>
+              <input type="text" name="last-name" id="section-2-last-name">
+              <div class="red-color pt-10 hidden f-14 section2LastNameError">
+                Please enter your last name as it appears on your ID
+              </div>
+            </div>
+            <div class="inputs-grid-item">
+              <label class="input-label" for="birth-date">Birth date <sup style="color:red">*</sup></label>
+              <input type="date" name="birth-date" max="2005-12-31" id="section-2-birth-date">
+              <div class="red-color pt-10 hidden f-14 section2BirthDateError">
+                Please enter your birth date as it appears on your ID
+              </div>
+            </div>
+            <div class="inputs-grid-item">
+              <label class="input-label" for="email">Email <sup style="color:red">*</sup></label>
+              <input type="email" name="email" id="section-2-email">
+              <div class="red-color pt-10 hidden f-14 section2EmailError">Invalid email address</div>
+            </div>
+            <div class="inputs-grid-item phone-grid">
+              <label class="input-label" for="mobile-number">Mobile phone <sup style="color:red">*</sup></label>
+              <input type="tel" name="mobile-number" id="section-2-mobile-number">
+              <div class="red-color pt-10 hidden f-14 section2MobileNumError">Please enter your full phone number</div>
+            </div>
+            <br>
+          </div>
+          <button disabled class="disabled-checkout-btn mt-10 custom-button" id="continue-btn" onclick="handleStep(2)">
+            Continue
+          </button>
+        </div>
+      </div>
+
+      <div class="custom-checkout-section-3 checkout-div h-max">
+        <div class="flex ">
+          <div class="icon-box step-3-icon">
+            <span class="number-item">3</span>
+          </div>
+          <h2>Review</h2>
+        </div>
+
+        <div class="content section-3-content hidden">
+          <div class="flex-col">
+            <div id="review-section"></div>
+          </div>
+
+          <div class="flex-end">Estimated Total <span class="weight-600" id="review-cart-subtotal"></span></div>
+          <br>
+          <button
+            disabled
+            class="mt-10 custom-button w-100 disabled-checkout-btn"
+            id="review-continue-btn"
+            onclick="handleStep(3)"
+          >
+            Continue
+          </button>
+        </div>
+      </div>
+
+      <div class="custom-checkout-section-4 checkout-div h-max ">
+        <div class="flex pointer" onclick="handleStepHeader(4)">
+          <div class="icon-box step-4-icon">
+            <span class="number-item">4</span>
+          </div>
+          <h2>Payment</h2>
+        </div>
+
+        <div class="content section-4-content hidden">
+          <h3 class="f-16 mb-10">Payment method</h3>
+
+          <div class="mb-10 pt-10 flex-col gap-20">
+            <label class="custom-checkout">
+              <input type="radio" name="payment" id="" value="online" checked>
+              I'm paying now with a credit or debit card
+            </label>
+            {% comment %}
+            <label class="custom-checkout">
+              <input type="radio" name="payment" value="offline" id="">
+              I plan to pay at pickup with cash, card, debit
+            </label>
+            {% endcomment %}
+          </div>
+          <br>
+          <button class="mt-10 custom-button" id="payment-btn-1" onclick="proceedToPayment()">
+            Proceed To Checkout
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <div class="h-max checkout-div">
+      <h2>Order details</h2>
+      <br>
+      <h3 class="f-16 grey">Scheduled time</h3>
+      <p class="f-16 weight-600 pt-10 mb-10">Today</p>
+      <h3 class="f-16 grey pt-10">Store</h3>
+      <div class="flex mt-10 mb-10">
+        <img
+          src="{{ 'cannacabana-store-default.webp' | asset_url }}"
+          alt="pickup logo"
+          class="store-logo"
+          id="checkout-side-logo"
+        >
+        <p class="weight-600">Canna Cabana - <span class="checkout-side-title"></span></p>
+      </div>
+      <div class="flex align-start gap-5">
+        <div class="flex-col width-50">
+          <h3 class="f-16 grey pt-10">Location</h3>
+          <p style="font-size:13px;line-height:1.5;">
+            <span class="checkout-side-address-line-1"></span>
+            <br>
+            <span class="checkout-side-address-line-2"></span>
+            <br>
+            <span class="checkout-side-address-line-3"></span>
+          </p>
+        </div>
+        <div class="flex-col width-50">
+          <h3 class="f-16 grey pt-10">Today's hours</h3>
+          <p style="font-size:13px;line-height:1.5;">Pickup <span class="checkout-side-pickup-time"></span></p>
+        </div>
+      </div>
+      <hr class="custom-hr">
+      <p class="f-16 weight-600 mb-10">Summary</p>
+
+      <div class="summary-grid pricing-summary">
+        {% comment %} render the pricing via js {% endcomment %}
+      </div>
+
+      <button disabled class="disabled-checkout-btn custom-button w-100" id="payment-btn" onclick="proceedToPayment()">
+        Proceed to payment
+      </button>
+    </div>
+  </section>
+
+  <section class="main-checkout hidden" id="checkout-section-3">
+    {% comment %} <script src="https://gatewayt.moneris.com/chktv2/js/chkt_v2.00.js"></script> {% endcomment %}
+    <script src="https://gateway.moneris.com/chktv2/js/chkt_v2.00.js"></script>
+    <div id="outerDiv" style="position:fixed;z-index:9999;height:100vh;width:100%;margin:auto;left:0;top:0;">
+      <div id="monerisCheckout"></div>
+    </div>
+  </section>
+</section>
+
+<section class="hidden" style="text-align:center;" id="checkout-section-4">
+  <div>
+    <h1>Thank you for purchasing the order.</h1>
+    <br>
+    <a href="/" class="button-primary">Continue Shopping</a>
+  </div>
+</section>
+
+<section class="hidden" style="text-align:center;" id="checkout-section-5">
+  <div>
+    <h1>There an error while processing transaction.</h1>
+    <br>
+
+    <button id="try-again-btn" class="button-primary">Try Again</button>
+  </div>
+</section>
+
+{% render 'environment-js' %}
+
+<script>
+const store_id = '{{ store_id }}';
+
+let metaDataArray = [];
+let items = [];
+let cart = null;
+let coupon = null;
+let cannaStoreDetails = null;
+const baseServerURL = 'https://app.cannacabana.com/api';
+let pickupValue = 'pickup'
+const isCustomer = {% if customer %}true{% else %}false{% endif %};
+const environment = getEnvironment();
+async function getAccessToken() {
+    let accessToken = localStorage.getItem('canna_access_token');
+    if (!accessToken) {
+      try {
+        const response = await fetch(`${baseServerURL}/oauth/token`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams({
+            client_id: '7',
+            client_secret: 'dqo3pUrSPyN0ONslDAzw1oHaxXs5KZ3D38DcNqLa',
+            grant_type: 'client_credentials',
+          }),
+        });
+        if (!response.ok) {
+          throw new Error('Failed to retrieve access token');
+        }
+        const data = await response.json();
+        accessToken = data.access_token;
+        localStorage.setItem('canna_access_token', accessToken);
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    }
+
+    return accessToken;
+  }
+async function getCartItems() {
+  showLoader();
+  const resp = await fetch('/cart.json');
+  cart = await resp.json();
+  items = cart.items;
+  await getStoreMetaData()
+  hideLoader();
+  renderAll();
+  addCustomerDetails()
+}
+
+function addCustomerDetails(){
+  const mainSpan = document.querySelector('#customer-details');
+  const email = mainSpan.querySelector('#customer-email').textContent;
+  const phone =  mainSpan.querySelector('#customer-phone').textContent;
+  const first_name =  mainSpan.querySelector('#customer-name').textContent;
+  const last_name =  mainSpan.querySelector('#customer-last').textContent;
+
+  section2FirstName.value = first_name
+  section2LastName.value = last_name
+  section2Email.value = email
+  section2MobileNum.value = phone
+}
+
+function renderAll() {
+  clearAllRenderining();
+
+  renderitems();
+  renderReviewSection();
+  renderSpecials();
+  renderPricingSummary();
+  checkForEquivalence()
+}
+
+function clearAllRenderining() {
+  const divs = ['cart-item-list', 'review-section', 'item-specials'];
+  divs.forEach((id) => {
+    const div = document.querySelector(`#${id}`);
+    div.innerHTML = '';
+  });
+}
+
+function renderitems() {
+  for (const item of items) {
+    const metaData = metaDataArray.find((meta) => meta.item_id == item.id);
+
+    if(!metaData.price || metaData.price == '0' || metaData.price == 'N.A.') {
+      emptyCart();
+      break;
+    }
+
+    renderSingleItem(item, metaData);
+  }
+}
+
+function renderSingleItem(item, metaData) {
+  const parentDiv = document.querySelector('#cart-item-list');
+  const div = document.createElement('div');
+
+  div.innerHTML = `
+    <div class="flex-product responsive-gap custom-padding cart-item responsive-mb" id="item-${item.id}">
+      <div class="flex-start">
+        <img
+          class="product-img"
+          src="${item.image}"
+          alt="product-assets"
+        >
+      </div>
+      <div class="flex-col w-100">
+        <div class="product-block-1 mb-10">Indica</div>
+        <div class="weight-600 text-start">${item.product_title}</div>
+        <div class="flex-col">
+          <p class="margin-0">${item.vendor}</p>
+          <p class="margin-0">${item.quantity} x ${item.variant_title} @ $${metaData.price}</p>
+          <div class="flex-between-responsive">
+
+            <p class="margin-0 text-center responsive-text-start custom-line-height">
+${isCustomer ? `<span class="dollar-box-black">$</span>${
+    item.product_title
+  } ${getDiscountedPercentage(metaData.price, metaData.compare_at_price)}% Sale (${item.variant_title})
+            ` : ''}</p>
+            <div class="flex cart-action-btn responsive-text-start">
+              <span class="span-button" onclick="handleProductEdit(${item.id})">Edit</span>
+              <span class="pointer" onclick="deleteItemHandler(${item.id})">
+                <i class="fa-regular fa-trash-can"></i>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    `;
+
+  parentDiv.appendChild(div);
+}
+
+function renderReviewSection() {
+  const parentDiv = document.getElementById('review-section');
+  for (const item of items) {
+    const div = document.createElement('div');
+    const metaData = metaDataArray.find((meta) => meta.item_id == item.id);
+
+    div.classList.add('flex-product');
+    div.classList.add('gap-5');
+    div.setAttribute('id', `review-${item.id}`);
+
+    div.innerHTML = `
+        <div class="flex-start">
+          <img
+            class="product-img"
+            src="${item.image}"
+            alt="product-assets"
+          >
+        </div>
+        <div class="flex-col w-100">
+          <div class="product-block-1 mb-10">Indica</div>
+          <div class="product-between">
+            <div class="weight-600 text-start">${item.product_title}</div>
+            <div class="flex-col">
+              <p class="grey margin-0">$${(metaData.price * item.quantity).toFixed(2)}</p>
+              <p class="grey margin-0 old-price">$${(metaData.compare_at_price * item.quantity).toFixed(2)}</p>
+            </div>
+          </div>
+          <div class="flex-col">
+            <p class="margin-0">${item.vendor}</p>
+            <p class="margin-0">${item.quantity} x ${item.variant_title} @ $${metaData.price}</p>
+            <p class="margin-0 custom-line-height">
+              <span class="dollar-box-black">$</span>
+              ${item.product_title} ${getDiscountedPercentage(metaData.price, metaData.compare_at_price)}% Sale (${
+                item.variant_title
+              })
+            </p>
+          </div>
+        </div>
+      `;
+    parentDiv.appendChild(div);
+  }
+}
+
+function renderSpecials() {
+  const province = localStorage.getItem('global_province');
+  const specialsBlock = document.querySelector('.js-specials');
+
+  if(!isCustomer) {
+    return;
+  }
+
+  if (specialsBlock) {
+    specialsBlock.classList.remove('hidden');
+  }
+  const parent = document.querySelector('#item-specials');
+
+  for (const item of items) {
+    const pTag = document.createElement('p');
+    const metaData = metaDataArray.find((meta) => meta.item_id == item.id);
+
+    pTag.classList.add('margin-0');
+    pTag.classList.add('custom-green');
+    pTag.classList.add('custom-line-height');
+    pTag.setAttribute('id', `special-${item.id}`);
+
+    pTag.innerHTML = `<span class="dollar-box-black">$</span>${item.product_title} ${getDiscountedPercentage(
+      metaData.price,
+      metaData.compare_at_price
+    )} % Sale(${item.variant_title})`;
+
+    parent.appendChild(pTag);
+  }
+}
+
+function parseMetaData() {
+  const metaSpans = document.querySelectorAll('.variant-meta-strings');
+  const province = localStorage.getItem('global_province');
+
+  metaSpans.forEach((span) => {
+    const metaStr      = span.getAttribute('data-meta-string');
+    let eliteMetaStr = '';
+    const item_id      = span.getAttribute('data-item-id');
+    const product_id   = span.getAttribute('data-product-id');
+    const variant_id   = span.getAttribute('data-variant-id');
+    const arr          = metaStr.split(',');
+    let isCustomerElite = false;
+    {%  if customer.tags contains 'ELITE' %}
+      isCustomerElite = true;
+    {% endif %}
+    if(localStorage.getItem('is_elite') === 'true') {
+      eliteMetaStr = span.getAttribute('data-elite-meta-string') ?? '';
+    }
+
+    if (province === 'British Columbia') {
+      metaDataArray.push({
+        item_id,
+        product_id,
+        variant_id,
+        inventory: +arr[0],
+        price: +arr[1],
+        compare_at_price: +arr[2],
+        size: arr[3],
+        tsc: arr[4],
+        cbd: arr[5],
+        equivalence_value: +arr[6],
+        metaStr: metaStr
+      });
+    } 
+    else {
+      {% if customer %}
+        // customer and he is elite, implement elite pricing(check eliteMEtaStr) 
+        // and customer.tags contains 'ELITE'
+       if (isCustomerElite && eliteMetaStr ) {
+         metaDataArray.push({
+           item_id,
+           product_id,
+           variant_id,
+           inventory        : +arr[0],
+           price            : +eliteMetaStr,
+           compare_at_price : +arr[2],
+           size             : arr[3],
+           tsc              : arr[4],
+           cbd              : arr[5],
+           equivalence_value: +arr[6],
+           metaStr          : metaStr
+         });
+       } 
+         // if customer is not elite or product is not elite then use member price
+       else if(!isCustomerElite || !eliteMetaStr) {
+         metaDataArray.push({
+           item_id,
+           product_id,
+           variant_id,
+           inventory        : +arr[0],
+           price            : +arr[1],
+           compare_at_price : +arr[2],
+           size             : arr[3],
+           tsc              : arr[4],
+           cbd              : arr[5],
+           equivalence_value: +arr[6],
+           metaStr          : metaStr
+         });
+       } 
+       else {
+         metaDataArray.push({
+           item_id,
+           product_id,
+           variant_id,
+           inventory        : +arr[0],
+           price            : +arr[1],
+           compare_at_price : +arr[2],
+           size             : arr[3],
+           tsc              : arr[4],
+           cbd              : arr[5],
+           equivalence_value: +arr[6],
+           metaStr          : metaStr
+         });
+       }
+      {% else %}
+      metaDataArray.push({
+        item_id,
+        product_id,
+        variant_id,
+        inventory        : +arr[0],
+        price            : +arr[2],
+        compare_at_price : +arr[2],
+        size             : arr[3],
+        tsc              : arr[4],
+        cbd              : arr[5],
+        equivalence_value: +arr[6],
+        metaStr          : metaStr
+      });
+      {% endif %}
+    }
+  });
+}
+
+function checkForEquivalence(){
+  const mainDiv = document.querySelector('#equivalence-div');
+  const button = mainDiv.querySelector('#checkout-btn-1')
+  const errorDiv  =   mainDiv.querySelector('#equivalence-error-message')
+  const errorTextTag = errorDiv.querySelector('.error-text')
+
+  const totalSum  = metaDataArray.reduce((total , current) => {
+    const lineItem = items.find(item => item.variant_id == current.variant_id )
+    if(!lineItem) return total;
+    return total += current.equivalence_value * lineItem.quantity
+  } , 0)
+
+  if(totalSum > 30){
+    button.classList.add('disabled-checkout-btn')
+    errorDiv.classList.remove('hidden')
+    errorTextTag.innerHTML = `Your bag has <b>${totalSum}g</b> of Cannabis products, but Canna Cabana only allows <b>30g</b> per order.`
+  } else {
+    button.classList.remove('disabled-checkout-btn')
+    errorDiv.classList.add('hidden')
+    errorTextTag.innerHTML = ''
+  }
+  return;
+}
+
+function getDiscountedPercentage(price, compare_at_price) {
+  const percentage = ((compare_at_price - price) / compare_at_price) * 100;
+  return +percentage.toFixed(2);
+}
+
+function getTotalPrices() {
+  let cart_subtotal = 0;
+  let total_non_member_price = 0;
+  let sales_tax = 0;
+  let total_price = 0;
+  let discount = 0
+  let sales_tax_percentage = 0
+  const delivery_charges = 9.99
+
+  for (const item of items) {
+    const metaData = metaDataArray.find((meta) => meta.item_id == item.id);
+    const { quantity } = item;
+
+    cart_subtotal += metaData.price * quantity;
+    total_non_member_price += metaData.compare_at_price * quantity;
+  }
+
+  if(coupon){
+    const {discount_type, discount_value} = coupon;
+    if(discount_type == 'percentage'){
+      discount = +(+discount_value / 100 * cart_subtotal).toFixed(2)
+    } else {
+      discount = +discount_value
+    }
+  }
+
+  if(cannaStoreDetails && cannaStoreDetails.meta && Array.isArray(cannaStoreDetails.meta)){
+    const salesTaxMeta  = cannaStoreDetails.meta.find(m => m.key === "sales_tax");
+    if(salesTaxMeta){
+      sales_tax_percentage = +salesTaxMeta.value;
+      sales_tax = +(+sales_tax_percentage / 100 * cart_subtotal).toFixed(2)
+    }
+  }
+
+  total_price = +(cart_subtotal + sales_tax - discount).toFixed(2)
+
+  if(pickupValue === 'delivery'){
+    total_price = +(total_price + delivery_charges).toFixed(2)
+  }
+
+  return {
+    cart_subtotal: cart_subtotal.toFixed(2),
+    total_saving: (total_non_member_price - cart_subtotal).toFixed(2),
+    sales_tax : sales_tax.toFixed(2),
+    total_price : total_price.toFixed(2),
+    discount : discount.toFixed(2),
+    actual_price: (cart_subtotal + sales_tax).toFixed(2),
+    sales_tax_percentage,
+    delivery_charges : delivery_charges.toFixed(2)
+  };
+}
+
+function renderPricingSummary() {
+  const { cart_subtotal, total_saving, sales_tax, total_price , discount , delivery_charges} = getTotalPrices();
+  const pricingSummarys = document.querySelectorAll('.pricing-summary');
+  const reviewCart = document.querySelector('#review-cart-subtotal');
+
+  const deliveryHTML = `
+    <div class="flex-between">Delivery Charges</div>
+    <div class="flex-between align-right">$${delivery_charges}</div>
+    `
+
+  pricingSummarys.forEach((summary) => {
+    summary.innerHTML = `
+        <div class="flex-between">Items (${cart.item_count})</div>
+        <div class="flex-between align-right">$${cart_subtotal}</div>
+        <div class="flex-between">Estimated savings</div>
+        <div class="flex-between align-right">-$${total_saving}</div>
+        <div class="flex-between">Estimated service fee</div>
+        <div class="flex-between align-right">
+          <span class="free"> Free </span>
+        </div>
+        <div class="flex-between">Estimated sales tax</div>
+        <div class="flex-between align-right">$${sales_tax}</div>
+        <div class="flex-between">Discount on coupon</div>
+        <div class="flex-between align-right" data-check="${pickupValue}">$${discount}</div>
+        ${pickupValue === 'delivery' ? deliveryHTML : ''}
+
+        <h2>Estimated total</h2>
+        <h2 class="align-right">$${total_price}</h2>
+        `;
+  });
+
+  reviewCart.innerHTML = `$${total_price}`;
+}
+
+function showLoader() {
+  document.querySelector('#loading').classList.remove('hidden');
+}
+
+function hideLoader() {
+  document.querySelector('#loading').classList.add('hidden');
+}
+
+function formateDate(date = new Date()) {
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+  const year = date.getFullYear();
+  const hours = date.getHours();
+  const minites = date.getMinutes();
+  const seconds = date.getSeconds();
+
+  return `${year}-${month}-${day} ${hours}:${minites}:${seconds}`;
+}
+
+ async function getStoreMetaData(){
+    try{
+      const deliveryBTN = document.querySelector('#order-delivery');
+
+      const token = await getAccessToken()
+      const resp = await fetch(`${baseServerURL}/ihj-store/${store_id}/get` , {
+        method:"POST",
+        headers:{
+          "Content-Type":"application/json",
+          'Authorization' : `Bearer ${token}`
+        },
+        body:JSON.stringify({
+          key : [ 'sales_tax' , 'payment_options' , 'delivery_option' , 'delivery_hours']
+        })
+      })
+
+      const data = await resp.json()
+      const details = data.data
+      cannaStoreDetails = details; 
+
+      if(details.meta && Array.isArray(details.meta) ){
+        const deliveryOption = details.meta.find(opt => opt.key === 'delivery_option');
+        if(deliveryOption && deliveryOption.value === 'enabled'){
+          deliveryBTN.classList.remove('hidden')
+        }
+      }
+
+    }catch(e){
+      console.error(e)
+    }
+  }
+
+parseMetaData();
+getCartItems().then(() => {
+  {% render 'ga4-checkout-events', step: 'view_cart', cart: cart, store_id: store_id %}
+});
+
+function getSelectedStore() {
+  const storeId = localStorage.getItem('global_store_id');
+
+  const matchedStore = Object.values(window.stores).find(store => store.store_id === storeId);
+
+  if (!matchedStore) {
+    console.error('No store found with the provided store');
+
+    return 0;
+  }
+
+  return matchedStore;
+}
+</script>
+
+<script>
+let myCheckout = new monerisCheckout();
+
+const iconTransform = document.querySelector('.icon-transform');
+const promoCodeDiv = document.querySelector('.promo-code-div');
+const checkoutBtn1 = document.querySelector('#checkout-btn-1');
+const paymentBtn = document.querySelector('#payment-btn');
+const paymentBtn1 = document.querySelector('#payment-btn-1');
+const continueBtn = document.querySelector('#continue-btn');
+
+const checkoutSection1 = document.querySelector('#checkout-section-1');
+const checkoutSection2 = document.querySelector('#checkout-section-2');
+const checkoutSection3 = document.querySelector('#checkout-section-3');
+const checkoutSection4 = document.querySelector('#checkout-section-4');
+const checkoutSection5 = document.querySelector('#checkout-section-5');
+
+const section1Radio = document.querySelector('#custom-condition-radio');
+
+const section2FirstName = document.querySelector('#section-2-first-name');
+const section2LastName = document.querySelector('#section-2-last-name');
+const section2Email = document.querySelector('#section-2-email');
+const section2MobileNum = document.querySelector('#section-2-mobile-number');
+const section2BirthDate = document.querySelector('#section-2-birth-date');
+
+const radioBtns = document.querySelectorAll("input[type='radio']");
+
+const section1RadioError = document.querySelector('.section1RadioError');
+const section2FirstNameError = document.querySelector('.section2FirstNameError');
+const section2LastNameError = document.querySelector('.section2LastNameError');
+const section2EmailError = document.querySelector('.section2EmailError');
+const section2MobileNumError = document.querySelector('.section2MobileNumError');
+const section2BirthDateError = document.querySelector('.section2BirthDateError');
+
+const orderQuantity = document.querySelector('.order-quantity');
+const modalTitle = document.querySelector('#modal-product-title');
+const modalVendor = document.querySelector('#modal-vendor');
+const modalQuantityWithPrice = document.querySelector('#modal-quantity-with-price');
+const modalSaleWithTitle = document.querySelector('#modal-sale-with-title');
+const modalOrderQuantity = document.querySelector('#modal-order-quantity');
+const modalImage = document.querySelector('#modal-img');
+const modalPrice = document.querySelector('#modal-price');
+const decrementBtn = document.querySelector('#decrementBtn');
+const incrementBtn = document.querySelector('#incrementBtn');
+
+const mainStoreTitle = document.querySelector('.store-title');
+const mainStoreLogo = document.querySelector('#mainStoreLogo');
+const mainAdressLine1 = document.querySelector('#main-address-line-1');
+const mainAdressLine2 = document.querySelector('#main-address-line-2');
+const mainPickupTime = document.querySelector('.mainPickupTime');
+const checkoutMainImg = document.querySelector('#checkout-main-img');
+const checkoutMainTitle = document.querySelector('.checkout-main-store-title');
+const checkoutMainAddress = document.querySelector('.checkout-main-address');
+const checkoutSideLogo = document.querySelector('#checkout-side-logo');
+const checkoutSideTitle = document.querySelector('.checkout-side-title');
+const checkoutSideAddressLine1 = document.querySelector('.checkout-side-address-line-1');
+const checkoutSideAddressLine2 = document.querySelector('.checkout-side-address-line-2');
+const checkoutSideAddressLine3 = document.querySelector('.checkout-side-address-line-3');
+const checkoutSidePickupTime = document.querySelector('.checkout-side-pickup-time');
+
+const pickupDay = document.querySelector('#pickupDay');
+const specialInstructions = document.querySelector('#specialInstructions');
+const deliveryTime = document.querySelector('#delivery-time');
+
+// coupon related
+const couponBtn = document.querySelector('#apply-coupon-btn');
+const allConditions = document.querySelector('#all-conditions');
+const iconTransformConditions = document.querySelector('.icon-transform-conditions');
+
+// checkout delivery related
+const checkoutDeliveryAddress = document.querySelector('#checkout-delivery-address');
+const checkoutDeliveryFloor = document.querySelector('#checkout-delivery-floor');
+const checkoutDeliveryCity = document.querySelector('#checkout-delivery-city');
+const checkoutDeliveryState = document.querySelector('#checkout-delivery-state');
+const checkoutDeliverypostalCode = document.querySelector('#checkout-delivery-postal-code');
+
+const checkoutDeliveryAddressError = document.querySelector('#checkout-delivery-address-error');
+const checkoutDeliveryFloorError = document.querySelector('#checkout-delivery-floor-error');
+const checkoutDeliveryCityError = document.querySelector('#checkout-delivery-city-error');
+const checkoutDeliveryStateError = document.querySelector('#checkout-delivery-state-error');
+const checkoutDeliverypostalCodeError = document.querySelector('#checkout-delivery-postal-code-error');
+
+const pickupDayDiv = document.querySelector('#pickup-day-div');
+const deliveryDayDiv = document.querySelector('#delivery-day-div');
+
+const regxEmail = /^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,}$/;
+
+let is_payment_online = true;
+let product_count = '';
+let metaData = '';
+let itemId = '';
+let store_url = '';
+
+const selected_store = getSelectedStore();
+
+const dayToday = new Date().getDay();
+const storeTimings = selected_store.hours_periods[dayToday === 7 ? 0 : dayToday];
+const tryAgainBtn = document.querySelector('#try-again-btn');
+
+const iti = window.intlTelInput(section2MobileNum, {
+  initialCountry: 'ca',
+  utilsScript: 'https://cdn.jsdelivr.net/npm/intl-tel-input@19.5.5/build/js/utils.js',
+});
+
+couponBtn.addEventListener('click', applyCouponCode);
+
+tryAgainBtn.addEventListener('click', (e) => {
+  checkoutSection1.classList.remove('hidden');
+  checkoutSection5.classList.add('hidden');
+});
+
+function handleConditionsClick() {
+  iconTransformConditions.classList.toggle('fa-rotate-180');
+  allConditions.classList.toggle('hidden');
+}
+
+function handleTabChange(value) {
+  const delivery = document.querySelector('#order-delivery');
+  const pickup = document.querySelector('#order-pickup');
+  const deliveryOptions = document.querySelector('.delivery-options');
+
+  pickupValue = value;
+
+  if (value === 'delivery') {
+    pickup.classList.remove('delivery-option-selected');
+    pickup.classList.add('delivery-option-unselected');
+    delivery.classList.add('delivery-option-selected');
+    deliveryOptions.classList.remove('hidden');
+    pickupDayDiv.classList.add('hidden');
+    deliveryDayDiv.classList.remove('hidden');
+
+  }
+
+  if (value === 'pickup') {
+    delivery.classList.remove('delivery-option-selected');
+    delivery.classList.add('delivery-option-unselected');
+    pickup.classList.add('delivery-option-selected');
+    deliveryOptions.classList.add('hidden');
+    deliveryDayDiv.classList.add('hidden');
+    pickupDayDiv.classList.remove('hidden');
+  }
+
+  renderPricingSummary();
+}
+{% comment %}
+ function addDeliveryOptions() {
+  const select = document.querySelector('#delivery-time');
+  const ranges = [1, 3, 5];
+  const today = new Date();
+
+  let totalRange = [];
+
+  ranges.forEach((date) => {
+    let { from, to } = getRange(date, false);
+    totalRange.push({
+      title: `Today ${date}pm - ${date + 2}pm`,
+      value: `${from} - ${to}`,
+      is_in_range: today < from,
+    });
+  });
+
+  ranges.forEach((date) => {
+    let { from, to } = getRange(date, true);
+    totalRange.push({
+      title: `Tomorrow ${date}pm - ${date + 2}pm`,
+      value: `${from} - ${to}`,
+      is_in_range: today < from,
+    });
+  });
+
+  const validRanges = totalRange.filter((r) => r.is_in_range);
+
+  validRanges.forEach((range, idx) => {
+    const option = document.createElement('option');
+    option.value = range.value;
+    option.innerHTML = range.title;
+    select.appendChild(option);
+  });
+}
+{% endcomment %}
+function getRange(hour = 1, isTomorrow = false) {
+  const from = new Date();
+  const to = new Date();
+
+  if (isTomorrow) {
+    from.setDate(from.getDate() + 1);
+    to.setDate(to.getDate() + 1);
+  }
+
+  from.setHours(hour);
+  from.setMinutes(0);
+  from.setSeconds(0);
+
+  to.setHours(hour + 2);
+  to.setMinutes(0);
+  to.setSeconds(0);
+
+  return {
+    from,
+    to,
+  };
+}
+
+async function applyCouponCode() {
+    const couponEl = document.querySelector('#coupon-code');
+    if (!couponEl.value) {
+      return alert('Please Enter Coupon Code');
+    }
+
+    try {
+      showLoader();
+      const token = await getAccessToken();
+      const resp = await fetch(`${baseServerURL}/coupon/validate`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          coupon: couponEl.value,
+        }),
+      });
+
+      const data = await resp.json();
+      if (data.message === 'verified') {
+        coupon = data.data;
+        renderPricingSummary();
+      } else {
+        alert(data.message);
+      }
+    } catch (e) {
+      console.log('############################', e);
+    } finally {
+      hideLoader();
+    }
+  }
+
+function convertToAMPM(time24) {
+  const hours = time24.slice(0, 2);
+  const minutes = time24.slice(2);
+  const date = new Date();
+  date.setHours(hours);
+  date.setMinutes(minutes);
+  const time12 = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
+  return time12;
+}
+
+function initializeValues() {
+  mainStoreTitle.innerHTML = selected_store.title;
+  checkoutMainTitle.innerHTML = selected_store.title;
+  checkoutSideTitle.innerHTML = selected_store.title;
+
+  const defaultImage = "{{ 'cannacabana-store-default.webp' | asset_url }}";
+  const storeImage   = selected_store.img !== undefined && selected_store.img !== '' ? selected_store.img : defaultImage;
+
+  mainStoreLogo.src    = storeImage;
+  checkoutMainImg.src  = storeImage;
+  checkoutSideLogo.src = storeImage;
+
+  mainAdressLine1.innerHTML = selected_store.address.street1;
+  mainAdressLine2.innerHTML =
+    selected_store.address.city + ', ' + selected_store.address.province + ' ' + selected_store.address.zip;
+  checkoutMainAddress.innerHTML =
+    selected_store.address.street1 +
+    ', ' +
+    selected_store.address.city +
+    ', ' +
+    selected_store.address.province +
+    ', ' +
+    selected_store.address.zip;
+  mainPickupTime.innerHTML = convertToAMPM(storeTimings.open.time) + ' - ' + convertToAMPM(storeTimings.close.time);
+  checkoutSidePickupTime.innerHTML =
+    convertToAMPM(storeTimings.open.time) + ' - ' + convertToAMPM(storeTimings.close.time);
+  checkoutSideAddressLine1.innerHTML = selected_store.address.street1;
+  checkoutSideAddressLine2.innerHTML = selected_store.address.city + ', ' + selected_store.address.province;
+  checkoutSideAddressLine3.innerHTML = selected_store.address.zip;
+
+  checkoutDeliveryCity.value = selected_store.address.city;
+  checkoutDeliveryState.value = selected_store.address.province;
+  checkoutDeliverypostalCode.value = selected_store.address.zip;
+}
+
+radioBtns.forEach((btn) => {
+  btn.addEventListener('change', (e) => {
+    if (e.target.value === 'offline') is_payment_online = false;
+    else is_payment_online = true;
+    handleStepCheck(3);
+  });
+});
+
+checkoutBtn1.addEventListener('click', () => {
+  // validating address
+  if (pickupValue === 'delivery') {
+    if (!checkoutDeliveryAddress.value) {
+      checkoutDeliveryAddressError.classList.remove('hidden');
+      checkoutDeliveryAddressError.innerHTML = 'Please enter your address';
+      return;
+    } else {
+      checkoutDeliveryAddressError.classList.add('hidden');
+    }
+
+    {% comment %} if (!checkoutDeliveryFloor.value) {
+      checkoutDeliveryFloorError.classList.remove('hidden');
+      checkoutDeliveryFloorError.innerHTML = 'Please enter your Apartment, unit, floor';
+      return;
+    } else {
+      checkoutDeliveryFloorError.classList.add('hidden');
+    } {% endcomment %}
+
+    if (!checkoutDeliveryCity.value) {
+      checkoutDeliveryCityError.classList.remove('hidden');
+      checkoutDeliveryCityError.innerHTML = 'Please enter your City';
+      return;
+    } else {
+      checkoutDeliveryCityError.classList.add('hidden');
+    }
+
+    if (!checkoutDeliveryState.value) {
+      checkoutDeliveryStateError.classList.remove('hidden');
+      checkoutDeliveryStateError.innerHTML = 'Please enter your Province/State';
+      return;
+    } else {
+      checkoutDeliveryStateError.classList.add('hidden');
+    }
+
+    if (!checkoutDeliverypostalCode.value) {
+      checkoutDeliverypostalCodeError.classList.remove('hidden');
+      checkoutDeliverypostalCodeError.innerHTML = 'Please enter your Postal/Zip Code';
+      return;
+    } else {
+      checkoutDeliverypostalCodeError.classList.add('hidden');
+    }
+
+    {% render 'ga4-checkout-events', step: 'add_shipping_info', cart: cart, store_id: store_id %}
+  }
+
+  checkoutSection1.classList.add('hidden');
+  checkoutSection2.classList.remove('hidden');
+  document.getElementById('checkout-section-2').scrollIntoView();
+
+  {% render 'ga4-checkout-events', step: 'begin_checkout', cart: cart, store_id: store_id %}
+});
+
+function handleSection2InputsChange(field, errorDiv) {
+  field.addEventListener('input', (e) => {
+    let fieldActive = true;
+    if (!field.value.trim()) {
+      fieldActive = false;
+    } else if (field.type === 'email' && !validateEmail()) {
+      fieldActive = false;
+    } else if (field.type === 'tel' && !validatePhone()) {
+      fieldActive = false;
+    } else if (field.type === 'date' && !validateDOB()) {
+      fieldActive = false;
+    }
+
+    if (!fieldActive) {
+      continueBtn.disabled = true;
+      continueBtn.classList.add('disabled-checkout-btn');
+      errorDiv.classList.remove('hidden');
+    } else {
+      errorDiv.classList.add('hidden');
+    }
+
+    if (checkIfFormValid()) {
+      continueBtn.disabled = false;
+      continueBtn.classList.remove('disabled-checkout-btn');
+    }
+  });
+}
+
+function validateEmail() {
+  return regxEmail.test(section2Email.value);
+}
+
+function validatePhone() {
+  return iti.isValidNumber();
+}
+
+function validateDOB() {
+  const selectedDate = new Date(section2BirthDate.value);
+  const today = new Date();
+  const age = today.getFullYear() - selectedDate.getFullYear();
+  return age >= 19;
+}
+
+function checkIfFormValid() {
+  if (!section2FirstName.value) return false;
+  if (!section2LastName.value) return false;
+  if (!validateEmail()) return false;
+  if (!validatePhone()) return false;
+  if (!validateDOB()) return false;
+
+  return true;
+}
+
+handleSection2InputsChange(section2FirstName, section2FirstNameError);
+handleSection2InputsChange(section2LastName, section2LastNameError);
+handleSection2InputsChange(section2Email, section2EmailError);
+handleSection2InputsChange(section2MobileNum, section2MobileNumError);
+handleSection2InputsChange(section2BirthDate, section2BirthDateError);
+
+section1Radio.addEventListener('change', (e) => {
+  if (e.target.checked === false) {
+    section1RadioError.classList.remove('hidden');
+    handleStepUncheck(1);
+  } else {
+    section1RadioError.classList.add('hidden');
+    handleStepCheck(1);
+  }
+});
+
+function handleStep(step) {
+  if (step === 1) {
+    if (section1Radio.checked === false) {
+      section1RadioError.classList.remove('hidden');
+
+      return;
+    } else {
+      window.scrollTo(0, 200);
+    }
+  }
+
+  if (step === 2) {
+    const btn = document.querySelector('#review-continue-btn');
+    btn.disabled = false;
+    btn.classList.remove('disabled-checkout-btn');
+  }
+
+  if (step === 3 && section1Radio.checked === true) {
+    paymentBtn.disabled = false;
+    paymentBtn.classList.remove('disabled-checkout-btn');
+    paymentBtn1.disabled = false;
+    paymentBtn1.classList.remove('disabled-checkout-btn');
+  }
+
+  handleUnactiveSection(step);
+  handleActiveSection(step + 1);
+  handleStepCheck(step);
+
+  document.querySelector(`.section-${step}-content`).classList.add('hidden');
+  document.querySelector(`.section-${step + 1}-content`).classList.remove('hidden');
+}
+
+function handleUnactiveSection(step) {
+  document.querySelector(`.custom-checkout-section-${step}`).classList.remove('active');
+}
+
+function handleActiveSection(step) {
+  document.querySelector(`.custom-checkout-section-${step}`).classList.add('active');
+}
+
+function handleStepCheck(step) {
+  document.querySelector(`.step-${step}-icon`).innerHTML = `<i
+      class="fa-sharp fa-solid fa-circle-check fa-2x"
+      style="color: #94b200"
+    ></i>`;
+}
+
+function handleStepUncheck(step) {
+  document.querySelector(`.step-${step}-icon`).innerHTML = `
+    <span class="number-item">${step}</span>
+    `;
+}
+
+function handleStepHeader(step) {
+  document.querySelector(`.section-${step}-content`).classList.toggle('hidden');
+}
+
+function handleProductEdit(productId) {
+  const cartItem = items.find((c) => c.id === productId);
+  const metaDetails = metaDataArray.find((meta) => meta.item_id == cartItem.id);
+  itemId = productId;
+
+  modalTitle.innerHTML = `${cartItem.product_title}`;
+  modalVendor.innerHTML = `${cartItem.vendor}`;
+
+  product_count = metaDetails.inventory;
+
+  const discountPercentage =
+          ((metaDetails.compare_at_price - metaDetails.price) / metaDetails.compare_at_price) * 100;
+
+  modalImage.src = cartItem.image;
+  modalQuantityWithPrice.innerHTML = `${cartItem.quantity} x ${cartItem.variant_title} @ $${metaDetails.price}`;
+  modalSaleWithTitle.innerHTML = `<span class="dollar-box-black">$</span>${cartItem.product_title} ${Math.abs(
+    discountPercentage
+  ).toFixed(2)}% Sale (${cartItem.variant_title})`;
+  modalOrderQuantity.innerHTML = `${cartItem.quantity}`;
+
+  let modalPriceUpdate = parseFloat(cartItem.quantity) * parseFloat(metaDetails.price);
+  modalPriceUpdate     = modalPriceUpdate.toFixed(2);
+  modalPrice.innerHTML = `$${modalPriceUpdate}`;
+
+  modalPrice.setAttribute('data-price', metaDetails.price);
+
+  if (cartItem.quantity === parseInt(metaDetails[0])) {
+    incrementBtn.classList.add('disabled-checkout-btn');
+  } else if (cartItem.quantity === 1) {
+    decrementBtn.classList.add('disabled-checkout-btn');
+  }
+  document.querySelector('.modal-container').style.display = 'block';
+}
+
+function handleModalClose() {
+  document.querySelector('.modal-container').style.display = 'none';
+}
+
+function incrementQuantity() {
+  if (product_count <= parseInt(orderQuantity.innerHTML)) {
+    incrementBtn.classList.add('disabled-checkout-btn');
+    return;
+  }
+  decrementBtn.classList.remove('disabled-checkout-btn');
+  const quantity = parseInt(orderQuantity.innerHTML) + 1;
+  const price = +modalPrice.getAttribute('data-price');
+
+  modalPrice.innerHTML = `$${(price * quantity).toFixed(2)}`;
+  orderQuantity.innerHTML = `${quantity}`;
+}
+
+function decrementQuantity() {
+  if (orderQuantity.innerHTML === '1') return;
+  incrementBtn.classList.remove('disabled-checkout-btn');
+  const quantity = parseInt(orderQuantity.innerHTML) - 1;
+  const price = +modalPrice.getAttribute('data-price');
+
+  orderQuantity.innerHTML = `${quantity}`;
+  modalPrice.innerHTML = `$${(price * quantity).toFixed(2)}`;
+}
+
+async function handleItemUpdate() {
+  showLoader();
+  const quantity = +orderQuantity.innerHTML;
+  const item = items.find((i) => i.id == itemId);
+
+  let updates = {
+    [item.variant_id]: quantity,
+  };
+
+  const resp = await fetch(window.Shopify.routes.root + 'cart/update.js', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ updates }),
+  });
+
+  const data = await resp.json();
+
+  items = data.items;
+  cart = data;
+  renderAll();
+  handleModalClose();
+  hideLoader();
+}
+
+async function deleteItemHandler(lineItemId) {
+  showLoader();
+  cartAi_icon = document.querySelector(".cart-count-bubble > span");
+  const item = items.find((i) => i.id == lineItemId);
+  let updates = {
+    [item.variant_id]: 0,
+  };
+
+  const resp = await fetch(window.Shopify.routes.root + 'cart/update.js', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ updates }),
+  });
+
+  const data = await resp.json();
+
+  items = data.items;
+  cart = data;
+
+  window.location.reload();
+}
+
+// moneris cevent handlers
+function myPageLoad(e) {
+  console.log('PAGE LOADED FUNCTION', JSON.parse(e));
+}
+
+function myPageClosed(e) {
+  console.log('myPageClosed', e);
+}
+
+function myPaymentSubmitted(e) {
+  console.log('myPaymentSubmitted', JSON.parse(e));
+}
+
+async function proceedToPayment() {
+  const payload = getOrderPayload();
+
+  if (!payload.is_payment_online) {
+    return completeOrderCOD(payload);
+  } else {
+    return generateMonerisTicket(payload);
+  }
+}
+
+async function generateMonerisTicket(orderDetails) {
+    showLoader();
+
+    const token = await getAccessToken();
+    const orderPayload = getOrderPayload();
+    try {
+      const resp = await fetch(`${baseServerURL}/checkout/get-ticket`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          price: orderDetails.price,
+          store_id: orderDetails.store_id,
+          line_items: orderPayload.line_items,
+          shopify_line_items: orderPayload.items,
+          longitude:localStorage.getItem('latitude_a'),
+          latitude:localStorage.getItem('longitude_a')
+        }),
+      });
+
+      const data = await resp.json();
+
+      console.log('data', data);
+
+      if (!data.success) {
+        // empty the cart and
+        const isArray = data.data && Array.isArray(data.data);
+
+        // todo:: filter the items to remove
+        if (isArray && data.data.length !== orderPayload.items.length) {
+          const itemsToRemove = orderPayload.items.filter((i) => {
+            const exist = data.data.find((item) => item.id === i.id);
+            return !exist;
+          });
+
+          const ids = itemsToRemove.map((i) => i.id);
+
+          for (const lineItemId of ids) {
+            await deleteItemHandler(lineItemId);
+          }
+
+          handleStepHeader(3);
+          handleStepHeader(4);
+
+          itemsToRemove.forEach((i) => {
+            Toastify({
+              text: `"${i.title}"  \n is removed from the cart because of unavailability.`,
+              duration: 5000,
+              close: true,
+              gravity: 'top',
+              position: 'right',
+              stopOnFocus: true,
+              style: { background: '#f32735' },
+              offset: { y: 50 },
+            }).showToast();
+          });
+        }
+
+        if (isArray && data.data.length === 0) {
+          Toastify({
+            text: 'None of the items is available so we remove all the items from the cart.',
+            duration: 5000,
+            close: true,
+            gravity: 'top',
+            position: 'right',
+            stopOnFocus: true,
+            style: { background: '#f32735' },
+            offset: { y: 50 },
+          }).showToast();
+          await emptyCart();
+          setTimeout(()=>{
+            window.location.reload();
+          }, 3000);
+          
+          return;
+        }
+           console.log("===================================>if")
+      } else {
+        // success case
+        checkoutSection2.classList.add('hidden');
+        checkoutSection3.classList.remove('hidden');
+        console.log(data.data.ticket,"========================>data.data.ticket")
+        const moneris_ticket = data.data.ticket;
+        items = data.data.shopify_line_items;
+        myCheckout.setMode('prod');
+        console.log(moneris_ticket,"===================================>moneris_ticket")
+        myCheckout.startCheckout(moneris_ticket);
+        document.querySelector('header').style.display = 'none';
+
+        window.scrollTo(0, 0);
+        // redirect to the home page after 20 minutes
+        setTimeout(() => {
+          alert("Moneris session has expired. Try again please !")
+          window.location.href = "/cart"
+          },
+           15 * 60 * 10000
+        )
+      }
+    } catch (e) {
+      console.log( "HELLO some error",e)
+      Toastify({
+        text: 'Server Error',
+        duration: 5000,
+        close: true,
+        gravity: 'top',
+        position: 'right',
+        stopOnFocus: true,
+        style: { background: '#f32735' },
+        offset: { x: 50, y: 100 },
+      }).showToast();
+    } finally {
+      hideLoader();
+    }
+  }
+
+ async function completeOrderCOD(orderDetails) {
+    showLoader();
+    const token = await getAccessToken();
+    const resp = await fetch(`${baseServerURL}/checkout/save-transaction`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(orderDetails),
+    });
+    const data = await resp.json();
+
+    if (data.success) {
+      orderSuccessHandler(true);
+    } else {
+      console.log(data);
+      alert('SOME ERROR IN {orderCompletedByOnlinePayment}');
+    }
+    hideLoader();
+  }
+
+  async function orderCompletedByOnlinePayment(e) {
+    const event = JSON.parse(e);
+    console.log('EVENT#############', event);
+    const { handler, ticket, response_code } = event;
+
+    if (response_code != '001') {
+      return console.log('TRANSACTION FAILED');
+    }
+
+    showLoader();
+
+    let location_dynamics = []
+    
+    if(navigator.geolocation){
+       navigator.geolocation.getCurrentPosition((position)=>{
+          location_dynamics.push(position.coords.longitude)
+          location_dynamics.push(position.coords.latitude)
+      })
+    }
+
+
+    try {
+      const payload = getOrderPayload();
+      const token = await getAccessToken();
+      const resp = await fetch(`${baseServerURL}/checkout/get-receipt`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          ...payload,
+          moneris_checkout_ticket: ticket,
+          moneris_event: handler,
+          ticket_id: event.ticket,
+          store_id,
+          longitude:localStorage.getItem('latitude_a'),
+          latitude:localStorage.getItem('longitude_a')
+        }),
+      });
+
+      const data = await resp.json();
+      console.log('API RESPONSE==>>>', data);
+
+      if (data.success == true) {
+        orderSuccessHandler();
+      } else {
+        orderCancelHandler();
+      }
+
+    } catch(e){
+      console.log("SOME ERROR IN get-receipt" , e)
+      orderCancelHandler();
+    } finally {
+      hideLoader();
+      document.querySelector('header').classList.remove('hidden')
+    }
+  }
+
+async function orderSuccessHandler(is_cod = false) {
+  if (is_cod) {
+    checkoutSection2.classList.add('hidden');
+    checkoutSection3.classList.add('hidden');
+    checkoutSection4.classList.remove('hidden');
+  } else {
+    checkoutSection3.classList.add('hidden');
+    checkoutSection4.classList.remove('hidden');
+  }
+
+  {% render 'ga4-checkout-events', step: 'purchase', cart: cart, store_id: store_id %}
+
+  await emptyCart();
+
+  setTimeout(()=>{
+    window.location.href = '/pages/thank-you';
+  }, 5000);
+}
+
+function orderCancelHandler() {
+  myCheckout.closeCheckout(' ');
+  checkoutSection3.classList.add('hidden');
+  checkoutSection5.classList.remove('hidden');
+}
+
+async function cancelOrder(e) {
+  console.log('###################### - myCancelTransaction', e);
+  document.querySelector('header').style.display = 'block';
+  window.location.reload();
+}
+
+function getOrderPayload() {
+  const { total_price, actual_price, discount, sales_tax_percentage, sales_tax } = getTotalPrices();
+
+  var tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+
+  let delivery_date = '';
+
+  if (deliveryTime.value) {
+    delivery_date =  deliveryTime.value
+  }
+
+  return {
+    pickup_day: pickupDay.value === 'today' ? formateDate(new Date()) : formateDate(tomorrow),
+    instructions: specialInstructions.value,
+    first_name: section2FirstName.value || '',
+    last_name: section2LastName.value || '',
+    dob: section2BirthDate.value || '',
+    email: section2Email.value || '',
+    phone: section2MobileNum.value || '',
+    is_payment_online: is_payment_online,
+    items: items,
+    customer_id: __st.cid,
+    price: total_price,
+    store_id,
+    disount_amount: discount,
+    coupon_id: coupon ? coupon.id : null,
+    actual_price: actual_price,
+    sales_tax_percentage: sales_tax_percentage,
+    sales_tax_price: sales_tax,
+    is_delivery_enabled: pickupValue === 'delivery',
+    external_identifier: 'cc_',
+    delivery_address: {
+      line_1: checkoutDeliveryAddress.value || '',
+      line_2: checkoutDeliveryFloor.value || '',
+      city: checkoutDeliveryCity.value || '',
+      state: checkoutDeliveryState.value || '',
+      zip_code: checkoutDeliverypostalCode.value || '',
+      country: 'Canada',
+      delivery_date,
+    },
+    line_items: items.map((item) => {
+      const i = metaDataArray.find((meta) => meta.item_id == item.id);
+
+      return {
+        sku: item.sku,
+        quantity: item.quantity,
+        price: i.price,
+        meta: i.metaStr,
+        gt_item_id: item.gt_item_id,
+      };
+    }),
+  };
+}
+
+async function emptyCart() {
+  const resp = await fetch(window.Shopify.routes.root + 'cart/clear.js', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({}),
+  });
+
+  await resp.json();
+
+  const span = document.querySelector('.site-header-cart--count.visible');
+  if (span) {
+    span.setAttribute('data-header-cart-count', 0);
+  }
+  return;
+}
+
+function initializeMonerisCheckout() {
+  myCheckout.setCheckoutDiv('monerisCheckout');
+  myCheckout.setCallback('page_loaded', myPageLoad);
+  myCheckout.setCallback('page_closed', myPageClosed);
+  myCheckout.setCallback('payment_submitted', myPaymentSubmitted);
+
+  myCheckout.setCallback('cancel_transaction', cancelOrder);
+  myCheckout.setCallback('error_event', cancelOrder);
+
+  myCheckout.setCallback('payment_receipt', orderCompletedByOnlinePayment);
+  myCheckout.setCallback('payment_complete', orderCompletedByOnlinePayment);
+}
+
+const handlePromoClick = () => {
+  iconTransform.classList.toggle('fa-rotate-180');
+  promoCodeDiv.classList.toggle('hidden');
+};
+
+initializeMonerisCheckout()
+initializeValues();
+//initializePhoneValidator();
+
+</script>
+{% render 'delivery' %}

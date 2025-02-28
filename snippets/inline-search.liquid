@@ -1,0 +1,399 @@
+<style>
+  .search-input {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+
+  .popup {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 400px;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    display: none;
+    max-height: 250px;
+    overflow-y: auto;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    padding: 10px;
+  }
+
+  .popup-container,
+  #recentSearches {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 10px;
+  }
+
+  .search-item,
+  .recent-item {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    border: 1px solid #efefef;
+    padding: 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    color: black;
+    transition: background 0.2s;
+    cursor: pointer;
+  }
+
+  .search-item:hover,
+  .recent-item:hover {
+    background: #f9f9f9;
+  }
+
+  .search-item img,
+  .recent-item img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 5px;
+  }
+
+  .item-details {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .item-title {
+    font-size: 14px;
+    font-weight: bold;
+    margin: 0;
+  }
+
+  .cabana-pricing-div {
+    display: flex;
+    gap: 5px;
+    margin-top: 5px;
+  }
+
+  .price-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 4px;
+  }
+
+  .price-title {
+    font-size: 12px;
+    font-weight: bold;
+    padding: 2px 5px;
+    border-radius: 4px;
+    margin-bottom: 2px;
+  }
+
+  .retail-title {
+    background-color: #f8f9fa;
+    color: #000;
+  }
+
+  .member-title {
+    background-color: red;
+    color: white;
+  }
+
+  .elite-title {
+    background-color: gold;
+    color: navy;
+  }
+
+  .price {
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 4px;
+  }
+
+  .retail-price {
+    background-color: #f8f9fa;
+    color: #000;
+  }
+
+  .member-price {
+    background-color: red;
+    color: white;
+  }
+
+  .elite-price {
+    background-color: gold;
+    color: navy;
+  }
+
+  @media (max-width: 480px) {
+    .popup {
+      max-width: 100%;
+      left: 0;
+      right: 0;
+    }
+  }
+</style>
+
+{%- if settings.predictive_search_enabled -%}
+  <predictive-search
+    class="color-scheme-1 search-modal__form{% if settings.suggestions_menu != blank %} custom-suggestions--enabled{% endif %}"
+    data-loading-text="{{ 'accessibility.loading' | t }}"
+  >
+{%- else -%}
+  <search-form class="color-scheme-1 search-modal__form">
+{%- endif -%}
+<form
+  action="{{ routes.search_url }}"
+  method="get"
+  role="search"
+  class="search search-modal__form inline-search-modal__form"
+>
+  <div class="field">
+    {% comment %}
+      <input
+        class="search__input field__input"
+        id="{{ input_id }}"
+        type="search"
+        name="q"
+        value="{{ search.terms | escape }}"
+        placeholder="{{ 'general.search.search' | t }}"
+        {%- if settings.predictive_search_enabled -%}
+          role="combobox"
+          aria-expanded="false"
+          aria-owns="predictive-search-results"
+          aria-controls="predictive-search-results"
+          aria-haspopup="listbox"
+          aria-autocomplete="list"
+          autocorrect="off"
+          autocomplete="off"
+          autocapitalize="off"
+          spellcheck="false"
+        {%- endif -%}
+      >
+    {% endcomment %}
+
+    <input
+      type="text"
+      class="search__input field__input"
+      id="searchInput"
+      placeholder="{{ 'general.search.search' | t }}"
+      onkeyup="showPopup()"
+    >
+    <div class="popup" id="searchPopup">
+      <div class="recent-searches" id="recentSearchesContainer">
+        <h4 style="font-size: 18px; margin:5px">Recent Searches</h4>
+        <div id="recentSearches"></div>
+
+        <h4 style="font-size: 18px; margin:20px 5px">Products</h4>
+        <div id="searchedProducts"></div>
+      </div>
+    </div>
+
+    <label class="field__label visibility-hidden" for="{{ input_id }}">{{ 'general.search.search' | t }}</label>
+    <input name="sID" type="hidden" value="{{ store_id }}">
+    <button
+      type="reset"
+      class="reset__button field__button{% if search.terms == blank %} hidden{% endif %}"
+      aria-label="{{ 'general.search.reset' | t }}"
+    >
+      <svg class="icon icon-close" aria-hidden="true" focusable="false">
+        <use xlink:href="#icon-reset">
+      </svg>
+    </button>
+    <button class="search__button field__button" aria-label="{{ 'general.search.search' | t }}">
+      {% render 'theme-icons', icon: 'search' %}
+    </button>
+  </div>
+
+  {%- if settings.predictive_search_enabled -%}
+    <div
+      class="predictive-search predictive-search--header overflow-scrollbar{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+      tabindex="-1"
+      data-predictive-search
+    >
+      {%- render 'theme-icons', icon: 'loader', class: 'predictive-search__loading-state' -%}
+      {% if settings.suggestions_menu != blank %}
+        <div class="predictive-search__result-group custom-suggestions">
+          <div>
+            <h2 id="predictive-search-custom-queries" class="predictive-search__heading lead">
+              {{ settings.suggestions_heading | escape }}
+            </h2>
+            <ul
+              id="predictive-search-custom-queries-list"
+              class="predictive-search__results-list list-unstyled"
+              role="group"
+              aria-labelledby="predictive-search-custom-queries"
+            >
+              {%- for link in linklists[settings.suggestions_menu].links -%}
+                {% assign link_title = link.title | downcase %}
+                <li
+                  id="predictive-search-option-query-{{ forloop.index }}"
+                  class="predictive-search__list-item {% if link_title contains 'elite' %}hidden js-predictive-search-item{% endif %}"
+                  role="option"
+                  aria-selected="false"
+                >
+                  <a
+                    href="{{ link.url }}"
+                    class="predictive-search__item link link--text"
+                    tabindex="-1"
+                  >
+                    {{ link.title }}
+                  </a>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+
+    <span class="predictive-search-status visually-hidden" role="status" aria-hidden="true"></span>
+  {%- endif -%}
+</form>
+{%- if settings.predictive_search_enabled -%}
+  </predictive-search>
+{%- else -%}
+  </search-form>
+{%- endif -%}
+
+<script>
+  const baseUrl = 'http://localhost:5000/api';
+
+  function debounce(func, delay) {
+    let timeout;
+    return function (...args) {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => func.apply(this, args), delay);
+    };
+  }
+
+  function loadRecentSearches() {
+    let recentSearches = JSON.parse(localStorage.getItem('recentSearches')) || [];
+    let container = document.getElementById('recentSearches');
+
+    if (recentSearches.length === 0) {
+      container.innerHTML = "<p>No recent searches</p>"
+    } else {
+      container.innerHTML = recentSearches
+      .map(
+        (item) => `
+  <div class="recent-item" onclick="searchRecent('${item.handle}')">
+    <img src="${item.image}" alt="${item.title}"/>
+    <span>${item.title}</span>
+  </div>
+`
+      )
+      .join('');
+    }
+
+   
+  }
+
+  function saveRecentSearch(item) {
+    let recentSearches = JSON.parse(localStorage.getItem('recentSearches')) || [];
+    recentSearches = recentSearches.filter((search) => search.handle !== item.handle);
+    recentSearches.unshift(item);
+    if (recentSearches.length > 5) {
+      recentSearches.pop();
+    }
+    localStorage.setItem('recentSearches', JSON.stringify(recentSearches));
+    loadRecentSearches();
+  }
+
+  function searchRecent(handle) {
+    window.location.href = `/products/${handle}`;
+  }
+
+  const showPopup = debounce(async function () {
+    let inputValue = document.getElementById('searchInput').value.toLowerCase();
+    let popup = document.getElementById('searchPopup');
+    let products = document.getElementById('searchedProducts');
+    if (inputValue.length === 0) {
+      popup.style.display = 'none';
+      return;
+    }
+
+    try {
+      const storeId = localStorage.getItem('global_store_id');
+      if (!storeId) {
+        console.error('Store ID is missing');
+        return;
+      }
+
+      const resp = await fetch(`${baseUrl}/product/search?title=${inputValue}&storeId=${storeId}&limit=15&page=1`, {
+        headers: { 'Content-type': 'application/json' },
+      });
+
+      const { data } = await resp.json();
+
+      if (data.length === 0) {
+        products.innerHTML = '<div>No results found</div>';
+      } else {
+        loadRecentSearches();
+        products.innerHTML = `
+            <div class="popup-container">
+              ${data
+                .map((item) => {
+                  if (!item.variants || !item.variants.length) return '';
+
+                  let pricing = item.variants[0]?.pricing || {};
+                  let pricingHTML = '';
+
+                  if (pricing.retail_price) {
+                    pricingHTML += `<div class="price-container">
+                        <span class="price-title retail-title">Market</span>
+                        <span class="price retail-price">$${pricing.retail_price.toFixed(2)}</span>
+                      </div>`;
+                  }
+                  if (pricing.member_price > 0) {
+                    pricingHTML += `<div class="price-container">
+                        <span class="price-title member-title">Member</span>
+                        <span class="price member-price">$${pricing.member_price.toFixed(2)}</span>
+                      </div>`;
+                  }
+                  if (pricing.elite_price > 0) {
+                    pricingHTML += `<div class="price-container">
+                        <span class="price-title elite-title">Elite</span>
+                        <span class="price elite-price">$${pricing.elite_price.toFixed(2)}</span>
+                      </div>`;
+                  }
+
+                  return `<div class="search-item" onclick='selectItem("${item.title}", "${item.handle}", "${
+                    item.images[0] || '/placeholder.jpg'
+                  }")'>
+        <img src='${item.images[0] || '/placeholder.jpg'}' alt='${
+                    item.title.split(' ')[0]
+                  }' height="50px" width="50px"/>
+        <div>
+          <h5 style="margin: 0;font-size:16px">${item.title}</h5>
+          <div class='cabana-pricing-div'>${pricingHTML}</div>
+        </div>
+      </div>`;
+                })
+                .join('')}
+            </div>`;
+      }
+    } catch (error) {
+      console.error('Error fetching search results:', error);
+    }
+
+    popup.style.display = 'block';
+  }, 300);
+
+  function selectItem(title, handle, image) {
+    document.getElementById('searchInput').value = title;
+    document.getElementById('searchPopup').style.display = 'none';
+
+    saveRecentSearch({ title, handle, image });
+    window.location.href = `/products/${handle}`;
+  }
+
+  document.addEventListener('click', function (event) {
+    let popup = document.getElementById('searchPopup');
+    let input = document.getElementById('searchInput');
+    if (!input.contains(event.target) && !popup.contains(event.target)) {
+      popup.style.display = 'none';
+    }
+  });
+</script>

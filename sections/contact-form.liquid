@@ -1,0 +1,241 @@
+{{ 'section-contact-form.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+  padding-top: 16px;
+  padding-bottom: 16px;
+  }
+
+  @media screen and (min-width: 989px) {
+  .section-{{ section.id }}-padding {
+  padding-top: {{ section.settings.padding_top }}px;
+  padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+  }
+{%- endstyle -%}
+
+<div class="page-width">
+  <div class="contact--form  section-{{ section.id }}-padding">
+    <div class="header--intro">
+      <div class="header--head">
+        {%- if section.settings.title != blank -%}
+          <h3 class="h3">
+            {{ section.settings.title }}
+          </h3>
+        {%- else -%}
+          <h3 class="mgb-small">{{ 'templates.contact.form.title' | t }}</h3>
+        {%- endif -%}
+      </div>
+      <div class="header--desc rte">
+        {{ section.settings.description }}
+      </div>
+    </div>
+  {% unless section.settings.email == blank
+  and section.settings.phone == blank
+  and section.settings.address == blank
+  and section.settings.shop_time == blank
+  %}
+    <div class="contact-form__information">
+      {% endunless %}
+      {% unless section.settings.email == blank
+      and section.settings.phone == blank
+      and section.settings.address == blank
+      and section.settings.shop_time == blank
+      %}
+        <div class="contact-information color-{{ section.settings.color_scheme }} gradient mgt-medium">
+          {% if section.settings.email != blank %}
+            <div class="shop__email contact__flex">
+              <a class="contact__flex h6" href="mailto:{{ section.settings.email }}">
+                {%- render 'theme-icons', icon: 'icon-mail' -%}
+                {{- section.settings.email -}}
+              </a>
+            </div>
+          {% endif %}
+          {% if section.settings.address != blank %}
+            <div class="shop__address contact__flex">
+              {% render 'theme-icons', icon: 'icon-map' %}
+              <div class="addresses h6">{{ section.settings.address }}</div>
+            </div>
+          {% endif %}
+          {% if section.settings.shop_time != blank %}
+            <div class="shop-opning__time contact__flex">
+              {% render 'theme-icons', icon: 'icon-clock' %}
+              <div class="opning__time h6">{{ section.settings.shop_time }}</div>
+            </div>
+          {% endif %}
+          {% if section.settings.phone != blank %}
+            <div class="shop__phone contact__flex">
+              <a class="contact__flex h6" href="tel:{{ section.settings.phone }}">
+                {%- render 'theme-icons', icon: 'icon-phone' -%}
+                {{- section.settings.phone -}}
+              </a>
+            </div>
+          {% endif %}
+        </div>
+      {% endunless %}
+      <div class="contact_form_bottom">
+        {%- form 'contact', id: 'ContactForm' -%}
+          <div class="contact__fields">
+            <div class="field">
+              <input
+                class="field__input"
+                autocomplete="name"
+                type="text"
+                required
+                id="ContactForm-name"
+                name="contact[{{ 'templates.contact.form.name' | t }}]"
+                value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"
+                placeholder="{{ 'templates.contact.form.name' | t }}"
+              >
+              <label class="field__label" for="ContactForm-name">{{ 'templates.contact.form.name' | t }}</label>
+            </div>
+            <div class="field field--with-error">
+              <input
+                autocomplete="email"
+                type="email"
+                id="ContactForm-email"
+                class="field__input"
+                name="contact[email]"
+                spellcheck="false"
+                autocapitalize="off"
+                value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
+                required
+                {% if form.errors contains 'email' %}
+                  aria-invalid="true"
+                  aria-describedby="ContactForm-email-error"
+                {% endif %}
+                placeholder="{{ 'templates.contact.form.email' | t }}"
+              >
+              <label class="field__label" for="ContactForm-email">
+                {{- 'templates.contact.form.email' | t }}
+                <span aria-hidden="true"></span
+                ></label>
+            </div>
+          </div>
+          <div class="field">
+          <textarea
+            rows="10"
+            id="ContactForm-body"
+            class="text-area field__input"
+            required
+            name="contact[{{ 'templates.contact.form.comment' | t }}]"
+            placeholder="{{ 'templates.contact.form.comment' | t }}"
+          >
+          {{- form.body -}}
+        </textarea>
+            <label class="form__label field__label" for="ContactForm-body">
+              {{- 'templates.contact.form.comment' | t -}}
+            </label>
+          </div>
+          <div class="header--bottom-desc rte">
+            {{ section.settings.response_message }}
+          </div>
+          <div class="contact__button text-center">
+            <button type="submit" class="button button--primary">
+              {{ 'templates.contact.form.send' | t }}
+            </button>
+          </div>
+          {%- if form.posted_successfully? -%}
+            <div class="op-success-message addition-message"
+                 id="Contact-success--{{ section.id }}"
+                 tabindex="-1">
+              {% render 'theme-icons', icon: 'check' %}
+              {{ 'templates.contact.form.post_success' | t }}
+            </div>
+          {%- elsif form.errors -%}
+            <div class="op-error-message addition-message" id="Contact-error--{{ section.id }}">
+              {%- render 'theme-icons', icon: 'error' -%}
+              {{- form.errors.translated_fields.email | capitalize }}
+              {{ form.errors.messages.email -}}
+            </div>
+          {%- endif -%}
+        {%- endform -%}
+      </div>
+      {% unless section.settings.email == blank
+      and section.settings.phone == blank
+      and section.settings.address == blank
+      and section.settings.shop_time == blank
+      %}
+    </div>
+    {% endunless %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "t:sections.contact-form.name",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": [
+      "header",
+      "footer",
+      "custom.popups"
+    ]
+  },
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "t:sections.all.heading.label",
+      "default": "We are at your service!"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "t:sections.all.description.label",
+      "default": "<p>If you have any general inquiries, sales-related questions, or press inquiries, please provide us with  <br> your contact information below. We will promptly get back to you to assist you further.</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "response_message",
+      "label": "t:sections.all.secondary_description.label",
+      "default": "<p>Our team will get back to you within 24hrs.</p>"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.contact-form.settings.contact_info.content"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-2"
+    },
+    {
+      "type": "text",
+      "id": "email",
+      "label": "t:sections.contact-form.settings.contact_info.email.label",
+      "default": "example@gmail.com"
+    },
+    {
+      "type": "text",
+      "id": "phone",
+      "label": "t:sections.contact-form.settings.contact_info.phone.label",
+      "default": "+1 123-456-7890"
+    },
+    {
+      "type": "richtext",
+      "id": "address",
+      "label": "t:sections.contact-form.settings.contact_info.address.label",
+      "default": "<p>United states</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "shop_time",
+      "label": "t:sections.contact-form.settings.contact_info.shop_time.label",
+      "default": "<p>Monday — Friday, 9am — 5pm ET</p>"
+    },
+    {
+      "type": "text",
+      "id": "helper_text",
+      "label": "t:sections.contact-form.settings.contact_info.helper_text.label"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.contact-form.presets.name"
+    }
+  ]
+}
+{% endschema %}

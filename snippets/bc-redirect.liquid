@@ -1,0 +1,21 @@
+<script>
+const province = localStorage.getItem('global_province');
+
+if (province === 'British Columbia') {
+  {% if page.handle contains 'elite' or product.handle contains 'elite' or collection.handle contains 'elite' or blog.handle contains 'elite' %}
+  window.location.href = '/';
+  {% endif %}
+
+  {% for tag in article.tags %}
+  {% if tag contains 'Elite' or tag contains 'elite' %}
+  window.location.href = '/';
+  {% endif %}
+  {% endfor %}
+
+  {% for tag in product.tags %}
+  {% if tag contains 'Elite' or tag contains 'elite' %}
+  window.location.href = '/';
+  {% endif %}
+  {% endfor %}
+}
+</script>

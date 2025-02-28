@@ -1,0 +1,157 @@
+{{ 'component-article-card.css' | asset_url | stylesheet_tag }}
+{{ 'component-card.css' | asset_url | stylesheet_tag }}
+{{ 'section-main-blog.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: 16px;
+    padding-bottom: 16px;
+  }
+
+  @media screen and (min-width: 1201px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+   .section-{{ section.id }}-padding {
+    margin-top: 16px;
+    margin-bottom: 16px;
+  }
+
+  @media screen and (min-width: 769px) {
+    .section-{{ section.id }}-padding {
+      margin-top: 32px;
+      margin-bottom: 32px;
+    }
+  }
+
+ @media screen and (min-width: 1201px) {
+    .section-{{ section.id }}-padding {
+     margin-top: 64px;
+     margin-bottom: 64px;
+    }
+  }
+{%- endstyle -%}
+
+{% if section.settings.display_breadcrumbs %}
+  {% render 'breadcrumb' %}
+{% endif %}
+
+{%- paginate blog.articles by section.settings.post_limit -%}
+  <div class="main-blog page-width section-{{ section.id }}-padding blog_main_items">
+    <div class="section-heading__bar sp-small mgb-medium {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %} text-center">
+      <h1 class="title h2">
+        {{ blog.title | escape }}
+      </h1>
+    </div>
+
+    <div class="blog-articles">
+      {%- for article in blog.articles -%}
+        <div
+          class="blog-articles__article article{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %} mgb-small"
+          {% if settings.animations_reveal_on_scroll %}
+            data-cascade
+            style="--animation-order: {{ forloop.index }};"
+          {% endif %}
+        >
+          {%- render 'article-card',
+            article: article,
+            image_right: section.settings.image_second,
+            color_scheme: section.settings.color_scheme,
+            media_aspect_ratio: section.settings.image_ratio,
+            custom_ratio: section.settings.custom_ratio,
+            show_date: section.settings.show_date,
+            show_author: section.settings.show_author,
+            show_excerpt: true
+          -%}
+        </div>
+      {%- endfor -%}
+    </div>
+
+    {%- if paginate.pages > 1 -%}
+      {%- render 'pagination', paginate: paginate -%}
+    {%- endif -%}
+  </div>
+{%- endpaginate -%}
+
+{% schema %}
+{
+  "name": "t:sections.main-blog.name",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-2"
+    },
+    {
+      "type": "range",
+      "id": "post_limit",
+      "min": 3,
+      "max": 8,
+      "step": 1,
+      "default": 3,
+      "label": "t:sections.main-blog.settings.post_limit.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "display_breadcrumbs",
+      "label": "t:sections.all.layout.display_breadcrumbs.label",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "options": [
+        {
+          "value": "original",
+          "label": "t:sections.main-blog.settings.image_ratio.options__1.label"
+        },
+        {
+          "value": "portrait",
+          "label": "t:sections.main-blog.settings.image_ratio.options__2.label"
+        },
+        {
+          "value": "square",
+          "label": "t:sections.main-blog.settings.image_ratio.options__3.label"
+        }
+      ],
+      "default": "original",
+      "label": "Image ratio"
+    },
+    {
+      "type": "range",
+      "id": "custom_ratio",
+      "min": 1,
+      "max": 3,
+      "step": 0.1,
+      "default": 2.2,
+      "label": "t:sections.main-blog.settings.custom_ratio.label",
+      "info": "t:sections.main-blog.settings.custom_ratio.info"
+    },
+    {
+      "type": "checkbox",
+      "id": "image_second",
+      "default": false,
+      "label": "t:sections.main-blog.settings.image_position.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_date",
+      "default": true,
+      "label": "t:sections.main-blog.settings.show_date.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_author",
+      "default": false,
+      "label": "t:sections.main-blog.settings.show_author.label"
+    },
+
+  ]
+}
+{% endschema %}

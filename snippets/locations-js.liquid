@@ -1,0 +1,198 @@
+<script>
+function deg2rad(deg) {
+  return deg * (Math.PI / 180);
+}
+
+function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
+  const R    = 6371;
+  const dLat = deg2rad(lat2 - lat1);
+  const dLon = deg2rad(lon2 - lon1);
+  const a    =
+          Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+          Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+          Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  const c    = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+  return R * c;
+}
+
+function getTimezoneOffset(longitude) {
+  return Math.round(longitude / 15);
+}
+
+function roundToNearestHalf(num) {
+  return Math.round(num * 2) / 2;
+}
+
+function isStoreOpen(store) {
+  const now         = new Date();
+  const todayHours  = store.hours_periods.find(period => period.open.day === now.getDay());
+
+  if (!todayHours) {
+    return false;
+  }
+
+  const currentTime = parseInt(('0' + now.getHours()).slice(-2) + ('0' + now.getMinutes()).slice(-2), 10);
+  const openTime  = parseInt(todayHours.open.time);
+  const closeTime = parseInt(todayHours.close.time);
+  
+  return currentTime >= openTime && currentTime <= closeTime;
+}
+
+function generateStoreStatus(store, storeDeliveryOption) {
+  const openStatus = isStoreOpen(store) ? 'Open' : 'Closed';
+  const badgeClass = isStoreOpen(store) ? 'green' : 'grey';
+
+  return `<span class="js-location-status badge-flex--container location-status location-status-pdp">
+            <span class="badge badge--left badge--no-transform badge--${badgeClass}">
+                ${openStatus}
+            </span>
+            <span class="badge badge--right badge--no-transform badge--grey">
+              ${storeDeliveryOption ? `Pickup & Delivery` : `Pickup Only`}
+            </span>
+          </span>
+        `;
+}
+
+function generateStoreSelectorData(store) {
+  const address      = store.address ? store.address : {};
+  let googleMapsLink = '';
+
+  if (address && address.latitude && address.longitude) {
+    googleMapsLink = `https://www.google.com/maps/dir/?api=1&destination=${address.latitude},${address.longitude}`;
+
+    const googleMapsLinkEl       = document.querySelector('.js-location__address-link');
+
+    if (googleMapsLinkEl !== null) {
+      googleMapsLinkEl.href        = googleMapsLink;
+      googleMapsLinkEl.textContent = address.street1 + ', ' + address.city + ', ' + address.province + ', ' + address.zip + ', ' + address.country;
+    }
+  }
+
+  const openStatus = isStoreOpen(store) ? 'Open' : 'Closed';
+  const badgeClass = isStoreOpen(store) ? 'badge--green' : 'badge--grey';
+
+  const badgeContainer = document.querySelector('.js-location-status');
+  if (badgeContainer) {
+    const badgeLeft = badgeContainer.querySelector('.js-badge');
+
+    if (badgeLeft) {
+      badgeLeft.classList.add(badgeClass);
+      badgeLeft.innerHTML = openStatus;
+    }
+  }
+
+  const distance            = localStorage.getItem('global_store_distance');
+  let roundedDistanceString = null;
+
+  if (distance) {
+    let distanceNumber = parseFloat(distance);
+
+    if (isNaN(distanceNumber)) {
+      distanceNumber = null;
+    }
+
+    let roundedDistance   = roundToNearestHalf(distanceNumber);
+    roundedDistanceString = roundedDistance.toString();
+
+    const distanceContainer = document.querySelector('.js-location__store-distance');
+    if (distanceContainer) {
+      distanceContainer.innerHTML = roundedDistanceString + 'km away';
+    }
+  }
+
+  const storeImage        = document.querySelector('.js-store-image img'),
+        locationTitle     = document.querySelectorAll('.js-location-title'),
+        locationTitlePdp  = document.querySelector('.js-location-title-pdp'),
+        locationPhone     = document.querySelector('.js-location-phone'),
+        locationPhoneLink = document.querySelector('.js-location-phone-link'),
+        locationHours     = document.querySelector('.js-location-store-hours'),
+        locationStatus    = document.querySelector('.js-location-status-wrapper');
+
+  if (locationTitle && store.title) {
+    locationTitle.forEach(function (title) {
+      title.innerHTML = `Shopping at ${store.title} Store`;
+    });
+  }
+
+  if (locationTitlePdp && store.title) {
+    locationTitlePdp.innerHTML = store.title;
+  }
+
+  
+  if (storeImage && store.img) {
+    storeImage.src = store.img;
+  }
+  storeImage.alt = store.title + " Cannabis Store";
+
+  if (locationPhone && store.phone) {
+    locationPhone.innerHTML = store.phone;
+  }
+
+  if (locationPhoneLink && store.phone) {
+    locationPhoneLink.setAttribute('href', `tel:${store.phone}`);
+  } else if (locationPhoneLink) {
+    locationPhoneLink.hide();
+  }
+
+  if (locationHours && store.hours) {
+    locationHours.innerHTML = store.hours;
+  }
+
+  if (locationStatus) {
+    locationStatus.innerHTML = generateStoreStatus(store, store.has_delivery);
+  }
+
+  window.selected_store = store;
+}
+
+function shopThisStore(storeId, province) {
+  if (!storeId && !province) {
+    return;
+  }
+
+  const currentUrl = new URL(window.location.origin);
+
+  localStorage.setItem('global_store_id', storeId);
+  localStorage.setItem('global_province', province);
+
+  currentUrl.searchParams.set('sID', storeId);
+
+  window.location = currentUrl.toString();
+}
+
+function displayStoreData() {
+  const storeId = localStorage.getItem('global_store_id');
+
+  if (!storeId) {
+    if(document.querySelector('.js-location-section')) {
+      document.querySelector('.js-location-section').style.display = 'none';
+    }
+
+    console.error('Store not found');
+
+    return;
+  }
+
+  const matchedStore = Object.values(window.stores).find(store => store.store_id === storeId);
+
+  if (!matchedStore) {
+    console.error('No store found with the provided store');
+
+    const locationButton = document.querySelector('.js-header-location-data');
+    if(locationButton) {
+      locationButton.click();
+    }
+
+    if(document.querySelector('.js-store-container-pdp')) {
+      document.querySelector('.js-store-container-pdp').style.display = 'none';
+    }
+
+    return;
+  }
+
+  generateStoreSelectorData(matchedStore);
+}
+
+displayStoreData();
+</script>

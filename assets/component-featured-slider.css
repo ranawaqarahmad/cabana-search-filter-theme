@@ -1,0 +1,107 @@
+.slideshow__controls .slider-counter {
+  background-color: transparent !important;
+}
+
+.slideshow {
+  border-radius: var(--radius-12);
+}
+
+.featured-category-slider .slider-counter__link--active.slider-counter__link--dots .dot {
+  background-color: var(--white);
+}
+
+.slider-counter__link--dots .dot, .slider-counter__link--numbers {
+  border: 1px solid var(--white);
+}
+
+.featured-slider-counter__link--dots.featured-slider-counter__link--dots .dot {
+  width: 1rem;
+  height: 1rem;
+  border: 1px solid var(--white);
+  background: none;
+}
+
+.featured-category-slider .slider-button svg {
+  color: var(--white);
+}
+
+.slider-counter-dots.slider-counter-dots.slider-counter-dots,
+.featured-category-slider .slider-counter__link--dots.slider-counter__link--active .slider-counter-dots {
+  border-color: transparent;
+}
+
+.slideshow__control-wrapper.slideshow__control-wrapper.slideshow__control-wrapper {
+  gap: var(--Spacingspacing-sm);
+}
+
+.slider-button--prev {
+  margin-right: var(--Spacingspacing-sm);
+}
+
+.slider-button--next {
+  margin-left: var(--Spacingspacing-sm);
+}
+
+.slideshow__controls.slideshow__controls--top {
+  bottom: 4.5rem;
+}
+
+.banner__box.banner__box.banner__box {
+  max-width: 70rem;
+  padding: 10rem 12.5rem 0;
+}
+
+.banner__heading  {
+  font-size: 4.5rem;
+  font-weight: 800;
+}
+
+@media screen and (max-width: 992px) {
+  .banner__box.banner__box.banner__box {
+    max-width: 50%;
+    padding: 4rem 0;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .featured-category-slider .slider-counter__link--active.slider-counter__link--dots .dot {
+    background-color: var(--neutral-700);
+    opacity: 1;
+  }
+
+  .featured-slider-counter__link--dots.featured-slider-counter__link--dots .dot {
+    width: 1rem;
+    height: 1rem;
+    border: 1px solid var(--white);
+    background: var(--neutral-700);
+    opacity: 0.5;
+  }
+
+  .slider-counter__link--dots .dot, .slider-counter__link--numbers {
+    border: 1px solid var(--neutral-700);
+  }
+
+  .featured-category-slider .slider-button svg {
+    color: var(--neutral-700);
+  }
+
+  .featured-category-slider .grid--1-col .grid__item {
+    min-height: 40rem;
+  }
+
+  .banner__box.banner__box.banner__box {
+    max-width: 100%;
+    padding: 3rem 4rem;
+  }
+
+  .slideshow__text.banner__box {
+    height: 100%;
+    justify-content: space-between;
+  }
+}
+
+@media screen and (max-width: 464px) {
+  .banner__heading {
+    font-size: 2.2rem;
+  }
+}

@@ -1,0 +1,416 @@
+{{ 'event.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.50 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.50 | round: 0 }}px;
+  }
+
+ @media screen and (min-width: 990px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+
+ .section-{{ section.id }}-padding {
+    margin-top: 16px;
+    margin-bottom: 16px;
+  }
+
+  @media screen and (min-width: 769px) {
+    .section-{{ section.id }}-padding {
+      margin-top: 32px;
+      margin-bottom: 32px;
+    }
+  }
+
+  @media screen and (min-width: 1201px) {
+    .section-{{ section.id }}-padding {
+     margin-top: 64px;
+     margin-bottom: 64px;
+    }
+  }
+
+{%- endstyle -%}
+
+{% assign event = section.blocks | where: 'type', 'event' %}
+{% assign content = section.blocks | where: 'type', 'content' %}
+<div class="color-{{ section.settings.color_scheme }} gradient">
+  <div class="page-width section-{{ section.id }}-padding">
+    <div class="event-section isolate">
+      {%- unless section.settings.title == blank -%}
+        <div class="section-heading__bar sp-small mgb-medium text-{{ section.settings.heading_alignment }}">
+          <h2 class="title {{ section.settings.heading_size }}">
+            {{ section.settings.title }}
+          </h2>
+        </div>
+      {%- endunless -%}
+    </div>
+    <div class="event-section__wrapper{% if content.size > 0 and event.size > 0 %} event-with-content__block{% endif %}">
+      {% if content.size > 0 %}
+        {% for block in content %}
+          <div class="event-section__content sp-small" {{ block.shopify_attributes }}>
+            {%- if block.settings.subheading != blank -%}
+              <div class="subheading__text rte">
+                <p>{{ block.settings.subheading }}</p>
+              </div>
+            {%- endif -%}
+             {% if block.settings.heading != blank %}
+              <h2
+                class="event-block__heading inline-richtext {{ block.settings.heading_size }}">
+                {{ block.settings.heading }}
+              </h2>
+            {%- endif -%}
+            {% if block.settings.description != blank %}
+              <div class="event-block__description rte">
+                {{ block.settings.description }}
+              </div>
+            {% endif %}
+            {%- if block.settings.button_label != blank -%}
+              <a
+                {% if block.settings.button_link == blank %}
+                  role="link" aria-disabled="true"
+                {% else %}
+                  href="{{ block.settings.button_link }}"
+                {% endif %}
+                class="button button--{{ block.settings.button_style }}"
+              >
+                {{ block.settings.button_label | escape }}
+              </a>
+            {%- endif -%}
+          </div>
+        {% endfor %}
+      {% endif %}
+      {% if event.size > 0 %}
+        <div class="upcoming-events__block">
+          {% for block in event %}
+            <div class="event-items color-{{ block.settings.color_scheme }} gradient" {{ block.shopify_attributes }}>
+              {% if block.settings.heading != blank or block.settings.subheading %}
+                <div class="heading sp-small">
+                  {% if block.settings.heading != blank %}
+                    <h3 class="{{ block.settings.heading_size }}">{{ block.settings.heading }}</h3>
+                  {% endif %}
+                  {% if block.settings.subheading != blank %}
+                    <p class="subheading__text rte">{{ block.settings.subheading }}</p>
+                  {% endif %}
+                </div>
+              {% endif %}
+              {% if block.settings.event_details != blank %}
+                <div class="event-details rte">
+                  {{ block.settings.event_details }}
+                </div>
+              {% endif %}
+              {%- if block.settings.button_label != blank -%}
+                <div class="event-button">
+                  <a
+                    {% if block.settings.button_link == blank %}
+                      role="link" aria-disabled="true"
+                    {% else %}
+                      href="{{ block.settings.button_link }}"
+                    {% endif %}
+                    class="button button--{{ block.settings.button_style }}"
+                  >
+                    {{ block.settings.button_label | escape }}
+                  </a>
+                </div>
+              {%- endif -%}
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "t:sections.event.name",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": [
+      "header",
+      "footer",
+      "custom.popups"
+    ]
+  },
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "t:sections.all.heading.label"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        {
+          "value": "h3",
+          "label": "t:sections.all.heading_size.options__2.label"
+        },
+        {
+          "value": "h2",
+          "label": "t:sections.all.heading_size.options__3.label"
+        },
+        {
+          "value": "h1",
+          "label": "t:sections.all.heading_size.options__4.label"
+        },
+        {
+          "value": "h0",
+          "label": "t:sections.all.heading_size.options__5.label"
+        }
+      ],
+      "default": "h2",
+      "label": "t:sections.all.heading_size.label"
+    },
+    {
+      "type": "select",
+      "id": "heading_alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "t:sections.all.heading_alignment.options__1.label"
+        },
+        {
+          "value": "center",
+          "label": "t:sections.all.heading_alignment.options__2.label"
+        },
+        {
+          "value": "right",
+          "label": "t:sections.all.heading_alignment.options__3.label"
+        }
+      ],
+      "default": "center",
+      "label": "t:sections.all.heading_alignment.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.layout.content"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.section_spacing.content",
+      "info": "t:sections.all.section_spacing.info"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "t:sections.all.section_spacing.above",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "t:sections.all.section_spacing.below",
+      "default": 100
+    }
+  ],
+  "blocks": [
+    {
+      "type": "content",
+      "name": "t:sections.event.blocks.content.name",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "subheading",
+          "label": "t:sections.event.blocks.content.settings.subheading.label",
+          "default": "<strong>Add the subheading here!</strong>"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "heading",
+          "default": "Explore our event",
+          "label": "t:sections.all.heading.label"
+        },
+        {
+          "type": "select",
+          "id": "heading_size",
+          "options": [
+            {
+              "value": "h3",
+              "label": "t:sections.all.heading_size.options__2.label"
+            },
+            {
+              "value": "h2",
+              "label": "t:sections.all.heading_size.options__3.label"
+            },
+            {
+              "value": "h1",
+              "label": "t:sections.all.heading_size.options__4.label"
+            },
+            {
+              "value": "h0",
+              "label": "t:sections.all.heading_size.options__5.label"
+            }
+          ],
+          "default": "h2",
+          "label": "t:sections.all.heading_size.label"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "t:sections.all.description.label",
+          "default": "<p>Add the description here for customers to discover and engage with your upcoming events section to stay informed and participate in exciting happenings.</p>"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "default": "Button label",
+          "label": "t:sections.event.blocks.content.settings.button_label.label"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "t:sections.event.blocks.content.settings.button_link.label"
+        },
+        {
+          "type": "select",
+          "id": "button_style",
+          "options": [
+            {
+              "value": "primary",
+              "label": "t:sections.all.button_style.options__1.label"
+            },
+            {
+              "value": "secondary",
+              "label": "t:sections.all.button_style.options__2.label"
+            },
+            {
+              "value": "outline",
+              "label": "t:sections.all.button_style.options__3.label"
+            }
+          ],
+          "default": "primary",
+          "label": "t:sections.all.button_style.label"
+        }
+      ]
+    },
+    {
+      "type": "event",
+      "name": "t:sections.event.blocks.event.name",
+      "limit": 10,
+      "settings": [
+        {
+          "type": "color_scheme",
+          "id": "color_scheme",
+          "label": "t:sections.all.colors.label",
+          "default": "scheme-2"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "heading",
+          "default": "Event",
+          "label": "t:sections.all.heading.label"
+        },
+        {
+          "type": "select",
+          "id": "heading_size",
+          "options": [
+            {
+              "value": "h5",
+              "label": "t:sections.all.heading_size.options__2.label"
+            },
+            {
+              "value": "h4",
+              "label": "t:sections.all.heading_size.options__3.label"
+            },
+            {
+              "value": "h3",
+              "label": "t:sections.all.heading_size.options__4.label"
+            },
+            {
+              "value": "h2",
+              "label": "t:sections.all.heading_size.options__5.label"
+            }
+          ],
+          "default": "h4",
+          "label": "t:sections.all.heading_size.label"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "subheading",
+          "label": "t:sections.event.blocks.event.settings.subheading.label",
+          "default": "Share information and details about this event."
+        },
+        {
+          "type": "richtext",
+          "id": "event_details",
+          "label": "Event details",
+          "default": "<p><strong>Example Details:<br/><br/>JULY 31TH<br/>12:00AM - 2:00PM</strong></p>"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "default": "Button label",
+          "label": "t:sections.event.blocks.event.settings.button_label.label"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "t:sections.event.blocks.event.settings.button_link.label"
+        },
+        {
+          "type": "select",
+          "id": "button_style",
+          "options": [
+            {
+              "value": "primary",
+              "label": "t:sections.all.button_style.options__1.label"
+            },
+            {
+              "value": "secondary",
+              "label": "t:sections.all.button_style.options__2.label"
+            },
+            {
+              "value": "outline",
+              "label": "t:sections.all.button_style.options__3.label"
+            }
+          ],
+          "default": "primary",
+          "label": "t:sections.all.button_style.label"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.event.presets.name",
+      "blocks": [
+        {
+          "type": "content"
+        },
+        {
+          "type": "event"
+        },
+        {
+          "type": "event"
+        },
+        {
+          "type": "event"
+        },
+        {
+          "type": "event"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

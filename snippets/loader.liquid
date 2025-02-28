@@ -1,0 +1,33 @@
+{% if settings.loader_heading != blank or settings.loader_image != blank %}
+  {{ 'loader.css' | asset_url | stylesheet_tag }}
+  <script src="{{ 'loader.js' | asset_url }}" defer="defer"></script>
+  <theme-loader class="theme-loader color-{{ settings.loader_color_scheme }}">
+    <div class="theme-loader__inner">
+      <div class="loader-content">
+        <div class="animation-div">
+          {% if settings.loader_image != blank %}
+            <div class="loader-image">
+              {%- assign widths = '100, 140, 170, 210, 250, 290, 350, 400' -%}
+              {%- capture sizes -%}
+                (min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 100 | divided_by: 2 }}px,
+                (min-width: 750px) calc((100vw - 130px) / 2), calc((100vw - 50px) / 2)
+              {%- endcapture -%}
+              {{
+                settings.loader_image
+                | image_url: width: settings.loader_image_width
+                | image_tag: sizes: sizes, widths: widths
+              }}
+            </div>
+          {% endif %}
+          {% if settings.loader_heading != blank %}
+            <h3 class="mg-none {{ settings.heading_size }} inline-richtext">{{ settings.loader_heading }}</h3>
+          {% endif %}
+        </div>
+        <div class="loader-progress">
+          <span class="loader-progress-bar" style="--progress: 10%;"></span>
+          <span class="loader-bottom-overlay"></span>
+        </div>
+      </div>
+    </div>
+  </theme-loader>
+{% endif %}

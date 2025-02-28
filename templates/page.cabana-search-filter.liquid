@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Search with Recent Searches</title>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+      .search-container {
+        position: relative;
+        width: 300px;
+        margin: 50px auto;
+      }
+      .search-input {
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+      .popup {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 800px;
+        background: white;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        display: none;
+        max-height: 250px;
+        overflow-y: auto;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+      }
+      .popup div {
+        padding: 10px;
+        cursor: pointer;
+      }
+      .popup div:hover {
+        background: #f0f0f0;
+      }
+      .recent-searches {
+        margin-top: 10px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background: #f9f9f9;
+      }
+      .recent-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 5px;
+        cursor: pointer;
+      }
+      .recent-item:hover {
+        background: #efefef;
+      }
+      .recent-item img {
+        width: 40px;
+        height: 40px;
+        border-radius: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="search-container">
+      <input
+        type="text"
+        class="search-input"
+        id="searchInput"
+        placeholder="Search..."
+        onkeyup="showPopup()"
+      />
+      <div class="popup" id="searchPopup"></div>
+
+      <!-- Recent Searches -->
+      <div class="recent-searches" id="recentSearchesContainer">
+        <h4>Recent Searches</h4>
+        <div id="recentSearches"></div>
+      </div>
+    </div>
+
+    <script>
+      const baseUrl = "http://localhost:5000/api";
+
+      function debounce(func, delay) {
+        let timeout;
+        return function (...args) {
+          clearTimeout(timeout);
+          timeout = setTimeout(() => func.apply(this, args), delay);
+        };
+      }
+
+      function loadRecentSearches() {
+        let recentSearches = JSON.parse(localStorage.getItem("recentSearches")) || [];
+        let container = document.getElementById("recentSearches");
+        container.innerHTML = recentSearches
+          .map(
+            (item) => `
+          <div class="recent-item" onclick="searchRecent('${item.handle}')">
+            <img src="${item.image}" alt="${item.title}" />
+            <span>${item.title}</span>
+          </div>
+        `
+          )
+          .join("");
+      }
+
+      function saveRecentSearch(item) {
+        let recentSearches = JSON.parse(localStorage.getItem("recentSearches")) || [];
+        recentSearches = recentSearches.filter((search) => search.handle !== item.handle);
+        recentSearches.unshift(item);
+        if (recentSearches.length > 5) {
+          recentSearches.pop();
+        }
+        localStorage.setItem("recentSearches", JSON.stringify(recentSearches));
+        loadRecentSearches();
+      }
+
+      function searchRecent(handle) {
+        window.location.href = `/products/${handle}`;
+      }
+
+      const showPopup = debounce(async function () {
+        let inputValue = document.getElementById("searchInput").value.toLowerCase();
+        let popup = document.getElementById("searchPopup");
+
+        if (inputValue.length === 0) {
+          popup.style.display = "none";
+          return;
+        }
+
+        try {
+          const storeId = 4897;
+          const resp = await fetch(
+            `${baseUrl}/product/search?title=${inputValue}&storeId=${storeId}&limit=15&page=1`,
+            {
+              headers: { "Content-type": "application/json" },
+            }
+          );
+
+          const { data } = await resp.json();
+
+          if (data.length === 0) {
+            popup.innerHTML = "<div>No results found</div>";
+          } else {
+            popup.innerHTML = data
+              .map((item) => {
+                if (!item.variants || !item.variants.length) return "";
+
+                let pricing = item.variants[0]?.pricing || {};
+                let pricingHTML = "";
+
+                if (pricing.retail_price) {
+                  pricingHTML += `<div class="price-container">
+            <span class="price-title">Market</span>
+            <span class="price">$${pricing.retail_price.toFixed(2)}</span>
+          </div>`;
+                }
+                if (pricing.member_price > 0) {
+                  pricingHTML += `<div class="price-container">
+            <span class="price-title">Member</span>
+            <span class="price">$${pricing.member_price.toFixed(2)}</span>
+          </div>`;
+                }
+                if (pricing.elite_price > 0) {
+                  pricingHTML += `<div class="price-container">
+            <span class="price-title">Elite</span>
+            <span class="price">$${pricing.elite_price.toFixed(2)}</span>
+          </div>`;
+                }
+
+                return `<div class="search-item" onclick='selectItem("${item.title}", "${item.handle}", "${item.images[0] || "/placeholder.jpg"}")'>
+          <img src='${item.images[0] || "/placeholder.jpg"}' alt='${item.title.split(" ")[0]}' height="50px" width="50px"/>
+          <div>
+            <h4 style="margin: 0;">${item.title}</h4>
+            <div class='cabana-pricing-div'>${pricingHTML}</div>
+          </div>
+        </div>`;
+              })
+              .join("");
+          }
+        } catch (error) {
+          console.error("Error fetching search results:", error);
+        }
+
+        popup.style.display = "block";
+      }, 300);
+
+      function selectItem(title, handle, image) {
+        document.getElementById("searchInput").value = title;
+        document.getElementById("searchPopup").style.display = "none";
+
+        saveRecentSearch({ title, handle, image });
+        window.location.href = `/products/${handle}`;
+      }
+
+      document.addEventListener("click", function (event) {
+        let popup = document.getElementById("searchPopup");
+        let input = document.getElementById("searchInput");
+        if (!input.contains(event.target) && !popup.contains(event.target)) {
+          popup.style.display = "none";
+        }
+      });
+
+      loadRecentSearches();
+    </script>
+  </body>
+</html>

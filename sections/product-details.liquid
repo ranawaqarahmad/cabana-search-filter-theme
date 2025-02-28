@@ -1,0 +1,239 @@
+{{ 'section-product-details.css' | asset_url | stylesheet_tag }}
+{% include 'store-id' %}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+  padding-top: {{ section.settings.padding_top | times: 0.50 | round: 0 }}px;
+  padding-bottom: {{ section.settings.padding_bottom | times: 0.50 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 990px) {
+  .section-{{ section.id }}-padding {
+  padding-top: {{ section.settings.padding_top }}px;
+  padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+  }
+
+  .section-{{ section.id }}-padding {
+  margin-top: 32px;
+  margin-bottom: 32px;
+  }
+
+  @media screen and (min-width: 1201px) {
+  .section-{{ section.id }}-padding {
+  margin-top: 64px;
+  margin-bottom: 64px;
+  }
+  }
+{%- endstyle -%}
+
+{% assign product_metadata = product.metafields.jane[store_id] | split: ',' %}
+
+{% assign thc = product_metadata[4] %}
+{% assign cbd = product_metadata[5] %}
+
+<div class="color-{{ section.settings.color_scheme }} gradient">
+  <div class="product-details__wrapper page-width isolate section-{{ section.id }}-padding">
+    <div class="product-details__content">
+      <div class="product-details__text">
+        {%- unless section.settings.title == blank -%}
+          <div class="product-details__text-content">
+            <h2 class="h6 product-details__title">
+              {{ section.settings.title }}
+            </h2>
+          </div>
+        {%- endunless -%}
+        {%- unless product.description == blank -%}
+          <div class="product-details__text-content">
+            <div class="product-description js-product-description">
+              <div class="truncated">
+                {{ product.description | strip_html | truncatewords:18 }}...
+              </div>
+              <div class="untruncated hidden">
+                {{ product.description  }}
+              </div>
+            </div>
+            {%- assign description_length = product.description | size -%}
+            {%- if description_length > 150 -%}
+              <button class="toggle-description js-toggle-description" aria-expanded="false" aria-controls="product-description" aria-label="Toggle description">
+                {% render 'theme-icons', icon: 'icon-chevron-down' %}
+              </button>
+            {%- endif -%}
+          </div>
+        {%- endunless -%}
+      </div>
+      {% assign terpine_tag = '' %}
+      {% assign has_terpine = false %}
+      {% for tag in product.tags %}
+        {% if tag contains 'terpine:' %}
+          {% assign terpine_tag = tag %}
+          {% assign has_terpine = true %}
+        {% endif %}
+      {% endfor %}
+
+      {% if has_terpine %}
+        <ul class="product-details__icons">
+          {% if terpine_tag != '' %}
+            {% assign terpine_list = terpine_tag | remove: 'terpine:' | split: '-' %}
+            {% for terpene in terpine_list %}
+              {% assign terpine_icon = terpene | strip %}
+              <li class="product-details__icon">
+                {% render 'terpine-icons', terpine: terpine_icon %}
+              </li>
+            {% endfor %}
+          {% endif %}
+        </ul>
+      {% endif %}
+    </div>
+    <div class="product-details__content">
+      <div class="product-details__table">
+        {% assign thc_desc = shop.metaobjects.product_tooltips.thc.description %}
+        {% assign cbd_desc = shop.metaobjects.product_tooltips.cbd.description %}
+        {% assign strain_desc = shop.metaobjects.product_tooltips.strain.description %}
+        {% assign terpene_desc = shop.metaobjects.product_tooltips.terpene.description %}
+
+        <table>
+          {% comment %}
+          {% if product.vendor %}
+            <tr>
+              <td class="table-title">{{ 'products.product.producer' | t }}</td> 
+              <td class="table-desc">Canna Cabana Inc</td>
+            </tr>
+          {% endif %}
+          {% endcomment %}
+
+          
+          <tr>
+            <td class="table-title">{{ 'products.product.brand' | t }}</td>
+            <td class="table-desc">{{ product.vendor |  link_to_vendor }}</td>
+          </tr>
+          {% if thc and thc != '0' %}
+            <tr>
+              <td class="table-title"><span class="product-details__table-heading">{{ 'products.product.thc_level' | t }} {% if thc_desc %}{% render 'tooltip', content: thc_desc %}</span>{% endif %}</td>
+              <td class="table-desc">{{ thc }}%</td>
+            </tr>
+          {% endif %}
+          {% if cbd and cbd != '0'  %}
+            <tr>
+              <td class="table-title"><span class="product-details__table-heading">{{ 'products.product.cbd_level' | t }} {% if cbd_desc %}{% render 'tooltip', content: cbd_desc %}</span>{% endif %}</td>
+              <td class="table-desc">{{ cbd }}%</td>
+            </tr>
+          {% endif %}
+          {% for tag in product.tags %}
+            {% if tag contains 'lineage:' %}
+              <tr>
+                <td class="table-title"><span class="product-details__table-heading">{{ 'products.product.strain' | t }} {% if strain_desc %}{% render 'tooltip', content:  strain_desc %}</span>{% endif %}</td>
+                <td class="table-desc">{{ tag | split: ':' | last }}</td>
+              </tr>
+            {% endif %}
+          {% endfor %}
+          {% if has_terpene %}
+            <tr>
+              <td class="table-title"><span class="product-details__table-heading">{{ 'products.product.terpene' | t }} {% if terpene_desc %}{% render 'tooltip', content: terpene_desc %}</span>{% endif %}</td>
+              <td class="table-desc">
+                {% if terpene_tag != '' %}
+                  {% assign terpene_list = terpene_tag | remove: 'terpene:' | split: '-' %}
+                  {% for terpene in terpene_list %}
+                    {%- assign terpene_icon = terpene | strip -%}
+                    {{ terpene_icon }}{% if forloop.last == false %}, {% endif %}
+                  {% endfor %}
+                {% endif %}
+              </td>
+            </tr>
+          {% endif %}
+          {% assign product_info_metafields = product.metafields.product_info %}
+          {% if product_info_metafields != blank %}
+            {% for key in product_info_metafields %}
+              <tr>
+                <td class="table-title">{{ key | split: "," | first | remove: "[" | remove: '"' | capitalize }}
+                </td>
+                <td class="table-desc">{{ key | split: "," | last | remove: "]" | remove: '"' }}</td>
+              </tr>
+            {% endfor %}
+          {% endif %}
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const toggleDescription  = document.querySelector('.js-toggle-description');
+  const productDescription = document.querySelector('.js-product-description');
+
+  if(toggleDescription) {
+    toggleDescription.addEventListener('click', function () {
+      const isExpanded = toggleDescription.getAttribute('aria-expanded') === 'true';
+      toggleDescription.setAttribute('aria-expanded', !isExpanded);
+
+      document.querySelector('.truncated').classList.toggle('hidden')
+      document.querySelector('.untruncated').classList.toggle('hidden')
+      
+      productDescription.classList.toggle('expanded');
+      toggleDescription.classList.toggle('expanded');
+    });
+  }
+});
+</script>
+
+{% schema %}
+{
+  "name": "Product Details",
+  "tag": "section",
+  "class": "section",
+  "enabled_on": {
+    "templates": [
+      "product"
+    ]
+  },
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "default": "About this product",
+      "label": "t:sections.all.heading.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.layout.content"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-2"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.section_spacing.content",
+      "info": "t:sections.all.section_spacing.info"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "t:sections.all.section_spacing.above",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "t:sections.all.section_spacing.below",
+      "default": 100
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Details"
+    }
+  ]
+}
+{% endschema %}

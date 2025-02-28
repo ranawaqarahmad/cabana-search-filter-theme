@@ -1,0 +1,50 @@
+.visual-display {
+  --visual-display__size: min(2.4rem, 100%);
+  position: relative;
+  width: var(--visual-display__size);
+  max-width: 100%;
+  border: 0.1rem solid rgba(var(--color-foreground), 0.2);
+  aspect-ratio: 1/1;
+}
+
+.visual-display.empty {
+  border-style: dashed;
+}
+
+.visual-display--presentation-swatch {
+  --visual-display__size: min(2.4rem, 100%);
+
+  border-radius: 100%;
+  overflow: hidden;
+}
+
+.visual-display-parent .visual-display--presentation-swatch {
+  outline-offset: 0.2rem;
+}
+
+.visual-display-parent.disabled {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+/* Used to display the disabled dash */
+.visual-display-parent.disabled .visual-display::after {
+  display: block;
+  content: '';
+
+  /* 1.414 is not a magic number, it's the square root of 2, or the length of the diagonal */
+  width: calc(var(--visual-display__size) * 1.414);
+  border-bottom: 0.1rem solid rgb(var(--color-background-contrast));
+  transform: rotate(-45deg);
+  transform-origin: left;
+}
+
+.visual-display .visual-display__child {
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
+.visual-display--presentation-swatch .visual-display__image {
+  object-fit: cover;
+}

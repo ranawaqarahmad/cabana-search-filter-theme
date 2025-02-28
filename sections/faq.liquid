@@ -1,0 +1,390 @@
+{{ 'faq.css' | asset_url | stylesheet_tag }}
+{{ 'accordion.css' | asset_url | stylesheet_tag }}
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.50 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.50 | round: 0 }}px;
+  }
+
+ @media screen and (min-width: 990px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+
+ .section-{{ section.id }}-padding {
+    margin-top: 16px;
+    margin-bottom: 16px;
+  }
+
+  @media screen and (min-width: 769px) {
+    .section-{{ section.id }}-padding {
+      margin-top: 32px;
+      margin-bottom: 32px;
+    }
+  }
+
+  @media screen and (min-width: 1201px) {
+    .section-{{ section.id }}-padding {
+     margin-top: 64px;
+     margin-bottom: 64px;
+    }
+  }
+
+{%- endstyle -%}
+{% assign faq = section.blocks | where: 'type', 'faq' %}
+{% assign content = section.blocks | where: 'type', 'content' %}
+{% assign get_in_touch = section.blocks | where: 'type', 'get_in_touch' %}
+<div class="color-{{ section.settings.color_scheme }} gradient">
+  <div class="page-width section-{{ section.id }}-padding">
+    {%- unless section.settings.title == blank -%}
+      <div class="section-heading__bar sp-small mgb-medium text-{{ section.settings.heading_alignment }}">
+        <h2 class="title {{ section.settings.heading_size }}">
+          {{ section.settings.title }}
+        </h2>
+      </div>
+    {%- endunless -%}
+    <div class="faq-content isolate content-container content-container--full-width">
+      <div class="faq-content__wrapper{% if content.size > 0 or get_in_touch.size > 0 %} faq-with-content__block{% endif %}">
+        {% if content.size > 0 or get_in_touch.size > 0 %}
+          <div class="faq-content-wrapper__inner">
+            {% for block in content %}
+              <div class="faq-section__content sp-small">
+                {%- if block.settings.subheading != blank -%}
+                  <div class="subheading__text rte">
+                    <p>{{ block.settings.subheading }}</p>
+                  </div>
+                {%- endif -%}
+                 {% if block.settings.heading != blank %}
+                  <h2
+                    class="faq-block__heading inline-richtext {{ block.settings.heading_size }}"
+                    {{ block.shopify_attributes }}
+                  >
+                    {{ block.settings.heading }}
+                  </h2>
+                {%- endif -%}
+                {% if block.settings.description != blank %}
+                  <div class="faq-block__description rte" {{ block.shopify_attributes }}>
+                    {{ block.settings.description }}
+                  </div>
+                {% endif %}
+                {%- if block.settings.button_label != blank -%}
+                  <a
+                    {% if block.settings.button_link == blank %}
+                      role="link" aria-disabled="true"
+                    {% else %}
+                      href="{{ block.settings.button_link }}"
+                    {% endif %}
+                    class="button button--{{ block.settings.button_style }}"
+                    {{ block.shopify_attributes }}
+                  >
+                    {{ block.settings.button_label | escape }}
+                  </a>
+                {%- endif -%}
+              </div>
+            {% endfor %}
+            {% for block in get_in_touch %}
+              {% if block.settings.heading != blank or block.settings.description != blank %}
+                <div class="faq-get-in__touch sp-small">
+                   {% if block.settings.heading != blank %}
+                    <h3
+                      class="faq-block__heading inline-richtext {{ block.settings.heading_size }}"
+                      {{ block.shopify_attributes }}
+                    >
+                      {{ block.settings.heading }}
+                    </h3>
+                  {%- endif -%}
+                  {% if block.settings.description != blank %}
+                    <div class="faq-block__description rte" {{ block.shopify_attributes }}>
+                      {{ block.settings.description }}
+                    </div>
+                  {% endif %}
+                </div>
+              {% endif %}
+            {% endfor %}
+          </div>
+        {% endif %}
+        <div class="faq-content__grid{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+          <vertical-slider class="{% if faq.size > 5 %}faqs-verticle-slider top-to-bottom{% endif %}{% unless section.settings.vertical_scrolling %} faq-hidden__overlay{% endunless %}">
+            <div class="faq-accordions">
+              {%- for block in faq -%}
+                <div class="faq-accordion-item{% if forloop.index < 6 and faq.size > 5 %} auto-scrolling-height{% endif %}">
+                  <button type="button" class="h5 accordion-toggle-btn" data-toggle="#accordion-toggle-content-{{ block.id }}">
+                    {{ block.settings.heading | escape }}
+                    <span class="toggle-svg button--primary">
+                      {% render 'theme-icons', icon: 'plus' %}
+                    </span>
+                  </button>
+                  <div id="accordion-toggle-content-{{ block.id }}" class="{%- if block.settings.heading != blank %}accordion-toggle-content{% endif %}">
+                    <div class="faq-block__details-content rte">
+                      {{ block.settings.description }}
+                    </div>
+                  </div>
+                </div>
+              {%- endfor -%}
+            </div>
+          </vertical-slider>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% if faq.size > 5 and section.settings.vertical_scrolling %}
+  <script src="{{ 'faq-vertical-slider.js' | asset_url }}" defer="defer"></script>
+{% endif %}
+{% schema %}
+{
+  "name": "t:sections.faq.name",
+  "tag": "section",
+  "class": "section",
+  "max_blocks": 12,
+  "disabled_on": {
+    "groups": [
+      "header",
+      "footer",
+      "custom.popups"
+    ]
+  },
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "t:sections.all.heading.label"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        {
+          "value": "h3",
+          "label": "t:sections.all.heading_size.options__2.label"
+        },
+        {
+          "value": "h2",
+          "label": "t:sections.all.heading_size.options__3.label"
+        },
+        {
+          "value": "h1",
+          "label": "t:sections.all.heading_size.options__4.label"
+        },
+        {
+          "value": "h0",
+          "label": "t:sections.all.heading_size.options__5.label"
+        }
+      ],
+      "default": "h2",
+      "label": "t:sections.all.heading_size.label"
+    },
+    {
+      "type": "select",
+      "id": "heading_alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "t:sections.all.heading_alignment.options__1.label"
+        },
+        {
+          "value": "center",
+          "label": "t:sections.all.heading_alignment.options__2.label"
+        },
+        {
+          "value": "right",
+          "label": "t:sections.all.heading_alignment.options__3.label"
+        }
+      ],
+      "default": "center",
+      "label": "t:sections.all.heading_alignment.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.layout.content"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "checkbox",
+      "id": "vertical_scrolling",
+      "label": "t:sections.faq.settings.vertical_scrolling.label",
+      "info": "t:sections.faq.settings.vertical_scrolling.info"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.section_spacing.content",
+      "info": "t:sections.all.section_spacing.info"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "t:sections.all.section_spacing.above",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "t:sections.all.section_spacing.below",
+      "default": 100
+    }
+  ],
+  "blocks": [
+    {
+      "type": "content",
+      "name": "t:sections.faq.blocks.content.name",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "subheading",
+          "label": "t:sections.faq.blocks.content.settings.subheading.label",
+          "default": "<strong>Add the subheading here!</strong>"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "heading",
+          "default": "FAQ's",
+          "label": "t:sections.all.heading.label"
+        },
+        {
+          "type": "select",
+          "id": "heading_size",
+          "options": [
+            {
+              "value": "h3",
+              "label": "t:sections.all.heading_size.options__2.label"
+            },
+            {
+              "value": "h2",
+              "label": "t:sections.all.heading_size.options__3.label"
+            },
+            {
+              "value": "h1",
+              "label": "t:sections.all.heading_size.options__4.label"
+            },
+            {
+              "value": "h0",
+              "label": "t:sections.all.heading_size.options__5.label"
+            }
+          ],
+          "default": "h2",
+          "label": "t:sections.all.heading_size.label"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "t:sections.all.description.label",
+          "default": "<p>Include a comprehensive description of your frequently asked questions (FAQs) in this section to provide detailed information and address common queries.</p>"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "default": "Button label",
+          "label": "t:sections.faq.blocks.content.settings.button_label.label"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "t:sections.faq.blocks.content.settings.button_link.label"
+        },
+        {
+          "type": "select",
+          "id": "button_style",
+          "options": [
+            {
+              "value": "primary",
+              "label": "t:sections.all.button_style.options__1.label"
+            },
+            {
+              "value": "secondary",
+              "label": "t:sections.all.button_style.options__2.label"
+            },
+            {
+              "value": "outline",
+              "label": "t:sections.all.button_style.options__3.label"
+            }
+          ],
+          "default": "primary",
+          "label": "t:sections.all.button_style.label"
+        }
+      ]
+    },
+    {
+      "type": "faq",
+      "name": "t:sections.faq.blocks.faq_row.name",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "default": "Heading",
+          "label": "t:sections.all.heading.label"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "t:sections.all.description.label",
+          "default": "<p>Include frequently asked questions (FAQs) in this section to provide comprehensive information and address common queries.</p>"
+        }
+      ]
+    },
+    {
+      "type": "get_in_touch",
+      "name": "t:sections.faq.blocks.get_in_touch.name",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "heading",
+          "default": "Get in touch",
+          "label": "t:sections.all.heading.label"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "t:sections.all.description.label",
+          "default": "<h6><a href=\"mailto:Example@gmail.com\" target=\"_blank\" title=\"mailto:Example@gmail.com\">Example@gmail.com</a></h6><p>The average response time is 24 hours.</p><p>Our customer support operates from Monday to Friday, between 8:00 AM and 8:30 PM.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.faq.presets.name",
+      "blocks": [
+        {
+          "type": "content"
+        },
+        {
+          "type": "get_in_touch"
+        },
+        {
+          "type": "faq"
+        },
+        {
+          "type": "faq"
+        },
+        {
+          "type": "faq"
+        },
+        {
+          "type": "faq"
+        },
+        {
+          "type": "faq"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

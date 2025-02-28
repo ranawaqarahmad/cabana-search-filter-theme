@@ -1,0 +1,229 @@
+{{ 'component-image-with-text.css' | asset_url | stylesheet_tag }}
+{{ 'component-location.css' | asset_url | stylesheet_tag }}
+
+{% comment %}@formatter:off{% endcomment %}
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.50 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.50 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 990px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .section-{{ section.id }}-padding {
+    margin-top: 16px;
+    margin-bottom: 16px;
+  }
+
+  @media screen and (min-width: 769px) {
+    .section-{{ section.id }}-padding {
+      margin-top: 32px;
+      margin-bottom: 32px;
+    }
+  }
+
+  @media screen and (min-width: 1201px) {
+    .section-{{ section.id }}-padding {
+      margin-top: 64px;
+      margin-bottom: 64px;
+    }
+  }
+{%- endstyle -%}
+{% comment %}@formatter:on{% endcomment %}
+
+{%- liquid
+  assign fetch_priority = 'auto'
+  if section.index == 1
+    assign fetch_priority = 'high'
+  endif
+  assign overlapImages = false
+  if section.settings.image != blank and section.settings.secondary_image != blank
+    assign overlapImages = true
+  endif
+-%}
+
+<div class="js-location-section location-section section-{{ section.id }}-padding gradient color-{{ section.settings.section_color_scheme }}">
+  <div class="page-width">
+    <div class="image-with-text image-with-text--{{ section.settings.content_layout }} isolate{% if settings.text_boxes_border_thickness > 0 and settings.text_boxes_border_opacity > 0 and settings.media_border_thickness > 0 and settings.media_border_opacity > 0 %} collapse-borders{% endif %}{% unless section.settings.color_scheme == section.settings.section_color_scheme and settings.media_border_thickness > 0 and settings.text_boxes_shadow_opacity == 0 and settings.text_boxes_border_thickness == 0 or settings.text_boxes_border_opacity == 0 %} collapse-corners{% endunless %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+      <div class="image-with-text__grid grid grid--1-col grid--2-col-tablet{% if section.settings.image_position_right %} image-with-text__grid--reverse{% endif %}">
+        <h2 class="js-location-title medium-hide large-up-hide text-center"></h2>
+        <div class="image-with-text__media-item image-with-text__media-item--medium image-with-text__media-item--{{ section.settings.desktop_content_position }} grid__item">
+          <div class="js-store-image image-with-text__media media image-with-text__media--{{ section.settings.height }} background-transparent{% if section.settings.image_animation %} animate--ambient{% endif %}">
+            <img src="{{ section.settings.fallback_image | img_url: '1200x' }}" alt="" width="620" height="420" loading="lazy">
+          </div>
+          <div class="js-location-status-wrapper location__store-details-flex-container">
+          </div>
+        </div>
+        <div class="image-with-text__text-item grid__item">
+          <div
+            id="ImageWithText--{{ section.id }}"
+            class="js-store-container image-with-text__content image-with-text__content--{{ section.settings.desktop_content_position }} image-with-text__content--desktop-{{ section.settings.desktop_content_alignment }} image-with-text__content--mobile-{{ section.settings.mobile_content_alignment }} image-with-text__content--{{ section.settings.height }} content-container gradient color-{{ section.settings.color_scheme }}"
+          >
+            <div class="location__store-content">
+              <div>
+                <h2 class="small-hide js-location-title"></h2>
+                <p class="location__address"><a class="js-location__address-link" href="" target="_blank"></a></p>
+              </div>
+              <div>
+                <div class="location__detail">
+                  <span class="location__detail-icon">
+                    {% render 'theme-icons', icon: 'icon-clock' %}
+                  </span>
+                  <div>
+                    <h3 class="h6">{{ 'locations.hours' | t }}</h3>
+                    <p class="js-location-store-hours"></p>
+                  </div>
+                </div>
+                <div class="location__detail">
+                  <span class="location__detail-icon">
+                    {% render 'theme-icons', icon: 'icon-phone-outgoing' %}
+                  </span>
+                  <div>
+                    <h3 class="h6">{{ 'location.contact_store' | t }}</h3>
+                    <p class="js-location-phone"></p>
+                  </div>
+                </div>
+              </div>
+              <div class="location__buttons">
+                <a href="" class="button button--secondary js-location-phone-link">{{ 'location.call_store' | t }}</a>
+                <a href="/pages/store-locator" class="button button--secondary">{{ 'location.select_different_store' | t }}</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% render 'locations-js' %}
+
+{% schema %}
+{
+  "name": "t:sections.location.name",
+  "class": "section",
+  "disabled_on": {
+    "groups": [
+      "header",
+      "footer",
+      "custom.popups"
+    ]
+  },
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "section_color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "image_picker",
+      "id": "fallback_image",
+      "label": "t:sections.image-with-text.settings.fallback_image.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "image_position_right",
+      "label": "t:sections.image-with-text.settings.image_position_right.label",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "t:sections.image-with-text.settings.header__1.content"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-2"
+    },
+    {
+      "type": "select",
+      "id": "desktop_content_position",
+      "options": [
+        {
+          "value": "top",
+          "label": "t:sections.image-with-text.settings.desktop_content_position.options__1.label"
+        },
+        {
+          "value": "middle",
+          "label": "t:sections.image-with-text.settings.desktop_content_position.options__2.label"
+        },
+        {
+          "value": "bottom",
+          "label": "t:sections.image-with-text.settings.desktop_content_position.options__3.label"
+        }
+      ],
+      "default": "middle",
+      "label": "t:sections.image-with-text.settings.desktop_content_position.label"
+    },
+    {
+      "type": "select",
+      "id": "desktop_content_alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "t:sections.image-with-text.settings.desktop_content_alignment.options__1.label"
+        }
+      ],
+      "default": "left",
+      "label": "t:sections.image-with-text.settings.desktop_content_alignment.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.animation.content"
+    },
+    {
+      "type": "header",
+      "content": "Mobile layout"
+    },
+    {
+      "type": "select",
+      "id": "mobile_content_alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "t:sections.image-with-text.settings.mobile_content_alignment.options__1.label"
+        }
+      ],
+      "default": "left",
+      "label": "t:sections.image-with-text.settings.mobile_content_alignment.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.section_spacing.content",
+      "info": "t:sections.all.section_spacing.info"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "t:sections.all.section_spacing.above",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "t:sections.all.section_spacing.below",
+      "default": 100
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.location.presets.name"
+    }
+  ]
+}
+{% endschema %}

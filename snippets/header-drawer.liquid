@@ -1,0 +1,434 @@
+{% comment %}
+  Renders a header drawer menu for mobile and desktop.
+
+  Usage:
+  {% render 'header-drawer' %}
+{% endcomment %}
+
+<header-drawer data-breakpoint="tablet">
+  <details id="Details-menu-drawer-container" class="menu-drawer-container">
+    <summary
+      class="header__icon header__icon--menu header__icon--summary menu-drawer-button link focus-inset"
+      aria-label="{{ 'sections.header.menu' | t }}"
+    >
+      <span>
+        {% render 'theme-icons', icon: 'icon-menu' %}
+        {% render 'theme-icons', icon: 'close' %}
+      </span>
+    </summary>
+    <div id="menu-drawer" class="gradient menu-drawer motion-reduce color-{{ section.settings.menu_color_scheme }}">
+      <div class="menu-drawer__inner-container">
+        <div class="menu-drawer__navigation-container overflow-scrollbar">
+          <nav class="menu-drawer__navigation">
+            <ul class="menu-drawer__menu has-submenu list-menu" role="list">
+              {%- for link in section.settings.menu_mobile_1.links -%}
+                <li>
+                  {%- if link.links != blank -%}
+                    <details id="Details-menu-drawer-menu-item-{{ forloop.index }}">
+                      <summary
+                        id="HeaderDrawer-{{ link.handle }}"
+                        class="menu-drawer__menu-item list-menu__item link link--text focus-inset{% if link.child_active %} menu-drawer__menu-item--active{% endif %}"
+                      >
+                        {{ link.title }}
+                        {% render 'theme-icons', icon: 'icon-chevron-down' %}
+                      </summary>
+                      <div
+                        id="link-{{ link.handle | escape }}"
+                        class="menu-drawer__submenu has-submenu gradient motion-reduce"
+                        tabindex="-1"
+                      >
+                        <div class="menu-drawer__inner-submenu overflow-scrollbar">
+                          <button class="menu-drawer__close-button button--primary link link--text focus-inset" aria-expanded="true">
+                            {% render 'theme-icons', icon: 'top-arrow-left' %}
+                            {{ link.title }}
+                          </button>
+                          <ul class="menu-drawer__menu list-menu" role="list" tabindex="-1">
+                            {%- for childlink in link.links -%}
+                              <li>
+                                {%- if childlink.links == blank -%}
+                                  <a
+                                    id="HeaderDrawer-{{ link.handle }}-{{ childlink.handle }}"
+                                    href="{{ childlink.url }}"
+                                    class="menu-drawer__menu-item link link--text list-menu__item focus-inset{% if childlink.current %} menu-drawer__menu-item--active{% endif %}"
+                                    {% if childlink.current %}
+                                      aria-current="page"
+                                    {% endif %}
+                                  >
+                                    {% if section.settings.menu_type_desktop == 'mega' and section.settings.collection_featured_image == true %}
+                                      {%- if childlink.url contains '/collections/' -%}
+                                        {% assign card_collection = collections[childlink.object.handle] %}
+                                        {%- if card_collection.featured_image != blank -%}
+                                          <span class="drawer-collection-megamenu-image media">
+                                            <img
+                                              srcset="
+                                                {%- if card_collection.featured_image.width >= 60 -%}{{ card_collection.featured_image | image_url: width: 60 }} 60w,{%- endif -%}
+                                                {%- if card_collection.featured_image.width >= 80 -%}{{ card_collection.featured_image | image_url: width: 80 }} 80w,{%- endif -%}
+                                                {%- if card_collection.featured_image.width >= 100 -%}{{ card_collection.featured_image | image_url: width: 100 }} 100w,{%- endif -%}
+                                                {{ card_collection.featured_image | image_url }} {{ card_collection.featured_image.width }}w
+                                              "
+                                              src="{{ card_collection.featured_image | image_url: width: 80 }}"
+                                              alt=""
+                                              height="60"
+                                              width="80"
+                                              loading="lazy"
+                                              class="motion-reduce"
+                                            >
+                                          </span>
+                                        {%- endif -%}
+                                      {%- endif -%}
+                                    {% endif %}
+                                    {{ childlink.title }}
+                                  </a>
+                                {%- else -%}
+                                  <details id="Details-menu-drawer-{{ link.handle }}-{{ childlink.handle }}">
+                                    <summary
+                                      id="HeaderDrawer-{{ link.handle }}-{{ childlink.handle }}"
+                                      class="menu-drawer__menu-item link link--text list-menu__item focus-inset"
+                                    >
+                                      {% if section.settings.menu_type_desktop == 'mega' and section.settings.collection_featured_image == true %}
+                                        {%- if childlink.levels > 0 and childlink.url contains '/collections/' -%}
+                                          {% assign card_collection = collections[childlink.object.handle] %}
+                                          {%- if card_collection.featured_image != blank -%}
+                                            <a
+                                              href="{{ childlink.url }}"
+                                              class="drawer-collection-megamenu-image media"
+                                            >
+                                              <img
+                                                srcset="
+                                                  {%- if card_collection.featured_image.width >= 60 -%}{{ card_collection.featured_image | image_url: width: 60 }} 60w,{%- endif -%}
+                                                  {%- if card_collection.featured_image.width >= 80 -%}{{ card_collection.featured_image | image_url: width: 80 }} 80w,{%- endif -%}
+                                                  {%- if card_collection.featured_image.width >= 100 -%}{{ card_collection.featured_image | image_url: width: 100 }} 100w,{%- endif -%}
+                                                  {{ card_collection.featured_image | image_url }} {{ card_collection.featured_image.width }}w
+                                                "
+                                                src="{{ card_collection.featured_image | image_url: width: 80 }}"
+                                                alt=""
+                                                height="60"
+                                                width="80"
+                                                loading="lazy"
+                                                class="motion-reduce"
+                                              >
+                                            </a>
+                                          {%- endif -%}
+                                        {%- endif -%}
+                                      {% endif %}
+                                      {{ childlink.title }}
+                                      {% render 'theme-icons', icon: 'icon-chevron-down' %}
+                                    </summary>
+                                    <div
+                                      id="childlink-{{ childlink.handle | escape }}"
+                                      class="menu-drawer__submenu has-submenu overflow-scrollbar gradient motion-reduce"
+                                    >
+                                      <button
+                                        class="menu-drawer__close-button button--primary link link--text focus-inset"
+                                        aria-expanded="true"
+                                      >
+                                        {% render 'theme-icons', icon: 'top-arrow-left' %}
+                                        {{ childlink.title }}
+                                      </button>
+                                      <ul
+                                        class="menu-drawer__menu list-menu"
+                                        role="list"
+                                        tabindex="-1"
+                                      >
+                                        {%- for grandchildlink in childlink.links -%}
+                                          <li>
+                                            <a
+                                              id="HeaderDrawer-{{ link.handle }}-{{ childlink.handle }}-{{ grandchildlink.handle }}"
+                                              href="{{ grandchildlink.url }}"
+                                              class="menu-drawer__menu-item link link--text list-menu__item focus-inset{% if grandchildlink.current %} menu-drawer__menu-item--active{% endif %}"
+                                              {% if grandchildlink.current %}
+                                                aria-current="page"
+                                              {% endif %}
+                                            >
+                                              {{ grandchildlink.title }}
+                                            </a>
+                                          </li>
+                                        {%- endfor -%}
+                                      </ul>
+                                    </div>
+                                  </details>
+                                {%- endif -%}
+                              </li>
+                            {%- endfor -%}
+                          </ul>
+                        </div>
+                      </div>
+                    </details>
+                  {%- else -%}
+                    <a
+                      id="HeaderDrawer-{{ link.handle }}"
+                      href="{{ link.url }}"
+                      class="menu-drawer__menu-item list-menu__item link link--text focus-inset{% if link.current %} menu-drawer__menu-item--active{% endif %}"
+                      {% if link.current %}
+                        aria-current="page"
+                      {% endif %}
+                    >
+                      {{ link.title }}
+                    </a>
+                  {%- endif -%}
+                </li>
+              {%- endfor -%}
+            </ul>
+              <hr>
+            <ul class="menu-drawer__menu list-menu" role="list" tabindex="-1">
+              {%- for link in section.settings.menu_mobile_2.links -%}
+                <li>
+                  {%- if link.links != blank -%}
+                    <details id="Details-menu-drawer-menu-item-{{ forloop.index }}">
+                      <summary
+                        id="HeaderDrawer-{{ link.handle }}"
+                        class="menu-drawer__menu-item list-menu__item link link--text focus-inset{% if link.child_active %} menu-drawer__menu-item--active{% endif %}"
+                      >
+                        {{ link.title }}
+                        {% render 'theme-icons', icon: 'icon-chevron-down' %}
+                      </summary>
+                      <div
+                        id="link-{{ link.handle | escape }}"
+                        class="menu-drawer__submenu has-submenu gradient motion-reduce"
+                        tabindex="-1"
+                      >
+                        <div class="menu-drawer__inner-submenu overflow-scrollbar">
+                          <button class="menu-drawer__close-button button--primary link link--text focus-inset" aria-expanded="true">
+                            {% render 'theme-icons', icon: 'top-arrow-left' %}
+                            {{ link.title }}
+                          </button>
+                          <ul class="menu-drawer__menu list-menu" role="list" tabindex="-1">
+                            {%- for childlink in link.links -%}
+                              <li>
+                                {%- if childlink.links == blank -%}
+                                  <a
+                                    id="HeaderDrawer-{{ link.handle }}-{{ childlink.handle }}"
+                                    href="{{ childlink.url }}"
+                                    class="menu-drawer__menu-item link link--text list-menu__item focus-inset{% if childlink.current %} menu-drawer__menu-item--active{% endif %}"
+                                    {% if childlink.current %}
+                                      aria-current="page"
+                                    {% endif %}
+                                  >
+                                    {% if section.settings.menu_type_desktop == 'mega' and section.settings.collection_featured_image == true %}
+                                      {%- if childlink.url contains '/collections/' -%}
+                                        {% assign card_collection = collections[childlink.object.handle] %}
+                                        {%- if card_collection.featured_image != blank -%}
+                                          <span class="drawer-collection-megamenu-image media">
+                                            <img
+                                              srcset="
+                                                {%- if card_collection.featured_image.width >= 60 -%}{{ card_collection.featured_image | image_url: width: 60 }} 60w,{%- endif -%}
+                                                {%- if card_collection.featured_image.width >= 80 -%}{{ card_collection.featured_image | image_url: width: 80 }} 80w,{%- endif -%}
+                                                {%- if card_collection.featured_image.width >= 100 -%}{{ card_collection.featured_image | image_url: width: 100 }} 100w,{%- endif -%}
+                                                {{ card_collection.featured_image | image_url }} {{ card_collection.featured_image.width }}w
+                                              "
+                                              src="{{ card_collection.featured_image | image_url: width: 80 }}"
+                                              alt=""
+                                              height="60"
+                                              width="80"
+                                              loading="lazy"
+                                              class="motion-reduce"
+                                            >
+                                          </span>
+                                        {%- endif -%}
+                                      {%- endif -%}
+                                    {% endif %}
+                                    {{ childlink.title }}
+                                  </a>
+                                {%- else -%}
+                                  <details id="Details-menu-drawer-{{ link.handle }}-{{ childlink.handle }}">
+                                    <summary
+                                      id="HeaderDrawer-{{ link.handle }}-{{ childlink.handle }}"
+                                      class="menu-drawer__menu-item link link--text list-menu__item focus-inset"
+                                    >
+                                      {% if section.settings.menu_type_desktop == 'mega' and section.settings.collection_featured_image == true %}
+                                        {%- if childlink.levels > 0 and childlink.url contains '/collections/' -%}
+                                          {% assign card_collection = collections[childlink.object.handle] %}
+                                          {%- if card_collection.featured_image != blank -%}
+                                            <a
+                                              href="{{ childlink.url }}"
+                                              class="drawer-collection-megamenu-image media"
+                                            >
+                                              <img
+                                                srcset="
+                                                  {%- if card_collection.featured_image.width >= 60 -%}{{ card_collection.featured_image | image_url: width: 60 }} 60w,{%- endif -%}
+                                                  {%- if card_collection.featured_image.width >= 80 -%}{{ card_collection.featured_image | image_url: width: 80 }} 80w,{%- endif -%}
+                                                  {%- if card_collection.featured_image.width >= 100 -%}{{ card_collection.featured_image | image_url: width: 100 }} 100w,{%- endif -%}
+                                                  {{ card_collection.featured_image | image_url }} {{ card_collection.featured_image.width }}w
+                                                "
+                                                src="{{ card_collection.featured_image | image_url: width: 80 }}"
+                                                alt=""
+                                                height="60"
+                                                width="80"
+                                                loading="lazy"
+                                                class="motion-reduce"
+                                              >
+                                            </a>
+                                          {%- endif -%}
+                                        {%- endif -%}
+                                      {% endif %}
+                                      {{ childlink.title }}
+                                      {% render 'theme-icons', icon: 'icon-chevron-down' %}
+                                    </summary>
+                                    <div
+                                      id="childlink-{{ childlink.handle | escape }}"
+                                      class="menu-drawer__submenu has-submenu overflow-scrollbar gradient motion-reduce"
+                                    >
+                                      <button
+                                        class="menu-drawer__close-button button--primary link link--text focus-inset"
+                                        aria-expanded="true"
+                                      >
+                                        {% render 'theme-icons', icon: 'top-arrow-left' %}
+                                        {{ childlink.title }}
+                                      </button>
+                                      <ul
+                                        class="menu-drawer__menu list-menu"
+                                        role="list"
+                                        tabindex="-1"
+                                      >
+                                        {%- for grandchildlink in childlink.links -%}
+                                          <li>
+                                            <a
+                                              id="HeaderDrawer-{{ link.handle }}-{{ childlink.handle }}-{{ grandchildlink.handle }}"
+                                              href="{{ grandchildlink.url }}"
+                                              class="menu-drawer__menu-item link link--text list-menu__item focus-inset{% if grandchildlink.current %} menu-drawer__menu-item--active{% endif %}"
+                                              {% if grandchildlink.current %}
+                                                aria-current="page"
+                                              {% endif %}
+                                            >
+                                              {{ grandchildlink.title }}
+                                            </a>
+                                          </li>
+                                        {%- endfor -%}
+                                      </ul>
+                                    </div>
+                                  </details>
+                                {%- endif -%}
+                              </li>
+                            {%- endfor -%}
+                          </ul>
+                        </div>
+                      </div>
+                    </details>
+                  {%- else -%}
+                    <a
+                      id="HeaderDrawer-{{ link.handle }}"
+                      href="{{ link.url }}"
+                      class="menu-drawer__menu-item list-menu__item link link--text focus-inset{% if link.current %} menu-drawer__menu-item--active{% endif %}"
+                      {% if link.current %}
+                        aria-current="page"
+                      {% endif %}
+                    >
+                      {{ link.title }}
+                    </a>
+                  {%- endif -%}
+                </li>
+              {%- endfor -%}
+            </ul>
+
+            <div class="menu-drawer__utility-links">
+              {%- if shop.customer_accounts_enabled -%}
+                <a
+                  href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}"
+                  class="button button--secondary large-up-hide"
+                >
+                  {%- liquid
+                    if customer
+                      echo 'customer.account_fallback' | t
+                    else
+                      echo 'customer.log_in' | t
+                    endif
+                  -%}
+                </a>
+              {%- endif -%}
+              {%- if localization.available_countries or localization.available_languages -%}
+                <div class="menu-drawer__localization header-localization">
+                  {%- if localization.available_countries and localization.available_countries.size > 1 -%}
+                    <noscript>
+                      {%- form 'localization', id: 'HeaderCountryMobileFormNoScriptDrawer', class: 'localization-form' -%}
+                        <div class="localization-form__select">
+                          <h2 class="visually-hidden" id="HeaderCountryMobileLabelNoScriptDrawer">
+                            {{ 'localization.country_label' | t }}
+                          </h2>
+                          <select
+                            class="localization-selector link"
+                            name="country_code"
+                            aria-labelledby="HeaderCountryMobileLabelNoScriptDrawer"
+                          >
+                            {%- for country in localization.available_countries -%}
+                              <option
+                                value="{{ country.iso_code }}"
+                                {%- if country.iso_code == localization.country.iso_code %}
+                                  selected
+                                {% endif %}
+                              >
+                                {{ country.name }} ({{ country.currency.iso_code }}
+                                {{ country.currency.symbol }})
+                              </option>
+                            {%- endfor -%}
+                          </select>
+                          {% render 'theme-icons', icon: 'icon-chevron-down' %}
+                        </div>
+                        <button class="button button--tertiary">{{ 'localization.update_country' | t }}</button>
+                      {%- endform -%}
+                    </noscript>
+
+                    <localization-form class="no-js-hidden">
+                      {%- form 'localization', id: 'HeaderCountryMobileForm', class: 'localization-form' -%}
+                        <div>
+                          <h2 class="visually-hidden" id="HeaderCountryMobileLabel">
+                            {{ 'localization.country_label' | t }}
+                          </h2>
+                          {%- render 'country-localization', localPosition: 'HeaderCountryMobile', countryName: section.settings.enable_country_name, countryFlags: section.settings.enable_country_flags -%}
+                        </div>
+                      {%- endform -%}
+                    </localization-form>
+                  {% endif %}
+
+                  {%- if localization.available_languages and localization.available_languages.size > 1 -%}
+                    <noscript>
+                      {%- form 'localization',
+                        id: 'HeaderLanguageMobileFormNoScriptDrawer',
+                        class: 'localization-form'
+                      -%}
+                        <div class="localization-form__select">
+                          <h2 class="visually-hidden" id="HeaderLanguageMobileLabelNoScriptDrawer">
+                            {{ 'localization.language_label' | t }}
+                          </h2>
+                          <select
+                            class="localization-selector link"
+                            name="locale_code"
+                            aria-labelledby="HeaderLanguageMobileLabelNoScriptDrawer"
+                          >
+                            {%- for language in localization.available_languages -%}
+                              <option
+                                value="{{ language.iso_code }}"
+                                lang="{{ language.iso_code }}"
+                                {%- if language.iso_code == localization.language.iso_code %}
+                                  selected
+                                {% endif %}
+                              >
+                                {{ language.endonym_name | capitalize }}
+                              </option>
+                            {%- endfor -%}
+                          </select>
+                          {% render 'theme-icons', icon: 'icon-chevron-down' %}
+                        </div>
+                        <button class="button button--tertiary">{{ 'localization.update_language' | t }}</button>
+                      {%- endform -%}
+                    </noscript>
+
+                    <localization-form class="no-js-hidden">
+                      {%- form 'localization', id: 'HeaderLanguageMobileForm', class: 'localization-form' -%}
+                        <div>
+                          <h2 class="visually-hidden" id="HeaderLanguageMobileLabel">
+                            {{ 'localization.language_label' | t }}
+                          </h2>
+                          {%- render 'language-localization', localPosition: 'HeaderLanguageMobile' -%}
+                        </div>
+                      {%- endform -%}
+                    </localization-form>
+                  {%- endif -%}
+                </div>
+              {%- endif -%}
+            </div>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </details>
+</header-drawer>

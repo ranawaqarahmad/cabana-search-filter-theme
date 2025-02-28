@@ -1,0 +1,133 @@
+<style type="text/css">
+  .text_404_top {
+    margin: 0;
+    font-size: 300px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 300px;
+    font-family: var(--font-heading-family);
+    -webkit-text-fill-color: var(--red-500);
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: rgb(var(--color-foreground));
+  }
+  .template-404 .title {
+    margin: 0;
+    margin-top: 40px;
+    margin-bottom: 15px;
+  }
+  .bottom_content {
+    margin: 0;
+    margin-bottom: 15px;
+  }
+
+  @media screen and (max-width: 749px) {
+    .text_404_top {
+      font-size: 100px;
+      line-height: 100px;
+    }
+  }
+
+ @media screen and (min-width: 750px) and (max-width: 989px) {
+    .text_404_top {
+      font-size: 150px;
+      line-height: 150px;
+    }
+  }
+</style>
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.50 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.50 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 990px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+   .section-{{ section.id }}-padding {
+    margin-top: 16px;
+    margin-bottom: 16px;
+  }
+
+  @media screen and (min-width: 769px) {
+    .section-{{ section.id }}-padding {
+      margin-top: 32px;
+      margin-bottom: 32px;
+    }
+  }
+
+ @media screen and (min-width: 1201px) {
+    .section-{{ section.id }}-padding {
+     margin-top: 64px;
+     margin-bottom: 64px;
+    }
+    }
+
+   .section-{{ section.id }}-padding {
+    margin-top: 16px;
+    margin-bottom: 16px;
+  }
+
+  @media screen and (min-width: 769px) {
+    .section-{{ section.id }}-padding {
+      margin-top: 32px;
+      margin-bottom: 32px;
+    }
+  }
+
+ @media screen and (min-width: 1201px) {
+    .section-{{ section.id }}-padding {
+     margin-top: 64px;
+     margin-bottom: 64px;
+    }
+  }
+{%- endstyle -%}
+<div class="template-404 page-width center section-{{ section.id }}-padding">
+  <p class="text_404_top">
+    {{ 'templates.404.subtext' | t }}
+  </p>
+  <h1 class="title h2">
+    {{ 'templates.404.title' | t }}
+  </h1>
+  <p class="bottom_content">{{ 'templates.404.content' | t }}</p>
+  <a href="{{ routes.all_products_collection_url }}" class="button">
+    {{ 'templates.404.buttonText' | t }}
+  </a>
+</div>
+
+{% schema %}
+{
+  "name": "404",
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:sections.all.section_spacing.content",
+      "info": "t:sections.all.section_spacing.info"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "t:sections.all.section_spacing.above",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "t:sections.all.section_spacing.below",
+      "default": 100
+    }
+  ]
+}
+{% endschema %}

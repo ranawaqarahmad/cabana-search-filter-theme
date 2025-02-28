@@ -1,0 +1,103 @@
+.cart-count-reminder {
+  position: fixed;
+  bottom: 2rem;
+  padding: 1.5rem;
+  z-index: 4;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: var(--radius-10);
+  border: 1px solid rgba(var(--color-foreground),.2);
+  box-shadow: rgba(0, 0, 0, 0.14) 0px 0px 16px 0px;
+}
+.cart-count-reminder__inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.reminder-cart__details {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+  white-space: nowrap;
+  overflow: hidden;
+  height: 0;
+  -webkit-transition: all .4s ease-in-out;
+  -moz-transition: all .4s ease-in-out;
+  -o-transition: all .4s ease-in-out;
+  -ms-transition: all .4s ease-in-out;
+  transition: all .4s ease-in-out;
+}
+.cart-count-reminder:not(.active) .reminder-cart__details {
+  width: 0px;
+}
+.cart-count-reminder.active .reminder-cart__details {
+  height: max-content;
+}
+.cart-count-reminder.active .cart-count-reminder__inner{
+  gap: 2rem;
+}
+.reminder-cart__icon {
+  display: grid;
+}
+.reminder-cart__icon .icon-cart {
+  width: 4rem;
+  height: 4rem;
+}
+.reminder-cart__count {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  justify-content: center;
+}
+.reminder-cart__button  .button {
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem 3rem;
+}
+.reminder-cart__button .cart-total-price {
+  font-size: 1.4rem;
+  font-weight: normal;
+}
+.cart-count-reminder__inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.reminder-cart__button {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.btn-cart-reminder__close {
+  background: 0;
+  padding: 0;
+  border: 0;
+  display: grid;
+  cursor: pointer;
+  color: currentcolor;
+}
+.hidden__reminder {
+  display: none;
+  visibility: hidden;
+  opacity: 0;
+  z-index: -1;
+}
+@media screen and (max-width: 576px) {
+  .reminder-cart__button .button {
+    padding: 1rem 1.5rem;
+  }
+}
+@media screen and (max-width: 768px) {
+  .reminder-cart__details {
+    gap: 1.5rem;
+  }
+  .reminder-cart__icon .icon-cart {
+    width: 30px;
+    height: 30px;
+  }
+  .cart-count-reminder.active .reminder-cart__icon {
+    display: none;
+  }
+}

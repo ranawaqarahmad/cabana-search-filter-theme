@@ -1,0 +1,525 @@
+{%- comment -%}
+This file has been modified by the Yoast SEO for Shopify app.
+You can learn more about this (and learn how to cleanly revert these changes) at https://yoa.st/removing-theme-changes.
+{%- endcomment -%}
+<!doctype html>
+<html class="no-js" lang="{{ request.locale.iso_code }}">
+  <head>{% render 'yoast-seo' %}    
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+      w[l] = w[l] || [];
+      w[l].push({
+        'gtm.start'                  :
+          new Date().getTime(), event: 'gtm.js'
+      });
+      var f                          = d.getElementsByTagName(s)[0],
+          j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
+      j.async = true;
+      j.src =
+        'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+      f.parentNode.insertBefore(j, f);
+    })(window, document, 'script', 'dataLayer', 'GTM-NFKMF4KH');</script>
+    <!-- End Google Tag Manager -->
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="#E1251C">
+    {%- comment -%}Auto-disabled. Yoast plugin is taking care of Meta Tags output.{%- endcomment -%}
+{%- if disabled_by_yoast_seo -%}
+<link rel="canonical" href="{{ canonical_url }}">
+{%- comment -%} End Yoast auto-disable. {%- endcomment -%}
+{%- endif -%}
+
+    {%- if settings.favicon != blank -%}
+      <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+    {%- endif -%}
+
+    {%- unless settings.type_header_font.system? and settings.type_body_font.system? -%}
+      <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
+    {%- endunless -%}
+
+    {%- comment -%}Auto-disabled. Yoast plugin is taking care of SEO output.{%- endcomment -%}
+{%- if disabled_by_yoast_seo -%}
+<title>
+      {{ page_title }}
+      {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
+      {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
+      {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+    </title>
+{%- comment -%} End Yoast auto-disable. {%- endcomment -%}
+{%- endif -%}
+
+    {% if page_description %}
+      {%- comment -%}Auto-disabled. Yoast plugin is taking care of Meta Tags output.{%- endcomment -%}
+{%- if disabled_by_yoast_seo -%}
+<meta name="description" content="{{ page_description | escape }}">
+{%- comment -%} End Yoast auto-disable. {%- endcomment -%}
+{%- endif -%}
+    {% endif %}
+
+    {% render 'meta-tags' %}
+    {% render 'stores' %}
+    {% render 'bc-redirect' %}
+
+    <script src="{{ 'constants.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'pubsub.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'scrolling-text.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'global.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'province-settings.js' | asset_url }}"></script>
+    <script src="{{ 'cart-drawer-display.js' | asset_url }}" defer="defer"></script>
+
+    {%- if settings.animations_reveal_on_scroll -%}
+      <script src="{{ 'animations.js' | asset_url }}" defer="defer"></script>
+    {%- endif -%}
+    {%- if request.design_mode -%}
+      <script src="{{ 'theme-editor.js' | asset_url }}" defer="defer"></script>
+    {%- endif -%}
+
+    <script src="{{ 'update-links.js' | asset_url }}" defer="defer"></script>
+
+    {{ content_for_header }}
+
+    {% render 'css-variables' %}
+    {{ 'popups.css' | asset_url | stylesheet_tag }}
+    {{ 'base.css' | asset_url | stylesheet_tag }}
+
+    {%- unless settings.type_body_font.system? -%}
+      <link rel="preload" as="font" href="{{ settings.type_body_font | font_url }}" type="font/woff2" crossorigin>
+    {%- endunless -%}
+    {%- unless settings.type_header_font.system? -%}
+      <link rel="preload" as="font" href="{{ settings.type_header_font | font_url }}" type="font/woff2" crossorigin>
+    {%- endunless -%}
+
+    {%- if localization.available_countries.size > 1 or localization.available_languages.size > 1 -%}
+      {{ 'component-localization-form.css' | asset_url | stylesheet_tag: preload: true }}
+      <script src="{{ 'localization-form.js' | asset_url }}" defer="defer"></script>
+    {%- endif -%}
+
+    <script>
+    document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
+    if (Shopify.designMode) {
+      document.documentElement.classList.add('shopify-design-mode');
+    }
+    </script>
+
+    {% render 'elite-status' %}
+
+    <script>
+    ! function() {
+      var lotameClientId = '15834';
+      var lotameTagInput = {
+        data: {},
+        config: {
+          clientId: Number(lotameClientId)
+        }
+      };
+
+      // Lotame initialization
+      var lotameConfig = lotameTagInput.config || {};
+      var namespace = window['lotame_' + lotameConfig.clientId] = {};
+      namespace.config = lotameConfig;
+      namespace.data = lotameTagInput.data || {};
+      namespace.cmd = namespace.cmd || [];
+    } ();
+    </script>
+
+    <script async src="https://tags.crwdcntrl.net/lt/c/15834/lt.min.js"></script>
+    <script src="https://cdn.userway.org/widget.js" data-account="9ASBEpGsvJ"></script>
+
+    <style>
+      localization-form{
+        display:none !important;
+      }
+      button.slider-counter__link.slider-counter__link--dots {
+        display: none !important;
+      }
+      .component-view-all__btn .grid {
+        justify-content: unset;
+      }
+      .facets__display-vertical {
+          max-height: 250px;
+          overflow-y: scroll;
+          margin-bottom: 10px;
+      }
+      .facets__display-vertical::-webkit-scrollbar {
+        height: 4px;
+        width: 4px;
+      }
+      .facets__display-vertical::-webkit-scrollbar-track {
+        border-radius: 2px;
+        background-color: #FFFFFF;
+      }
+
+      .facets__display-vertical::-webkit-scrollbar-track:hover {
+        background-color: #B8C0C2;
+      }
+
+      .facets__display-vertical::-webkit-scrollbar-track:active {
+        background-color: #B8C0C2;
+      }
+
+      .facets__display-vertical::-webkit-scrollbar-thumb {
+        border-radius: 5px;
+        background-color: #E1251C;
+      }
+
+      .facets__display-vertical::-webkit-scrollbar-thumb:hover {
+        background-color: #E1251C;
+      }
+
+      .facets__display-vertical::-webkit-scrollbar-thumb:active {
+        background-color: #E1251C;
+      }
+      .marquee-brand__logo {
+          min-width: 110px;
+      }
+      .elite_product .product-form__submit { 
+        background: var(--blue-500);
+      }
+
+      @media only screen and (max-width:768px){ 
+          #MainContent iframe{
+            height:400px !important;
+          } 
+        
+        .price table thead .price-table-cell {
+            font-size: 8px !important;
+        }
+        .price table .price-table-cell {
+            font-size: 10px !important;
+        }
+        .collection-list-wrapper .card__heading{
+          font-size: 17px;
+        }
+      }
+    </style>
+  </head>
+
+  <body class="gradient{% if settings.enable_loader %}{% if settings.show_loader_homepage == true and template.name == 'index' %} overflow-hidden{% elsif settings.show_loader_homepage == false %} overflow-hidden{% endif %}{% endif %}">
+    <!-- Google Tag Manager (noscript) -->
+    <noscript>
+      <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NFKMF4KH"
+              height="0" width="0" style="display:none;visibility:hidden"></iframe>
+    </noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <a class="skip-to-content-link button visually-hidden" href="#MainContent">
+      {{ 'accessibility.skip_to_text' | t }}
+    </a>
+    {% if settings.enable_loader %}
+      {% if settings.show_loader_homepage == true and template.name == 'index' %}
+        {% render 'loader' %}
+      {% elsif settings.show_loader_homepage == false %}
+        {% render 'loader' %}
+      {% endif %}
+    {% endif %}
+
+
+
+
+    <style>
+      .marq_main{ 
+        background-color: #E1251C;
+      }
+       .marq_container {
+          display: flex;
+          white-space: nowrap;
+          width: 100%; 
+          margin: 0 auto;
+          overflow: hidden;
+          gap: 10px;
+          background-color: #E1251C;
+        }
+        .marq_loop-text { 
+          font-size: 13px; 
+          padding: 3px 0;
+          margin: 0;
+          color: #fff;
+          a{
+            color: #fff; 
+          }
+        } 
+        .marq_loop-text {
+          animation: loopText 30s infinite linear;      
+        }
+
+        @keyframes loopText { 
+          from {
+              transform: translateX(0);
+            } 
+          to {
+              transform: translateX(-100%);
+            } 
+        }
+    </style>
+{% comment %}
+    <div class="marq_main">
+      <div class="page-width">
+        <div class="marq_container"> 
+          <p class="marq_loop-text">Please note that our online payment and ordering services are temporarily unavailable due to technical issues with our payment gateway provider. We appreciate your understanding and patience as we work diligently with our partners to resolve this matter.</p>
+          <p class="marq_loop-text">Please note that our online payment and ordering services are temporarily unavailable due to technical issues with our payment gateway provider. We appreciate your understanding and patience as we work diligently with our partners to resolve this matter.</p>
+          <p class="marq_loop-text">Please note that our online payment and ordering services are temporarily unavailable due to technical issues with our payment gateway provider. We appreciate your understanding and patience as we work diligently with our partners to resolve this matter.</p>
+          <p class="marq_loop-text">Please note that our online payment and ordering services are temporarily unavailable due to technical issues with our payment gateway provider. We appreciate your understanding and patience as we work diligently with our partners to resolve this matter.</p>
+          <p class="marq_loop-text">Please note that our online payment and ordering services are temporarily unavailable due to technical issues with our payment gateway provider. We appreciate your understanding and patience as we work diligently with our partners to resolve this matter.</p>
+          <p class="marq_loop-text">Please note that our online payment and ordering services are temporarily unavailable due to technical issues with our payment gateway provider. We appreciate your understanding and patience as we work diligently with our partners to resolve this matter.</p>
+          <p class="marq_loop-text">Please note that our online payment and ordering services are temporarily unavailable due to technical issues with our payment gateway provider. We appreciate your understanding and patience as we work diligently with our partners to resolve this matter.</p>
+        </div>
+      </div>
+    </div>
+
+{% endcomment %}
+
+
+    {% sections 'header-group' %}
+    {% sections 'popups-group' %}
+
+    <main id="MainContent" class="content-for-layout focus-none gradient" role="main" tabindex="-1">
+
+      <div class="toast__register hidden" style="position:absolute;right:20px;z-index: 11;">
+        {% render 'toast', title: 'Success!', description: 'Registered & Logged In',toast-type: 'success' %}
+      </div>
+      
+      {{ content_for_layout }}
+    </main>
+
+    {% sections 'footer-group' %}
+
+    <ul hidden>
+      <li id="a11y-refresh-page-message">{{ 'accessibility.refresh_page' | t }}</li>
+      <li id="a11y-new-window-message">{{ 'accessibility.link_messages.new_window' | t }}</li>
+    </ul>
+
+    <script>
+    window.shopUrl = '{{ request.origin }}';
+    window.routes  = {
+      cart_add_url         : '{{ routes.cart_add_url }}',
+      cart_change_url      : '{{ routes.cart_change_url }}',
+      cart_update_url      : '{{ routes.cart_update_url }}',
+      cart_url             : '{{ routes.cart_url }}',
+      predictive_search_url: '{{ routes.predictive_search_url }}',
+    };
+
+    window.cartStrings = {
+      error        : `{{ 'sections.cart.cart_error' | t }}`,
+      quantityError: `{{ 'sections.cart.cart_quantity_error_html' | t: quantity: '[quantity]' }}`,
+    };
+
+    window.variantStrings = {
+      addToCart              : `{{ 'products.product.add_to_cart' | t }}`,
+      soldOut                : `{{ 'products.product.sold_out' | t }}`,
+      outOfStock             : `{{ 'products.product.inventory_out_of_stock' | t }}`,
+      inStock                : `{{ 'products.product.inventory_in_stock' | t }}`,
+      unavailable            : `{{ 'products.product.unavailable' | t }}`,
+      unavailable_with_option: `{{ 'products.product.value_unavailable' | t: option_value: '[value]' }}`,
+    };
+
+    window.quickOrderListStrings = {
+      itemsAdded  : `{{ 'sections.quick_order_list.items_added.other' | t: quantity: '[quantity]' }}`,
+      itemAdded   : `{{ 'sections.quick_order_list.items_added.one' | t: quantity: '[quantity]' }}`,
+      itemsRemoved: `{{ 'sections.quick_order_list.items_removed.other' | t: quantity: '[quantity]' }}`,
+      itemRemoved : `{{ 'sections.quick_order_list.items_removed.one' | t: quantity: '[quantity]' }}`,
+      viewCart    : `{{- 'sections.quick_order_list.view_cart' | t -}}`,
+      each        : `{{- 'sections.quick_order_list.each' | t: money: '[money]' }}`,
+    };
+
+    window.accessibilityStrings = {
+      imageAvailable        : `{{ 'products.product.media.image_available' | t: index: '[index]' }}`,
+      shareSuccess          : `{{ 'general.share.success_message' | t }}`,
+      pauseSlideshow        : `{{ 'sections.slideshow.pause_slideshow' | t }}`,
+      playSlideshow         : `{{ 'sections.slideshow.play_slideshow' | t }}`,
+      recipientFormExpanded : `{{ 'recipient.form.expanded' | t }}`,
+      recipientFormCollapsed: `{{ 'recipient.form.collapsed' | t }}`,
+    };
+    </script>
+
+    {%- if settings.predictive_search_enabled -%}
+      <script src="{{ 'predictive-search.js' | asset_url }}" defer="defer"></script>
+    {%- endif -%}
+    {% if settings.scroll_to_top %}
+      {% render 'scroll-to-top' %}
+    {% endif %}
+    <div class="theme-modal-popup__overlay"></div>
+    {% if settings.custom_cursor %}
+      {% render 'custom-cursor' %}
+    {% endif %}
+
+    <script type="text/javascript" id="zsiqchat">
+      var $zoho=$zoho || {};$zoho.salesiq = $zoho.salesiq || {widgetcode: "d053064779a6598062291a41ca1a9bfe501ac7e20e18e15f418c002213a270de", values:{},ready:function(){}};var d=document;s=d.createElement("script");s.type="text/javascript";s.id="zsiqscript";s.defer=true;s.src="https://salesiq.zohopublic.ca/widget";t=d.getElementsByTagName("script")[0];t.parentNode.insertBefore(s,t);
+    </script>
+    <script>
+    $zoho.salesiq.ready=function()
+    {
+      $zoho.salesiq.chat.logo("https://cdn.shopify.com/s/files/1/0520/7713/4012/files/Test_2.png?v=1704401800");
+    }
+    </script>
+
+    <script>
+          document.querySelectorAll('.remove-p').forEach(function(p) {
+              p.parentElement.remove();
+          });
+
+
+
+      // remove elite from BC code
+          document.addEventListener('DOMContentLoaded', () => { 
+            if (localStorage.getItem('global_province') == 'British Columbia') { 
+              removeElite()
+            } 
+          });
+          function removeElite(){
+            const eliteProducts = document.querySelectorAll('.elite_product'); 
+            eliteProducts.forEach(eliteProduct => {
+              eliteProduct.closest('li').remove();
+            });
+          }
+
+
+// register success msg code
+      function isComingFromRegistration() {  
+        const currentURL = new URL(window.location.href);
+        const isFromRegistrationForm = currentURL.searchParams.has('from_register') && currentURL.searchParams.get('from_register') == '1';
+        return isFromRegistrationForm
+      }
+      if(isComingFromRegistration()){
+        document.querySelector('.toast__register').classList.remove('hidden') 
+      }else{
+        document.querySelector('.toast__register').classList.add('hidden') 
+      }
+      
+
+      // product price check + stock bar store update
+      {% if template == 'product' %}
+
+        if( document.querySelectorAll('variant-radios .product-form__input label').length > 0 ){
+          let stockLabel = document.querySelector('.js-stock-badge')
+          document.querySelectorAll('variant-radios .product-form__input label').forEach(option => {
+            option.addEventListener('click',function(e){
+              let optionStock = option.getAttribute('data-stock')
+              // let optionPurchase = option.getAttribute('data-purchase')
+
+              
+              
+              if(optionStock == 0){
+                document.querySelector('.js-product-form__submit').disabled = true
+                document.querySelector('.js-product-form__submit .js-cart-update-button-text').innerHTML = 'SOLD OUT'
+                stockLabel.innerHTML = 'Out of Stock'
+
+                if(stockLabel.classList.contains('badge--green')){
+                  stockLabel.classList.remove('badge--green')
+                }
+                stockLabel.classList.add('badge--red')
+              }else{
+                document.querySelector('.js-product-form__submit').disabled = false
+                document.querySelector('.js-product-form__submit .js-cart-update-button-text').innerHTML = 'ADD TO CART'
+                stockLabel.innerHTML = `${optionStock} In Stock`
+                if(stockLabel.classList.contains('badge--red')){
+                  stockLabel.classList.remove('badge--red')
+                }
+                stockLabel.classList.add('badge--green')
+              }
+
+              // if(optionPurchase == '0.00'){
+              //   document.querySelector('.price.js-price-table.price--large').classList.add('hidden')
+              // }else{
+              //   document.querySelector('.price.js-price-table.price--large').classList.remove('hidden')
+              // }
+              
+            })
+          })
+        }
+
+      {% endif %}
+
+
+
+
+      // code for redirect on card click
+      if(document.querySelectorAll('.new-product-wrapper').length > 0){
+        document.querySelectorAll('.new-product-wrapper').forEach(card => {
+          card.querySelector('.card-information').addEventListener('click',function(){
+            window.location.href = card.dataset.ref
+          })
+        })
+      }
+
+      // hide icons when drawer open
+      document.querySelector('.menu-drawer-button').addEventListener('click',function(){
+        accessWishChatIconsShowhide()  
+      })
+
+      setTimeout(() => {
+        document.querySelector('.header__location-data').addEventListener('click',function(){
+          console.log('clicked')
+          accessWishChatIconsShowhide()  
+        })
+      }, 2000);
+      
+
+      {% if template == 'collection' %}
+      document.querySelector('.facet--button-toggle').addEventListener('click',function(){
+        accessWishChatIconsShowhide()  
+      })
+
+      document.querySelector('.filter-drawer__close').addEventListener('click',function(){
+        accessWishChatIconsShowhide()
+      })
+      {% endif %}
+
+      function accessWishChatIconsShowhide(){
+         // access icon
+        document.querySelector('div#userwayAccessibilityIcon') && document.querySelector('div#userwayAccessibilityIcon').classList.contains('hidden') ? document.querySelector('div#userwayAccessibilityIcon').classList.remove('hidden') : document.querySelector('div#userwayAccessibilityIcon').classList.add('hidden')
+        //wishlist btn
+        document.querySelector('.kaktus-wishlist-button') && document.querySelector('.kaktus-wishlist-button').classList.contains('hidden') ? document.querySelector('.kaktus-wishlist-button').classList.remove('hidden') : document.querySelector('.kaktus-wishlist-button').classList.add('hidden')
+        // chat icon
+        document.querySelector('div#zsiq_float') && document.querySelector('div#zsiq_float').classList.contains('hidden') ? document.querySelector('div#zsiq_float').classList.remove('hidden') : document.querySelector('div#zsiq_float').classList.add('hidden')  
+     
+      }
+
+    </script>
+
+
+
+<style> 
+  .new-product-wrapper{
+    cursor: pointer;
+  }
+  .new-product-wrapper .card__heading a {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+    font-size:14px;
+  }
+  label.facets__label.facet-checkbox {
+    text-transform: capitalize;
+  }
+  /* footer brand css */
+  @media only screen and (max-width:768px){
+    .shopify-section-group-footer-group .marquee-logo__with-brand{
+      padding-bottom: 65px !important;
+    }
+    .new-product-wrapper .card__heading a { 
+    font-size:14px;
+  }
+    div#zsiq_float img {
+        width: 55px;
+        height:55px;
+    }
+    div#userwayAccessibilityIcon {
+        width: 30px;
+        height: 30px;
+    }
+    .kaktus-wishlist-button .kaktus-w-wishlist-button__wrap{
+      font-size: 10px !important;
+      padding: 5px !important;
+    }
+    .kaktus-wishlist-button .kaktus-w-wishlist-button__icon {
+        width: 15px;
+    }
+  }
+</style>
+
+    <script src="{{ 'aispeed.js' | asset_url }}"></script>
+  </body>
+</html>

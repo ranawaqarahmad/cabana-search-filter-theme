@@ -1,0 +1,13 @@
+<script>
+window.stores = {};
+let currentStoreData = '';
+
+{% paginate shop.metaobjects.store.values by 500 %}
+  {% for item in shop.metaobjects.store.values %}
+    currentStoreData = {{ item.jsonData }};
+    currentStoreData.has_delivery = {% if item.has_delivery %}true{% else %}false{% endif %};
+    currentStoreData.has_pickup = {% if item.has_pickup %}true{% else %}false{% endif %};
+    window.stores["{{ item.name | handleize }}"] = currentStoreData;
+  {% endfor %}
+{% endpaginate %}
+</script>

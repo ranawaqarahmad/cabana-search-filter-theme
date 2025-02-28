@@ -1,0 +1,90 @@
+{{ 'section-image-banner.css' | asset_url | stylesheet_tag }}
+{{ 'section-hero-small.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign full_width = '100vw'
+  assign widths = '750, 1100, 1500, 1780, 2000, 3000, 3840'
+  assign fetch_priority = 'auto'
+  if section.index == 1
+    assign fetch_priority = 'high'
+  endif
+-%}
+<div class="page-width">
+
+  <div id="Hero-{{ section.id }}" class="banner page-width hero-small__container scroll-trigger">
+    {% if section.settings.image %}
+      <div class="banner__media hero-small__banner__media media scroll-trigger">
+        {%- liquid
+          assign image_height = section.settings.image.width | divided_by: section.settings.image.aspect_ratio
+          assign sizes = full_width
+        -%}
+        {{
+        section.settings.image
+        | image_url: width: 1400
+        | image_tag:
+        width: section.settings.image.width,
+        height: image_height,
+        class: "banner__media-image",
+        sizes: sizes,
+        widths: widths,
+        fetchpriority: fetch_priority
+        }}
+      </div>
+    {% endif %}
+
+    <div class="hero-small__content scroll-trigger">
+      <div class="content-container content-container--full-width-mobile color-{{ section.settings.color_scheme }}">
+        {% if section.settings.title %}
+          {{ section.settings.title }}
+        {% endif %}
+        {% if section.settings.content %}
+          {{ section.settings.content }}
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Hero Banner",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": [
+      "footer",
+      "custom.popups"
+    ]
+  },
+  "settings": [
+    {
+      "type": "richtext",
+      "id": "title",
+      "label": "t:sections.all.heading.label",
+      "default": "<h1>Heading here</h1>"
+    },
+    {
+      "type": "richtext",
+      "id": "content",
+      "label": "t:sections.all.description.label",
+      "default": "<p>Content here</p>"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:sections.image-banner.settings.image.label"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero Banner"
+    }
+  ]
+}
+{% endschema %}

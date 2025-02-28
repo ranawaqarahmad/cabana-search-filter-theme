@@ -1,0 +1,118 @@
+
+<style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .search-container {
+            position: relative;
+            width: 300px;
+            margin: 50px auto;
+        }
+        .search-input {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .popup {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: white;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            display: none;
+            max-height: 200px;
+            overflow-y: auto;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+        .popup div {
+            padding: 10px;
+            cursor: pointer;
+        }
+        .popup div:hover {
+            background: #f0f0f0;
+        }
+    </style>
+
+<div class="search-container">
+        <input type="text" class="search-input" id="searchInput" placeholder="Search..." onkeyup="showPopup()">
+        <div class="popup" id="searchPopup"></div>
+    </div>
+
+
+<script>
+       
+
+        function debounce(func, delay) {
+  let timeout;
+  return function (...args) {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => func.apply(this, args), delay);
+  };
+}
+
+const showPopup = debounce(async function (value) {
+  let inputValue = document.getElementById("searchInput").value.toLowerCase();
+  let popup = document.getElementById("searchPopup");
+
+  if (inputValue.length === 0) {
+    popup.style.display = "none";
+    return;
+  }
+
+  try {
+    const storeId = localStorage.getItem("global_store_id");
+    if (!storeId) {
+      console.error("Store ID is missing");
+      return;
+    }
+
+    const resp = await fetch(
+      `${baseUrl}/product/search?title=${inputValue}&storeId=${storeId}&limit=15&page=1`,
+      {
+        headers: { "Content-type": "application/json" },
+      }
+    );
+
+    const { data } = await resp.json();
+
+    if (data.length === 0) {
+      popup.innerHTML = "<div>No results found</div>";
+    } else {
+      popup.innerHTML = data
+        .map(
+          (item) => `<div onclick="selectItem('${item}')">${item.title}</div>`
+        )
+        .join("");
+    }
+
+    console.log("DATA", data);
+  } catch (error) {
+    console.error("Error fetching search results:", error);
+  }
+
+  popup.style.display = "block";
+}, 300);
+
+
+        // const showPopup = async () => {
+           
+        // }
+
+        function selectItem(value) {
+            document.getElementById("searchInput").value = value;
+            document.getElementById("searchPopup").style.display = "none";
+        }
+
+        document.addEventListener("click", function(event) {
+            let popup = document.getElementById("searchPopup");
+            let input = document.getElementById("searchInput");
+            if (!input.contains(event.target) && !popup.contains(event.target)) {
+                popup.style.display = "none";
+            }
+        });
+    </script>

@@ -1,0 +1,164 @@
+{{ 'breadcrumb.css' | asset_url | stylesheet_tag }}
+{% unless template.name == 'index' %}
+  <nav class="breadcrumb" role="navigation" aria-label="breadcrumbs">
+    <a href="{{ routes.root_url }}" class="breadcrumb-link" title="{{ 'general.breadcrumbs.home' | t }}">
+      {{- 'general.breadcrumbs.home' | t -}}
+    </a>
+    {% if template.name == 'product' %}
+      {% if collection %}
+        <span class="breadcrumb-divider" aria-hidden="true">
+          {%- render 'theme-icons', icon: 'icon-chevron-right' -%}
+        </span>
+        {% if collection.handle %}
+          {% capture url %}{{ routes.collections_url }}/{{ collection.handle }}{% endcapture %}
+          {{ collection.title | link_to: url, class: 'breadcrumb-link' }}
+        {% endif %}
+      {% endif %}
+      <span class="breadcrumb-divider" aria-hidden="true">{% render 'theme-icons', icon: 'icon-chevron-right' %}</span>
+      <span class="breadcrumb-product__title">{{ product.title }}</span>
+    {% elsif template.name == 'collection' and collection.handle %}
+
+      {% comment %}
+        A loop to catch and filter out the different tag categories.
+        This is mainly for advanced tagging, but will also help us strip
+        out any tag categories from our tags (E.g. remove BRAND_ from BRAND_tag)
+      {% endcomment %}
+      {%- if collection.all_tags.size > 0 -%}
+        {% assign categories = blank %}
+        {%- for tag in collection.all_tags -%}
+          {%- if tag contains '_' -%}
+            {% assign category = tag | split: '_' | first %}
+
+            {% assign categories = categories
+              | append: '|'
+              | append: category
+            %}
+          {%- endif -%}
+        {%- endfor -%}
+        {% assign base_cat_array = categories | remove_first: '|' | split: '|' | uniq %}
+
+        {%- assign custom_ordered_categories = section.settings.custom_ordered_categories | split: ',' -%}
+        {%- assign custom_categories = blank -%}
+
+        {%- for custom_ordered_category in custom_ordered_categories -%}
+          {%- assign custom_category = custom_ordered_category | strip -%}
+
+          {%- unless base_cat_array contains custom_category -%}
+            {%- continue -%}
+          {%- endunless -%}
+
+          {%-
+            assign custom_categories = custom_categories
+            | append: '|'
+            | append: custom_category
+          -%}
+        {%- endfor -%}
+
+        {%- assign cat_array = custom_categories | remove_first: '|' | split: '|' | concat: base_cat_array | uniq -%}
+      {%- endif -%}
+
+      <span class="breadcrumb-divider" aria-hidden="true">
+        {%- render 'theme-icons', icon: 'icon-chevron-right' -%}
+      </span>
+
+      <a href="/collections" class="breadcrumb-link">{{ 'general.breadcrumbs.collections' | t | replace: ':', '' }}</a>
+
+      {%- assign isvendor = false -%}
+      {%- if collection.all_products_count > 0 -%}
+        {%- assign testhandle = collection.products.first.vendor | handleize -%}
+        {%- if collection.products.first.vendor == collection.title or testhandle == collection.handle -%}
+          {%- assign isvendor = true -%}
+        {%- endif -%}
+      {%- endif -%}
+
+      {% if isvendor %}
+        <span class="breadcrumb-divider" aria-hidden="true">
+          {%- render 'theme-icons', icon: 'icon-chevron-right' -%}
+        </span>
+
+        <a href="/collections/shop-by-brand" class="breadcrumb-link">Shop by Brand</a>
+      {% else %}
+        {%- for link in linklists['collection-breadcrumbs'].links -%}
+          {%- if link.links.size > 0 -%}
+            {%- for child_link in link.links -%}
+              {%- if child_link.handle == collection.handle -%}
+                <span class="breadcrumb-divider" aria-hidden="true">
+                  {%- render 'theme-icons', icon: 'icon-chevron-right' -%}
+                </span>
+
+                <a href="{{ link.url }}" class="breadcrumb-link">{{ link.title }}</a>
+                {% break %}
+                {% break %}
+              {%- endif -%}
+            {%- endfor -%}
+          {%- endif -%}
+        {%- endfor -%}
+      {% endif %}
+
+      <span class="breadcrumb-divider" aria-hidden="true">
+        {%- render 'theme-icons', icon: 'icon-chevron-right' -%}
+      </span>
+
+      {% if current_tags %}
+        {% capture url %}/collections/{{ collection.handle }}{% endcapture %}
+
+        <span class="breadcrumb-collection__title">{{ collection.title | link_to: url }}</span>
+
+        <span class="breadcrumb-divider" aria-hidden="true">
+          {%- render 'theme-icons', icon: 'icon-chevron-right' -%}
+        </span>
+
+        {% for tag in current_tags %}
+          {% assign is_advanced_tag = false %}
+          {% assign cat = tag | split: '_' | first %}
+          {% unless cat == tag %}
+            {% if cat_array contains cat %}
+              {% assign is_advanced_tag = true %}
+
+              <span class="breadcrumb-collection__title">
+                {{ tag | remove_first: cat | remove_first: '_' }}
+              </span>
+            {% endif %}
+          {% endunless %}
+
+          {% unless is_advanced_tag %}
+            <span class="breadcrumbs-tag">{{ tag }}</span>
+          {% endunless %}
+
+          {% unless forloop.last %}
+            <span class="breadcrumbs-tag">+</span>
+          {% endunless %}
+        {% endfor %}
+
+      {% else %}
+        <span class="breadcrumb-collection__title">{{ collection.title }}</span>
+      {% endif %}
+
+    {% elsif template.name == 'blog' %}
+      <span class="breadcrumb-divider" aria-hidden="true">{% render 'theme-icons', icon: 'icon-chevron-right' %}</span>
+      {% if current_tags %}
+        {{ blog.title | link_to: blog.url, class: 'breadcrumb-link' }}
+        <span class="breadcrumb-divider" aria-hidden="true">
+          {%- render 'theme-icons', icon: 'icon-chevron-right' -%}
+        </span>
+        <span>{{ current_tags | join: ' + ' }}</span>
+      {% else %}
+        <span>{{ blog.title }}</span>
+      {% endif %}
+    {% elsif template.name == 'article' %}
+      <span class="breadcrumb-divider" aria-hidden="true">{% render 'theme-icons', icon: 'icon-chevron-right' %}</span>
+      <a class="breadcrumb-link" href="{{ blog.url }}" aria-current="page">{{ blog.title }}</a>
+      <span class="breadcrumb-divider" aria-hidden="true">{% render 'theme-icons', icon: 'icon-chevron-right' %}</span>
+      <span>{{ article.title }}</span>
+    {% elsif template.name == 'page' %}
+      <span class="breadcrumb-divider" aria-hidden="true">{% render 'theme-icons', icon: 'icon-chevron-right' %}</span>
+      <span>{{ page.title }}</span>
+    {% elsif template.name == 'search' %}
+      <span class="breadcrumb-divider" aria-hidden="true">{% render 'theme-icons', icon: 'icon-chevron-right' %}</span>
+      <span>{{ page_title | replace: '*', '' }}</span>
+    {% else %}
+      <span class="breadcrumb-divider" aria-hidden="true">{% render 'theme-icons', icon: 'icon-chevron-right' %}</span>
+      <span>{{ page_title }}</span>
+    {% endif %}
+  </nav>
+{% endunless %}

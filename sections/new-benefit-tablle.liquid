@@ -1,0 +1,333 @@
+<div class="new_benefits_main">
+  <div class="new_benefits_container">
+    <h2 class="new_benefits_main_heading">{{ section.settings.title }}</h2>
+    <div class="new_benefits_header">
+      <div class="heading_benefit">
+        Benefits
+      </div>
+      <div class="benefits_mem_img">
+        <img src="{{ section.settings.mem_image |  img_url:'100x'  }}" />
+      </div>
+      <div class="benefits_elite_img">
+        <img src="{{ section.settings.elit_image |  img_url:'100x' }}" />
+      </div>
+    </div>
+
+    {% for block in section.blocks %}
+      {% case block.type %}
+        {% when 'item' %}
+          <div class="new_benefit_single itemm" data-proviance="{{ block.settings.proviance }}">
+            <div class="new_benefit_single_text">
+              {{ block.settings.txt }}
+            </div>
+            <div class="new_benefit_single_mem">
+              {% if block.settings.show_member %}
+                <img src="https://cdn.shopify.com/s/files/1/0520/7713/4012/files/icon_mem.png?v=1727281726" />
+              {% endif %}
+            </div>
+            <div class="new_benefit_single_elite">
+              {% if block.settings.show_elite %}
+                <img src="https://cdn.shopify.com/s/files/1/0520/7713/4012/files/icon_elite.png?v=1727281726" />
+              {% endif %}
+            </div>
+          </div>
+
+
+        {% when 'item_price' %}
+          <div class="new_benefit_single_price itemm" data-proviance="{{ block.settings.proviance }}">
+            <div class="new_benefit_single_text_price">
+              <span>{{ block.settings.txt }}</span>
+            </div>
+            <div class="new_benefit_single_mem_price">
+              {{ block.settings.mem_price }}
+            </div>
+            <div class="new_benefit_single_elite_price">
+              {{ block.settings.elite_price }}
+            </div>
+          </div>
+
+      {% endcase %}
+    {% endfor %}
+
+  </div>
+
+</div>
+
+<script>
+    document.querySelectorAll("[data-proviance='rest']").length > 0 && document.querySelectorAll("[data-proviance='rest']").forEach(item => {
+        if(localStorage.getItem('global_province') == 'Alberta'){
+            item.classList.add('hidden')
+        }
+    })
+ 
+</script>
+
+<style>
+  .new_benefits_main {
+    margin: 64px 0;
+    padding: 0 15px;
+    .new_benefits_container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    h2.new_benefits_main_heading {
+      font-size: 24px;
+      text-align: center;
+      color: #1C355E;
+      margin: 0 0 32px;
+      p {
+        margin: 0;
+      }
+    }
+    .new_benefits_header {
+      display: grid;
+      width: 100%;
+      grid-template-columns: 39.8% 30.1% 30.1%;
+      border-top: 1px solid #C1C7D0;
+      border-radius: 12px 12px 0 0;
+      border-left: 1px solid #C1C7D0; 
+
+      .heading_benefit {
+        padding: 8px;
+        font-weight: 600;
+        font-size: 20px;
+      }
+      .benefits_mem_img {
+        text-align: center;
+        padding: 8px;
+        border-left: 1px solid #C1C7D0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        img {
+          max-width: 73px;
+        }
+      }
+      .benefits_elite_img {
+        text-align: center;
+        padding: 8px;
+        background-color: #031546;
+        border-radius: 0 12px 0 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        img {
+          max-width: 53px;
+        }
+      }
+    }
+    .new_benefit_single {
+      display: grid;
+      grid-template-columns: 39.9% 30% 30%;
+      border-top: 1px solid #C1C7D0;
+      border-left: 1px solid #C1C7D0;
+      .new_benefit_single_text {
+        padding: 8px;
+        font-size: 14px;
+        font-weight: 600;
+        border-right: 1px solid #C1C7D0;
+      }
+      .new_benefit_single_mem {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 8px;
+      }
+      .new_benefit_single_elite {
+        background-color: #031546;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 8px;
+      }
+    }
+
+    .new_benefit_single_price {
+      display: grid;
+      grid-template-columns: 39.9% 30% 30%;
+      border: 1px solid #C1C7D0;
+      border-right: 0;
+
+      border-radius: 0 0 12px 12px;
+
+      .new_benefit_single_text_price {
+        padding: 8px;
+        font-size: 16px;
+        font-weight: 600;
+        display: flex;
+        align-self: center;
+        border-right: 1px solid #C1C7D0;
+        position: relative;
+        height: 100%;
+        > span {
+          position: absolute;
+          top: 50%;
+          transform: translatey(-50%);
+        }
+      }
+      .new_benefit_single_mem_price {
+        text-align: center;
+        padding: 8px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+      }
+      .new_benefit_single_elite_price {
+        background-color: #031546;
+        text-align: center;
+        padding: 8px;
+        border-radius: 0 0 12px 0;
+      }
+    }
+  }
+
+  @media only screen and (max-width: 768px) {
+    .new_benefits_main {
+      h2.new_benefits_main_heading {
+        font-size: 22px;
+      }
+      .new_benefits_header {
+        grid-template-columns: 49.8% 25.1% 25.1%;
+
+        .heading_benefit {
+          font-size: 16px;
+        }
+      }
+      .new_benefit_single {
+        display: grid;
+        grid-template-columns: 49.9% 25% 25%;
+      }
+
+      .new_benefit_single_price {
+        display: grid;
+        grid-template-columns: 49.9% 25% 25%;
+        border: 1px solid #C1C7D0;
+        border-radius: 0 0 12px 12px;
+
+        .new_benefit_single_text_price {
+          font-size: 14px;
+          color: #000;
+        }
+        .new_benefit_single_mem_price {
+          * {
+            font-size: 14px !important;
+            color: #000;
+          }
+        }
+        .new_benefit_single_elite_price {
+          span:first-child {
+            font-size: 14px !important;
+          }
+          span:last-child {
+            font-size: 16px !important;
+          }
+        }
+      }
+    }
+  }
+</style>
+
+{% schema %}
+  {
+    "name": "New Benefit Table",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Heading",
+        "default": "Upgrade to ELITE <br>It’s a No-Brainer"
+      }, {
+        "type": "image_picker",
+        "id": "mem_image",
+        "label": "Member Image"
+      }, {
+        "type": "image_picker",
+        "id": "elit_image",
+        "label": "Elite Image"
+      }
+    ],
+    "blocks": [
+      {
+        "name": "Item",
+        "type": "item",
+        "settings": [
+          {
+            "type": "text",
+            "id": "txt",
+            "label": "Text"
+          }, {
+            "type": "checkbox",
+            "id": "show_member",
+            "label": "Show member",
+            "default": false
+          }, {
+            "type": "checkbox",
+            "id": "show_elite",
+            "label": "Show elite",
+            "default": false
+          }, {
+            "type": "select",
+            "id": "proviance",
+            "label": "Proviance",
+            "options": [
+              {
+                "value": "rest",
+                "label": "Rest (Alberta Excluded)"
+              }, 
+              {
+                "value": "all",
+                "label": "All"
+              }
+            ],
+            "default": "all"
+          }
+
+
+        ]
+      }, {
+        "name": "Item Price",
+        "type": "item_price",
+        "settings": [
+          {
+            "type": "text",
+            "id": "txt",
+            "label": "Text"
+          }, {
+            "type": "html",
+            "id": "mem_price",
+            "label": "Member Price"
+          }, {
+            "type": "html",
+            "id": "elite_price",
+            "label": "Elite Price"
+          }, {
+            "type": "select",
+            "id": "proviance",
+            "label": "Proviance",
+            "options": [
+              {
+                "value": "rest",
+                "label": "Rest (Alberta Excluded)"
+              }, 
+              {
+                "value": "all",
+                "label": "All"
+              }
+            ],
+            "default": "all"
+          }
+
+
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "New Benefit Table",
+        "settings": {}
+      }
+    ]
+  }
+{% endschema %}

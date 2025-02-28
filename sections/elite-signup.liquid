@@ -1,0 +1,304 @@
+{{ 'customer.css' | asset_url | stylesheet_tag }}
+{{ 'elite-signup.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+  padding-top: 16px;
+  padding-bottom: 16px;
+  }
+
+  @media screen and (min-width: 992px) {
+  .section-{{ section.id }}-padding {
+  padding-top: {{ section.settings.padding_top }}px;
+  padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+  }
+{%- endstyle -%}
+{% unless customer %}
+<div class="customer register section-{{ section.id }}-padding splr-medium elite-signup-container color-{{ section.settings.color_scheme }}" >
+  <div class="page-width">
+    <div class="elite-signup-block">
+      {% if section.settings.heading %}
+        <div class="customer-register-heading">
+          <h2 class="h4">{{ section.settings.heading }}</h2>
+        </div>
+      {% endif %}
+      <div class="section-heading__bar sp-small">
+        <div class="tabs">
+          <span class="tab active" data-tab="signup">{{ 'customer.register.sign_up' | t }}</span>
+          <span class="tab" data-tab="signin">{{ 'customer.register.sign_in' | t }}</span>
+        </div>
+      </div>
+      <div class="form-container active" id="signup-form">
+        {%- form 'create_customer', novalidate: 'novalidate' -%}
+          {%- if form.errors -%}
+            {%- assign form_errors = form.errors | default_errors -%}
+            <div class="op-error-message mgb-small">
+              {%- render 'theme-icons', icon: 'error' -%}
+              {{ form_errors }}
+            </div>
+          {%- endif -%}
+          <div class="field-flex gap-medium">
+            <div class="field">
+              <input
+                type="text"
+                name="customer[first_name]"
+                id="RegisterForm-FirstName"
+                {% if form.first_name %}
+                  value="{{ form.first_name }}"
+                {% endif %}
+                autocomplete="given-name"
+                placeholder="First Name"
+              >
+              <label for="RegisterForm-FirstName" class="hidden">
+                {{ 'customer.register.first_name' | t }}
+              </label>
+            </div>
+            <div class="field">
+              <input
+                type="text"
+                name="customer[last_name]"
+                id="RegisterForm-LastName"
+                {% if form.last_name %}
+                  value="{{ form.last_name }}"
+                {% endif %}
+                autocomplete="family-name"
+                placeholder="Last Name"
+              >
+              <label for="RegisterForm-LastName" class="hidden">
+                {{ 'customer.register.last_name' | t }}
+              </label>
+            </div>
+          </div>
+          <div class="field-flex gap-medium">
+            <div class="field">
+              <input
+                type="phone"
+                name="customer[phone]"
+                id="RegisterForm-phone"
+                {% if form.phone %}
+                  value="{{ form.phone }}"
+                {% endif %}
+                spellcheck="false"
+                autocapitalize="off"
+                aria-required="false"
+                {% if form.errors contains 'phone' %}
+                  aria-invalid="true"
+                  aria-describedby="RegisterForm-phone-error"
+                {% endif %}
+                placeholder="Phone"
+              >
+              <label for="RegisterForm-phone" class="hidden">
+                {{ 'customer.register.phone' | t }}
+              </label>
+            </div>
+            <div class="field">
+              <input
+                type="text"
+                name="customer[postal-code]"
+                id="RegisterForm-postal"
+                {% if form.postal %}
+                  value="{{ form.postal }}"
+                {% endif %}
+                spellcheck="false"
+                autocapitalize="off"
+                aria-required="false"
+                {% if form.errors contains 'postal' %}
+                  aria-invalid="true"
+                  aria-describedby="RegisterForm-postal-error"
+                {% endif %}
+                placeholder="Postal Code"
+              >
+              <label for="RegisterForm-postal" class="hidden">
+                {{ 'customer.register.postal_code' | t }}
+              </label>
+            </div>
+          </div>
+          <div class="field-flex gap-medium">
+            <div class="field">
+              <input
+                type="email"
+                name="customer[email]"
+                id="RegisterForm-email"
+                {% if form.email %}
+                  value="{{ form.email }}"
+                {% endif %}
+                spellcheck="false"
+                autocapitalize="off"
+                autocomplete="email"
+                aria-required="true"
+                {% if form.errors contains 'email' %}
+                  aria-invalid="true"
+                  aria-describedby="RegisterForm-email-error"
+                {% endif %}
+                placeholder="Email"
+                required
+              >
+              <label for="RegisterForm-email" class="hidden">
+                {{ 'customer.register.email' | t }}
+              </label>
+            </div>
+            <div class="field">
+              <input
+                type="password"
+                name="customer[password]"
+                id="RegisterForm-password"
+                aria-required="true"
+                {% if form.errors contains 'password' %}
+                  aria-invalid="true"
+                  aria-describedby="RegisterForm-password-error"
+                {% endif %}
+                placeholder="Password"
+                required
+              >
+              <label for="RegisterForm-password" class="hidden">
+                {{ 'customer.register.password' | t }}
+              </label>
+            </div>
+          </div>
+          <div class="accepts-marketing">
+            <input type="hidden" name="customer[accepts_marketing]" value="false" />
+            <input type="checkbox" name="customer[accepts_marketing]" id="RegisterForm-AcceptsMarketing" />
+            <label for="RegisterForm-AcceptsMarketing">{{ 'customer.register.accepts_marketing' | t }}</label>
+          </div>
+          <div class="field-other">
+            <button class="button--primary">
+              {{ 'customer.register.sign_up_button' | t }}
+            </button>
+          </div>
+          <div class="field-other">
+            <p class="form-sign-switch">{{ 'customer.register.member' | t }}<a href="#" id="sign-in-link"> {{ 'customer.register.sign_in' | t }}</a>
+            </p>
+          </div>
+        {%- endform -%}
+      </div>
+      <div class="form-container" id="signin-form">
+        {%- form 'customer_login', novalidate: 'novalidate' -%}
+          {%- if form.errors -%}
+            {%- assign form_errors = form.errors | default_errors -%}
+            <div class="op-error-message mgb-small">
+              {%- render 'theme-icons', icon: 'error' -%}
+              {{ form_errors }}
+            </div>
+          {%- endif -%}
+          <div class="field">
+            <input
+              type="email"
+              name="customer[email]"
+              id="CustomerLogin-email"
+              {% if form.email %}
+                value="{{ form.email }}"
+              {% endif %}
+              spellcheck="false"
+              autocapitalize="off"
+              autocomplete="email"
+              aria-required="true"
+              {% if form.errors contains 'email' %}
+                aria-invalid="true"
+                aria-describedby="CustomerLogin-email-error"
+              {% endif %}
+              placeholder="Email"
+              required
+            >
+            <label for="CustomerLogin-email" class="hidden">
+              {{ 'customer.register.email' | t }}
+            </label>
+          </div>
+          <div class="field">
+            <input
+              type="password"
+              name="customer[password]"
+              id="CustomerLogin-password"
+              aria-required="true"
+              {% if form.errors contains 'password' %}
+                aria-invalid="true"
+                aria-describedby="CustomerLogin-password-error"
+              {% endif %}
+              placeholder="Password"
+              required
+            >
+            <label for="CustomerLogin-password" class="hidden">
+              {{ 'customer.register.password' | t }}
+            </label>
+          </div>
+          <div class="field-other">
+            <button class="button--primary">
+              {{ 'customer.register.sign_in' | t }}
+            </button>
+          </div>
+        {%- endform -%}
+      </div>
+    </div>
+  </div>
+</div>
+{% endunless %}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const tabs  = document.querySelectorAll('.tab');
+  const forms = document.querySelectorAll('.form-container');
+  const signInLink = document.getElementById('sign-in-link');
+
+  tabs.forEach(function (tab) {
+    tab.addEventListener('click', function () {
+      tabs.forEach(function (item) {
+        item.classList.remove('active');
+      });
+      tab.classList.add('active');
+
+      forms.forEach(function (form) {
+        form.classList.remove('active');
+      });
+      document.getElementById(tab.getAttribute('data-tab') + '-form').classList.add('active');
+    });
+  });
+
+  signInLink.addEventListener('click', function (event) {
+    event.preventDefault();
+    document.querySelector('.tab[data-tab="signin"]').click();
+  });
+});
+</script>
+
+{% schema %}
+{
+  "name": "Elite Signup",
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "t:sections.rich-text.blocks.heading.settings.heading.label"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "t:sections.all.section_spacing.above",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "t:sections.all.section_spacing.below",
+      "default": 100
+    }
+  ],
+  "presets": [
+    {
+      "name": "Elite Signup"
+    }
+  ]
+}
+{% endschema %}

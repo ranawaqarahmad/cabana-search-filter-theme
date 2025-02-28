@@ -1,0 +1,38 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "name": "t:sections.header.name",
+  "type": "header",
+  "sections": {
+    "header": {
+      "type": "header",
+      "settings": {
+        "sticky_header": true,
+        "color_scheme": "scheme-9f459313-d482-46ca-b82d-99b7d5128e5d",
+        "navigation_hub": false,
+        "logo": "shopify://shop_images/logo-cannacabana-white.svg",
+        "logo_width": 150,
+        "logo_width_mobile": 150,
+        "menu": "new-dev-menu",
+        "menu_mobile_1": "new-dev-mbl-menu",
+        "menu_mobile_2": "",
+        "menu_position": "top-left",
+        "menu_type_desktop": "mega",
+        "collection_featured_image": false,
+        "menu_as_button": true,
+        "menu_color_scheme": "scheme-581cb70d-7265-44ab-971a-24363331fffd",
+        "inline_search": true
+      }
+    }
+  },
+  "order": [
+    "header"
+  ]
+}

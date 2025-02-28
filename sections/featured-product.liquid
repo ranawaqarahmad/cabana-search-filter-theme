@@ -1,0 +1,1207 @@
+{{ 'section-main-product.css' | asset_url | stylesheet_tag }}
+{{ 'section-featured-product.css' | asset_url | stylesheet_tag }}
+{{ 'component-accordion.css' | asset_url | stylesheet_tag }}
+{{ 'component-price.css' | asset_url | stylesheet_tag }}
+{{ 'component-deferred-media.css' | asset_url | stylesheet_tag }}
+{{ 'component-rating.css' | asset_url | stylesheet_tag }}
+{{ 'component-volume-pricing.css' | asset_url | stylesheet_tag }}
+
+ {%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.50 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.50 | round: 0 }}px;
+  }
+
+ @media screen and (min-width: 990px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+
+ .section-{{ section.id }}-padding {
+    margin-top: 16px;
+    margin-bottom: 16px;
+  }
+
+  @media screen and (min-width: 769px) {
+    .section-{{ section.id }}-padding {
+      margin-top: 32px;
+      margin-bottom: 32px;
+    }
+  }
+
+  @media screen and (min-width: 1201px) {
+    .section-{{ section.id }}-padding {
+     margin-top: 64px;
+     margin-bottom: 64px;
+    }
+  }
+
+{%- endstyle -%}
+
+<script src="{{ 'product-info.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'show-more.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'price-per-item.js' | asset_url }}" defer="defer"></script>
+
+{%- liquid
+  assign product = section.settings.product
+-%}
+
+{% comment %} TODO: assign `product.selected_or_first_available_variant` to variable and replace usage to reduce verbosity {% endcomment %}
+
+{%- assign first_3d_model = product.media | where: 'media_type', 'model' | first -%}
+{%- if first_3d_model -%}
+  {{ 'component-product-model.css' | asset_url | stylesheet_tag }}
+  <link
+    id="ModelViewerStyle"
+    rel="stylesheet"
+    href="https://cdn.shopify.com/shopifycloud/model-viewer-ui/assets/v1.0/model-viewer-ui.css"
+    media="print"
+    onload="this.media='all'"
+  >
+  <link
+    id="ModelViewerOverride"
+    rel="stylesheet"
+    href="{{ 'component-model-viewer-ui.css' | asset_url }}"
+    media="print"
+    onload="this.media='all'"
+  >
+{%- endif -%}
+{% assign variant_images = product.images | where: 'attached_to_variant?', true | map: 'src' %}
+<section class="section-{{ section.id }}-padding{% unless section.settings.expanded_width %} page-width{% else %} color-{{ section.settings.color_scheme }}{% endunless %}">
+  <div class="page-width{% unless section.settings.expanded_width %} color-{{ section.settings.color_scheme }} section-with-background{% endunless %}">
+    <div class="featured-product product--medium product--left product--{{ section.settings.gallery_layout }} product--mobile-hide grid grid--1-col {% if product.media.size > 0 %}grid--1-col-tablet{% endif %}{% if product == blank %} product__empty{% endif %}">
+      <div class="grid__item product__media-wrapper">
+        {% render 'product-media-gallery', product: product, variant_images: variant_images, gallery_layout: section.settings.gallery_layout %}
+      </div>
+      <div class="product__info-wrapper grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+        <product-info
+          id="ProductInfo-{{ section.id }}"
+          class="product__info-container product__column-sticky"
+          data-section="{{ section.id }}"
+          data-url="{{ product.url }}"
+        >
+          {%- assign product_form_id = 'product-form-' | append: section.id -%}
+
+          {%- for block in section.blocks -%}
+            {%- case block.type -%}
+              {%- when '@app' -%}
+                {% render block %}
+              {% when 'vendor' %}
+                <p
+                  class="product__text inline-richtext product-brand{% if product.vendor == blank %} hidden{% endif %}"
+                  {{ block.shopify_attributes }}
+                >
+                  {{ product.vendor }}
+                </p>
+              {%- when 'content' -%}
+                <div
+                  class="product__text inline-richtext rte"
+                  {{ block.shopify_attributes }}
+                >
+                  {{- block.settings.content -}}
+                </div>
+              {%- when 'title' -%}
+                <h2 class="product__title {{ block.settings.heading_size }}" {{ block.shopify_attributes }}>
+                  {%- if product.title != blank -%}
+                    {{ product.title | escape }}
+                  {%- else -%}
+                    {{ 'onboarding.product_title' | t }}
+                  {%- endif -%}
+                </h2>
+              {% when 'offer' %}
+                <div class="offer-banner rte color-{{ block.settings.color_scheme }}" {{ block.shopify_attributes }}>
+                  {{ block.settings.content }}
+                </div>
+              {%- when 'price' -%}
+                <div class="no-js-hidden" id="price-{{ section.id }}" role="status" {{ block.shopify_attributes }}>
+                  {%- render 'price',
+                    product: product,
+                    use_variant: true,
+                    show_badges: true,
+                    price_class: 'price--large'
+                  -%}
+                </div>
+                {%- if product.quantity_price_breaks_configured? -%}
+                  <div class="volume-pricing-note" id="Volume-Note-{{ section.id }}">
+                    <span>{{ 'products.product.volume_pricing.note' | t }}</span>
+                  </div>
+                {%- endif -%}
+                {%- if cart.taxes_included or shop.shipping_policy.body != blank -%}
+                  <div class="product__tax caption rte">
+                    {%- if cart.taxes_included -%}
+                      {{ 'products.product.include_taxes' | t }}
+                    {%- endif -%}
+                    {%- if shop.shipping_policy.body != blank -%}
+                      {{ 'products.product.shipping_policy_html' | t: link: shop.shipping_policy.url }}
+                    {%- endif -%}
+                  </div>
+                {%- endif -%}
+                {%- if product != blank -%}
+                  <div {{ block.shopify_attributes }}>
+                    {%- form 'product', product -%}
+                      <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+                      {{ form | payment_terms }}
+                    {%- endform -%}
+                  </div>
+                {%- endif -%}
+              {%- when 'inventory' -%}
+                <div
+                  class="product__inventory-block no-js-hidden{% if product.selected_or_first_available_variant.inventory_management != 'shopify' %} visibility-hidden{% endif %}"
+                  {{ block.shopify_attributes }}
+                  id="Inventory-{{ section.id }}"
+                  role="status"
+                >
+                  {%- if product.selected_or_first_available_variant.inventory_management == 'shopify' -%}
+                    {%- if product.selected_or_first_available_variant.inventory_quantity > 0 -%}
+                      {%- if product.selected_or_first_available_variant.inventory_quantity
+                          <= block.settings.inventory_threshold
+                      -%}
+                        {% liquid
+                          assign minimumQuantity = block.settings.inventory_threshold | times: 1.0
+                          assign progress = product.selected_or_first_available_variant.inventory_quantity | divided_by: minimumQuantity | times: 100 | round
+                          if progress > 80  and progress < 90
+                            assign progress = 85
+                          elsif progress > 90
+                            assign progress = 90
+                          endif
+                        %}
+                        <p class="product__inventory-type low--inventory">
+                          <label class="inventory-notice"><span class="bold stock__label">{{- 'products.product.stock' | t -}}</span>{% if block.settings.low_inventory_notice != blank %}{{ block.settings.low_inventory_notice | replace: "||count||", product.selected_or_first_available_variant.inventory_quantity }}{% else %}{{- 'products.product.inventory_low_stock_show_count' | t: quantity: product.selected_or_first_available_variant.inventory_quantity -}}{% endif %}</label>
+                          <span id="inventory-progress__bar" value="{{ product.selected_or_first_available_variant.inventory_quantity }}" style="--quantity-progress: {{ progress | append: '%' }};"> </span>
+                        </p>
+                      {%- else -%}
+                        {% liquid
+                          assign minimumQuantity = block.settings.inventory_threshold | times: 1.0
+                          assign progress = product.selected_or_first_available_variant.inventory_quantity | divided_by: minimumQuantity | times: 100 | round
+                          if progress > 80  and progress < 90
+                            assign progress = 85
+                          elsif progress > 90
+                            assign progress = 90
+                          endif
+                        %}
+                        <p class="product__inventory-type available--inventory">
+                          <label class="inventory-notice"><span class="bold stock__label">{{- 'products.product.stock' | t -}}</span>{% if block.settings.available_message != blank %}{{ block.settings.available_message | replace: "||count||", product.selected_or_first_available_variant.inventory_quantity }}{% else %}{{- 'products.product.inventory_in_stock_show_count' | t: quantity: product.selected_or_first_available_variant.inventory_quantity -}}{% endif %}</label>
+                          <span id="inventory-progress__bar" value="{{ product.selected_or_first_available_variant.inventory_quantity }}" style="--quantity-progress: {{ progress | append: '%' }};"> </span>
+                        </p>
+                      {%- endif -%}
+                    {%- else -%}
+                      {%- if product.selected_or_first_available_variant.inventory_policy == 'continue' -%}
+                        <p class="product__inventory-type available--inventory">
+                          <label class="inventory-notice"><span class="bold stock__label">{{- 'products.product.stock' | t -}}</span>{{- 'products.product.inventory_out_of_stock_continue_selling' | t -}}</label>
+                          <span id="inventory-progress__bar" value="{{ product.selected_or_first_available_variant.inventory_quantity }}" style="--quantity-progress: 100%;"> </span>
+                        </p>
+                      {%- else -%}
+                        <p class="product__inventory-type low--inventory">
+                          <label class="inventory-notice"><span class="bold stock__label">{{- 'products.product.stock' | t -}}</span>{{- 'products.product.inventory_out_of_stock' | t -}}</label>
+                          <span id="inventory-progress__bar" value="{{ product.selected_or_first_available_variant.inventory_quantity }}" style="--quantity-progress: 100%;"> </span>
+                        </p>
+                      {%- endif -%}
+                    {%- endif -%}
+                  {%- endif -%}
+                </div>
+              {%- when 'sku' -%}
+                <p
+                  class="product__sku no-js-hidden{% if product.selected_or_first_available_variant.sku == blank %} hidden{% endif %}"
+                  id="Sku-{{ section.id }}"
+                  role="status"
+                  {{ block.shopify_attributes }}
+                >
+                  <span class="product__label bold sku__label">{{ 'products.product.sku' | t }}:</span>
+                  {{- product.selected_or_first_available_variant.sku -}}
+                </p>
+              {%- when 'share' -%}
+                {% liquid
+                  assign share_url = product.selected_variant.url | default: product.url | prepend: request.origin
+                  render 'share-button', block: block, share_link: share_url
+                %}
+              {% when 'discount' %}
+                {% if block.settings.discount_code != blank %}
+                  <discount-code class="discount-code__bar sp-small" {{ block.shopify_attributes }}>
+                    {% if block.settings.title != blank %}
+                      <p class="h6 mg-none">{{ block.settings.title }}</p>
+                    {% endif %}
+                    <label for="discount-block-{{ section.id }}" class="label--hidden">{{ block.settings.discount_code }}</label>
+                    <div class="field-discount">
+                      <input id="discount-block-{{ section.id }}" class="discount-field__input" type="text" readonly value="{{ block.settings.discount_code }}">
+                      <button type="button" class="button button--primary button-copy__discount" data-primary-label="{{ block.settings.button_label }}" data-secondary-label="{{ block.settings.copied_button_label }}">{{ block.settings.button_label }}</button>
+                    </div>
+                  </discount-code>
+                {% endif %}
+              {%- when 'variant_picker' -%}
+                {% render 'product-variant-picker',
+                  product: product,
+                  block: block,
+                  product_form_id: product_form_id,
+                  update_url: false
+                %}
+              {%- when 'buy_buttons' -%}
+
+                <div
+                  id="Quantity-Form-{{ section.id }}"
+                  class="product-form__input product-form__quantity{% if settings.inputs_shadow_vertical_offset != 0 and settings.inputs_shadow_vertical_offset < 0 %} product-form__quantity-top{% endif %}"
+                  {{ block.shopify_attributes }}
+                >
+                  {% comment %} TODO: enable theme-check once `item_count_for_variant` is accepted as valid filter {% endcomment %}
+                  {% # theme-check-disable %}
+                  {%- assign cart_qty = cart
+                    | item_count_for_variant: product.selected_or_first_available_variant.id
+                  -%}
+                  {% # theme-check-enable %}
+                  <label class="quantity__label form__label hidden" for="Quantity-{{ section.id }}-1">
+                    {{ 'products.product.quantity.label' | t }}
+                    <span class="quantity__rules-cart no-js-hidden{% if cart_qty == 0 %} hidden{% endif %}">
+                      {%- render 'theme-icons', icon: 'loader' -%}
+                      <span
+                        >(
+                        {{- 'products.product.quantity.in_cart_html' | t: quantity: cart_qty -}}
+                        )</span
+                      >
+                    </span>
+                  </label>
+                  <div class="price-per-item__container">
+                    {%- liquid
+                      assign volume_pricing_array = product.selected_or_first_available_variant.quantity_price_breaks | sort: 'quantity' | reverse
+                      assign current_qty_for_volume_pricing = cart_qty | plus: product.selected_or_first_available_variant.quantity_rule.min
+                      if cart_qty > 0
+                        assign current_qty_for_volume_pricing = cart_qty | plus: product.selected_or_first_available_variant.quantity_rule.increment
+                      endif
+                    -%}
+                    {%- if product.quantity_price_breaks_configured? -%}
+                      <price-per-item
+                        class="no-js-hidden"
+                        id="Price-Per-Item-{{ section.id }}"
+                        data-section-id="{{ section.id }}"
+                        data-variant-id="{{ product.selected_or_first_available_variant.id }}"
+                      >
+                        {%- if product.selected_or_first_available_variant.quantity_price_breaks.size > 0 -%}
+                          {%- assign variant_price_compare = product.selected_or_first_available_variant.compare_at_price -%}
+                          <div class="price-per-item">
+                            {%- if variant_price_compare -%}
+                              <dl class="price-per-item--current">
+                                <dt class="visually-hidden">
+                                  {{ 'products.product.price.regular_price' | t }}
+                                </dt>
+                                <dd>
+                                  <s class="variant-item__old-price">
+                                    {{ variant_price_compare | money_with_currency }}
+                                  </s>
+                                </dd>
+                              </dl>
+                            {%- endif -%}
+                            {%- if current_qty_for_volume_pricing < volume_pricing_array.last.minimum_quantity -%}
+                              {%- assign variant_price = product.selected_or_first_available_variant.price
+                                | money_with_currency
+                              -%}
+                              <span class="price-per-item--current">
+                                {{- 'products.product.volume_pricing.price_at_each' | t: price: variant_price -}}
+                              </span>
+                            {%- else -%}
+                              {%- for price_break in volume_pricing_array -%}
+                                {%- if current_qty_for_volume_pricing >= price_break.minimum_quantity -%}
+                                  {%- assign price_break_price = price_break.price | money_with_currency -%}
+                                  <span class="price-per-item--current">
+                                    {{-
+                                      'products.product.volume_pricing.price_at_each'
+                                      | t: price: price_break_price
+                                    -}}
+                                  </span>
+                                  {%- break -%}
+                                {%- endif -%}
+                              {%- endfor -%}
+                            {%- endif -%}
+                          </div>
+                        {%- else -%}
+                          {%- assign variant_price = product.selected_or_first_available_variant.price
+                            | money_with_currency
+                          -%}
+                          {%- assign variant_price_compare = product.selected_or_first_available_variant.compare_at_price -%}
+                          <div class="price-per-item">
+                            {%- if variant_price_compare -%}
+                              <dl class="price-per-item--current">
+                                <dt class="visually-hidden">
+                                  {{ 'products.product.price.regular_price' | t }}
+                                </dt>
+                                <dd>
+                                  <s class="variant-item__old-price">
+                                    {{ variant_price_compare | money_with_currency }}
+                                  </s>
+                                </dd>
+                                <dt class="visually-hidden">
+                                  {{ 'products.product.price.sale_price' | t }}
+                                </dt>
+                                <dd>
+                                  <span class="price-per-item--current">
+                                    {{- 'products.product.volume_pricing.price_at_each' | t: price: variant_price -}}
+                                  </span>
+                                </dd>
+                              </dl>
+                            {%- else -%}
+                              <span class="price-per-item--current">
+                                {{- 'products.product.volume_pricing.price_at_each' | t: price: variant_price -}}
+                              </span>
+                            {%- endif -%}
+                          </div>
+                        {%- endif -%}
+                      </price-per-item>
+                    {%- endif -%}
+                  </div>
+                  <div class="quantity__rules caption no-js-hidden" id="Quantity-Rules-{{ section.id }}">
+                    {%- if product.selected_or_first_available_variant.quantity_rule.increment > 1 -%}
+                      <span class="divider">
+                        {{-
+                          'products.product.quantity.multiples_of'
+                          | t: quantity: product.selected_or_first_available_variant.quantity_rule.increment
+                        -}}
+                      </span>
+                    {%- endif -%}
+                    {%- if product.selected_or_first_available_variant.quantity_rule.min > 1 -%}
+                      <span class="divider">
+                        {{-
+                          'products.product.quantity.minimum_of'
+                          | t: quantity: product.selected_or_first_available_variant.quantity_rule.min
+                        -}}
+                      </span>
+                    {%- endif -%}
+                    {%- if product.selected_or_first_available_variant.quantity_rule.max != null -%}
+                      <span class="divider">
+                        {{-
+                          'products.product.quantity.maximum_of'
+                          | t: quantity: product.selected_or_first_available_variant.quantity_rule.max
+                        -}}
+                      </span>
+                    {%- endif -%}
+                  </div>
+                  {%- if product.quantity_price_breaks_configured? -%}
+                    <volume-pricing class="parent-display" id="Volume-{{ section.id }}">
+                      {%- if product.selected_or_first_available_variant.quantity_price_breaks.size > 0 -%}
+                        <span class="caption-large">{{ 'products.product.volume_pricing.title' | t }}</span>
+                        <ul class="list-unstyled no-js-hidden">
+                          <li>
+                            <span>{{ product.selected_or_first_available_variant.quantity_rule.min }}+</span>
+                            {%- assign price = product.selected_or_first_available_variant.price
+                              | money_with_currency
+                            -%}
+                            <span data-text="{{ 'products.product.volume_pricing.price_at_each' | t: price: variant_price }}">
+                              {{ 'sections.quick_order_list.each' | t: money: price -}}
+                            </span>
+                          </li>
+                          {%- for price_break in product.selected_or_first_available_variant.quantity_price_breaks -%}
+                            {%- assign price_break_price = price_break.price | money_with_currency -%}
+                            <li class="{%- if forloop.index >= 3 -%}show-more-item hidden{%- endif -%}">
+                              <span>
+                                {{- price_break.minimum_quantity -}}
+                                <span aria-hidden="true">+</span></span
+                              >
+                              {%- assign price = price_break.price | money_with_currency -%}
+                              <span data-text="{{ 'products.product.volume_pricing.price_at_each' | t: price: price_break_price }}">
+                                {{ 'sections.quick_order_list.each' | t: money: price -}}
+                              </span>
+                            </li>
+                          {%- endfor -%}
+                        </ul>
+                        <noscript>
+                          <ul class="list-unstyled">
+                            <li>
+                              <span>{{ product.selected_or_first_available_variant.quantity_rule.min }}+</span>
+                              {%- assign price = product.selected_or_first_available_variant.price
+                                | money_with_currency
+                              -%}
+                              <span> {{ 'sections.quick_order_list.each' | t: money: price }}</span>
+                            </li>
+                            {%- for price_break in product.selected_or_first_available_variant.quantity_price_breaks -%}
+                              <li>
+                                <span>
+                                  {{- price_break.minimum_quantity -}}
+                                  <span aria-hidden="true">+</span></span
+                                >
+                                {%- assign price = price_break.price | money_with_currency -%}
+                                <span> {{ 'sections.quick_order_list.each' | t: money: price }}</span>
+                              </li>
+                            {%- endfor -%}
+                          </ul>
+                        </noscript>
+                        {%- if product.selected_or_first_available_variant.quantity_price_breaks.size >= 3 -%}
+                          <show-more-button>
+                            <button
+                              class="button-show-more link underlined-link no-js-hidden"
+                              id="Show-More-{{ section.id }}"
+                              type="button"
+                            >
+                              <span class="label-show-more label-text"
+                                ><span aria-hidden="true">+ </span>{{ 'products.facets.show_more' | t }}
+                              </span>
+                            </button>
+                          </show-more-button>
+                        {%- endif -%}
+                      {%- endif -%}
+                    </volume-pricing>
+                  {%- endif -%}
+                </div>
+
+                {%- render 'buy-buttons',
+                  block: block,
+                  product: product,
+                  product_form_id: product_form_id,
+                  section_id: section.id,
+                  market_price: market_price,
+                  purchase_price: purchase_price
+                -%}
+              {%- when 'custom_liquid' -%}
+                {{ block.settings.custom_liquid }}
+              {%- when 'rating' -%}
+                {%- if product.metafields.reviews.rating.value != blank -%}
+                  <div class="main-product__reviews">
+                    {% for i in (1..5) %}
+                        {% render 'theme-icons', icon: 'icon-rating' %}
+                    {% endfor %}
+                    <span class="rating-count">{{ product.metafields.reviews.rating.value }}</span>
+                  </div>
+                {%- endif -%}
+              {%- when 'icon-with-text' -%}
+                {% render 'icon-with-text', block: block %}
+            {%- endcase -%}
+          {%- endfor -%}
+          <a
+            {% if product == blank %}
+              role="link" aria-disabled="true"
+            {% else %}
+              href="{{ product.url }}"
+            {% endif %}
+            class="link product__view-details bold"
+          >
+            {{ 'products.product.view_full_details' | t }}
+          </a>
+        </product-info>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+{%- if section.settings.image_zoom -%}
+  <script id="EnableZoomOnHover-featured" src="{{ 'magnify.js' | asset_url }}" defer="defer"></script>
+{%- endif %}
+
+{%- if first_3d_model -%}
+  <script type="application/json" id="ProductJSON-{{ product.id }}">
+    {{ product.media | where: 'media_type', 'model' | json }}
+  </script>
+  <script src="{{ 'product-model.js' | asset_url }}" defer></script>
+{%- endif -%}
+
+{%- liquid
+  if product.selected_or_first_available_variant.featured_media
+    assign seo_media = product.selected_or_first_available_variant.featured_media
+  else
+    assign seo_media = product.featured_media
+  endif
+-%}
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    function isIE() {
+      const ua = window.navigator.userAgent;
+      const msie = ua.indexOf('MSIE ');
+      const trident = ua.indexOf('Trident/');
+
+      return msie > 0 || trident > 0;
+    }
+
+    if (!isIE()) return;
+    const hiddenInput = document.querySelector('#{{ product_form_id }} input[name="id"]');
+    const noScriptInputWrapper = document.createElement('div');
+    const variantSwitcher =
+      document.querySelector('variant-radios[data-section="{{ section.id }}"]') ||
+      document.querySelector('variant-selects[data-section="{{ section.id }}"]');
+    noScriptInputWrapper.innerHTML = document.querySelector(
+      '.product-form__noscript-wrapper-{{ section.id }}'
+    ).textContent;
+    variantSwitcher.outerHTML = noScriptInputWrapper.outerHTML;
+
+    document.querySelector('#Variants-{{ section.id }}').addEventListener('change', function (event) {
+      hiddenInput.value = event.currentTarget.value;
+    });
+  });
+</script>
+
+{% if product.media.size > 0 %}
+  <script src="{{ 'media-gallery.js' | asset_url }}" defer="defer"></script>
+{% endif %}
+
+{% schema %}
+{
+  "name": "t:sections.featured-product.name",
+  "tag": "section",
+  "class": "section section-featured-product",
+  "disabled_on": {
+    "groups": [
+      "header",
+      "footer",
+      "custom.popups"
+    ]
+  },
+  "blocks": [
+    {
+      "type": "@app"
+    },
+    {
+      "type": "vendor",
+      "name": "t:sections.featured-product.blocks.vendor.name",
+      "limit": 1
+    },
+    {
+      "type": "offer",
+      "name": "t:sections.featured-product.blocks.offer.name",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "color_scheme",
+          "id": "color_scheme",
+          "label": "t:sections.all.colors.label",
+          "default": "scheme-2"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "t:sections.featured-product.blocks.offer.settings.content.label",
+          "default": "<p>🔥 Add your promotion title here.</p>"
+        }
+      ]
+    },
+    {
+      "type": "content",
+      "name": "t:sections.featured-product.blocks.content.name",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "content",
+          "default": "<p>Content block</p>",
+          "label": "t:sections.featured-product.blocks.content.settings.text.label"
+        }
+      ]
+    },
+    {
+      "type": "title",
+      "name": "t:sections.featured-product.blocks.title.name",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "select",
+          "id": "heading_size",
+          "options": [
+            {
+              "value": "h3",
+              "label": "t:sections.all.heading_size.options__2.label"
+            },
+            {
+              "value": "h2",
+              "label": "t:sections.all.heading_size.options__3.label"
+            },
+            {
+              "value": "h1",
+              "label": "t:sections.all.heading_size.options__4.label"
+            },
+            {
+              "value": "h0",
+              "label": "t:sections.all.heading_size.options__5.label"
+            }
+          ],
+          "default": "h2",
+          "label": "t:sections.featured-product.blocks.title.settings.font_size.label"
+        }
+      ]
+    },
+    {
+      "type": "price",
+      "name": "t:sections.featured-product.blocks.price.name",
+      "limit": 1
+    },
+    {
+      "type": "sku",
+      "name": "t:sections.featured-product.blocks.sku.name",
+      "limit": 1
+    },
+    {
+      "type": "inventory",
+      "name": "t:sections.featured-product.blocks.inventory.name",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "range",
+          "id": "inventory_threshold",
+          "label": "t:sections.featured-product.blocks.inventory.settings.inventory_threshold.label",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "default": 10
+        },
+        {
+          "type": "text",
+          "id": "low_inventory_notice",
+          "label": "t:sections.featured-product.blocks.inventory.settings.low_inventory_notice.label",
+          "default": "Hurry, limited stock available! Only ||count|| left in stock.",
+          "info": "t:sections.featured-product.blocks.inventory.settings.low_inventory_notice.info"
+        },
+        {
+          "type": "text",
+          "id": "available_message",
+          "label": "t:sections.featured-product.blocks.inventory.settings.available_message.label",
+          "default": "In stock, and ready to ship",
+          "info": "t:sections.featured-product.blocks.inventory.settings.low_inventory_notice.info"
+        }
+      ]
+    },
+    {
+      "type": "variant_picker",
+      "name": "t:sections.featured-product.blocks.variant_picker.name",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "select",
+          "id": "picker_type",
+          "options": [
+            {
+              "value": "dropdown",
+              "label": "t:sections.featured-product.blocks.variant_picker.settings.picker_type.options__1.label"
+            },
+            {
+              "value": "button",
+              "label": "t:sections.featured-product.blocks.variant_picker.settings.picker_type.options__2.label"
+            }
+          ],
+          "default": "button",
+          "label": "t:sections.featured-product.blocks.variant_picker.settings.picker_type.label"
+        },
+        {
+          "type": "checkbox",
+          "id": "color_swatch",
+          "default": true,
+          "label": "t:sections.featured-product.blocks.variant_picker.settings.color_swatch.label",
+          "info": "t:sections.featured-product.blocks.variant_picker.settings.color_swatch.info"
+        }
+      ]
+    },
+    {
+      "type": "buy_buttons",
+      "name": "t:sections.featured-product.blocks.buy_buttons.name",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "show_dynamic_checkout",
+          "default": true,
+          "label": "t:sections.featured-product.blocks.buy_buttons.settings.show_dynamic_checkout.label",
+          "info": "t:sections.featured-product.blocks.buy_buttons.settings.show_dynamic_checkout.info"
+        },
+        {
+          "type": "text",
+          "id": "button_suggestions",
+          "label": "t:sections.featured-product.blocks.buy_buttons.settings.suggestions.label",
+          "default": "Order now"
+        },
+        {
+          "type": "range",
+          "id": "position_top",
+          "label": "t:sections.featured-product.blocks.buy_buttons.settings.suggestion_position.label",
+          "min": 0,
+          "unit": "px",
+          "max": 100,
+          "step": 1,
+          "default": 70
+        },
+        {
+          "type": "checkbox",
+          "id": "show_gift_card_recipient",
+          "default": true,
+          "label": "t:sections.featured-product.blocks.buy_buttons.settings.show_gift_card_recipient.label",
+          "info": "t:sections.featured-product.blocks.buy_buttons.settings.show_gift_card_recipient.info"
+        }
+      ]
+    },
+    {
+      "type": "share",
+      "name": "t:sections.featured-product.blocks.share.name",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "t:sections.featured-product.blocks.share.settings.featured_image_info.content"
+        },
+        {
+          "type": "paragraph",
+          "content": "t:sections.featured-product.blocks.share.settings.title_info.content"
+        }
+      ]
+    },
+    {
+      "type": "discount",
+      "name": "t:sections.featured-product.blocks.discount.name",
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "title",
+          "label": "t:sections.all.heading.label",
+          "default": "Grab the discount"
+        },
+        {
+          "type": "text",
+          "id": "discount_code",
+          "label": "t:sections.featured-product.blocks.discount.settings.text.label",
+          "default": "A1B2 3C4D 5E6F 7G8H"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "t:sections.featured-product.blocks.discount.settings.button.label",
+          "default": "Copy"
+        },
+        {
+          "type": "text",
+          "id": "copied_button_label",
+          "label": "t:sections.featured-product.blocks.discount.settings.copied_button_label.label",
+          "default": "Copied!"
+        }
+      ]
+    },
+    {
+      "type": "custom_liquid",
+      "name": "t:sections.custom-liquid.name",
+      "settings": [
+        {
+          "type": "liquid",
+          "id": "custom_liquid",
+          "label": "t:sections.custom-liquid.settings.custom_liquid.label",
+          "info": "t:sections.custom-liquid.settings.custom_liquid.info"
+        }
+      ]
+    },
+    {
+      "type": "rating",
+      "name": "t:sections.featured-product.blocks.rating.name",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "t:sections.featured-product.blocks.rating.settings.paragraph.content"
+        }
+      ]
+    },
+    {
+      "type": "icon-with-text",
+      "name": "t:sections.featured-product.blocks.icon_with_text.name",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon_1",
+          "options": [
+            {
+              "value": "icon-bag",
+              "label": "t:sections.featured-product.blocks.icon_with_text.settings.icons.option__1.label"
+            },
+            {
+              "value": "icon-chat",
+              "label": "t:sections.featured-product.blocks.icon_with_text.settings.icons.option__2.label"
+            },
+            {
+              "value": "icon-clock-svg",
+              "label": "t:sections.featured-product.blocks.icon_with_text.settings.icons.option__3.label"
+            },
+            {
+              "value": "icon-comment",
+              "label": "t:sections.featured-product.blocks.icon_with_text.settings.icons.option__4.label"
+            },
+            {
+              "value": "icon-creditcard",
+              "label": "t:sections.featured-product.blocks.icon_with_text.settings.icons.option__5.label"
+            },
+            {
+              "value": "icon-gift-svg",
+              "label": "t:sections.featured-product.blocks.icon_with_text.settings.icons.option__6.label"
+            },
+            {
+              "value": "icon-heart",
+              "label": "t:sections.featured-product.blocks.icon_with_text.settings.icons.option__7.label"
+            },
+            {
+              "value": "icon-lock",
+              "label": "t:sections.featured-product.blocks.icon_with_text.settings.icons.option__8.label"
+            },
+            {
+              "value": "icon-mail-svg",
+              "label": "t:sections.featured-product.blocks.icon_with_text.settings.icons.option__9.label"
+            },
+            {
+              "value": "icon-package",
+              "label": "t:sections.featured-product.blocks.icon_with_text.settings.icons.option__10.label"
+            },
+            {
+              "value": "icon-phone-svg",
+              "label": "t:sections.featured-product.blocks.icon_with_text.settings.icons.option__11.label"
+            },
+            {
+              "value": "icon-return",
+              "label": "t:sections.featured-product.blocks.icon_with_text.settings.icons.option__12.label"
+            },
+            {
+              "value": "icon-secure",
+              "label": "t:sections.featured-product.blocks.icon_with_text.settings.icons.option__13.label"
+            },
+            {
+              "value": "icon-share-svg",
+              "label": "t:sections.featured-product.blocks.icon_with_text.settings.icons.option__14.label"
+            },
+            {
+              "value": "icon-shopping-cart",
+              "label": "t:sections.featured-product.blocks.icon_with_text.settings.icons.option__15.label"
+            },
+            {
+              "value": "icon-truck-svg",
+              "label": "t:sections.featured-product.blocks.icon_with_text.settings.icons.option__16.label"
+            },
+            {
+              "value": "icon-user",
+              "label": "t:sections.featured-product.blocks.icon_with_text.settings.icons.option__17.label"
+            },
+            {
+              "value": "icon-warning",
+              "label": "t:sections.featured-product.blocks.icon_with_text.settings.icons.option__18.label"
+            },
+            {
+              "value": "icon-award",
+              "label": "t:sections.featured-product.blocks.icon_with_text.settings.icons.option__19.label"
+            }
+          ],
+          "default": "icon-award",
+          "label": "t:sections.featured-product.blocks.icon_with_text.settings.icons.label"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "heading_1",
+          "default": "<strong>Icon<\/strong>",
+          "label": "t:sections.all.heading.label"
+        },
+        {
+          "type": "select",
+          "id": "icon_2",
+          "options": [
+            {
+              "value": "icon-bag",
+              "label": "t:sections.featured-product.blocks.icon_with_text.settings.icons.option__1.label"
+            },
+            {
+              "value": "icon-chat",
+              "label": "t:sections.featured-product.blocks.icon_with_text.settings.icons.option__2.label"
+            },
+            {
+              "value": "icon-clock-svg",
+              "label": "t:sections.featured-product.blocks.icon_with_text.settings.icons.option__3.label"
+            },
+            {
+              "value": "icon-comment",
+              "label": "t:sections.featured-product.blocks.icon_with_text.settings.icons.option__4.label"
+            },
+            {
+              "value": "icon-creditcard",
+              "label": "t:sections.featured-product.blocks.icon_with_text.settings.icons.option__5.label"
+            },
+            {
+              "value": "icon-gift-svg",
+              "label": "t:sections.featured-product.blocks.icon_with_text.settings.icons.option__6.label"
+            },
+            {
+              "value": "icon-heart",
+              "label": "t:sections.featured-product.blocks.icon_with_text.settings.icons.option__7.label"
+            },
+            {
+              "value": "icon-lock",
+              "label": "t:sections.featured-product.blocks.icon_with_text.settings.icons.option__8.label"
+            },
+            {
+              "value": "icon-mail-svg",
+              "label": "t:sections.featured-product.blocks.icon_with_text.settings.icons.option__9.label"
+            },
+            {
+              "value": "icon-package",
+              "label": "t:sections.featured-product.blocks.icon_with_text.settings.icons.option__10.label"
+            },
+            {
+              "value": "icon-phone-svg",
+              "label": "t:sections.featured-product.blocks.icon_with_text.settings.icons.option__11.label"
+            },
+            {
+              "value": "icon-return",
+              "label": "t:sections.featured-product.blocks.icon_with_text.settings.icons.option__12.label"
+            },
+            {
+              "value": "icon-secure",
+              "label": "t:sections.featured-product.blocks.icon_with_text.settings.icons.option__13.label"
+            },
+            {
+              "value": "icon-share-svg",
+              "label": "t:sections.featured-product.blocks.icon_with_text.settings.icons.option__14.label"
+            },
+            {
+              "value": "icon-shopping-cart",
+              "label": "t:sections.featured-product.blocks.icon_with_text.settings.icons.option__15.label"
+            },
+            {
+              "value": "icon-truck-svg",
+              "label": "t:sections.featured-product.blocks.icon_with_text.settings.icons.option__16.label"
+            },
+            {
+              "value": "icon-user",
+              "label": "t:sections.featured-product.blocks.icon_with_text.settings.icons.option__17.label"
+            },
+            {
+              "value": "icon-warning",
+              "label": "t:sections.featured-product.blocks.icon_with_text.settings.icons.option__18.label"
+            },
+            {
+              "value": "icon-award",
+              "label": "t:sections.featured-product.blocks.icon_with_text.settings.icons.option__19.label"
+            }
+          ],
+          "default": "icon-return",
+          "label": "t:sections.featured-product.blocks.icon_with_text.settings.icons.label"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "heading_2",
+          "default": "<strong>Icon<\/strong>",
+          "label": "t:sections.all.heading.label"
+        },
+        {
+          "type": "select",
+          "id": "icon_3",
+          "options": [
+            {
+              "value": "icon-bag",
+              "label": "t:sections.featured-product.blocks.icon_with_text.settings.icons.option__1.label"
+            },
+            {
+              "value": "icon-chat",
+              "label": "t:sections.featured-product.blocks.icon_with_text.settings.icons.option__2.label"
+            },
+            {
+              "value": "icon-clock-svg",
+              "label": "t:sections.featured-product.blocks.icon_with_text.settings.icons.option__3.label"
+            },
+            {
+              "value": "icon-comment",
+              "label": "t:sections.featured-product.blocks.icon_with_text.settings.icons.option__4.label"
+            },
+            {
+              "value": "icon-creditcard",
+              "label": "t:sections.featured-product.blocks.icon_with_text.settings.icons.option__5.label"
+            },
+            {
+              "value": "icon-gift-svg",
+              "label": "t:sections.featured-product.blocks.icon_with_text.settings.icons.option__6.label"
+            },
+            {
+              "value": "icon-heart",
+              "label": "t:sections.featured-product.blocks.icon_with_text.settings.icons.option__7.label"
+            },
+            {
+              "value": "icon-lock",
+              "label": "t:sections.featured-product.blocks.icon_with_text.settings.icons.option__8.label"
+            },
+            {
+              "value": "icon-mail-svg",
+              "label": "t:sections.featured-product.blocks.icon_with_text.settings.icons.option__9.label"
+            },
+            {
+              "value": "icon-package",
+              "label": "t:sections.featured-product.blocks.icon_with_text.settings.icons.option__10.label"
+            },
+            {
+              "value": "icon-phone-svg",
+              "label": "t:sections.featured-product.blocks.icon_with_text.settings.icons.option__11.label"
+            },
+            {
+              "value": "icon-return",
+              "label": "t:sections.featured-product.blocks.icon_with_text.settings.icons.option__12.label"
+            },
+            {
+              "value": "icon-secure",
+              "label": "t:sections.featured-product.blocks.icon_with_text.settings.icons.option__13.label"
+            },
+            {
+              "value": "icon-share-svg",
+              "label": "t:sections.featured-product.blocks.icon_with_text.settings.icons.option__14.label"
+            },
+            {
+              "value": "icon-shopping-cart",
+              "label": "t:sections.featured-product.blocks.icon_with_text.settings.icons.option__15.label"
+            },
+            {
+              "value": "icon-truck-svg",
+              "label": "t:sections.featured-product.blocks.icon_with_text.settings.icons.option__16.label"
+            },
+            {
+              "value": "icon-user",
+              "label": "t:sections.featured-product.blocks.icon_with_text.settings.icons.option__17.label"
+            },
+            {
+              "value": "icon-warning",
+              "label": "t:sections.featured-product.blocks.icon_with_text.settings.icons.option__18.label"
+            },
+            {
+              "value": "icon-award",
+              "label": "t:sections.featured-product.blocks.icon_with_text.settings.icons.option__19.label"
+            }
+          ],
+          "default": "icon-package",
+          "label": "t:sections.featured-product.blocks.icon_with_text.settings.icons.label"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "heading_3",
+          "default": "<strong>Icon<\/strong>",
+          "label": "t:sections.all.heading.label"
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "expanded_width",
+      "label": "t:sections.all.layout.expanded_width.label",
+      "default": true
+    },
+    {
+      "type": "product",
+      "id": "product",
+      "label": "t:sections.featured-product.settings.product.label"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.featured-product.settings.header.content",
+      "info": "t:sections.featured-product.settings.header.info"
+    },
+    {
+      "type": "select",
+      "id": "gallery_layout",
+      "options": [
+        {
+          "value": "stacked",
+          "label": "t:sections.featured-product.settings.gallery_layout.options__1.label"
+        },
+        {
+          "value": "thumbnail_slider",
+          "label": "t:sections.featured-product.settings.gallery_layout.options__2.label"
+        },
+        {
+          "value": "thumbnail_slider vertical-scrollbar",
+          "label": "t:sections.featured-product.settings.gallery_layout.options__3.label"
+        }
+      ],
+      "default": "thumbnail_slider vertical-scrollbar",
+      "label": "t:sections.featured-product.settings.gallery_layout.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "constrain_to_viewport",
+      "default": false,
+      "label": "t:sections.featured-product.settings.minimize_screen.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "media_fit",
+      "default": false,
+      "label": "t:sections.featured-product.settings.media_fit.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "image_zoom",
+      "default": true,
+      "label": "t:sections.featured-product.settings.image_zoom.label",
+      "info": "t:sections.featured-product.settings.image_zoom.info"
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_variants",
+      "default": false,
+      "label": "t:sections.featured-product.settings.hide_variants.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_video_looping",
+      "default": false,
+      "label": "t:sections.featured-product.settings.enable_video_looping.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.section_spacing.content",
+      "info": "t:sections.all.section_spacing.info"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "t:sections.all.section_spacing.above",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "t:sections.all.section_spacing.below",
+      "default": 100
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.featured-product.presets.name",
+      "blocks": [
+        {
+          "type": "vendor"
+        },
+        {
+          "type": "title"
+        },
+        {
+          "type": "offer"
+        },
+        {
+          "type": "sku"
+        },
+        {
+          "type": "price"
+        },
+        {
+          "type": "variant_picker"
+        },
+        {
+          "type": "inventory"
+        },
+        {
+          "type": "buy_buttons"
+        },
+        {
+          "type": "icon-with-text"
+        },
+        {
+          "type": "share"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

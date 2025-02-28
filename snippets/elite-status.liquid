@@ -1,0 +1,67 @@
+<script>
+{% if customer %}
+const customerTags = {{ customer.tags | json }};
+{% else %}
+const customerTags = null;
+{% endif %}
+
+function setCookie(cname, cvalue, exdays) {
+  const d = new Date();
+  d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+  const expires = 'expires=' + d.toUTCString();
+  document.cookie = cname + '=' + cvalue + ';' + expires + ';path=/';
+}
+
+function checkEliteTag() {
+  if (customerTags && Array.isArray(customerTags) && customerTags.includes("ELITE")) {
+    const reliteTag = customerTags.find(tag => tag.startsWith('RELITE_'));
+    if (reliteTag) {
+      const expiryDateStr = reliteTag.split('_')[1];
+      const expiryDate = new Date(expiryDateStr);
+      const currentDate = new Date();
+      const timeDiff = expiryDate.getTime() - currentDate.getTime();
+      const daysUntilExpiry = timeDiff / (1000 * 3600 * 24);
+
+      if (daysUntilExpiry > 0) {
+        setCookie('is_elite', true, 7);
+        localStorage.setItem('is_elite', true);
+        localStorage.setItem('elite_expired', false);
+        localStorage.setItem('elite_expired_grace', false);
+        {% assign isElite = true %}
+
+        if (daysUntilExpiry <= 60) {
+          localStorage.setItem('elite_expiring_soon', true);
+          console.log('elite status: expiring soon');
+        } else {
+          localStorage.setItem('elite_expiring_soon', false);
+        }
+
+        return;
+      } else if (daysUntilExpiry <= 0 && daysUntilExpiry > -15) {
+        setCookie('is_elite', false, 7);
+        localStorage.setItem('is_elite', false);
+        localStorage.setItem('elite_expired', false);
+        localStorage.setItem('elite_expired_grace', true);
+        {% assign isElite = false %}
+        return;
+      } else {
+        setCookie('is_elite', false, 7);
+        localStorage.setItem('is_elite', false);
+        localStorage.setItem('elite_expired', true);
+        localStorage.setItem('elite_expired_grace', false);
+        {% assign isElite = false %}
+        return;
+      }
+    }
+  }
+
+  setCookie('is_elite', false, 7);
+  localStorage.setItem('is_elite', false);
+  localStorage.setItem('elite_expired', true);
+  localStorage.setItem('elite_expired_grace', false);
+  localStorage.setItem('elite_expiring_soon', false);
+  {% assign isElite = false %}
+}
+
+checkEliteTag();
+</script>

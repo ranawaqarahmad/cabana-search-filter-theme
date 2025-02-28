@@ -1,0 +1,322 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "image_banner_eY9V9y": {
+      "type": "image-banner",
+      "custom_css": [
+        ".banner__box {border-radius: 0px;}"
+      ],
+      "settings": {
+        "image_height": "original",
+        "image": "shopify://shop_images/cabana-club-hero-banner.jpg",
+        "image_mbl": "shopify://shop_images/Elite_Hero_Banner_2.png",
+        "image_overlay_opacity": 0,
+        "fixed_background_image": false,
+        "subheading": "",
+        "heading": "Join Cabana Club for Free!",
+        "heading_size": "h0",
+        "description": "<p>Get Instant Access to UNBEATABLE Membership Prices</p>",
+        "button_label": "Join Now",
+        "button_link": "/account/login",
+        "button_style": "primary",
+        "desktop_content_position": "middle-left",
+        "show_text_box": false,
+        "desktop_content_alignment": "left",
+        "color_scheme": "scheme-9f459313-d482-46ca-b82d-99b7d5128e5d",
+        "mobile_content_alignment": "center",
+        "show_text_below": true,
+        "bottom_banner_text": ""
+      }
+    },
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {}
+    },
+    "contact_form_UcRyBG": {
+      "type": "contact-form",
+      "disabled": true,
+      "custom_css": [],
+      "settings": {
+        "title": "Join Cabana Club Today & Save!",
+        "description": "",
+        "response_message": "",
+        "color_scheme": "",
+        "email": "",
+        "phone": "",
+        "address": "",
+        "shop_time": "",
+        "helper_text": ""
+      }
+    },
+    "text_columns_with_icons_4nDTF6": {
+      "type": "text-columns-with-icons",
+      "blocks": {
+        "column_qnLmhT": {
+          "type": "column",
+          "settings": {
+            "color_scheme": "scheme-581cb70d-7265-44ab-971a-24363331fffd",
+            "image": "shopify://shop_images/lowest-price-guaranteed.svg",
+            "title": "UNBEATABLE Member Prices",
+            "text": "<p>Get the Lowest Price Guaranteed</p>",
+            "ab_description": "<p>UNBEATABLE Member Prices</p>",
+            "text_alignment": "center",
+            "button_label": "",
+            "button_link": "",
+            "button_style": "primary"
+          }
+        },
+        "column_E9Gc84": {
+          "type": "column",
+          "settings": {
+            "color_scheme": "",
+            "image": "shopify://shop_images/accessories-discount.svg",
+            "title": "Up to 80% Off Accessories",
+            "text": "<p>Deep discounts on our huge selection of top accessory brands.</p>",
+            "ab_description": "<p>Deep discounts on our huge selection of top accessory brands.</p>",
+            "text_alignment": "center",
+            "button_label": "",
+            "button_link": "",
+            "button_style": "primary"
+          }
+        },
+        "column_UeytWt": {
+          "type": "column",
+          "settings": {
+            "color_scheme": "scheme-8346fd63-d842-4b2e-a254-5cd9b9d31de9",
+            "image": "shopify://shop_images/price-match-guarantee.svg",
+            "title": "Price Match Guarantee",
+            "text": "<p>See a better deal? We'll match it.</p>",
+            "ab_description": "<p>See a better deal? We'll match it.</p>",
+            "text_alignment": "center",
+            "button_label": "",
+            "button_link": "",
+            "button_style": "primary"
+          }
+        }
+      },
+      "block_order": [
+        "column_qnLmhT",
+        "column_E9Gc84",
+        "column_UeytWt"
+      ],
+      "custom_css": [
+        ".text-columns-with-icons {margin-top: 0; margin-bottom: 0;}"
+      ],
+      "settings": {
+        "title": "",
+        "hide_for_ab": false,
+        "hide_for_bc": false,
+        "heading_size": "h2",
+        "heading_alignment": "center",
+        "color_scheme": "scheme-476b8325-4e54-4483-9b8b-6d5faeff3caa",
+        "style": "simple",
+        "column_per_row": 3,
+        "title_size": "h5",
+        "text_alignment": "center",
+        "column_per_row_mobile": "1",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    },
+    "rich_text_XbMknG": {
+      "type": "rich-text",
+      "blocks": {
+        "button_bRnkrJ": {
+          "type": "button",
+          "settings": {
+            "button_label": "Join Now For Free",
+            "button_suggestions": "",
+            "button_link": "/account/login",
+            "button_style_primary": "primary",
+            "button_label_2": "",
+            "button_suggestions_2": "",
+            "button_link_2": "",
+            "button_style_secondary": "outline"
+          }
+        }
+      },
+      "block_order": [
+        "button_bRnkrJ"
+      ],
+      "custom_css": [
+        ".rich-text {margin: 0; background: #f8fafb; padding-top: 32px; padding-bottom: 64px;}",
+        "@media only screen and (max-width: 768px) {.rich-text {padding-bottom: 44px; }}"
+      ],
+      "settings": {
+        "expanded_width": true,
+        "color_scheme": "scheme-581cb70d-7265-44ab-971a-24363331fffd",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "featured_collection_fnCH4j": {
+      "type": "featured-collection",
+      "blocks": {
+        "featured_collection_fzcc7t": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "daily-deals",
+            "color_scheme": "",
+            "title": ""
+          }
+        }
+      },
+      "block_order": [
+        "featured_collection_fzcc7t"
+      ],
+      "custom_css": [
+        ".collection {margin-top: 0 !important; margin-bottom: 0; padding-top: 3.2rem; padding-bottom: 3.2rem;}",
+        ".product-form__buttons {display: none;}",
+        ".button--icon {background: white;}"
+      ],
+      "settings": {
+        "title": "Members Save More!",
+        "heading_size": "h2",
+        "enable_shop_all": false,
+        "shop_all_link": "",
+        "shop_all_text": "",
+        "heading_alignment": "center",
+        "hide_for_bc": false,
+        "hide_for_ab": false,
+        "color_scheme": "scheme-9f459313-d482-46ca-b82d-99b7d5128e5d",
+        "products_to_show": 8,
+        "products_per_row": 4,
+        "enable_slider_scrollbar": true,
+        "show_view_all": false,
+        "grid_color_scheme": "scheme-1",
+        "grid_style": "classic",
+        "image_ratio": "portrait",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": false,
+        "show_color_swatches": false,
+        "grid_text_alignment": "left",
+        "products_per_row_mobile": "2",
+        "swipe_on_mobile": true,
+        "enable_elite_styling": true,
+        "elite_button_link": "/account/login",
+        "elite_subtitle": "",
+        "ab_subtitle": ""
+      }
+    },
+    "elite_signup_LjJEQV": {
+      "type": "elite-signup",
+      "custom_css": [
+        ".tab.active {color: #e1251c; border-bottom-color: #e1251c;}",
+        ".customer-register-heading h2 {color: black;}",
+        ".elite-signup-block {padding-top: 0;}",
+        ".customer:not(.account):not(.order):not(.addresses) {margin-bottom: 0;}"
+      ],
+      "settings": {
+        "heading": "Join Cabana Club Today & Save!",
+        "color_scheme": "scheme-1",
+        "padding_top": 78,
+        "padding_bottom": 78
+      }
+    },
+    "animated_text_columns_QT6J39": {
+      "type": "animated-text-columns",
+      "blocks": {
+        "column_39ka3T": {
+          "type": "column",
+          "settings": {
+            "color_scheme": "",
+            "image": "shopify://shop_images/design-demo-image-9.png",
+            "mobile_image": "shopify://shop_images/logo_mobile.png",
+            "title": "",
+            "metric": "1",
+            "unit_suffix": "+",
+            "animated_counting": false,
+            "text": "",
+            "button_label": "Learn More",
+            "button_link": "shopify://pages/altogether-magazine",
+            "text_alignment": "center",
+            "content_position": "content_center"
+          }
+        },
+        "column_kEKXgA": {
+          "type": "column",
+          "settings": {
+            "color_scheme": "",
+            "title": "",
+            "metric": "180",
+            "unit_suffix": "+",
+            "animated_counting": true,
+            "text": "<p><strong>Stores Across Canada</strong></p>",
+            "button_label": "",
+            "button_link": "",
+            "text_alignment": "left",
+            "content_position": "content_center"
+          }
+        },
+        "column_NWgAf9": {
+          "type": "column",
+          "settings": {
+            "color_scheme": "",
+            "title": "",
+            "metric": "1000",
+            "unit_suffix": "s of",
+            "animated_counting": true,
+            "text": "<p><strong>5-Star Reviews</strong></p>",
+            "button_label": "",
+            "button_link": "",
+            "text_alignment": "left",
+            "content_position": "content_center"
+          }
+        },
+        "column_WENtLd": {
+          "type": "column",
+          "settings": {
+            "color_scheme": "",
+            "title": "",
+            "metric": "1.5",
+            "unit_suffix": "m+",
+            "animated_counting": true,
+            "text": "<p><strong>Cabana Club Members</strong></p>",
+            "button_label": "",
+            "button_link": "",
+            "text_alignment": "left",
+            "content_position": "content_center"
+          }
+        }
+      },
+      "block_order": [
+        "column_39ka3T",
+        "column_kEKXgA",
+        "column_NWgAf9",
+        "column_WENtLd"
+      ],
+      "custom_css": [
+        ".text-columns-with-icons {margin-bottom: 0;}"
+      ],
+      "settings": {
+        "title": "",
+        "heading_size": "h2",
+        "heading_alignment": "left",
+        "color_scheme": "scheme-9f459313-d482-46ca-b82d-99b7d5128e5d",
+        "column_per_row": 4,
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    }
+  },
+  "order": [
+    "image_banner_eY9V9y",
+    "main",
+    "contact_form_UcRyBG",
+    "text_columns_with_icons_4nDTF6",
+    "rich_text_XbMknG",
+    "featured_collection_fnCH4j",
+    "elite_signup_LjJEQV",
+    "animated_text_columns_QT6J39"
+  ]
+}

@@ -1,0 +1,171 @@
+.gift_cart_section {
+  max-width: 925px;
+  width: 100%;
+  margin: auto;
+  text-align: center;
+  padding: 80px 0px;
+}
+
+.top_title_name {
+  margin: 0;
+  margin-bottom: 50px;
+}
+
+.gift_box_details {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.gift-card__image-wrapper {
+  width: 55%;
+  padding-right: 15px;
+}
+
+.gift-card__image-wrapper img {
+  width: 100%;
+  display: block;
+}
+
+.right_side_box {
+  width: 45%;
+  padding-left: 15px;
+}
+
+.gift-card__qr-code img {
+  width: 120px;
+  height: 120px;
+}
+
+.gift_qr_code {
+  display: flex;
+  padding: 30px;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid rgba(var(--color-foreground), .2);
+  border-radius: var(--radius-10);
+}
+
+#gift-card-code {
+  border: 1px dashed;
+  border-radius: var(--radius-10);
+  padding: 15px 0;
+  border-color: rgba(var(--color-foreground),.5);
+}
+
+.breadcrumb {
+  display: none;
+}
+.gift_card__apple-wallet {
+  margin-top: 1.5rem;
+  display: inline-block;
+}
+
+.gift-card__copy-success.form__message:empty {
+  display: none;
+}
+
+.gift-card__buttons {
+  gap: 20px;
+  display: flex;
+  width: 100%;
+}
+
+.gift-card__buttons button {
+  width: 50%;
+}
+
+.gift-card__buttons .button--primary {
+  background-color: rgba(var(--color-button));
+}
+
+.scroll-top-btn {
+  display: none;
+}
+
+.gift-card__copy-success.form__message {
+  margin-bottom: 15px;
+  font-size: 16px;
+}
+
+.gift-card__copy-success.form__message .icon-success {
+  width: 18px;
+  height: 18px;
+}
+.sp__small>* {
+  margin-top: 0px;
+  margin-bottom: 2rem;
+}
+.gift-card__image-wrapper img {
+  border-radius: var(--radius-20)
+}
+@media screen and (max-width: 768px) {
+  .gift-card__image-wrapper {
+    width: 100%;
+    padding-right: 0;
+    margin-bottom: 30px;
+  }
+  #gift-card-code {
+    border-radius: var(--radius-5);
+  }
+
+  .right_side_box {
+    width: 100%;
+    padding-left: 0;
+  }
+
+  .gift_cart_section {
+    padding: 50px 20px;
+    max-width: 370px;
+  }
+
+  .top_title_name {
+    margin: 0 0 25px;
+  }
+
+  .gift-card__image-wrapper img {
+    width: 100%;
+    display: block;
+    height: auto;
+    border-radius: var(--radius-10)
+  }
+}
+
+@media screen and (min-width: 769px) and (max-width: 1200px) {
+  .gift-card__image-wrapper {
+    width: 100%;
+    padding-right: 0;
+    margin-bottom: 30px;
+  }
+
+  .right_side_box {
+    width: 100%;
+    padding-left: 0;
+  }
+
+  .gift_cart_section {
+    padding: 60px 20px;
+    max-width: 400px;
+  }
+
+  .top_title_name {
+    margin: 0 0 25px;
+  }
+
+  .gift-card__image-wrapper img {
+    width: 100%;
+    display: block;
+    height: auto;
+  }
+}
+
+@media print {
+  .shopify-section-group-header-group,
+  .shopify-section-group-footer-group,
+  .shopify-section-group-popups-group {
+    display: none;
+  }
+  body {
+    -webkit-print-color-adjust: exact;
+  }
+}

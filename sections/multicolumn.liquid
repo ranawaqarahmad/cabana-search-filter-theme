@@ -1,0 +1,571 @@
+{{ 'section-multicolumn.css' | asset_url | stylesheet_tag }}
+{{ 'accordion.css' | asset_url | stylesheet_tag }}
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.50 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.50 | round: 0 }}px;
+  }
+
+ @media screen and (min-width: 990px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+
+ .section-{{ section.id }}-padding {
+    margin-top: 16px;
+    margin-bottom: 16px;
+  }
+
+  @media screen and (min-width: 769px) {
+    .section-{{ section.id }}-padding {
+      margin-top: 32px;
+      margin-bottom: 32px;
+    }
+  }
+
+  @media screen and (min-width: 1201px) {
+    .section-{{ section.id }}-padding {
+     margin-top: 64px;
+     margin-bottom: 64px;
+    }
+  }
+
+{%- endstyle -%}
+
+<div class="multicolumn color-{{ section.settings.color_scheme }} gradient{% if section.settings.title == blank %} no-heading{% endif %}">
+  <div
+    class="page-width section-{{ section.id }}-padding isolate{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+    {% if settings.animations_reveal_on_scroll %}
+      data-cascade
+    {% endif %}
+  >
+    {%- unless section.settings.title == blank -%}
+      <div class="section-heading__bar sp-small mgb-medium text-{{ section.settings.heading_alignment }}">
+        <h2 class="title {{ section.settings.heading_size }}">
+          {{ section.settings.title }}
+        </h2>
+      </div>
+    {%- endunless -%}
+    <slider-component class="slider-mobile-gutter">
+      <ul
+        class="multicolumn-list contains-content-container grid grid--1-col-tablet-down grid--2-col-tablet grid--{{ section.settings.columns_per_row }}-col-desktop"
+        id="Slider-{{ section.id }}"
+        role="list"
+      >
+        {%- liquid
+          assign highest_ratio = 1
+          for block in section.blocks
+            if block.settings.image.aspect_ratio > highest_ratio
+              assign highest_ratio = block.settings.image.aspect_ratio
+            endif
+          endfor
+          if section.settings.image_ratio == 'portrait'
+            assign highest_ratio = 0.8
+          endif
+          if section.settings.custom_ratio != 1
+            assign highest_ratio = section.settings.custom_ratio | times: 1.0
+          endif
+        -%}
+        {% assign textIndex = 0 %}
+        {%- for block in section.blocks -%}
+          <li
+            id="Slide-{{ section.id }}-{{ forloop.index }}"
+            class="multicolumn-list__item grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+            {{ block.shopify_attributes }}
+            {% if settings.animations_reveal_on_scroll %}
+              data-cascade
+              style="--animation-order: {{ forloop.index }};"
+            {% endif %}
+          >
+          {% if block.type == 'column' %}
+            <div class="multicolumn-card content-container color-{{ block.settings.color_scheme }}" {{ section.blocks_attributes }}>
+              <div class="multicolumn-card__image-wrapper multicolumn-card__image-wrapper--full-width multicolumn-card-spacing">
+                <div class="column-top__area">
+                  <div class="counter">
+                    {% if section.settings.counter == true %}
+                      <span class="text-stroke {{ block.settings.heading_size }}">0{{ forloop.index | minus: textIndex }}</span>
+                    {% else %}
+                      <h3 class="inline-richtext {{ block.settings.heading_size }}">{{ block.settings.title }}</h3>
+                    {% endif %}
+                  </div>
+                  <button type="button" class="accordion-toggle-btn"{% if block.settings.button_label == blank and block.settings.description == blank %} aria-disabled="true"{% endif %} data-color-primary="color-{{ block.settings.color_scheme }}" data-color-secondary="color-{{ block.settings.active_color_scheme }}" data-toggle="#{{ section.id }}-{{ forloop.index }}" aria-label="#{{ section.id }}-{{ forloop.index }}">
+                    <span class="toggle-svg button--primary">
+                      {% render 'theme-icons', icon: 'plus' %}
+                    </span>
+                  </button>
+                </div>
+                {% if section.settings.counter == true %}
+                  {%- if block.settings.title != blank -%}
+                    <div class="column-heading">
+                      <h3 class="inline-richtext {{ block.settings.heading_size }}">{{ block.settings.title }}</h3>
+                    </div>
+                  {%- endif -%}
+                {% endif %}
+                <div class="column-media-content">
+                  <div
+                    class="media media--transparent media--hover-effect"
+                    style="padding-bottom: {{ 1 | divided_by: highest_ratio | times: 100 }}%;"
+                  >
+                    {%- if block.settings.image != blank -%}
+                      {%- liquid
+                        assign number_of_columns = section.settings.columns_per_row
+                        assign number_of_columns_per_row_mobile = 1
+                        assign grid_space_desktop = number_of_columns | minus: 1 | times: settings.spacing_grid_horizontal | plus: 100 | append: 'px'
+                        assign grid_space_tablet = number_of_columns_per_row_mobile | minus: 1 | times: settings.spacing_grid_horizontal | plus: 100 | append: 'px'
+                        assign grid_space_mobile = number_of_columns_per_row_mobile | minus: 1 | times: settings.spacing_grid_horizontal | divided_by: 2 | plus: 30 | append: 'px'
+                        assign image_width = 1
+                      -%}
+                      {% capture sizes %}
+                        (min-width: {{ settings.page_width }}px) calc(({{ settings.page_width }}px - {{ grid_space_desktop }}) * {{ image_width }} /  {{ number_of_columns }}),
+                        (min-width: 990px) calc((100vw - {{ grid_space_desktop }}) * {{ image_width }} / {{ number_of_columns }}),
+                        (min-width: 750px) calc((100vw - {{ grid_space_tablet }}) * {{ image_width }} / {{ number_of_columns_per_row_mobile }}),
+                        calc((100vw - {{ grid_space_mobile }}) * {{ image_width }} / {{ number_of_columns_per_row_mobile }})
+                      {% endcapture %}
+                      {{
+                        block.settings.image
+                        | image_url: width: 3200
+                        | image_tag:
+                          widths: '50, 75, 100, 150, 200, 300, 400, 500, 750, 1000, 1250, 1500, 1750, 2000, 2250, 2500, 2750, 3000, 3200',
+                          sizes: sizes,
+                          class: 'multicolumn-card__image'
+                      }}
+                      {% if block.settings.button_link != blank %}
+                        <a href="{{ block.settings.button_link }}" tabindex="-1" class="overlay-link" aria-label="multicolumn-overlay-link">{{- block.settings.button_label | escape -}}</a>
+                      {% endif %}
+                    {% else %}
+                      <div class="card__media">
+                        {{ 'detailed-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
+                      </div>
+                    {% endif %}
+                  </div>
+                  <div class="multicolumn-card__info color-{{ block.settings.active_color_scheme }}">
+                    <div id="{{ section.id }}-{{ forloop.index }}" class="accordion-toggle-content">
+                      {%- if block.settings.description != blank -%}
+                        <div class="multicolumn-column-rte rte overflow-scrollbar">{{ block.settings.description }}</div>
+                      {%- endif -%}
+                      {%- if block.settings.button_label != blank -%}
+                        <div class="column-button">
+                          <a
+                            class="button button--{{ block.settings.button_style }}"
+                            {% if block.settings.button_link == blank %}
+                              role="link" aria-disabled="true"
+                            {% else %}
+                              href="{{ block.settings.button_link }}"
+                            {% endif %}
+                          >
+                            {{- block.settings.button_label | escape -}}
+                          </a>
+                        </div>
+                      {%- endif -%}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% elsif block.type == 'content' %}
+              {% assign textIndex = 1 %}
+              <div class="multicolumn-text-block text-{{ block.settings.text_alignment }}">
+                <div class="card__information">
+                  <div class="card-title__description sp-small">
+                    {%- if block.settings.subheading != blank -%}
+                      <div class="card__subheading rte" {{ block.shopify_attributes }}>
+                        <p>{{ block.settings.subheading }}</p>
+                      </div>
+                    {%- endif -%}
+                    <h3 class="card__heading {{ block.settings.title_size }}">
+                      {% if block.settings.link != blank %}
+                        <a
+                          href="{{ block.settings.link }}"
+                          class="full-unstyled-link link--hover"
+                        >
+                      {% endif %}
+                        {{- block.settings.title -}}
+                      {% if block.settings.link != blank %}
+                        </a>
+                      {% endif %}
+                    </h3>
+                    {%- if block.settings.description != blank -%}
+                      <div class="card-description rte">
+                        {{- block.settings.description -}}
+                      </div>
+                    {%- endif -%}
+                    {%- if block.settings.button_label != blank -%}
+                      <a
+                        class="button button--{{ block.settings.button_style }}"
+                        {% if block.settings.button_link == blank %}
+                          role="link" aria-disabled="true"
+                        {% else %}
+                          href="{{ block.settings.button_link }}"
+                        {% endif %}
+                      >
+                        {{- block.settings.button_label | escape -}}
+                      </a>
+                    {%- endif -%}
+                  </div>
+                </div>
+              </div>
+            {% endif %}
+          </li>
+        {%- endfor -%}
+      </ul>
+    </slider-component>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "t:sections.multicolumn.name",
+  "class": "section",
+  "tag": "section",
+  "max_blocks": 6,
+  "disabled_on": {
+    "groups": [
+      "header",
+      "footer",
+      "custom.popups"
+    ]
+  },
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "t:sections.all.heading.label"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        {
+          "value": "h3",
+          "label": "t:sections.all.heading_size.options__2.label"
+        },
+        {
+          "value": "h2",
+          "label": "t:sections.all.heading_size.options__3.label"
+        },
+        {
+          "value": "h1",
+          "label": "t:sections.all.heading_size.options__4.label"
+        },
+        {
+          "value": "h0",
+          "label": "t:sections.all.heading_size.options__5.label"
+        }
+      ],
+      "default": "h2",
+      "label": "t:sections.all.heading_size.label"
+    },
+    {
+      "type": "select",
+      "id": "heading_alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "t:sections.all.heading_alignment.options__1.label"
+        },
+        {
+          "value": "center",
+          "label": "t:sections.all.heading_alignment.options__2.label"
+        },
+        {
+          "value": "right",
+          "label": "t:sections.all.heading_alignment.options__3.label"
+        }
+      ],
+      "default": "center",
+      "label": "t:sections.all.heading_alignment.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.layout.content"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-2"
+    },
+    {
+      "type": "range",
+      "id": "columns_per_row",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "default": 3,
+      "label": "t:sections.multicolumn.settings.columns_per_row.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "counter",
+      "label": "t:sections.multicolumn.settings.counter.label",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "options": [
+        {
+          "value": "original",
+          "label": "t:sections.multicolumn.settings.image_ratio.options__1.label"
+        },
+        {
+          "value": "portrait",
+          "label": "t:sections.multicolumn.settings.image_ratio.options__2.label"
+        },
+        {
+          "value": "square",
+          "label": "t:sections.multicolumn.settings.image_ratio.options__3.label"
+        }
+      ],
+      "default": "original",
+      "label": "t:sections.multicolumn.settings.image_ratio.label"
+    },
+    {
+      "type": "range",
+      "id": "custom_ratio",
+      "min": 1,
+      "max": 3,
+      "step": 0.1,
+      "default": 1,
+      "label": "t:sections.multicolumn.settings.custom_ratio.label",
+      "info": "t:sections.multicolumn.settings.custom_ratio.info"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.section_spacing.content",
+      "info": "t:sections.all.section_spacing.info"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "t:sections.all.section_spacing.above",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "t:sections.all.section_spacing.below",
+      "default": 100
+    }
+  ],
+  "blocks": [
+    {
+      "type": "content",
+      "limit": 1,
+      "name": "t:sections.multicolumn.blocks.content.name",
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "subheading",
+          "default": "<strong>Add the subheading here!</strong>",
+          "label": "t:sections.multicolumn.blocks.content.settings.subheading.label"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "title",
+          "default": "Multicolumn",
+          "label": "t:sections.all.heading.label"
+        },
+        {
+          "type": "select",
+          "id": "title_size",
+          "options": [
+            {
+              "value": "h3",
+              "label": "t:sections.all.heading_size.options__2.label"
+            },
+            {
+              "value": "h2",
+              "label": "t:sections.all.heading_size.options__3.label"
+            },
+            {
+              "value": "h1",
+              "label": "t:sections.all.heading_size.options__4.label"
+            },
+            {
+              "value": "h0",
+              "label": "t:sections.all.heading_size.options__5.label"
+            }
+          ],
+          "default": "h2",
+          "label": "t:sections.all.heading_size.label"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "t:sections.all.description.label",
+          "default": "<p>Add description here to highlight your selected product, collection, or blog post. Also, include information about its availability, style, and consider offering a review.</p>"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "default": "Button label",
+          "label": "t:sections.multicolumn.blocks.content.settings.button_label.label"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "t:sections.multicolumn.blocks.content.settings.button_link.label"
+        },
+        {
+          "type": "select",
+          "id": "button_style",
+          "options": [
+            {
+              "value": "primary",
+              "label": "t:sections.all.button_style.options__1.label"
+            },
+            {
+              "value": "secondary",
+              "label": "t:sections.all.button_style.options__2.label"
+            },
+            {
+              "value": "outline",
+              "label": "t:sections.all.button_style.options__3.label"
+            }
+          ],
+          "default": "primary",
+          "label": "t:sections.all.button_style.label"
+        },
+        {
+          "type": "select",
+          "id": "text_alignment",
+          "options": [
+            {
+              "value": "left",
+              "label": "t:sections.all.heading_alignment.options__1.label"
+            },
+            {
+              "value": "center",
+              "label": "t:sections.all.heading_alignment.options__2.label"
+            },
+            {
+              "value": "right",
+              "label": "t:sections.all.heading_alignment.options__3.label"
+            }
+          ],
+          "default": "center",
+          "label": "t:sections.multicolumn.blocks.content.settings.text_alignment.label"
+        }
+      ]
+    },
+    {
+      "type": "column",
+      "name": "t:sections.multicolumn.blocks.column.name",
+      "settings": [
+        {
+          "type": "color_scheme",
+          "id": "color_scheme",
+          "label": "t:sections.all.colors.label",
+          "default": "scheme-1"
+        },
+        {
+          "type": "color_scheme",
+          "id": "active_color_scheme",
+          "label": "t:sections.multicolumn.blocks.column.settings.color_scheme.label",
+          "default": "scheme-3"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "t:sections.multicolumn.blocks.column.settings.image.label"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "title",
+          "default": "Column name",
+          "label": "t:sections.all.heading.label"
+        },
+        {
+          "type": "select",
+          "id": "heading_size",
+          "options": [
+            {
+              "value": "h4",
+              "label": "t:sections.all.heading_size.options__2.label"
+            },
+            {
+              "value": "h3",
+              "label": "t:sections.all.heading_size.options__3.label"
+            },
+            {
+              "value": "h2",
+              "label": "t:sections.all.heading_size.options__4.label"
+            },
+            {
+              "value": "h1",
+              "label": "t:sections.all.heading_size.options__5.label"
+            }
+          ],
+          "default": "h3",
+          "label": "t:sections.all.heading_size.label"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "default": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>",
+          "label": "t:sections.all.description.label"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "t:sections.multicolumn.blocks.column.settings.button_label.label",
+          "default": "Button label"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "t:sections.multicolumn.blocks.column.settings.button_link.label"
+        },
+        {
+          "type": "select",
+          "id": "button_style",
+          "options": [
+            {
+              "value": "primary",
+              "label": "t:sections.all.button_style.options__1.label"
+            },
+            {
+              "value": "secondary",
+              "label": "t:sections.all.button_style.options__2.label"
+            },
+            {
+              "value": "outline",
+              "label": "t:sections.all.button_style.options__3.label"
+            }
+          ],
+          "default": "outline",
+          "label": "t:sections.all.button_style.label"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.multicolumn.presets.name",
+      "blocks": [
+        {
+          "type": "column"
+        },
+        {
+          "type": "column"
+        },
+        {
+          "type": "column"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

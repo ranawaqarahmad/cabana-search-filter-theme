@@ -1,0 +1,528 @@
+{% comment %}
+  Renders product buy-buttons.
+  Accepts:
+  - product: {Object} product object.
+  - block: {Object} passing the block information.
+  - product_form_id: {String} product form id.
+  - section_id: {String} id of section to which this snippet belongs.
+  - show_pickup_availability: {Boolean} for the pickup availability. If true the pickup availability is rendered, false - not rendered (optional).
+  - show_qty: {Boolean} for quantity. If false, 1 item will be added to cart. (optional).
+  - stock: {String} custom stock value from "jane" metafields
+  Usage:
+  {% render 'buy-buttons', block: block, product: product, product_form_id: product_form_id, section_id: section.id, show_pickup_availability: true, stock: stock %}
+{% endcomment %}
+
+{% assign show_qty = show_qty | default: true %}
+
+{% comment %}
+
+{% liquid
+
+  assign show_elite_pricing = false
+
+
+
+  if product.tags contains 'Elite'
+
+    assign show_elite_pricing = true
+
+  endif
+
+%}
+
+{% endcomment %}
+
+
+
+{% liquid
+
+  assign show_elite_pricing = false
+
+  assign show_elite_pricing_ab = false
+
+
+
+  if isElite
+
+    if elite_price and elite_price != empty and elite_price != '0' and elite_price != '0.00' and elite_price != 'N.A.' and elite_price != ''
+
+      assign show_elite_pricing = true
+
+    endif
+
+  else
+
+    if elite_price and elite_price != empty and elite_price != '0' and elite_price != '0.00' and elite_price != 'N.A.' and elite_price != ''
+
+      assign show_elite_pricing_ab = true
+
+    endif
+
+  endif
+
+%}
+
+<div {{ block.shopify_attributes }}>
+  {%- if product != blank -%}
+    {%- liquid
+      assign gift_card_recipient_feature_active = false
+      if block.settings.show_gift_card_recipient and product.gift_card?
+        assign gift_card_recipient_feature_active = true
+      endif
+
+      assign show_dynamic_checkout = false
+      if block.settings.show_dynamic_checkout and gift_card_recipient_feature_active == false
+        assign show_dynamic_checkout = true
+      endif
+    -%}
+
+    <product-form
+      class="product-form"
+      data-hide-errors="{{ gift_card_recipient_feature_active }}"
+      data-section-id="{{ section.id }}"
+    >
+      <div class="product-form__error-message-wrapper" role="alert" hidden>
+        <div class="op-error-message">
+          {%- render 'theme-icons', icon: 'error' -%}
+          <span class="product-form__error-message"></span>
+        </div>
+      </div>
+
+      {%- form 'product',
+        product,
+        id: product_form_id,
+        class: 'form',
+        novalidate: 'novalidate',
+        data-type: 'add-to-cart-form'
+      -%}
+        <input
+          type="hidden"
+          name="id"
+          value="{{ product.selected_or_first_available_variant.id }}"
+          {% if quantity_rule_soldout %}
+            disabled
+          {% endif %}
+          class="product-variant-id"
+          data-stock={{ stock }}
+        >
+        <input type="hidden" name="market_price" value="{{ market_price }}" />
+        <input type="hidden" name="purchase_price" value="{{ purchase_price }}" />
+        <input type="hidden" name="elite_price" value="{{ elite_price }}" />
+
+        {%- if gift_card_recipient_feature_active -%}
+          {%- render 'gift-card-recipient-form', product: product, form: form, section: section -%}
+        {%- endif -%}
+        <div class="product-form__buttons">
+          {%- liquid
+            if stock == '0'
+              assign quantity_rule_soldout = true
+            endif
+
+            unless stock
+              assign quantity_rule_soldout = true
+            endunless
+          -%}
+          <div class="quantity-add__button">
+            <div class="quantity-add__flex-container">
+              {% if template == 'product' %}
+                <quantity-input id="Quantity-Rules-Buy-Buttons-{{ section.id }}" class="quantity{% unless show_qty %} hidden{% endunless %}" data-url="{{ product.url }}" data-section="{{ section.id }}">
+                  <span class="quantity-add__label  small-hide medium-up-show">{{ 'products.product.quantity.label_qty' | t }}</span>
+                  <button class="quantity__button no-js-hidden" name="minus" type="button">
+                    <span class="visually-hidden">
+                      {{- 'products.product.quantity.decrease' | t: product: product.title | escape -}}
+                    </span>
+                    {%- render 'theme-icons', icon: 'icon-minus' -%}
+                  </button>
+                  <label for="Quantity-{{ section.id }}" class="quantity-hidden-label">{{ 'products.product.quantity.label' | t }}</label>
+                  <input
+                    class="quantity__input"
+                    type="number"
+                    name="quantity"
+                    id="Quantity-{{ section.id }}"
+                    data-cart-quantity="{{ cart_qty }}"
+                    data-min="{{ product.selected_or_first_available_variant.quantity_rule.min }}"
+                    min="{{ product.selected_or_first_available_variant.quantity_rule.min }}"
+                    {% if product.selected_or_first_available_variant.quantity_rule.max != null %}
+                      data-max="{{ product.selected_or_first_available_variant.quantity_rule.max }}"
+                      max="{{ product.selected_or_first_available_variant.quantity_rule.max }}"
+                    {% endif %}
+                    step="{{ product.selected_or_first_available_variant.quantity_rule.increment }}"
+                    value="{{ product.selected_or_first_available_variant.quantity_rule.min }}"
+                    form="{{ product_form_id }}"
+                  >
+                  <button class="quantity__button no-js-hidden" name="plus" type="button">
+                    <span class="visually-hidden">
+                      {{- 'products.produ Fct.quantity.increase' | t: product: product.title | escape -}}
+                    </span>
+                    {%- render 'theme-icons', icon: 'icon-plus' -%}
+                  </button>
+                </quantity-input>
+              {% endif %}
+              {% if elite_price and collection.handle == 'elite' %}
+                {% if customer and customer.tags contains 'ELITE' %}
+                  <button
+                    id="ProductSubmitButton-{{ section_id }}"
+                    type="submit"
+                    name="add"
+                    class=" not-on js-product-form__submit product-form__submit button button--primary
+                {% if show_elite_pricing %}
+                  button--quaternary
+                {% else %}
+                  button--primary
+                {% endif %}
+              "
+                    {% if quantity_rule_soldout %}
+                      disabled
+                    {% endif %}
+                  >
+                    <span>
+                      {%- if quantity_rule_soldout -%}
+                        <span class="js-cart-update-button-text">{{ 'products.product.sold_out' | t }}</span>
+                        <span class="js-cart-update-button-text hidden">{{ 'products.product.add_to_cart' | t }}</span>
+                        {% comment %}
+                        <span class="js-product-form__submit-pipe product-form__submit-pipe hidden">| $</span><span class="product-form__submit-price js-cart-update-price-container hidden">
+                        <span class="js-cart-update-price"></span>
+                        {% endcomment %}
+                      </span>
+                      {%- else -%}
+                        <span class="js-cart-update-button-text">{{ 'products.product.add_to_cart' | t }}</span>
+                        <!-- <span class="js-product-form__submit-pipe product-form__submit-pipe">| $ -->
+                          <span class="product-form__submit-price js-cart-update-price-container">
+                            {% comment %}
+                            <span class="js-cart-update-price">
+
+                              {% if customer %}
+
+                                {% if customer.tags contains 'ELITE' %}
+
+                                  {{ elite_price }}
+
+                                {% else %}
+
+                                  {{ purchase_price }}
+
+                                {% endif %}
+
+                              {% else %}
+
+                                {{ market_price }}
+
+                              {% endif %}
+
+                            </span>
+                          </span>
+                          {% endcomment %}
+                        </span>
+                      {%- endif -%}
+                    </span>
+                    {%- render 'theme-icons', icon: 'loader' -%}
+                  </button>
+                {% elsif customer %}
+                  {% unless customer.tags contains 'ELITE' %}
+                    <div class="cta-button not-on">
+                      <a class="button button--outline button--icon" href="/pages/elite">Upgrade Now
+                        <svg class="svg-icon icon-chevron-right" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M9 6L14.2929 11.2929C14.6834 11.6834 14.6834 12.3166 14.2929 12.7071L9 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                        </svg>
+                      </a>
+                    </div>
+                  {% endunless %}
+                {% else %}
+                  <div class="cta-button not-on">
+                    <a class="button button--outline button--icon" href="/pages/cabana-club?sID=3658">Join Now
+                      <svg class="svg-icon icon-chevron-right" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9 6L14.2929 11.2929C14.6834 11.6834 14.6834 12.3166 14.2929 12.7071L9 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                      </svg>
+
+                    </a>
+                  </div>
+                {% endif %}
+              {% else %}
+                <button
+                  id="ProductSubmitButton-{{ section_id }}"
+                  type="submit"
+                  name="add"
+                  class="js-product-form__submit product-form__submit button button--primary
+                {% if show_elite_pricing %}
+                  button--quaternary
+                {% else %}
+                  button--primary
+                {% endif %}
+              "
+                  {% if quantity_rule_soldout %}
+                    disabled
+                  {% endif %}
+                >
+                  <span>
+                    {%- if quantity_rule_soldout -%}
+                      <span class="js-cart-update-button-text">{{ 'products.product.sold_out' | t }}</span>
+                      <span class="js-cart-update-button-text hidden">{{ 'products.product.add_to_cart' | t }}</span>
+                      <!-- <span class="js-product-form__submit-pipe product-form__submit-pipe hidden">| $</span><span class="product-form__submit-price js-cart-update-price-container hidden">
+                      <span class="js-cart-update-price"></span> -->
+                    </span>
+                    {%- else -%}
+                      <span class="js-cart-update-button-text">{{ 'products.product.add_to_cart' | t }}</span>
+                      <!-- <span class="js-product-form__submit-pipe product-form__submit-pipe">| $</span>-->
+                      <span class="product-form__submit-price js-cart-update-price-container"> 
+                        {% comment %}
+                        <span class="js-cart-update-price">
+
+                          {% if customer %}
+
+                            {% if customer.tags contains 'ELITE' %}
+
+                              {{ elite_price }}
+
+                            {% else %}
+
+                              {{ purchase_price }}
+
+                            {% endif %}
+
+                          {% else %}
+
+                            {{ market_price }}
+
+                          {% endif %}
+
+                        </span>
+                      {% endcomment %}
+                      </span>
+                    {%- endif -%}
+                  </span>
+                  {%- render 'theme-icons', icon: 'loader' -%}
+                </button>
+              {% endif %}
+
+            </div>
+          </div>
+          {%- if show_dynamic_checkout -%}
+            <div class="dynamic-checkout-buttons{% if block.settings.button_suggestions != blank %} suggestions{% endif %}" style="--position-top: {{ block.settings.position_top }}px">
+              {{ form | payment_button }}
+              {% if block.settings.button_suggestions != blank %}
+                <span class="animate-suggestions buy-button{% if product.selected_or_first_available_variant.available == false %} hidden{% endif %}">{{ block.settings.button_suggestions }}{% render 'theme-icons', icon: 'animate-arrow' %}</span>
+              {% endif %}
+            </div>
+          {%- endif -%}
+        </div>
+      {%- endform -%}
+    </product-form>
+  {%- else -%}
+    <div class="product-form">
+      <div class="product-form__buttons form">
+        <button
+          type="submit"
+          name="add"
+          class="product-form__submit button
+          {% if show_elite_pricing %}
+            button--quaternary
+          {% else %}
+            button--primary
+          {% endif %}
+          "
+          disabled
+        >
+          {{ 'products.product.sold_out' | t }}
+        </button>
+      </div>
+    </div>
+  {%- endif -%}
+
+  {%- if show_pickup_availability -%}
+    {{ 'component-pickup-availability.css' | asset_url | stylesheet_tag }}
+
+    {%- assign pick_up_availabilities = product.selected_or_first_available_variant.store_availabilities
+      | where: 'pick_up_enabled', true
+    -%}
+  {%- endif -%}
+
+  {% if purchase_price == 'N.A.' or purchase_price == '' or purchase_price == '0' or purchase_price == '0.00' %}
+    {% assign purchase_price = 0 %}
+  {% endif %}
+
+  <script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const quantityInput   = document.querySelector('.quantity__input');
+    const quantityButtons = document.querySelectorAll('.quantity__button');
+    const buyButtons      = document.querySelectorAll('.js-product-form__submit');
+    const formInputs      = document.querySelectorAll('.js .product-form__input');
+    const priceContainer  = document.querySelectorAll('.js-cart-update-price-container');
+
+    let isCustomer         = false;
+    let isElites           = false;
+    let purchaseTablePrice = '';
+    let showElitePricingAb = {{ show_elite_pricing_ab }};
+
+    const globalProvince = localStorage.getItem('global_province');
+
+    let isAlberta = false;
+
+    let isBc = false;
+
+    if (globalProvince === 'Alberta') {
+
+      isAlberta = true;
+
+    }
+    if (globalProvince === 'British Columbia') {
+
+      isBc = true;
+
+    }
+
+    const province  = localStorage.getItem('global_province');
+    let buttonValue = document.querySelectorAll('.js-cart-update-price');
+
+    {% if customer %}
+    isCustomer = true;
+
+    {% if isElite %}
+
+    isElites = true;
+
+    {% if elite_price and elite_price != empty and elite_price != '0.00' and elite_price != 'N.A.' and elite_price != '' %}
+
+    purchaseTablePrice = '{{ elite_price }}';
+
+    {% else %}
+
+    purchaseTablePrice = '{{ purchase_price }}';
+
+    {% endif %}
+
+    {% else %}
+
+    purchaseTablePrice = '{{ purchase_price }}';
+
+    {% endif %}
+    {% else %}
+    isCustomer = false;
+    if (province === 'British Columbia') {
+      purchaseTablePrice    = '{{ purchase_price }}';
+      buttonValue.innerHTML = purchaseTablePrice;
+    } else {
+      purchaseTablePrice = '{{ market_price }}';
+    }
+    {% endif %}
+
+
+
+    let firstButton = buttonValue[0];
+
+    
+
+    if (isBc) {
+
+      priceContainer[0].classList.remove('hidden');
+
+      firstButton.innerText = `{{ purchase_price }}`;
+
+    }
+
+    if ((!isCustomer || !isElites) && isAlberta && showElitePricingAb) {
+      buyButtons.forEach((button) => {
+        // button.disabled = true;
+      });
+    }
+
+    formInputs.forEach((item) => {
+      let labels     = item.querySelectorAll('label');
+
+      labels.forEach((label) => {
+        label.addEventListener('click', function () {
+          if (isCustomer) {
+
+            if (isAlberta) {
+
+              if (label.dataset.elite && isElites) {
+
+                purchaseTablePrice = label.dataset.elite;
+
+              } else {
+
+                purchaseTablePrice = label.dataset.market;
+
+              }
+
+            } else if (isBc) {
+
+              purchaseTablePrice = label.dataset.purchase;
+
+            } else {
+
+              if (label.dataset.elite && isElites) {
+
+                purchaseTablePrice = label.dataset.elite;
+
+              } else {
+
+                purchaseTablePrice = label.dataset.purchase;
+
+              }
+
+            }
+          } else {
+            if (isBc) {
+
+              purchaseTablePrice = label.dataset.purchase;
+
+            } else {
+
+              purchaseTablePrice = label.dataset.market;
+
+            }
+          }
+          clearQuantity();
+        });
+      });
+    });
+
+    function clearQuantity() {
+      if (buttonValue.length > 0) {
+        let firstButton = buttonValue[0];
+
+        priceContainer[0].classList.remove('hidden');
+        firstButton.innerText = purchaseTablePrice;
+      }
+    }
+
+    function updateQuantity() {
+      if (quantityInput) {
+        const value     = +quantityInput.value;
+        let updateValue = value * purchaseTablePrice;
+
+        if (buttonValue.length > 0) {
+          let firstButton = buttonValue[0];
+
+          firstButton.innerHTML = updateValue.toFixed(2);
+        }
+      }
+    }
+
+    if (quantityInput) {
+      quantityInput.addEventListener('input', updateQuantity);
+    }
+
+    quantityButtons.forEach(function (button) {
+      button.addEventListener('click', function () {
+        updateQuantity();
+      });
+    });
+  });
+  </script>
+
+  <script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const productHandle = '{{ product.handle }}';
+    const isElites      = localStorage.getItem('is_elite') === 'true';
+
+    if (productHandle === 'cabana-elite-annual' && isElites) {
+      const addToCartButtons = document.querySelectorAll('.product-form__submit');
+
+      addToCartButtons.forEach(button => {
+        button.setAttribute('disabled', 'disabled');
+      });
+    }
+  });
+  </script>
+</div>

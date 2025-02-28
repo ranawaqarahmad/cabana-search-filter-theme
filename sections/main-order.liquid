@@ -1,0 +1,358 @@
+{{ 'customer.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+  padding-top: 16px;
+  padding-bottom: 16px;
+  }
+
+  @media screen and (min-width: 1201px) {
+  .section-{{ section.id }}-padding {
+  padding-top: {{ section.settings.padding_top }}px;
+  padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+  }
+
+  .section-{{ section.id }}-padding {
+  margin-top: 16px;
+  margin-bottom: 16px;
+  }
+
+  @media screen and (min-width: 769px) {
+  .section-{{ section.id }}-padding {
+  margin-top: 32px;
+  margin-bottom: 32px;
+  }
+  }
+
+  @media screen and (min-width: 1201px) {
+  .section-{{ section.id }}-padding {
+  margin-top: 64px;
+  margin-bottom: 64px;
+  }
+  }
+{%- endstyle -%}
+
+{% assign isElite = false %}
+
+{% if customer and customer.tags contains 'ELITE' %}
+  {% assign isElite = true %}
+{% endif %}
+
+<div class="account_intro js-account_intro {% if isElite %}account_intro-elite{% endif %}">
+  <div class="page-width account_intro-container js-account_intro-container">
+    <div class="account_intro-membership">
+      <h1 class="h3 account_intro-name">{{ 'customer.welcome' | t }}, {{ customer.first_name }}</h1>
+      {% if isElite %}
+        <p class="account_intro-member">{{ 'customer.member_status_elite' | t }}</p>
+      {% else %}
+        <p class="account_intro-member-normal">{{ 'customer.member_status_normal' | t }}</p>
+      {% endif %}
+    </div>
+    {% comment %}TODO: Figure out where this information is going to come from{% endcomment %}
+    {% comment %}{% assign memberSavings = 0.00 %}{% endcomment %}
+    {% comment %}<div class="account_intro-info {% if isElite %}account_intro-info-elite js-account_intro-info-elite hidden{% endif %}">{% endcomment %}
+    {% comment %}<p class="account_intro-savings-intro">{{ 'customer.savings' | t }}<strong> {{ memberSavings | money }} </strong>{{ 'customer.savings_2' | t }}</p>{% endcomment %}
+    {% comment %}</div>{% endcomment %}
+  </div>
+</div>
+
+<div class="customer order section-{{ section.id }}-padding js-account-sections-wrapper">
+  <div class="account_top_bar mgb-medium">
+    <div class="left_side_box-account">
+      <div class="account-nav">
+        <ul>
+          <li>
+            <a href="#" class="nav-link js-orders-link js-nav-link">
+              {% render 'theme-icons', icon: 'icon-package' %}
+              <span class="nav-text">{{ 'customer.your_orders' | t }}</span>
+              {% render 'theme-icons', icon: 'icon-chevron-right', class: "chevy" %}
+            </a>
+          </li>
+          <li>
+            <a href="#" class="nav-link js-account-link js-nav-link active">
+              {% render 'theme-icons', icon: 'icon-user-circled' %}
+              <span class="nav-text">{{ 'customer.manage_account' | t }}</span>
+              {% render 'theme-icons', icon: 'icon-chevron-right' %}
+            </a>
+          </li>
+          {% comment %}TODO: re-add when saved stores are ready{% endcomment %}
+          {% comment %}<li>{% endcomment %}
+          {% comment %}<a href="#" class="nav-link js-stores-link js-nav-link">{% endcomment %}
+          {% comment %}{% render 'theme-icons', icon: 'icon-location' %}{% endcomment %}
+          {% comment %}<span class="nav-text">{{ 'customer.saved_stores' | t }}</span>{% endcomment %}
+          {% comment %}{% render 'theme-icons', icon: 'icon-chevron-right' %}{% endcomment %}
+          {% comment %}</a>{% endcomment %}
+          {% comment %}</li>{% endcomment %}
+          <li>
+            <a href="{{ routes.account_logout_url }}" class="nav-link js-nav-link logout-link js-logout-link logout_btns_customer">
+              {% render 'theme-icons', icon: 'icon-logout' %}
+              <span class="nav-text">{{ 'customer.sign_out' | t }}</span>
+              {% render 'theme-icons', icon: 'icon-chevron-right' %}
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="order_section_main">
+        <div class="right_order_list_option">
+          <div class="tp_bar_order">
+            <div class="order-details-top">
+              <div class="heading-wrapper">
+                <div class="breadcrumb-wrapper small-hide">
+                  {% render 'breadcrumb' %}
+                </div>
+
+                <h2 class="h2">{{ 'customer.order.title' | t: name: order.name }}</h2>
+                <span class="order-status-badge">{{ order.fulfillment_status_label }}</span>
+              </div>
+              {% comment %}{%- assign order_date = order.created_at | time_tag: format: 'date_at_time' -%}{% endcomment %}
+              {% comment %}<p>{{ 'customer.order.date_html' | t: date: order_date }}</p>{% endcomment %}
+            </div>
+
+            {% comment %}<div class="invoice">{% endcomment %}
+            {% comment %}<button class="button button--outline">Invoice {% render 'theme-icons', icon: 'icon-download' %}</button>{% endcomment %}
+            {% comment %}</div>{% endcomment %}
+
+          </div>
+          {%- if order.cancelled -%}
+            <div class="order_cancelled">
+              {%- assign cancelled_at = order.cancelled_at | time_tag: format: 'date_at_time' -%}
+              <p>{{ 'customer.order.cancelled_html' | t: date: cancelled_at }}</p>
+              <p>{{ 'customer.order.cancelled_reason' | t: reason: order.cancel_reason_label }}</p>
+            </div>
+          {%- endif -%}
+
+          <div class="order-details-containers">
+            {% comment %}<div class="secondary-details">{% endcomment %}
+            {% comment %}<div class="order-secondary order-pickup-location">{% endcomment %}
+            {% comment %}<p>Pickup Location</p>{% endcomment %}
+            {% comment %}<p class="store-address">Store Address</p>{% endcomment %}
+            {% comment %}</div>{% endcomment %}
+            {% comment %}{% endcomment %}
+            {% comment %}<div class="order-secondary order-pickup-date">{% endcomment %}
+            {% comment %}<p>Pickup Date</p>{% endcomment %}
+            {% comment %}<p class="pickup-date">Pickup Date</p>{% endcomment %}
+            {% comment %}</div>{% endcomment %}
+            {% comment %}{% endcomment %}
+            {% comment %}<div class="order-secondary order-pickup-date">{% endcomment %}
+            {% comment %}<p>Payment</p>{% endcomment %}
+            {% comment %}<div class="card-details-wrapper">{% endcomment %}
+            {% comment %}<p class="card-details">Visa ending in 4200</p>{% endcomment %}
+            {% comment %}</div>{% endcomment %}
+            {% comment %}</div>{% endcomment %}
+            {% comment %}</div>{% endcomment %}
+            <div class="primary-details">
+              <p class="primary-title">{{- 'sections.cart.order_summary' | t -}}</p>
+
+              <div class="order-detail order-items">
+                {% assign total_quantity = 0 %}
+                {% for line_item in order.line_items %}
+                  {% assign total_quantity = total_quantity | plus: line_item.quantity %}
+                {% endfor %}
+                <p>Items ({{ total_quantity }})</p>
+                <p class="items-sum"> {{ order.line_items_subtotal_price | money }}</p>
+              </div>
+
+              <div class="order-detail">
+                <p>{{ 'customer.order.subtotal' | t }}</p>
+                <p class="tax-amount amount"> {{ order.subtotal_price | money }}</p>
+              </div>
+
+              {% if total_discount_cents > 0 %}
+                <div class="order-detail">
+                  <svg aria-hidden="true" focusable="false" viewBox="0 0 12 12">
+                    <use href="#icon-discount" />
+                  </svg>
+                  <p>{{ 'customer.order.discount' | t }}</p>
+                  <p class="discount-amount amount">-{{ order.discounts }}</p>
+                </div>
+              {% endif %}
+
+              {% for tax_line in order.tax_lines %}
+                <div class="order-detail order-tax">
+                  <p>{{ 'customer.order.tax' | t }} ({{ tax_line.title }} {{ tax_line.rate | times: 100 }}%)</p>
+                  <p class="tax-amount amount">{{ tax_line.price | money }}</p>
+                </div>
+              {% endfor %}
+
+              {% if order.total_duties > 0 %}
+                <div class="order-detail order-total-duties">
+                  <p>{{ 'customer.order.total_duties' | t }}</p>
+                  <p class="duties-amount amount">{{ order.total_duties | money }}</p>
+                </div>
+              {% endif %}
+
+              {% for shipping_method in order.shipping_methods %}
+                <div class="order-detail order-shipping">
+                  <p>{{ 'customer.order.shipping' | t }} ({{ shipping_method.title }})</p>
+                  <p class="shipping-amount amount">{{ shipping_method.price | money }}</p>
+                </div>
+              {% endfor %}
+
+              <div class="order-detail order-total">
+                <p>{{ 'customer.order.total' | t }}</p>
+                <p class="total-amount amount">{{ order.total_price | money }}</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="list_order_products">
+            {%- for line_item in order.line_items -%}
+              <div class="order_line_items">
+                <div class="thumb-image-wrapper">
+                  {{ line_item.image | img_url: '150x150' | img_tag }}
+                </div>
+
+                <div class="title-wrapper title_line_item">
+                  {%- if line_item.url != blank -%}
+                    <a class="h6" href="{{ line_item.url }}">{{ line_item.title }}</a>
+                  {%- else -%}
+                    <a class="h6" href="javascript:void(0)">{{ line_item.title }}</a>
+                  {%- endif -%}
+
+
+                  {% if line_item.vendor %}
+                    <div class="vendor-wrapper">
+                      <p>By <span>{{ line_item.vendor }}</span></p>
+                    </div>
+                  {% endif %}
+
+                  {% if thc != blank or cbd != blank %}
+                    <div class="thc-cbd-wrapper">
+                      <p class="thc"><span>THC</span> {{ thc }}%</p>
+                      <p class="cbd"><span>CBD</span> {{ cbd }}%</p>
+                    </div>
+                  {% endif %}
+                </div>
+                <div class="product-details-wrapper">
+                  <div class="line_price_order">
+                    <span>{{ line_item.final_price | money }}/ea{% if line_item.quantity != blank %} x{{ line_item.quantity }}{% endif %}</span>
+                  </div>
+
+                  <div class="item_discount">
+                    {%- if line_item.line_level_discount_allocations != blank -%}
+                      <ul role="list" aria-label="{{ 'customer.order.discount' | t }}">
+                        {%- for discount_allocation in line_item.line_level_discount_allocations -%}
+                          <li>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17" fill="none">
+                              <path d="M13.1663 3.83333L3.83301 13.1667" stroke="#48A14D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                              <path d="M4.83366 6.5C5.75413 6.5 6.50033 5.75381 6.50033 4.83334C6.50033 3.91286 5.75413 3.16667 4.83366 3.16667C3.91318 3.16667 3.16699 3.91286 3.16699 4.83334C3.16699 5.75381 3.91318 6.5 4.83366 6.5Z" stroke="#48A14D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                              <path d="M12.1667 13.8333C13.0871 13.8333 13.8333 13.0871 13.8333 12.1667C13.8333 11.2462 13.0871 10.5 12.1667 10.5C11.2462 10.5 10.5 11.2462 10.5 12.1667C10.5 13.0871 11.2462 13.8333 12.1667 13.8333Z" stroke="#48A14D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                            {{- discount_allocation.discount_application.title }} (-
+                            {{- discount_allocation.amount | money -}}
+                            )
+                          </li>
+                        {%- endfor -%}
+                      </ul>
+                    {%- endif -%}
+
+                    {%- if line_item.fulfillment -%}
+                      <div class="fulfillment">
+                        {%- assign created_at = line_item.fulfillment.created_at | time_tag: format: 'date' -%}
+                        <span>{{ 'customer.order.fulfilled_at_html' | t: date: created_at }}</span>
+
+                        {%- if line_item.fulfillment.tracking_url -%}
+                          <a href="{{ line_item.fulfillment.tracking_url }}">
+                            {{ 'customer.order.track_shipment' | t }}
+                          </a>
+                        {%- endif -%}
+                        <span>
+                          {{ line_item.fulfillment.tracking_company }}
+                          {%- if line_item.fulfillment.tracking_number -%}
+                            #{{ line_item.fulfillment.tracking_number }}
+                          {%- endif -%}
+                        </span>
+                      </div>
+                    {%- endif -%}
+                  </div>
+
+                  {% comment %}TODO: get back to this to check if thats the correct total price{% endcomment %}
+                  <div class="line_totle_price">
+                    <span> {{ line_item.final_line_price | money }}</span>
+                  </div>
+
+                  <a href="{{ line_item.url }}"
+                     class="button button--primary"
+                     data-variant-id="{{ line_item.variant_id }}"
+                     data-quantity="{{ line_item.quantity }}"
+                     aria-label="Buy Again">{{- 'customer.buy_again' | t -}} {% render 'theme-icons', icon: 'icon-chevron-right' %}</a>
+                </div>
+              </div>
+            {%- endfor -%}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const accountWrapper       = document.querySelector('.js-account-sections-wrapper');
+  const accountIntro         = document.querySelector('.js-account_intro-container');
+  const navLinks             = accountWrapper.querySelectorAll('.js-nav-link');
+  const sections             = accountWrapper.querySelectorAll('.section');
+  const province             = localStorage.getItem('global_province');
+  const logoutButton         = document.querySelector('.js-logout-link');
+  const logoutMessage        = document.querySelector('.js-logging-out-msg');
+  const eliteInfoElements    = document.querySelectorAll('.js-account_intro-info-elite');
+  const accountIntroElements = document.querySelectorAll('.js-account_intro');
+
+  if (window.location.pathname.includes('/account/orders')) {
+    const firstLink = navLinks[0];
+    setActiveLink(firstLink);
+    showSection('js-' + firstLink.classList[1].split('-')[1] + '-section');
+  }
+  navLinks.forEach((link, index) => {
+    link.addEventListener('click', function (event) {
+      if (index !== 0) {
+        if (window.location.pathname.includes('/account/orders')) {
+          window.location.href = '/account'; // Redirect to /account
+        }
+      }
+    });
+  });
+
+  function showSection(sectionClass) {
+    sections.forEach(section => {
+      section.style.display = section.classList.contains(sectionClass) ? 'block' : 'none';
+    });
+  }
+
+  function setActiveLink(activeLink) {
+    navLinks.forEach(link => {
+      link.classList.remove('active');
+    });
+    activeLink.classList.add('active');
+  }
+
+  if (province !== 'Alberta') {
+    eliteInfoElements.forEach(element => {
+      element.classList.remove('hidden');
+    });
+  }
+
+  if (province !== 'British Columbia') {
+    accountIntroElements.forEach(element => {
+      element.classList.remove('hidden');
+    });
+  }
+
+  if (logoutButton) {
+    logoutButton.addEventListener('click', function () {
+      logoutMessage.classList.remove('hidden');
+    });
+  }
+});
+
+</script>
+
+{% schema %}
+{
+  "name": "t:sections.main-order.name",
+  "settings": [
+  ]
+}
+{% endschema %}

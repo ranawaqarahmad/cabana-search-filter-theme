@@ -1,0 +1,79 @@
+{% comment %}
+Renders Schema in JSON-LD format, from the store object data.
+
+Usage: {% render 'location-schema', metaobject: metaobject.jsonData %}
+{% endcomment %}
+<script>
+const metaobject = {{ metaobject }};
+
+document.addEventListener("DOMContentLoaded", function() {
+  function transformMetaobjectToJSONLD(metaobject) {
+    const mapDayOfWeek = {
+      0: "Sunday",
+      1: "Monday",
+      2: "Tuesday",
+      3: "Wednesday",
+      4: "Thursday",
+      5: "Friday",
+      6: "Saturday"
+    };
+
+    const openingHours = metaobject.hours_periods.reduce((acc, period) => {
+      const openDay = mapDayOfWeek[period.open.day];
+      const closeDay = mapDayOfWeek[period.close.day];
+
+      const existingEntry = acc.find(entry => entry.opens === period.open.time && entry.closes === period.close.time);
+      if (existingEntry) {
+        existingEntry.dayOfWeek.push(openDay);
+      } else {
+        acc.push({
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [openDay],
+          "opens": period.open.time.slice(0, 2) + ":" + period.open.time.slice(2),
+          "closes": period.close.time.slice(0, 2) + ":" + period.close.time.slice(2)
+        });
+      }
+
+      return acc;
+    }, []);
+
+    const jsonLD = {
+      "@context": "http://schema.org",
+      "@type": "Store",
+      "name": metaobject.title || "",
+      "legalName": `${metaobject.title || ""} Store`,
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": (metaobject.address && metaobject.address.street1) || "",
+        "addressLocality": (metaobject.address && metaobject.address.city) || "",
+        "addressRegion": (metaobject.address && metaobject.address.province) || "",
+        "postalCode": (metaobject.address && metaobject.address.zip) || "",
+        "addressCountry": (metaobject.address && metaobject.address.country) || ""
+      },
+      "image": [
+        {
+          "@type": "ImageObject",
+          "url": metaobject.img || ""
+        }
+      ],
+      "priceRange": "$$",
+      "telephone": metaobject.phone || "",
+      "url": window.location.href || "",
+      "openingHoursSpecification": openingHours
+    };
+
+    return jsonLD;
+  }
+
+  if (metaobject) {
+    const jsonLD = transformMetaobjectToJSONLD(metaobject);
+
+    const script = document.createElement("script");
+    script.type = "application/ld+json";
+    script.text = JSON.stringify(jsonLD, null, 2);
+    document.head.appendChild(script);
+  } else {
+    console.error('Store data is not available');
+  }
+});
+</script>

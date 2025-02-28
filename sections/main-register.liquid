@@ -1,0 +1,233 @@
+{{ 'customer.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+  padding-top: 16px;
+  padding-bottom: 16px;
+  }
+
+  @media screen and (min-width: 992px) {
+  .section-{{ section.id }}-padding {
+  padding-top: {{ section.settings.padding_top }}px;
+  padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+  }
+{%- endstyle -%}
+{% if customer %}
+  <script>
+    window.location.href="/account";
+  </script>
+
+  {% endif %}
+{% assign under_age = 'customer.register.under_age' | t %}
+
+<div class="customer register section-{{ section.id }}-padding splr-medium">
+  <div class="section-heading__bar sp-small mgb-medium">
+    <h1 class="title h2">
+      {{ 'customer.register.title' | t }}
+    </h1>
+  </div>
+  {%- form 'create_customer' -%}
+    {%- if form.posted_successfully? -%}
+      {% render 'toast', title: 'Account created! ', description: 'Please check your email to activate your account.', button-content: 'Login', link: '/account', toast-type: 'success', store_id: store_id %}
+    {%- endif -%}
+    {%- if form.errors -%}
+      {%- assign form_errors = form.errors | default_errors -%}
+      <div class="op-error-message mgb-small">
+        {%- render 'theme-icons', icon: 'error' -%}
+        {{ form_errors }}
+      </div>
+    {%- endif -%}
+    <div id="age-error-message" class="mgb-small" style="display: none;">
+      {% render 'toast', description: under_age, toast-type: 'error' %}
+    </div>
+    <input name="return_to" type="hidden" value="/?from_register=1">
+    <div class="field-flex gap-medium register-field-names">
+      <div class="field">
+        <input
+          type="text"
+          name="customer[first_name]"
+          id="RegisterForm-FirstName"
+          {% if form.first_name %}
+            value="{{ form.first_name }}"
+          {% endif %}
+          autocomplete="given-name"
+          placeholder="{{ 'customer.register.first_name' | t }}"
+          required
+        >
+        <label for="RegisterForm-FirstName">
+          {{ 'customer.register.first_name' | t }}
+        </label>
+      </div>
+      <div class="field">
+        <input
+          type="text"
+          name="customer[last_name]"
+          id="RegisterForm-LastName"
+          {% if form.last_name %}
+            value="{{ form.last_name }}"
+          {% endif %}
+          autocomplete="family-name"
+          placeholder="{{ 'customer.register.last_name' | t }}"
+          required
+        >
+        <label for="RegisterForm-LastName">
+          {{ 'customer.register.last_name' | t }}
+        </label>
+      </div>
+    </div>
+    <div class="gap-medium">
+      <div class="field">
+        <input
+          type="tel"
+          name="customer[phone]"
+          id="RegisterForm-phone"
+          {% if form.phone %}
+            value="{{ form.phone }}"
+          {% endif %}
+          spellcheck="false"
+          autocapitalize="off"
+          placeholder="{{ 'customer.register.phone' | t }}"
+        >
+        <label for="RegisterForm-phone">
+          {{ 'customer.register.phone' | t }}
+        </label>
+      </div>
+      <div class="field">
+        <input
+          type="text"
+          name="customer[address][zip]"
+          id="RegisterForm-postal"
+          {% if form.postal %}
+            value="{{ form.postal }}"
+          {% endif %}
+          spellcheck="false"
+          autocapitalize="off"
+          placeholder="{{ 'customer.register.postal_code' | t }}"
+        >
+        <label for="RegisterForm-postal">
+          {{ 'customer.register.postal_code' | t }}
+        </label>
+      </div>
+    </div>
+    <div class="field">
+      <input
+        type="date"
+        name="customer[metafields][facts.birth_date]"
+        id="RegisterForm-birthday"
+        {% if form.birthday %}
+          value="{{ form.birthday }}"
+        {% endif %}
+        placeholder="{{ 'customer.register.birthday' | t }}"
+        required
+        min=""
+        max=""
+      >
+      <label for="RegisterForm-birthday">
+        {{ 'customer.register.birthday' | t }}
+      </label>
+    </div>
+    <div class="field">
+      <input
+        type="email"
+        name="customer[email]"
+        id="RegisterForm-email"
+        {% if form.email %}
+          value="{{ form.email }}"
+        {% endif %}
+        spellcheck="false"
+        autocapitalize="off"
+        autocomplete="email"
+        aria-required="true"
+        {% if form.errors contains 'email' %}
+          aria-invalid="true"
+          aria-describedby="RegisterForm-email-error"
+        {% endif %}
+        placeholder="{{ 'customer.register.email' | t }}"
+        required
+      >
+      <label for="RegisterForm-email">
+        {{ 'customer.register.email' | t }}
+      </label>
+    </div>
+    <div class="field">
+      <input
+        type="password"
+        name="customer[password]"
+        id="RegisterForm-password"
+        aria-required="true"
+        {% if form.errors contains 'password' %}
+          aria-invalid="true"
+          aria-describedby="RegisterForm-password-error"
+        {% endif %}
+        placeholder="{{ 'customer.register.password' | t }}"
+        required
+      >
+      <label for="RegisterForm-password">
+        {{ 'customer.register.password' | t }}
+      </label>
+    </div>
+    <div class="accepts-marketing main-register-marketing">
+      <input type="hidden" name="customer[accepts_marketing]" value="false" />
+      <input type="checkbox" name="customer[accepts_marketing]" id="RegisterForm-AcceptsMarketing" />
+      <label for="RegisterForm-AcceptsMarketing">{{ 'customer.register.accepts_marketing' | t }}</label>
+    </div>
+    <div class="field-other">
+      <button class="button--primary" type="submit">
+        {{ 'customer.register.submit' | t }}
+      </button>
+    </div>
+    <div class="field-other">
+      <p class="sign-up-link">
+        {{ 'customer.register.an_account' | t }}
+        <a href="{{ routes.account_login_url }}">
+          {{ 'customer.register.login' | t }}
+        </a>
+      </p>
+    </div>
+  {%- endform -%}
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const dateInput = document.getElementById('RegisterForm-birthday');
+  const today = new Date();
+  const maxDate = new Date(today.getFullYear() - 19, today.getMonth(), today.getDate());
+  const minDate = new Date(today.getFullYear() - 100, today.getMonth(), today.getDate());
+
+  const formatDate = (date) => {
+    const year = date.getFullYear();
+    const month = ('0' + (date.getMonth() + 1)).slice(-2);
+    const day = ('0' + date.getDate()).slice(-2);
+    return `${year}-${month}-${day}`;
+  };
+
+  dateInput.setAttribute('max', formatDate(maxDate));
+  dateInput.setAttribute('min', formatDate(minDate));
+
+  dateInput.addEventListener('keydown', function(event) {
+    event.preventDefault();
+  });
+
+  const form = document.querySelector('form[action="/account"]');
+  form.addEventListener('submit', function(event) {
+    const selectedDate = new Date(dateInput.value);
+
+    if (selectedDate > maxDate || selectedDate < minDate) {
+      alert('Please select a valid birthdate that makes you at least 19 years old.');
+      event.preventDefault();
+      return false;
+    }
+
+    return true;
+  });
+});
+</script>
+
+{% schema %}
+{
+  "name": "t:sections.main-register.name",
+  "settings": [
+  ]
+}
+{% endschema %}

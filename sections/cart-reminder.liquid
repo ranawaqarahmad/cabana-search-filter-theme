@@ -1,0 +1,43 @@
+{{ 'cart-reminder.css' | asset_url | stylesheet_tag }}
+<div id="cart-count-reminder" class="cart-count-reminder color-scheme-1{% if cart.item_count == 0 %} hidden{% endif %}{% if template == 'cart' %} hidden__reminder{% endif %}">
+  <div class="cart-count-reminder__inner" data-item-count="{{ cart.item_count }}">
+    <div class="reminder-cart__icon">
+      {% render 'theme-icons', icon: 'cart' %}
+    </div>
+    <div class="reminder-cart__details">
+      <div class="reminder-cart__count">
+        <h2 class="mg-none h6">{{ "sections.cart.title" | t }}</h2>
+        <span>{{ "sections.cart.items_added" | t: count: cart.item_count }}</span>
+      </div>
+      <div class="reminder-cart__button">
+        <a href="{{ routes.cart_url }}" class="button button--primary" tabindex="-1">
+          <span class="cart-total-price">{{ cart.total_price | money }}</span>
+          {{ 'general.cart.view_cart' | t }}
+        </a>
+        <button class="btn-cart-reminder__close" aria-label="cart-reminder__close" tabindex="-1">
+          {% render 'theme-icons', icon: 'close' %}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="{{ 'cart-reminder.js' | asset_url }}" defer="defer"></script>
+{% schema %}
+{
+  "name": "t:sections.popups.cart-reminder.name",
+  "tag": "section",
+  "class": "section cart-reminder",
+  "disabled_on": {
+    "groups": [
+      "header",
+      "footer"
+    ]
+  },
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "t:sections.popups.cart-reminder.settings.paragraph"
+    }
+  ]
+}
+{% endschema %}

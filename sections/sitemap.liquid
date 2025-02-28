@@ -1,0 +1,120 @@
+{{ 'sitemap.css' | asset_url | stylesheet_tag }}
+
+{% comment %}@formatter:off{% endcomment %}
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    margin-top: 16px;
+    margin-bottom: 16px;
+  }
+
+  @media screen and (min-width: 769px) {
+    .section-{{ section.id }}-padding {
+      margin-top: 32px;
+      margin-bottom: 32px;
+    }
+  }
+
+  @media screen and (min-width: 1201px) {
+    .section-{{ section.id }}-padding {
+      margin-bottom: 64px;
+    }
+  }
+{%- endstyle -%}
+{% comment %}@formatter:on{% endcomment %}
+
+<div class="wrapper page-width sitemap-wrapper section-{{ section.id }}-padding">
+  <div class="heading-wrapper">
+    <h2>{{ page.title }}</h2>
+    <a class="button button--primary" href="/sitemap.xml">{{ 'general.sitemap.looking_for_sitemap' | t }}</a>
+  </div>
+
+  <hr />
+
+  <section>
+    <h2>{{ 'general.sitemap.collections' | t }}</h2>
+    <ul class="grid grid--2-col">
+      {%- for collection in collections -%}
+        {% unless shop.vendors contains collection.title %}
+          <li class="grid__item"><a href="{{ collection.url }}" class="orange">{{ collection.title }}</a></li>
+        {% endunless %}
+      {%- endfor -%}
+    </ul>
+  </section>
+
+  <hr />
+
+  <section>
+    <h2>{{ 'general.sitemap.brands' | t }}</h2>
+    <ul class="grid grid--2-col">
+      {%- for collection in collections -%}
+        {% if shop.vendors contains collection.title %}
+          <li class="grid__item"><a href="{{ collection.url }}" class="orange">{{ collection.title }}</a></li>
+        {% endif %}
+      {%- endfor -%}
+    </ul>
+  </section>
+
+  <hr />
+
+  <section>
+    <h2>{{ 'general.sitemap.stores' | t }}</h2>
+    <ul class="grid grid--2-col">
+      {% paginate shop.metaobjects.store.values by 500 %}
+        {% for item in shop.metaobjects.store.values %}
+          <li class="grid__item">
+            <a href="{{ item.system.url }}">{{ item.name }}</a>
+          </li>
+        {% endfor %}
+      {% endpaginate %}
+    </ul>
+  </section>
+
+  <section>
+    <h2>{{ 'general.sitemap.pages' | t }}</h2>
+    <ul class="grid grid--2-col">
+      {% paginate pages by 500 %}
+        {% for page in pages %}
+          <li class="grid__item">
+            <a href="{{ page.url }}">{{ page.title }}</a>
+          </li>
+        {% endfor %}
+      {% endpaginate %}
+    </ul>
+  </section>
+
+  <section>
+    <h2>{{ 'general.sitemap.blog_posts' | t }}</h2>
+    {% assign blog_handles = section.settings.blog_list | split: "," %}
+    {% for handle in blog_handles %}
+      <ul class="grid grid--2-col">
+        {% for article in blogs[handle].articles %}
+          <li class="grid__item">
+            <a href="{{ article.url }}">{{ article.title }}</a>
+          </li>
+        {% endfor %}
+      </ul>
+    {% endfor %}
+  </section>
+</div>
+
+{% schema %}
+{
+  "name": "Sitemap",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "blog_list",
+      "label": "t:sections.all.blog_list.label",
+      "default": "t:sections.all.blog_list.default",
+      "info": "t:sections.all.blog_list_info.label"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Sitemap"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,140 @@
+{% comment %}theme-check-disable ImgLazyLoading{% endcomment %}
+{{ 'component-collection-hero.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'collection-description.js' | asset_url }}" defer="defer"></script>
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+  padding-top: 16px;
+  padding-bottom: 16px;
+  }
+
+  @media screen and (min-width: 1201px) {
+  .section-{{ section.id }}-padding {
+  padding-top: {{ section.settings.padding_top }}px;
+  padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+  }
+
+  .section-{{ section.id }}-padding {
+  margin-top: 32px;
+  margin-bottom: 32px;
+  }
+
+  @media screen and (min-width: 1201px) {
+  .section-{{ section.id }}-padding {
+  margin-top: 64px;
+  margin-bottom: 64px;
+  }
+  }
+{%- endstyle -%}
+<div class="collection-hero section-{{ section.id }}-padding{% if section.settings.show_collection_image and collection.image %} collection-hero--with-image{% endif %} color-{{ section.settings.color_scheme }} gradient">
+  <div class="collection-hero__inner page-width {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
+    {%- if section.settings.show_collection_image and collection.image -%}
+      <div class="collection-hero__image-container media gradient">
+        <img
+          srcset="
+                {{ collection.image | image_url: width: 360 }} 360w,
+                {{ collection.image | image_url: width: 535 }} 535w,
+                {{ collection.image | image_url: width: 750 }} 750w,
+                {{ collection.image | image_url: width: 1070 }} 1070w,
+                {{ collection.image | image_url: width: 1500 }} 1500w,
+                {{ collection.image | image_url }} {{ collection.image.width }}w
+            "
+          src="{{ collection.image | image_url: width: 750 }}"
+          sizes="(min-width: 750px) 50vw, 100vw"
+          alt="{{ collection.image.alt | escape }}"
+          width="{{ collection.image.width }}"
+          height="{{ collection.image.height }}"
+        >
+      </div>
+    {%- endif -%}
+    <div class="collection-hero__text-wrapper">
+      <collection-description class="collection-description__inner">
+        <div class="collection-description-item gradient{% if section.settings.show_collection_description and collection.description != blank %} not-empty{% endif %}">
+          <div class="tab-heading">
+            <span class="visually-hidden">{{ 'sections.collection_template.title' | t }}: </span>
+            <h1 class="inline-richtext h1 mg-none">{{ collection.title }}</h1>
+          </div>
+          {%- if section.settings.show_collection_description and collection.description != blank -%}
+            <div class="">
+              <div class="product-details__text-content">
+                <div class="collection-description js-collection-description">
+                  <div class="truncated">
+                    {{ collection.description | strip_html | truncatewords:14 }}...
+                  </div>
+                  <div class="untruncated hidden">
+                    {{ collection.description  }}
+                  </div>
+                </div>
+                {%- assign description_length = collection.description | size -%}
+                {%- if description_length > 150 -%}
+                  <button class="toggle-description js-toggle-description" aria-expanded="false" aria-controls="product-description" aria-label="Toggle description">
+                    {% render 'theme-icons', icon: 'icon-chevron-down' %}
+                  </button>
+                {%- endif -%}
+              </div>
+            </div>
+          {% endif %}
+        </div>
+      </collection-description>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const toggleDescription = document.querySelector('.js-toggle-description');
+  const collectionDescription = document.querySelector('.js-collection-description');
+
+  if(toggleDescription) {
+    toggleDescription.addEventListener('click', function () {
+      const isExpanded = toggleDescription.getAttribute('aria-expanded') === 'true';
+      toggleDescription.setAttribute('aria-expanded', !isExpanded);
+
+      document.querySelector('.truncated').classList.toggle('hidden')
+      document.querySelector('.untruncated').classList.toggle('hidden')
+      
+      collectionDescription.classList.toggle('expanded');
+      toggleDescription.classList.toggle('expanded');
+    });
+  }
+});
+</script>
+
+{% schema %}
+{
+  "name": "t:sections.main-collection-banner.name",
+  "class": "section",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "t:sections.main-collection-banner.settings.paragraph.content"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_collection_description",
+      "default": true,
+      "label": "t:sections.main-collection-banner.settings.show_collection_description.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_collection_image",
+      "default": false,
+      "label": "t:sections.main-collection-banner.settings.show_collection_image.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "collapse_content",
+      "label": "t:sections.product-tabs.settings.expand_collapse.label",
+      "info": "t:sections.product-tabs.settings.expand_collapse.info",
+      "default": true
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,433 @@
+{% comment %}
+  Renders a product card
+
+  Accepts:
+  - card_product: {Object} Product Liquid object (optional)
+  - media_aspect_ratio: {String} Size of the product image card. Values are "square" and "portrait". Default is "square" (optional)
+  - image_shape: {String} Image mask to apply to the product image card. Values are "arch", "blob", "chevronleft", "chevronright", "diamond", "parallelogram", and "round". (optional)
+  - show_secondary_image: {Boolean} Show the secondary image on hover. Default: false (optional)
+  - show_vendor: {Boolean} Show the product vendor. Default: false
+  - show_rating: {Boolean} Show the product rating. Default: false
+  - extend_height: {Boolean} Card height extends to available container space. Default: true (optional)
+  - lazy_load: {Boolean} Image should be lazy loaded. Default: true (optional)
+  - show_quick_add: {Boolean} Show the quick add button.
+  - section_id: {String} The ID of the section that contains this card.
+  - horizontal_class: {Boolean} Add a card--horizontal class if set to true. Default: false (optional)
+  - horizontal_quick_add: {Boolean} Changes the quick add button styles when set to true. Default: false (optional)
+  - placeholder_image: {String} The placeholder image to use when no product exists. Default: 'product-apparel-2' (optional)
+  - store_id: {String} the store id of the user-selected store.
+
+  Usage:
+  {% render 'card-product', show_vendor: section.settings.show_vendor %}
+{% endcomment %}
+
+<script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+
+{% assign default_price = card_product.price | money_without_currency %}
+{% assign is_predictive_search = predictive_search | default: false %}
+
+{% if card_product.has_only_default_variant %}
+  {% liquid
+    assign product_metadata = card_product.metafields.jane[store_id] | split: ','
+    assign elite_metadata = card_product.metafields.elite[store_id]
+    if product_metadata
+      assign is_available_in_store = true
+    else
+      assign is_available_in_store = false
+    endif
+  %}
+{% else %}
+  {% liquid
+    assign available_variants = ''
+    assign first_matching_variant_metadata = ''
+    assign first_variant_metadata = ''
+    assign product_metadata = ''
+    assign variant_metadata = ''
+
+    for variant in card_product.variants
+      assign variant_metadata_initial = variant.metafields.jane[store_id] | split: ','
+      assign elite_variant_metadata_intitial = variant.metafields.elite[store_id]
+      assign is_available_in_store = false
+      assign variant_purchase_price = variant_metadata_initial[1]
+      assign variant_market_price = variant_metadata_initial[2]
+      assign variant_stock = variant_metadata_initial[0]
+
+      if forloop.first
+        assign first_variant_metadata = variant_metadata_initial
+        assign first_variant_elite_metadata = elite_variant_metadata_intitial
+      endif
+
+      if variant_purchase_price != blank and variant_purchase_price != '0.00' and variant_purchase_price != 'N.A.' and variant_market_price != blank and variant_market_price != '0.00' and variant_market_price != 'N.A.'
+        assign variant_market_price = variant_market_price | times: 100 | floor
+        assign variant_matches_filters = true
+
+        for param in params_array
+          assign key_value = param | split: '='
+          assign filter_value_int = key_value[1] | plus: 0
+
+          if key_value[0] == 'filter.v.mp.gte' and variant_market_price < filter_value_int
+            assign variant_matches_filters = false
+            continue
+          elsif key_value[0] == 'filter.v.mp.lte' and variant_market_price > filter_value_int
+            assign variant_matches_filters = false
+            continue
+          endif
+        endfor
+
+        unless variant_matches_filters
+          continue
+        endunless
+      endif
+
+      if variant_purchase_price != blank and variant_purchase_price != '0.00' and variant_purchase_price != 'N.A.' and variant_purchase_price  != '0'
+        assign is_available_in_store = true
+        assign variant_metadata = variant_metadata_initial
+        assign elite_metadata = elite_variant_metadata_intitial
+
+        assign product_metadata = variant_metadata
+        break
+      endif
+    endfor
+
+    unless product_metadata != ""
+      assign product_metadata = first_matching_variant_metadata
+    endunless
+
+    unless product_metadata != ""
+      assign product_metadata = first_variant_metadata
+      assign elite_metadata = first_variant_elite_metadata
+    endunless
+
+    for variant in card_product.variants
+      assign variant_metadata = variant.metafields.jane[store_id] | split: ','
+
+      if is_available_in_store
+        if available_variants != ''
+          assign available_variants = available_variants | append: ','
+        endif
+        assign available_variants = available_variants | append: variant.id
+      endif
+    endfor
+
+    for variant in card_product.variants
+      assign variant_metadata_stock = variant.metafields.jane[store_id] | split: ','
+      assign variant_stock = variant_metadata_stock[0]
+
+      assign has_stock = false
+      if variant_stock != blank and variant_stock != '0'
+        assign has_stock = true
+        break
+      endif
+    endfor
+
+    assign available_variant_ids = available_variants | split: ','
+  %}
+{% endif %}
+
+{% liquid
+  if store_id and product_metadata != empty
+    assign stock = product_metadata[0] | default: 0
+    assign purchase_price = product_metadata[1]
+    assign market_price = product_metadata[2]
+    assign equivalency = product_metadata[6]
+    assign thc = product_metadata[4]
+    assign cbd = product_metadata[5]
+    assign sku = product_metadata[7]
+  elsif store_id and product_metadata == empty
+    assign stock = card_product.qty
+    assign purchase_price = 'N.A.'
+    assign market_price = 'N.A.'
+    assign equivalency = null
+    assign thc = null
+    assign cbd = null
+    assign sku = product.sku
+  else
+    assign stock = card_product.qty
+    assign purchase_price = card_product.price
+    assign market_price = null
+    assign equivalency = null
+    assign thc = null
+    assign cbd = null
+    assign sku = product.sku
+  endif
+
+  if store_id and elite_metadata != blank and elite_metadata != 'N.A.' and elite_metadata != '0' and elite_metadata != '0.00' 
+    assign elite_price = elite_metadata
+    assign is_elite_product = true
+  endif
+%}
+
+{%- liquid
+  assign ratio = 1
+  if media_aspect_ratio == 'portrait'
+    assign ratio = 0.8
+  elsif card_product.featured_media and media_aspect_ratio == 'original'
+    assign ratio = card_product.featured_media.aspect_ratio
+  endif
+  if ratio == 0 or ratio == null
+    assign ratio = 1
+  endif
+  assign imageWidth = 533
+  if horizontal_class == true
+    assign imageWidth = 150
+  endif
+-%}
+
+{%- assign elite_price_string = elite_price | divided_by: 1.0 | string -%}
+{%- assign parts = elite_price_string | split: '.' -%}
+{%- assign integer_part = parts[0] -%}
+{%- assign decimal_part = parts[1] | default: '00' -%}
+
+{%- if decimal_part.size == 1 -%}
+  {%- assign decimal_part = decimal_part | append: '0' -%}
+{%- elsif decimal_part.size == 0 -%}
+  {%- assign decimal_part = '00' -%}
+{%- endif -%}
+
+{%- assign elite_price = integer_part | append: '.' | append: decimal_part -%}
+
+{%- assign purchase_price_string = purchase_price | divided_by: 1.0 | string -%}
+{%- assign parts = purchase_price_string | split: '.' -%}
+{%- assign integer_part = parts[0] -%}
+{%- assign decimal_part = parts[1] | default: '00' -%}
+
+{%- if decimal_part.size == 1 -%}
+  {%- assign decimal_part = decimal_part | append: '0' -%}
+{%- elsif decimal_part.size == 0 -%}
+  {%- assign decimal_part = '00' -%}
+{%- endif -%}
+
+{%- assign purchase_price = integer_part | append: '.' | append: decimal_part -%}
+
+{%- assign market_price_string = market_price | divided_by: 1.0 | string -%}
+{%- assign parts = market_price_string | split: '.' -%}
+{%- assign integer_part = parts[0] -%}
+{%- assign decimal_part = parts[1] | default: '00' -%}
+
+{%- if decimal_part.size == 1 -%}
+  {%- assign decimal_part = decimal_part | append: '0' -%}
+{%- elsif decimal_part.size == 0 -%}
+  {%- assign decimal_part = '00' -%}
+{%- endif -%}
+
+{%- assign market_price = integer_part | append: '.' | append: decimal_part -%}
+
+{% assign elite = false %}
+{% for tag in card_product.tags %}
+  {% if tag == 'Elite' or tag == 'ELITE' %}
+    {% assign elite = true %}
+  {% endif %}
+{%  endfor %}
+ 
+
+{% if stock != '0' %}
+<div data-ref="{{ card_product.url | append: '?sID=' | append: store_id }}" class="card-wrapper new-product-wrapper product-card-wrapper color-{{ section.settings.grid_color_scheme }} {% if is_elite_product == true %} elite_product{% else %} no_elite {% endif %} ">
+  <div
+    class="
+        card
+        card--media
+        {% if extend_height %} card--extend-height{% endif %}
+        {% if horizontal_class %} card--horizontal{% else %} product-grid-item{% endif %}
+      "
+    style="--ratio-percent: {{ 1 | divided_by: ratio | times: 100 }}%;"
+  >
+    <div class="card__badge">
+      {% for tag in card_product.tags %}
+        {% if tag contains 'lineage' %}
+          {% assign strain = tag | split: ':' | last %}
+          {% render 'badge', type: strain, label: strain, size: 'small' %}
+        {% endif %}
+      {% endfor %}
+    </div>
+
+    <div
+      class="card__inner ratio"
+      style="--ratio-percent: {{ 1 | divided_by: ratio | times: 100 }}%;"
+    >
+      {% if card_product %}
+        <a
+          {% if is_predictive_search == true %}
+            href="{{ card_product.url | append: '&sID=' | append: store_id }}"
+          {% else %}
+            href="{{ card_product.url }}"
+          {% endif %}
+          class="overlay-link"
+        >
+          {%- if card_product.title != blank -%}
+            {{- card_product.title | truncate: 25 | escape -}}
+          {%- endif -%}
+        </a>
+      {% endif %}
+      <div class="card__media">
+        <div id="image-{{ section.id }}__{{ card_product.id }}" class="media media--transparent media--hover-effect">
+          {%- if card_product.featured_media -%}
+            {% comment %}theme-check-disable ImgLazyLoading{% endcomment %}
+            <img
+              srcset="
+                  {%- if card_product.featured_media.width >= 165 -%}{{ card_product.featured_media | image_url: width: 165 }} 165w,{%- endif -%}
+                  {%- if card_product.featured_media.width >= 360 -%}{{ card_product.featured_media | image_url: width: 360 }} 360w,{%- endif -%}
+                  {%- if card_product.featured_media.width >= 533 -%}{{ card_product.featured_media | image_url: width: 533 }} 533w,{%- endif -%}
+                  {%- if card_product.featured_media.width >= 720 -%}{{ card_product.featured_media | image_url: width: 720 }} 720w,{%- endif -%}
+                  {%- if card_product.featured_media.width >= 940 -%}{{ card_product.featured_media | image_url: width: 940 }} 940w,{%- endif -%}
+                  {%- if card_product.featured_media.width >= 1066 -%}{{ card_product.featured_media | image_url: width: 1066 }} 1066w,{%- endif -%}
+                  {{ card_product.featured_media | image_url }} {{ card_product.featured_media.width }}w
+                "
+              src="{{ card_product.featured_media | image_url: width: imageWidth }}"
+              sizes="(min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 130 | divided_by: 4 }}px, (min-width: 990px) calc((100vw - 130px) / 4), (min-width: 750px) calc((100vw - 120px) / 3), calc((100vw - 35px) / 2)"
+              alt="{{ card_product.featured_media.alt | escape }}"
+              class="motion-reduce product-grid-primary__image"
+              {% unless lazy_load == false %}
+                loading="lazy"
+              {% endunless %}
+              width="{{ card_product.featured_media.width }}"
+              height="{{ card_product.featured_media.height }}"
+            >
+            {% comment %}theme-check-enable ImgLazyLoading{% endcomment %}
+
+            {%- if card_product.media[1] != null and show_secondary_image -%}
+              <img
+                srcset="
+                    {%- if card_product.media[1].width >= 165 -%}{{ card_product.media[1] | image_url: width: 165 }} 165w,{%- endif -%}
+                    {%- if card_product.media[1].width >= 360 -%}{{ card_product.media[1] | image_url: width: 360 }} 360w,{%- endif -%}
+                    {%- if card_product.media[1].width >= 533 -%}{{ card_product.media[1] | image_url: width: 533 }} 533w,{%- endif -%}
+                    {%- if card_product.media[1].width >= 720 -%}{{ card_product.media[1] | image_url: width: 720 }} 720w,{%- endif -%}
+                    {%- if card_product.media[1].width >= 940 -%}{{ card_product.media[1] | image_url: width: 940 }} 940w,{%- endif -%}
+                    {%- if card_product.media[1].width >= 1066 -%}{{ card_product.media[1] | image_url: width: 1066 }} 1066w,{%- endif -%}
+                    {{ card_product.media[1] | image_url }} {{ card_product.media[1].width }}w
+                  "
+                src="{{ card_product.media[1] | image_url: width: 533 }}"
+                sizes="(min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 130 | divided_by: 4 }}px, (min-width: 990px) calc((100vw - 130px) / 4), (min-width: 750px) calc((100vw - 120px) / 3), calc((100vw - 35px) / 2)"
+                alt=""
+                class="motion-reduce"
+                loading="lazy"
+                width="{{ card_product.media[1].width }}"
+                height="{{ card_product.media[1].height }}"
+              >
+            {%- endif -%}
+          {%- else -%}
+             {% render 'new_placeholder_img', placeholder_product:card_product%}
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    <div class="card__content">
+      <div class="card__information">
+        <div class="card-information{% if grid_text_alignment %} text-{{ grid_text_alignment }}{% endif %}">
+
+          <h3
+            class="card__heading h6"
+            {% if card_product.featured_media or settings.card_style == 'card' %}
+              id="title-{{ section_id }}-{{ card_product.id }}"
+            {% endif %}
+          >
+            <a
+              {% if is_predictive_search == true %}
+                href="{{ card_product.url | append: '&sID=' | append: store_id }}"
+              {% else %}
+                href="{{ card_product.url }}"
+              {% endif %}
+              id="CardLink-{{ section_id }}-{{ card_product.id }}"
+              class="full-unstyled-link"
+              aria-labelledby="CardLink-{{ section_id }}-{{ card_product.id }} Badge-{{ section_id }}-{{ card_product.id }}"
+            >
+              {{ card_product.title | truncate: 25 | escape }}
+            </a>
+          </h3>
+
+          <div class="card__tag-container">
+            {%- if show_vendor -%}
+              <span class="visually-hidden">{{ 'accessibility.vendor' | t }}</span>
+              <div class="product-vendor">{{ card_product.vendor }}</div>
+            {%- endif -%}
+
+            {% comment %}
+            {% if is_elite_product %}
+              {% render 'badge', type: 'blue', label: 'ELITE', size: 'small' %}
+            {% endif %}
+            {% endcomment %}
+
+            {% for tag in card_product.tags %}
+              {% if tag contains 'new' %}
+                {% render 'badge', type: 'red', label: 'NEW', size: 'small' %}
+              {% endif %}
+            {% endfor %}
+          </div>
+
+          {% if is_available_in_store %}
+            {% unless thc == '0' and cbd == '0' %}
+              <div class="card-levels {{thc}}-{{cbd}}" style="{% if thc == '0.00' and cbd == '0.00' %} display:none; {% endif %}" >
+                {% if thc and thc != '0' %}
+                  <div class="card-levels__inner">
+                    <h5 class="text-base">{{ 'general.thc' | t }}</h5> <span class="text-base">{{ thc }}%</span>
+                  </div>
+                {% endif %}
+
+                {% if cbd and cbd != '0' %}
+                  <div class="card-levels__inner">
+                    <h5 class="text-base">{{ 'general.cbd' | t }}</h5> <span class="text-base">{{ cbd }}%</span>
+                  </div>
+                {% endif %}
+              </div>
+            {% endunless %}
+
+            {% render 'price',
+              product: card_product,
+              market_price: market_price,
+              purchase_price: purchase_price,
+              elite_price: elite_price
+            %}
+          {% endif %}
+        </div>
+
+        {% if is_available_in_store %}
+          {% if card_product.variants.size < 2 %}
+            {%- render 'buy-buttons',
+              block: block,
+              product: card_product,
+              product_form_id: product_form_id,
+              section_id: section.id,
+              show_pickup_availability: false,
+              show_qty: false,
+              stock: stock,
+              market_price: market_price,
+              purchase_price: purchase_price,
+              elite_price: elite_price
+            -%}
+          {% elsif is_available_in_store and has_stock and available_variant_ids.size > 0 %}
+            <a href="{{ card_product.url }}" class="button button--secondary">
+              {%- render 'theme-icons', icon: 'icon-plus' -%}
+              {{ 'products.product.choose_options' | t }}
+            </a>
+          {% else %}
+            <button
+              class="product-form__submit button button--primary
+                {% if show_elite_pricing %}
+                  button--quaternary
+                {% else %}
+                  button--primary
+                {% endif %}
+              "
+              disabled
+            >
+              <span>{{ 'products.product.sold_out' | t }}</span>
+            </button>
+          {% endif %}
+        {% else %}
+          <button
+            class="product-form__submit button button--primary
+                {% if show_elite_pricing %}
+                  button--quaternary
+                {% else %}
+                  button--primary
+                {% endif %}
+              "
+            disabled
+          >
+            <span>{{ 'products.product.sold_out' | t }}</span>
+          </button>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}

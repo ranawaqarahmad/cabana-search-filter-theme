@@ -1,0 +1,526 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {}
+    },
+    "image_banner_eY9V9y": {
+      "type": "image-banner",
+      "custom_css": [],
+      "settings": {
+        "image_height": "original",
+        "image": "shopify:\/\/shop_images\/Elite_Hero_Banner.png",
+        "image_mbl": "shopify:\/\/shop_images\/Elite_Hero_Banner_1.png",
+        "image_overlay_opacity": 0,
+        "fixed_background_image": false,
+        "subheading": "Upgrade Now & Get a <strong>25% OFF <\/strong>Accessory Coupon!",
+        "logo_image": "shopify:\/\/shop_images\/Elite_logo_1.png",
+        "heading": "",
+        "heading_size": "h0",
+        "description": "<p>Unlock Exclusive Flash Sales & Weekly Accessory Drops<\/p>",
+        "button_label": "Upgrade Now",
+        "button_link": "#signup-form",
+        "button_style": "elite",
+        "desktop_content_position": "middle-left",
+        "show_text_box": false,
+        "desktop_content_alignment": "left",
+        "color_scheme": "scheme-f4604595-394d-480b-9613-6ce87b59322d",
+        "mobile_content_alignment": "center",
+        "show_text_below": true,
+        "bottom_banner_text": ""
+      }
+    },
+    "text_columns_with_icons_4nDTF6": {
+      "type": "text-columns-with-icons",
+      "blocks": {
+        "column_qnLmhT": {
+          "type": "column",
+          "settings": {
+            "color_scheme": "scheme-1",
+            "image": "shopify:\/\/shop_images\/Layer_1.png",
+            "title": "<strong>Exclusive Flash Sales<\/strong>",
+            "text": "<p>Exclusive weekly deals on top cannabis brands.**<\/p>",
+            "ab_description": "<p>Weekly selection of the latest & greatest cannabis at the lowest prices in Canada.**<\/p>",
+            "text_alignment": "center",
+            "button_label": "",
+            "button_link": "",
+            "button_style": "primary"
+          }
+        },
+        "column_E9Gc84": {
+          "type": "column",
+          "settings": {
+            "color_scheme": "",
+            "image": "shopify:\/\/shop_images\/Group_711.png",
+            "title": "Limited Edition Weekly Drops",
+            "text": "<p>Exclusive accessories from top brands like PuffCo, Dip Devices, & more.<\/p>",
+            "ab_description": "<p>Exclusive accessories from top brands like PuffCo, Dip Devices, & more.<\/p>",
+            "text_alignment": "center",
+            "button_label": "",
+            "button_link": "",
+            "button_style": "primary"
+          }
+        },
+        "column_UeytWt": {
+          "type": "column",
+          "settings": {
+            "color_scheme": "scheme-2",
+            "image": "shopify:\/\/shop_images\/Layer_1_1.png",
+            "title": "Automatic Car Giveaway Entries",
+            "text": "<p>Get maximum entries to our annual 420 car giveaway - valued at $100K+!***<\/p>",
+            "ab_description": "<p>Get maximum entries to our annual 420 car giveaway - valued at $100K+!***<\/p>",
+            "text_alignment": "center",
+            "button_label": "",
+            "button_link": "",
+            "button_style": "primary"
+          }
+        }
+      },
+      "block_order": [
+        "column_qnLmhT",
+        "column_E9Gc84",
+        "column_UeytWt"
+      ],
+      "custom_css": [
+        ".text-columns-with-icons {margin-top: 0; margin-bottom: 0;}"
+      ],
+      "settings": {
+        "title": "",
+        "hide_for_ab": false,
+        "hide_for_bc": true,
+        "heading_size": "h2",
+        "heading_alignment": "center",
+        "color_scheme": "scheme-7180aab2-370f-42b8-a7d3-23331954a408",
+        "style": "simple",
+        "column_per_row": 3,
+        "title_size": "h5",
+        "text_alignment": "center",
+        "column_per_row_mobile": "1",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    },
+    "text_columns_with_icons_7VrFXH": {
+      "type": "text-columns-with-icons",
+      "blocks": {
+        "column_JWQR98": {
+          "type": "column",
+          "settings": {
+            "color_scheme": "scheme-09e7d173-6378-4e51-8923-3cb8d72dd7f1",
+            "image": "shopify:\/\/shop_images\/Icon.png",
+            "title": "Discounts on Cabana Cannabis Co. ",
+            "text": "<p>Every day savings on cannabis & accessories from Cabana Cannabis Co!<\/p>",
+            "ab_description": "<p>Include a description for the image and showcase your brand to a wider audience.<\/p>",
+            "text_alignment": "center",
+            "button_label": "",
+            "button_link": "",
+            "button_style": "primary"
+          }
+        },
+        "column_kDfXz3": {
+          "type": "column",
+          "settings": {
+            "color_scheme": "scheme-09e7d173-6378-4e51-8923-3cb8d72dd7f1",
+            "image": "shopify:\/\/shop_images\/Icon_1.png",
+            "title": "50% OFF Delivery Fees",
+            "text": "<p>Your weed to your door, for less. Available a select locations<\/p>",
+            "ab_description": "<p>Include a description for the image and showcase your brand to a wider audience.<\/p>",
+            "text_alignment": "center",
+            "button_label": "",
+            "button_link": "",
+            "button_style": "primary"
+          }
+        },
+        "column_PgeNGN": {
+          "type": "column",
+          "settings": {
+            "color_scheme": "scheme-09e7d173-6378-4e51-8923-3cb8d72dd7f1",
+            "image": "shopify:\/\/shop_images\/Icon_2.png",
+            "title": "Birthday Bag!",
+            "text": "<p>Available within your birthday week. Nominal charge applies<\/p>",
+            "ab_description": "<p>Include a description for the image and showcase your brand to a wider audience.<\/p>",
+            "text_alignment": "center",
+            "button_label": "",
+            "button_link": "",
+            "button_style": "primary"
+          }
+        },
+        "column_KARw4p": {
+          "type": "column",
+          "settings": {
+            "color_scheme": "scheme-09e7d173-6378-4e51-8923-3cb8d72dd7f1",
+            "image": "shopify:\/\/shop_images\/a_1.png",
+            "title": "Tours, Events & Tickets",
+            "text": "<p>Access special events like a VIP.<\/p>",
+            "ab_description": "<p>Include a description for the image and showcase your brand to a wider audience.<\/p>",
+            "text_alignment": "center",
+            "button_label": "",
+            "button_link": "",
+            "button_style": "primary"
+          }
+        }
+      },
+      "block_order": [
+        "column_JWQR98",
+        "column_kDfXz3",
+        "column_PgeNGN",
+        "column_KARw4p"
+      ],
+      "settings": {
+        "title": "Additional Perks",
+        "hide_for_ab": true,
+        "hide_for_bc": true,
+        "heading_size": "h2",
+        "heading_alignment": "center",
+        "color_scheme": "scheme-1",
+        "style": "classic",
+        "column_per_row": 4,
+        "title_size": "h6",
+        "text_alignment": "center",
+        "column_per_row_mobile": "2",
+        "padding_top": 42,
+        "padding_bottom": 42
+      }
+    },
+    "featured_collection_3LtynB": {
+      "type": "featured-collection",
+      "blocks": {
+        "featured_collection_Vh3Yfk": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "elite",
+            "color_scheme": "scheme-7180aab2-370f-42b8-a7d3-23331954a408",
+            "title": ""
+          }
+        }
+      },
+      "block_order": [
+        "featured_collection_Vh3Yfk"
+      ],
+      "custom_css": [
+        ".product-form__buttons,.product-form__submit {display: none;}",
+        ".collection {margin-bottom: 0; padding-top: 3.2rem; padding-bottom: 0.5rem;}",
+        ".button--full-width,.quick-add-modal__content {display: none;}"
+      ],
+      "settings": {
+        "title": "ELITE Flash Sales",
+        "heading_size": "h2",
+        "enable_shop_all": false,
+        "shop_all_link": "",
+        "shop_all_text": "",
+        "heading_alignment": "center",
+        "hide_for_bc": false,
+        "hide_for_ab": false,
+        "color_scheme": "scheme-7724bddb-8d1b-402a-a6e3-872a59574194",
+        "products_to_show": 100,
+        "products_per_row": 4,
+        "enable_slider_scrollbar": true,
+        "show_view_all": false,
+        "grid_color_scheme": "scheme-7180aab2-370f-42b8-a7d3-23331954a408",
+        "grid_style": "classic",
+        "image_ratio": "portrait",
+        "show_secondary_image": true,
+        "show_vendor": true,
+        "show_rating": false,
+        "show_color_swatches": false,
+        "grid_text_alignment": "left",
+        "products_per_row_mobile": "2",
+        "swipe_on_mobile": true,
+        "enable_elite_styling": true,
+        "elite_button_link": "shopify:\/\/products\/cabana-elite-annual",
+        "elite_subtitle": "Exclusive weekly deals on top cannabis brands. **",
+        "ab_subtitle": "The latest & greatest weed at the lowest prices in Canada!**"
+      }
+    },
+    "featured_collection_eqGdwm": {
+      "type": "featured-collection",
+      "blocks": {
+        "featured_collection_NgMq8W": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "elite-accessories",
+            "color_scheme": "scheme-7180aab2-370f-42b8-a7d3-23331954a408",
+            "title": ""
+          }
+        }
+      },
+      "block_order": [
+        "featured_collection_NgMq8W"
+      ],
+      "custom_css": [
+        ".collection {margin-top: 0; padding-top: 0.5rem; padding-bottom: 3.2rem;}",
+        ".product-form__buttons,.product-form__submit {display: none;}",
+        ".button--full-width,.quick-add-modal__content {display: none;}"
+      ],
+      "settings": {
+        "title": "Exclusive Accessories",
+        "heading_size": "h2",
+        "enable_shop_all": false,
+        "shop_all_link": "",
+        "shop_all_text": "",
+        "heading_alignment": "center",
+        "hide_for_bc": false,
+        "hide_for_ab": false,
+        "color_scheme": "scheme-7724bddb-8d1b-402a-a6e3-872a59574194",
+        "products_to_show": 100,
+        "products_per_row": 4,
+        "enable_slider_scrollbar": true,
+        "show_view_all": false,
+        "grid_color_scheme": "scheme-7180aab2-370f-42b8-a7d3-23331954a408",
+        "grid_style": "classic",
+        "image_ratio": "portrait",
+        "show_secondary_image": true,
+        "show_vendor": true,
+        "show_rating": false,
+        "show_color_swatches": false,
+        "grid_text_alignment": "left",
+        "products_per_row_mobile": "2",
+        "swipe_on_mobile": true,
+        "enable_elite_styling": true,
+        "elite_button_link": "shopify:\/\/products\/cabana-elite-annual",
+        "elite_subtitle": "New drops every week featuring the hottest brands!",
+        "ab_subtitle": ""
+      }
+    },
+    "new_benefit_tablle_y9fdht": {
+      "type": "new-benefit-tablle",
+      "blocks": {
+        "item_LqEPtY": {
+          "type": "item",
+          "settings": {
+            "txt": "UNBEATABLE Prices on Cannabis",
+            "show_member": true,
+            "show_elite": true,
+            "proviance": "all"
+          }
+        },
+        "item_kig4hN": {
+          "type": "item",
+          "settings": {
+            "txt": "Up to 80% Off Accessories",
+            "show_member": true,
+            "show_elite": true,
+            "proviance": "rest"
+          }
+        },
+        "item_iYVmfR": {
+          "type": "item",
+          "settings": {
+            "txt": "ELITE Flash Sales**",
+            "show_member": false,
+            "show_elite": true,
+            "proviance": "all"
+          }
+        },
+        "item_pgiHhb": {
+          "type": "item",
+          "settings": {
+            "txt": "ELITE Exclusive Accessories",
+            "show_member": false,
+            "show_elite": true,
+            "proviance": "all"
+          }
+        },
+        "item_Acy7WD": {
+          "type": "item",
+          "settings": {
+            "txt": "Automatic Car Giveaway Entries***",
+            "show_member": false,
+            "show_elite": true,
+            "proviance": "all"
+          }
+        },
+        "item_tWmP6V": {
+          "type": "item",
+          "settings": {
+            "txt": "Every Day Savings on Cabana Cannabis Co",
+            "show_member": false,
+            "show_elite": true,
+            "proviance": "rest"
+          }
+        },
+        "item_P68YrN": {
+          "type": "item",
+          "settings": {
+            "txt": "25% Off Accessory Coupon",
+            "show_member": false,
+            "show_elite": true,
+            "proviance": "rest"
+          }
+        },
+        "item_nVYGUX": {
+          "type": "item",
+          "settings": {
+            "txt": "Birthday Bag!",
+            "show_member": false,
+            "show_elite": true,
+            "proviance": "rest"
+          }
+        },
+        "item_yzQwA8": {
+          "type": "item",
+          "settings": {
+            "txt": "Tours, Events & Tickets",
+            "show_member": false,
+            "show_elite": true,
+            "proviance": "rest"
+          }
+        },
+        "item_4yqGPN": {
+          "type": "item",
+          "settings": {
+            "txt": "50% Off Delivery Fee",
+            "show_member": false,
+            "show_elite": true,
+            "proviance": "all"
+          }
+        },
+        "item_price_grEHxw": {
+          "type": "item_price",
+          "settings": {
+            "txt": "Annual Membership Fee",
+            "mem_price": "<span style=\"font-size:20px;font-weight:bold\">Free<\/span>",
+            "elite_price": "<span style=\"font-size:16px;text-decoration:line-through;color:#D5A03A;display:block\">$60\/Year<\/span>\n<span style=\"font-size:20px;color:#D5A03A;font-weight:bold;display:block\">$35\/Year<\/span>",
+            "proviance": "all"
+          }
+        }
+      },
+      "block_order": [
+        "item_LqEPtY",
+        "item_kig4hN",
+        "item_iYVmfR",
+        "item_pgiHhb",
+        "item_Acy7WD",
+        "item_tWmP6V",
+        "item_P68YrN",
+        "item_nVYGUX",
+        "item_yzQwA8",
+        "item_4yqGPN",
+        "item_price_grEHxw"
+      ],
+      "settings": {
+        "title": "Upgrade to ELITE  It’s a No-Brainer",
+        "mem_image": "shopify:\/\/shop_images\/mem_benefit_837babbc-78fa-40e3-86e1-a2163e8af046.png",
+        "elit_image": "shopify:\/\/shop_images\/elite_benefit.png"
+      }
+    },
+    "elite_signup_YiXcnA": {
+      "type": "elite-signup",
+      "custom_css": [
+        ".customer:not(.account):not(.order):not(.addresses) {margin-bottom: 0;}"
+      ],
+      "settings": {
+        "heading": "Upgrade to ELITE & Unlock UNBEATABLE Value",
+        "color_scheme": "scheme-2",
+        "padding_top": 0,
+        "padding_bottom": 100
+      }
+    },
+    "animated_text_columns_QT6J39": {
+      "type": "animated-text-columns",
+      "blocks": {
+        "column_39ka3T": {
+          "type": "column",
+          "settings": {
+            "color_scheme": "",
+            "image": "shopify:\/\/shop_images\/design-demo-image-9.png",
+            "mobile_image": "shopify:\/\/shop_images\/logo_mobile.png",
+            "title": "",
+            "metric": "1",
+            "unit_suffix": "+",
+            "animated_counting": false,
+            "text": "",
+            "button_label": "Learn More",
+            "button_link": "shopify:\/\/pages\/altogether-magazine",
+            "text_alignment": "center",
+            "content_position": "content_center"
+          }
+        },
+        "column_kEKXgA": {
+          "type": "column",
+          "settings": {
+            "color_scheme": "",
+            "title": "",
+            "metric": "180",
+            "unit_suffix": "+",
+            "animated_counting": true,
+            "text": "<p><strong>Stores Across Canada<\/strong><\/p>",
+            "button_label": "",
+            "button_link": "",
+            "text_alignment": "left",
+            "content_position": "content_center"
+          }
+        },
+        "column_NWgAf9": {
+          "type": "column",
+          "settings": {
+            "color_scheme": "",
+            "title": "",
+            "metric": "1000",
+            "unit_suffix": "s of",
+            "animated_counting": true,
+            "text": "<p><strong>5-Star Reviews<\/strong><\/p>",
+            "button_label": "",
+            "button_link": "",
+            "text_alignment": "left",
+            "content_position": "content_center"
+          }
+        },
+        "column_WENtLd": {
+          "type": "column",
+          "settings": {
+            "color_scheme": "",
+            "title": "",
+            "metric": "1.5",
+            "unit_suffix": "m+",
+            "animated_counting": true,
+            "text": "<p><strong>Cabana Club Members<\/strong><\/p>",
+            "button_label": "",
+            "button_link": "",
+            "text_alignment": "left",
+            "content_position": "content_center"
+          }
+        }
+      },
+      "block_order": [
+        "column_39ka3T",
+        "column_kEKXgA",
+        "column_NWgAf9",
+        "column_WENtLd"
+      ],
+      "custom_css": [
+        ".text-columns-with-icons {margin-bottom: 0;}"
+      ],
+      "settings": {
+        "title": "",
+        "heading_size": "h2",
+        "heading_alignment": "left",
+        "color_scheme": "scheme-9f459313-d482-46ca-b82d-99b7d5128e5d",
+        "column_per_row": 4,
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    }
+  },
+  "order": [
+    "main",
+    "image_banner_eY9V9y",
+    "text_columns_with_icons_4nDTF6",
+    "text_columns_with_icons_7VrFXH",
+    "featured_collection_3LtynB",
+    "featured_collection_eqGdwm",
+    "new_benefit_tablle_y9fdht",
+    "elite_signup_YiXcnA",
+    "animated_text_columns_QT6J39"
+  ]
+}

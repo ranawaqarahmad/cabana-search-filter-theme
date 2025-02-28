@@ -1,0 +1,272 @@
+{% assign events = metaobject.store_events.value %}
+
+{% if events != blank %}
+  {{ 'component-slider.css' | asset_url | stylesheet_tag }}
+  {{ 'section-location-events.css' | asset_url | stylesheet_tag }}
+
+  {% comment %}@formatter:off{% endcomment %}
+  {%- style -%}
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top | times: 0.50 | round: 0 }}px;
+      padding-bottom: {{ section.settings.padding_bottom | times: 0.50 | round: 0 }}px;
+    }
+
+    @media screen and (min-width: 990px) {
+      .section-{{ section.id }}-padding {
+        padding-top: {{ section.settings.padding_top }}px;
+        padding-bottom: {{ section.settings.padding_bottom }}px;
+      }
+    }
+
+    .section-{{ section.id }}-padding {
+      margin-top: 16px;
+      margin-bottom: 16px;
+    }
+
+    @media screen and (min-width: 769px) {
+      .section-{{ section.id }}-padding {
+        margin-top: 32px;
+        margin-bottom: 32px;
+      }
+    }
+
+    @media screen and (min-width: 1201px) {
+      .section-{{ section.id }}-padding {
+        margin-top: 64px;
+        margin-bottom: 64px;
+      }
+    }
+  {%- endstyle -%}
+  {% comment %}@formatter:on{% endcomment %}
+
+  <div class="location-events color-{{ section.settings.color_scheme }} gradient{% if section.settings.title == blank %} no-heading{% endif %}">
+    <div
+      class="page-width section-{{ section.id }}-padding isolate{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+      {% if settings.animations_reveal_on_scroll %}
+        data-cascade
+      {% endif %}
+    >
+      {%- unless section.settings.title == blank -%}
+        <div class="section-heading__bar sp-small mgb-medium text-{{ section.settings.heading_alignment }}">
+          <h2 class="title {{ section.settings.heading_size }}">
+            {{ section.settings.title }}
+          </h2>
+        </div>
+      {%- endunless -%}
+      <slider-component class="slider-mobile-gutter">
+        <ul
+          class="contains-content-container slider mandatory slider--everywhere grid grid--1-col-tablet-down grid--2-col-tablet grid--{{ section.settings.columns_per_row }}-col-desktop"
+          id="Slider-{{ section.id }}"
+          role="list"
+        >
+          {% for event in events %}
+            {% assign start_day = event.start_date.value | date: "%e" %}
+            {% assign start_month = event.start_date.value | date: "%B" %}
+            {% assign end_day = event.end_date.value | date: "%e" %}
+            {% assign end_month = event.end_date.value | date: "%B" %}
+            {% assign end_date = event.end_date.value | date: "%e %B" %}
+            {% assign start_date_only = event.start_date.value | date: "%l:%M%P" %}
+            {% assign end_date_only = event.end_date.value | date: "%l:%M%P" %}
+
+            <li
+              id="Slide-{{ section.id }}-{{ forloop.index }}"
+              class="location-events__card grid__item slider__slide{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+              {{ block.shopify_attributes }}
+              {% if settings.animations_reveal_on_scroll %}
+                data-cascade
+                style="--animation-order: {{ forloop.index }};"
+              {% endif %}
+            >
+              <div class="location-events__card-date">
+                {% if end_day != blank and end_day != start_day %}
+                  <h3 class="location-events__card-date-day">{{ start_day }}</h3>
+                  <h4 class="location-events__card-date-month">{{ start_month }}</h4>
+                  <span class="visually-hidden">to</span> -
+                  <h5 class="location-events__card-date-day">{{ end_day }}</h5>
+                  <h6 class="location-events__card-date-month">{{ end_month }}</h6>
+                {% else %}
+                  <h3 class="location-events__card-date-day">{{ start_day }}</h3>
+                  <h4 class="location-events__card-date-month">{{ start_month }}</h4>
+                {% endif %}
+
+              </div>
+              <div class="location-events__card-content">
+                <h3 class="location-events__card-title h5">{{ event.title.value }}</h3>
+                <a href="{{ event.link.value }}">{{ 'locations.learn_more' | t }}</a>
+                <p class="location-events__card-time">
+                  {% render 'theme-icons', icon: 'icon-clock' %}Time: {{ start_date_only }}
+                  {% if end_date_only %}
+                    - {{ end_date_only }}
+                  {% endif %}
+                </p>
+                <button onclick="addToCalendar('{{ event.title.value }}', '{{ event.start_date.value }}', '{{ event.end_date.value }}')" class="button button--secondary button--full-width">
+                  {% render 'theme-icons', icon: 'icon-blog-calendar' %} {{ 'locations.add_to_calendar' | t }}
+                </button>
+              </div>
+            </li>
+          {% endfor %}
+        </ul>
+
+        {% assign numEvents = metaobject.store_events | length | split: ',' | size %}
+        {% assign columnsPerRow = section.settings.columns_per_row %}
+
+        {%- if numEvents > columnsPerRow -%}
+          <div class="slideshow__controls slider-buttons no-js-hidden{% if section.settings.show_text_below %} slideshow__controls--border-radius-mobile{% endif %}">
+            <div class="slider__controls-area-tablet no-js-hidden">
+              <div class="slider-counter">
+                <div class="slideshow__control-wrapper slider__controls-arrow">
+                  <button type="button" class="slider-button slider-button--prev arrow-with-dots" name="previous" aria-label="{{ 'sections.slideshow.previous_slideshow' | t }}">
+                    {% render 'theme-icons', icon: 'slider-icon-left' %}
+                  </button>
+                  {% for i in (1..numEvents) %}
+                    <button class="slider-counter__link slider-counter__link--dots" aria-label="{{ 'sections.slideshow.load_slide' | t }} {{ forloop.index }} {{ 'general.slider.of' | t }} {{ forloop.length }}" aria-controls="Slider-{{ section.id }}">
+                      <span class="slider-counter-dots">
+                        <span class="dot"></span>
+                      </span>
+                    </button>
+                  {%- endfor -%}
+                  <button type="button" class="slider-button slider-button--next arrow-with-dots" name="next" aria-label="{{ 'sections.slideshow.next_slideshow' | t }}">
+                    {% render 'theme-icons', icon: 'slider-icon-right' %}
+                  </button>
+                </div>
+              </div>
+            </div>
+            {%- if section.settings.auto_rotate -%}
+              <button
+                type="button"
+                class="slideshow__autoplay slider-button no-js-hidden hidden"
+                aria-label="{{ 'sections.slideshow.pause_slideshow' | t }}"
+              ></button>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      </slider-component>
+    </div>
+  </div>
+{% endif %}
+
+<script>
+function addToCalendar(title, start, end) {
+  const startTime = new Date(start).toISOString().replace(/-|:|\.\d+/g, '');
+  const endTime   = new Date(end).toISOString().replace(/-|:|\.\d+/g, '');
+
+  const googleCalendarUrl = `https://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${startTime}/${endTime}`;
+
+  window.open(googleCalendarUrl, '_blank');
+}
+</script>
+
+{% schema %}
+{
+  "name": "t:sections.location_events.name",
+  "class": "section",
+  "tag": "section",
+  "disabled_on": {
+    "groups": [
+      "header",
+      "footer",
+      "custom.popups"
+    ]
+  },
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "t:sections.all.heading.label"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        {
+          "value": "h3",
+          "label": "t:sections.all.heading_size.options__2.label"
+        },
+        {
+          "value": "h2",
+          "label": "t:sections.all.heading_size.options__3.label"
+        },
+        {
+          "value": "h1",
+          "label": "t:sections.all.heading_size.options__4.label"
+        },
+        {
+          "value": "h0",
+          "label": "t:sections.all.heading_size.options__5.label"
+        }
+      ],
+      "default": "h2",
+      "label": "t:sections.all.heading_size.label"
+    },
+    {
+      "type": "select",
+      "id": "heading_alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "t:sections.all.heading_alignment.options__1.label"
+        },
+        {
+          "value": "center",
+          "label": "t:sections.all.heading_alignment.options__2.label"
+        },
+        {
+          "value": "right",
+          "label": "t:sections.all.heading_alignment.options__3.label"
+        }
+      ],
+      "default": "center",
+      "label": "t:sections.all.heading_alignment.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.layout.content"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-2"
+    },
+    {
+      "type": "range",
+      "id": "columns_per_row",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "default": 3,
+      "label": "t:sections.location_events.settings.columns_per_row.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.section_spacing.content",
+      "info": "t:sections.all.section_spacing.info"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "t:sections.all.section_spacing.above",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "t:sections.all.section_spacing.below",
+      "default": 100
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.location_events.presets.name"
+    }
+  ]
+}
+{% endschema %}

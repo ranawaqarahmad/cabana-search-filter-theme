@@ -1,0 +1,26 @@
+{{ 'free-shipping-bar.css' | asset_url | stylesheet_tag }}
+<div class="cart_progress-bar">
+  {%- liquid
+    assign calculated_total_price = 0
+    for line_item in cart.items
+      if line_item.requires_shipping
+        assign calculated_total_price = calculated_total_price | plus: line_item.final_line_price
+      endif
+    endfor
+  -%}
+
+  <free-shipping-bar
+    class="free-shipping-bar half-width"
+    data-threshold="{{ settings.cart_free_shipping_threshold | times: 100.0 }}"
+    data-total-price="{{ calculated_total_price }}"
+    reached-message="{% if settings.success_message != blank %}{{ settings.success_message }}{% else %}{{ 'sections.cart.shipping_qualify' | t }}{% endif %}"
+    unreached-message="{% if settings.required_message != blank %}{{ settings.required_message }}{% else %}{{ 'sections.cart.shipping_eligible' | t }}{% endif %}"
+  >
+    <span class="icon_progress_bar">{%- render 'theme-icons', icon: 'icon-truck' -%}</span>
+    <progress-bar
+      class="progress-bar color-scheme-2"
+      role="progressbar"
+    ></progress-bar>
+    <p class="shipping-bar__message"></p>
+  </free-shipping-bar>
+</div>

@@ -1,0 +1,52 @@
+{%- comment -%}
+  Renders the country picker for the localization form
+
+  Accepts:
+    - localPosition: pass in the position in which the form is coming up to create specific IDs
+{%- endcomment -%}
+
+<div class="disclosure">
+  <button
+    type="button"
+    class="disclosure__button localization-form__select localization-selector link link--text"
+    aria-expanded="false"
+    aria-controls="{{ localPosition }}List"
+    aria-describedby="{{ localPosition }}Label"
+  >
+    {% if countryFlags == true %}
+      <span class="country-flag country-flag--{{ localization.country.iso_code | downcase }}" aria-hidden="true"></span>
+    {% endif %}
+    <span>
+      {% if countryName == true %}{{ localization.country.name }} |{% endif %}
+      {{ localization.country.currency.iso_code }}
+      {{ localization.country.currency.symbol }}
+    </span>
+    {% render 'theme-icons', icon: 'icon-chevron-down' %}
+  </button>
+  <div class="disclosure__list-wrapper" hidden>
+    <ul id="{{ localPosition }}List" role="list" class="disclosure__list list-unstyled overflow-scrollbar">
+      {%- for country in localization.available_countries -%}
+        <li class="disclosure__item" tabindex="-1">
+          <a
+            class="link link--text disclosure__link caption-large focus-inset link--hover{% if country.iso_code == localization.country.iso_code %} active--hovers{% endif %}"
+            href="#"
+            {% if country.iso_code == localization.country.iso_code %}
+              aria-current="true"
+            {% endif %}
+            data-value="{{ country.iso_code }}"
+          >
+            {% if countryFlags == true %}
+              <span class="country-flag country-flag--{{ country.iso_code | downcase }}" aria-hidden="true"></span>
+            {% endif %}
+            <span class="localization-form__currency">
+              {% if countryName == true %}{{ country.name }} |{% endif %}
+              {{ country.currency.iso_code }}
+              {{ country.currency.symbol -}}
+            </span>
+          </a>
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+</div>
+<input type="hidden" name="country_code" value="{{ localization.country.iso_code }}">

@@ -1,0 +1,183 @@
+<script src="{{ 'popups.js' | asset_url }}" defer="defer"></script>
+<div class="theme-modal-popup color-scheme-1{% if request.design_mode %} design__mode{% endif %}" data-popup-type="newsletter" data-popup-delay-seconds="{{ section.settings.popup_delay_seconds | times: 1000 }}" data-popup-delay-days="{{ section.settings.popup_show_again }}"  tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="newsletter-popup">
+    <button
+      class="button--primary btn--tiny btn-modal-popup__trigger"
+      data-modal-type="close"
+      aria-label="newsletter-popup__close"
+      data-modal-id="newsletter"
+    >
+      {% render 'theme-icons', icon: 'close' %}
+    </button>
+    <div class="theme-modal-popup_inner overflow-scrollbar">
+      {% if section.settings.image != blank %}
+        <div class="modal-image">
+          <div class="media" style="padding-bottom: {{ 1 | divided_by: section.settings.image.aspect_ratio | times: 100 }}%;">
+            {%- assign widths = '165, 360, 535, 750, 1070, 1500' -%}
+            {%- capture sizes -%}
+              (min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 100 | divided_by: 2 }}px,
+              (min-width: 750px) calc((100vw - 130px) / 2), calc((100vw - 50px) / 2)
+            {%- endcapture -%}
+            {{
+              section.settings.image
+              | image_url: width: 1500
+              | image_tag: sizes: sizes, widths: widths
+            }}
+          </div>
+        </div>
+      {% endif %}
+      <div class="modal-content sp-small">
+        {%- if section.settings.heading != blank -%}
+          <h2 class="modal-popup__heading inline-richtext {{ section.settings.heading_size }}">
+            {{ section.settings.heading }}
+          </h2>
+        {%- endif -%}
+        {% if section.settings.description != blank %}
+          <div class="modal-popup__description rte">
+            {{ section.settings.description }}
+          </div>
+        {% endif %}
+        <div class="newsletter-email-form">
+          {% form 'customer', class: 'newsletter-form', id: 'newsletter-popup' %}
+            <input type="hidden" name="contact[tags]" value="newsletter">
+            <div
+              class="newsletter-form__field-wrapper"
+            >
+              <div class="field-with-button">
+                <div class="field">
+                  <input
+                    id="NewsletterForm--{{ section.id }}"
+                    type="email"
+                    name="contact[email]"
+                    class="field__input"
+                    value="{{ form.email }}"
+                    aria-required="true"
+                    autocorrect="off"
+                    autocapitalize="off"
+                    autocomplete="email"
+                    {% if form.errors %}
+                      autofocus
+                      aria-invalid="true"
+                      aria-describedby="Newsletter-error--{{ section.id }}"
+                    {% elsif form.posted_successfully? %}
+                      aria-describedby="Newsletter-success--{{ section.id }}"
+                    {% endif %}
+                    placeholder="{{ 'newsletter.label' | t }}"
+                    required
+                  >
+                  <label class="field__label" for="NewsletterForm--{{ section.id }}">
+                    {{ 'newsletter.label' | t }}
+                  </label>
+                </div>
+                <button
+                  type="submit"
+                  class="newsletter-form__button button button--primary"
+                  name="commit"
+                  id="Popup-Subscribe"
+                  aria-label="{{ 'newsletter.button_label' | t }}"
+                >
+                  {{ 'newsletter.button_label' | t }}
+                </button>
+              </div>
+
+              {%- if form.errors -%}
+                <div class="op-error-message" id="Newsletter-error--{{ section.id }}">
+                  {%- render 'theme-icons', icon: 'error' -%}
+                  {{- form.errors.translated_fields.email | capitalize }}
+                  {{ form.errors.messages.email -}}
+                </div>
+              {%- endif -%}
+            </div>
+            {%- if form.posted_successfully? -%}
+              <div class="op-success-message"
+                id="Newsletter-success--{{ section.id }}"
+                tabindex="-1"
+                autofocus>
+                {% render 'theme-icons', icon: 'check' %}
+                {{- 'newsletter.success' | t }}
+              </div>
+            {%- endif -%}
+          {% endform %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% schema %}
+{
+  "name": "t:sections.popups.newsletter.name",
+  "tag": "section",
+  "class": "section section-theme-modal__popup",
+  "disabled_on": {
+    "groups": [
+      "header",
+      "footer"
+    ]
+  },
+  "settings": [
+    {
+      "type": "range",
+      "id": "popup_show_again",
+      "min": 1,
+      "max": 30,
+      "step": 1,
+      "default": 7,
+      "label": "t:sections.popups.newsletter.settings.popup_delay.label"
+    },
+    {
+      "type": "range",
+      "id": "popup_delay_seconds",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "default": 2,
+      "unit": "sec",
+      "label": "t:sections.popups.newsletter.settings.popup_delay_seconds.label"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:sections.popups.newsletter.settings.image.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.popups.newsletter.settings.header__1.content"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "default": "Let's keep in touch!",
+      "label": "t:sections.all.heading.label"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        {
+          "value": "h3",
+          "label": "t:sections.all.heading_size.options__2.label"
+        },
+        {
+          "value": "h2",
+          "label": "t:sections.all.heading_size.options__3.label"
+        },
+        {
+          "value": "h1",
+          "label": "t:sections.all.heading_size.options__4.label"
+        },
+        {
+          "value": "h0",
+          "label": "t:sections.all.heading_size.options__5.label"
+        }
+      ],
+      "default": "h2",
+      "label": "t:sections.all.heading_size.label"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "default": "<p>Get monthly newsletter updates and exclusive offers on your favourite products by subscribing!</p>",
+      "label": "t:sections.all.description.label"
+    }
+  ]
+}
+{% endschema %}

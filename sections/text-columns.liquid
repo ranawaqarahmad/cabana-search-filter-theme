@@ -1,0 +1,187 @@
+{{ 'text-columns.css' | asset_url | stylesheet_tag }}
+
+{% comment %}@formatter:off{% endcomment %}
+{%- style -%}
+  .section-{{ section.id }}-padding {
+  padding-top: 16px;
+  padding-bottom: 16px;
+  }
+
+  @media screen and (min-width: 1201px) {
+  .section-{{ section.id }}-padding {
+  padding-top: {{ section.settings.padding_top }}px;
+  padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+  }
+
+  .section-{{ section.id }}-padding {
+  margin-top: 32px;
+  margin-bottom: 32px;
+  }
+
+  @media screen and (min-width: 1201px) {
+  .section-{{ section.id }}-padding {
+  margin-top: 64px;
+  margin-bottom: 64px;
+  }
+  }
+{%- endstyle -%}
+{% comment %}@formatter:on{% endcomment %}
+
+<div class="color-{{ section.settings.color_scheme }} gradient">
+  <div class="page-width section-{{ section.id }}-padding">
+    <div class="text-columns-wrapper">
+      <div class="text-columns-items">
+        {% if section.settings.title != blank and section.settings.description != blank %}
+          <div class="text-columns-intro">
+            <h2 class="h1">{{ section.settings.title }}</h2>
+            <p>{{ section.settings.description }}</p>
+          </div>
+        {% endif %}
+        <ul class="text-columns-list-items">
+          {% for block in section.blocks %}
+            <li class="text-columns-item color-{{ block.settings.color_scheme }}">
+              <img
+                srcset="
+                      {%- if block.settings.image.width >= 165 -%}{{ block.settings.image | image_url: width: 165 }} 165w,{%- endif -%}
+                      {%- if block.settings.image.width >= 330 -%}{{ block.settings.image | image_url: width: 330 }} 330w,{%- endif -%}
+                      {%- if block.settings.image.width >= 535 -%}{{ block.settings.image | image_url: width: 535 }} 535w,{%- endif -%}
+                      {%- if block.settings.image.width >= 750 -%}{{ block.settings.image | image_url: width: 750 }} 750w,{%- endif -%}
+                      {%- if block.settings.image.width >= 1000 -%}{{ block.settings.image | image_url: width: 1000 }} 1000w,{%- endif -%}
+                      {%- if block.settings.image.width >= 1500 -%}{{ block.settings.image | image_url: width: 1500 }} 1500w,{%- endif -%}
+                      {%- if block.settings.image.width >= 3000 -%}{{ block.settings.image | image_url: width: 3000 }} 3000w,{%- endif -%}
+                      {{ block.settings.image | image_url }} {{ block.settings.image.width }}w
+                    "
+                src="{{ block.settings.image | image_url: width: 1500 }}"
+                sizes="
+                      (min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 100 | divided_by: section.settings.column_per_row }}px,
+                      (min-width: 750px) {% if section.settings.column_per_row > 1 %}calc((100vw - 10rem) / 2){% else %}calc(100vw - 10rem){% endif %},
+                      calc(100vw - 3rem)
+                    "
+                alt=""
+                height="{{ block.settings.image.height }}"
+                width="{{ block.settings.image.width }}"
+                loading="lazy"
+                class="motion-reduce"
+              >
+              {% if block.settings.title != blank %}
+              <div class="text-columns-item-content">
+                <p class="text-columns-item-title">{{ block.settings.title }}</p>
+                {% endif %}
+              </div>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Text with Icons Alternate",
+  "max_blocks": 6,
+  "disabled_on": {
+    "groups": [
+      "custom.popups"
+    ]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:sections.all.layout.content"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "t:sections.text-columns-with-icons.blocks.column.settings.title.label",
+      "default": "Column"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "t:sections.all.description.label",
+      "default": "<p>Include a description of the icon, explaining its significance and function.</p>"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-2"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.section_spacing.content",
+      "info": "t:sections.all.section_spacing.info"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "t:sections.all.section_spacing.above",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "t:sections.all.section_spacing.below",
+      "default": 100
+    }
+  ],
+  "blocks": [
+    {
+      "type": "column",
+      "name": "t:sections.text-columns-with-icons.blocks.column.name",
+      "settings": [
+        {
+          "type": "color_scheme",
+          "id": "color_scheme",
+          "label": "t:sections.all.colors.label",
+          "default": "scheme-1",
+          "info": "t:sections.text-columns-with-icons.blocks.column.settings.color_scheme.info"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "t:sections.text-columns-with-icons.blocks.column.settings.image.label"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "title",
+          "label": "t:sections.text-columns-with-icons.blocks.column.settings.title.label",
+          "default": "Column"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Text with Icons Alternate",
+      "blocks": [
+        {
+          "type": "column",
+          "settings": {
+          }
+        },
+        {
+          "type": "column",
+          "settings": {
+          }
+        },
+        {
+          "type": "column",
+          "settings": {
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

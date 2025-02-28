@@ -1,0 +1,444 @@
+{{ 'component-card.css' | asset_url | stylesheet_tag }}
+{{ 'animated-text-columns.css' | asset_url | stylesheet_tag }}
+{{ 'component-slider.css' | asset_url | stylesheet_tag }}
+{{ 'province-settings.js' | asset_url | script_tag }}
+
+{% comment %}@formatter:off{% endcomment %}
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: 16px;
+    padding-bottom: 16px;
+  }
+
+  @media screen and (min-width: 1201px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .section-{{ section.id }}-padding {
+    margin-top: 32px;
+    margin-bottom: 32px;
+  }
+
+  @media screen and (min-width: 1201px) {
+    .section-{{ section.id }}-padding {
+      margin-top: 64px;
+      margin-bottom: 64px;
+    }
+  }
+{%- endstyle -%}
+{% comment %}@formatter:on{% endcomment %}
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const province = localStorage.getItem('global_province');
+  const albertaText = document.querySelectorAll('.js-alberta-description');
+
+  if (province !== 'Alberta') {
+    albertaText.forEach(function(element) {
+      element.style.display = 'none';
+    });
+  }
+});
+</script>
+
+<div class="js-hide-by-province hidden color-{{ section.settings.color_scheme }} gradient" data-hide-province="{% if section.settings.hide_for_bc %}British Columbia,{% endif %}{% if section.settings.hide_for_ab %}Alberta,{% endif %}">
+  <div class="text-columns-with-icons page-width isolate section-{{ section.id }}-padding">
+    {%- unless section.settings.title == blank -%}
+      <div class="section-heading__bar sp-small mgb-medium text-{{ section.settings.heading_alignment }}">
+        <h2 class="title {{ section.settings.heading_size }}">
+          {{ section.settings.title }}
+        </h2>
+      </div>
+    {%- endunless -%}
+    <div class="text-columns-icon-items{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+      <ul
+        class="text-with-icons-list grid grid--{{ section.settings.column_per_row }}-col-desktop grid--{{ section.settings.column_per_row_mobile }}-col-tablet-down text-columns-icon--{{ section.blocks.size }}-items"
+        role="list"
+      >
+        {% for block in section.blocks %}
+          <li class="text-with-icons-list__item grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}" {{ block.shopify_attributes }}>
+            <div class="text-with-icons-inner{% if section.settings.style == 'classic' %} text-with-icons--{{ section.settings.style }} color-{{ block.settings.color_scheme }}{% endif %} text-{{ section.settings.text_alignment }}">
+              <div class="icon-image justify-{{ section.settings.text_alignment }} text-with-icons-image">
+                {% if block.settings.image != blank %}
+                  <img
+                    srcset="
+                      {%- if block.settings.image.width >= 165 -%}{{ block.settings.image | image_url: width: 165 }} 165w,{%- endif -%}
+                      {%- if block.settings.image.width >= 330 -%}{{ block.settings.image | image_url: width: 330 }} 330w,{%- endif -%}
+                      {%- if block.settings.image.width >= 535 -%}{{ block.settings.image | image_url: width: 535 }} 535w,{%- endif -%}
+                      {%- if block.settings.image.width >= 750 -%}{{ block.settings.image | image_url: width: 750 }} 750w,{%- endif -%}
+                      {%- if block.settings.image.width >= 1000 -%}{{ block.settings.image | image_url: width: 1000 }} 1000w,{%- endif -%}
+                      {%- if block.settings.image.width >= 1500 -%}{{ block.settings.image | image_url: width: 1500 }} 1500w,{%- endif -%}
+                      {%- if block.settings.image.width >= 3000 -%}{{ block.settings.image | image_url: width: 3000 }} 3000w,{%- endif -%}
+                      {{ block.settings.image | image_url }} {{ block.settings.image.width }}w
+                    "
+                    src="{{ block.settings.image | image_url: width: 1500 }}"
+                    sizes="
+                      (min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 100 | divided_by: section.settings.column_per_row }}px,
+                      (min-width: 750px) {% if section.settings.column_per_row > 1 %}calc((100vw - 10rem) / 2){% else %}calc(100vw - 10rem){% endif %},
+                      calc(100vw - 3rem)
+                    "
+                    alt=""
+                    height="{{ block.settings.image.height }}"
+                    width="{{ block.settings.image.width }}"
+                    loading="lazy"
+                    class="motion-reduce"
+                  >
+                {% endif %}
+              </div>
+              {% if block.settings.title != blank or block.settings.text != blank %}
+                <div class="icon-content-inner sp-small text-{{ block.settings.text_alignment }}">
+                  {% if block.settings.title != blank %}
+                    <h3 class="{{ section.settings.title_size }}">{{ block.settings.title }}</h3>
+                  {% endif %}
+                  {% if block.settings.text != blank %}
+                    <div class="js-hide-by-province hidden icon-content-description rte" data-hide-province="Alberta">
+                      {{ block.settings.text }}
+                    </div>
+                  {% endif %}
+                  {% if block.settings.ab_description != blank %}
+                    <div class="icon-content-description js-alberta-description rte">
+                      {{ block.settings.ab_description }}
+                    </div>
+                  {% endif %}
+                  {%- if block.settings.button_label != blank -%}
+                    <a
+                      {% if block.settings.button_link == blank %}
+                        role="link" aria-disabled="true"
+                      {% else %}
+                        href="{{ block.settings.button_link }}"
+                      {% endif %}
+                      class="button button--{{ block.settings.button_style }}"
+                    >
+                      {{ block.settings.button_label | escape }}
+                      {% render 'theme-icons', icon: 'icon-chevron-right' %}
+                    </a>
+                  {%- endif -%}
+                </div>
+              {% endif %}
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "t:sections.text-columns-with-icons.name",
+  "max_blocks": 6,
+  "disabled_on": {
+    "groups": [
+      "custom.popups"
+    ]
+  },
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "default": "Text columns with icons",
+      "label": "t:sections.all.heading.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_for_ab",
+      "label": "t:settings_schema.general.settings.hide_section_for_ab"
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_for_bc",
+      "label": "t:settings_schema.general.settings.hide_section_for_bc"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        {
+          "value": "h4",
+          "label": "t:sections.all.heading_size.options__2.label"
+        },
+        {
+          "value": "h3",
+          "label": "t:sections.all.heading_size.options__3.label"
+        },
+        {
+          "value": "h2",
+          "label": "t:sections.all.heading_size.options__4.label"
+        },
+        {
+          "value": "h1",
+          "label": "t:sections.all.heading_size.options__5.label"
+        }
+      ],
+      "default": "h2",
+      "label": "t:sections.all.heading_size.label"
+    },
+    {
+      "type": "select",
+      "id": "heading_alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "t:sections.all.heading_alignment.options__1.label"
+        },
+        {
+          "value": "center",
+          "label": "t:sections.all.heading_alignment.options__2.label"
+        },
+        {
+          "value": "right",
+          "label": "t:sections.all.heading_alignment.options__3.label"
+        }
+      ],
+      "default": "center",
+      "label": "t:sections.all.heading_alignment.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.layout.content"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-2"
+    },
+    {
+      "type": "select",
+      "id": "style",
+      "options": [
+        {
+          "value": "simple",
+          "label": "t:sections.text-columns-with-icons.settings.columns_style.options__1.label"
+        },
+        {
+          "value": "classic",
+          "label": "t:sections.text-columns-with-icons.settings.columns_style.options__2.label"
+        }
+      ],
+      "default": "simple",
+      "label": "t:sections.text-columns-with-icons.settings.columns_style.label"
+    },
+    {
+      "type": "range",
+      "id": "column_per_row",
+      "min": 2,
+      "max": 6,
+      "step": 1,
+      "default": 4,
+      "label": "t:sections.text-columns-with-icons.settings.columns_per_row.label"
+    },
+    {
+      "type": "select",
+      "id": "title_size",
+      "options": [
+        {
+          "value": "h6",
+          "label": "t:sections.all.heading_size.options__2.label"
+        },
+        {
+          "value": "h5",
+          "label": "t:sections.all.heading_size.options__3.label"
+        },
+        {
+          "value": "h4",
+          "label": "t:sections.all.heading_size.options__4.label"
+        },
+        {
+          "value": "h3",
+          "label": "t:sections.all.heading_size.options__5.label"
+        }
+      ],
+      "default": "h5",
+      "label": "t:sections.all.heading_size.title_size.label"
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "t:sections.text-columns-with-icons.settings.alignment.options__1.label"
+        },
+        {
+          "value": "center",
+          "label": "t:sections.text-columns-with-icons.settings.alignment.options__2.label"
+        },
+        {
+          "value": "right",
+          "label": "t:sections.text-columns-with-icons.settings.alignment.options__3.label"
+        }
+      ],
+      "default": "center",
+      "label": "t:sections.text-columns-with-icons.settings.alignment.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.text-columns-with-icons.settings.header_mobile.content"
+    },
+    {
+      "type": "select",
+      "id": "column_per_row_mobile",
+      "options": [
+        {
+          "value": "1",
+          "label": "t:sections.text-columns-with-icons.settings.columns_per_row_mobile.options__1.label"
+        },
+        {
+          "value": "2",
+          "label": "t:sections.text-columns-with-icons.settings.columns_per_row_mobile.options__2.label"
+        }
+      ],
+      "default": "2",
+      "label": "t:sections.text-columns-with-icons.settings.columns_per_row_mobile.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.section_spacing.content",
+      "info": "t:sections.all.section_spacing.info"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "t:sections.all.section_spacing.above",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "t:sections.all.section_spacing.below",
+      "default": 100
+    }
+  ],
+  "blocks": [
+    {
+      "type": "column",
+      "name": "t:sections.text-columns-with-icons.blocks.column.name",
+      "settings": [
+        {
+          "type": "color_scheme",
+          "id": "color_scheme",
+          "label": "t:sections.all.colors.label",
+          "default": "scheme-1",
+          "info": "t:sections.text-columns-with-icons.blocks.column.settings.color_scheme.info"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "t:sections.text-columns-with-icons.blocks.column.settings.image.label"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "title",
+          "label": "t:sections.text-columns-with-icons.blocks.column.settings.title.label",
+          "default": "Column"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "t:sections.all.description.label",
+          "default": "<p>Include a description of the icon, explaining its significance and function.</p>"
+        },
+        {
+          "type": "richtext",
+          "id": "ab_description",
+          "default": "<p>Include a description for the image and showcase your brand to a wider audience.</p>",
+          "label": "Alberta Description"
+        },
+        {
+          "type": "select",
+          "id": "text_alignment",
+          "options": [
+            {
+              "value": "left",
+              "label": "t:sections.text-columns-with-icons.settings.alignment.options__1.label"
+            },
+            {
+              "value": "center",
+              "label": "t:sections.text-columns-with-icons.settings.alignment.options__2.label"
+            },
+            {
+              "value": "right",
+              "label": "t:sections.text-columns-with-icons.settings.alignment.options__3.label"
+            }
+          ],
+          "default": "center",
+          "label": "t:sections.text-columns-with-icons.settings.alignment.label"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "t:sections.event.blocks.content.settings.button_label.label"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "t:sections.event.blocks.content.settings.button_link.label"
+        },
+        {
+          "type": "select",
+          "id": "button_style",
+          "options": [
+            {
+              "value": "primary",
+              "label": "t:sections.all.button_style.options__1.label"
+            },
+            {
+              "value": "secondary",
+              "label": "t:sections.all.button_style.options__2.label"
+            },
+            {
+              "value": "outline",
+              "label": "t:sections.all.button_style.options__3.label"
+            }
+          ],
+          "default": "primary",
+          "label": "t:sections.all.button_style.label"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.text-columns-with-icons.presets.name",
+      "blocks": [
+        {
+          "type": "column",
+          "settings": {
+
+          }
+        },
+        {
+          "type": "column",
+          "settings": {
+
+          }
+        },
+        {
+          "type": "column",
+          "settings": {
+
+          }
+        },
+        {
+          "type": "column",
+          "settings": {
+
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

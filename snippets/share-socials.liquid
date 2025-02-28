@@ -1,0 +1,41 @@
+{% comment %}
+  Renders share icons.
+  Accepts:
+  - share_url: {String} for article link
+  - share_title: {String} for article title
+
+  Usage:
+  {% render 'share-socials',
+    share_link: share_url, share_title: share_title
+  %}
+{% endcomment %}
+
+<ul class="list-unstyled list-social list-social__share" role="list">
+  <li class="list-social__item">
+    <a href="https://twitter.com/intent/tweet?text=Check out this article about {{ share_title | escape }}&url={{ share_link | escape }}" target="_blank" class="link list-social__link list-social__link-share">
+      {%- render 'theme-icons', icon: 'twitter' -%}
+      <span class="visually-hidden">{{ 'general.social.alt_text.share_on_twitter' | t }}</span>
+    </a>
+  </li>
+
+  <li class="list-social__item">
+    <a href="https://www.linkedin.com/feed/?shareActive=true&text=Check out this article about {{ share_title }} {{ share_link |  escape }} %23NewPost" target="_blank" class="link list-social__link list-social__link-share">
+      {%- render 'theme-icons', icon: 'linkedin' -%}
+      <span class="visually-hidden">{{ 'general.social.alt_text.share_on_linkedin' | t }}</span>
+    </a>
+  </li>
+
+  <li class="list-social__item">
+    <a href="https://www.facebook.com/sharer/sharer.php?u={{ share_link | escape }}" target="_blank" class="link list-social__link list-social__link-share">
+      {%- render 'theme-icons', icon: 'facebook' -%}
+      <span class="visually-hidden">{{ 'general.social.alt_text.share_on_facebook' | t }}</span>
+    </a>
+  </li>
+
+  <li class="list-social__item">
+    <a href="https://api.whatsapp.com/send?text={{ share_title | escape }}%20{{ share_link | escape }}" target="_blank" class="link list-social__link list-social__link-share">
+      {%- render 'theme-icons', icon: 'whatsapp' -%}
+      <span class="visually-hidden">{{ 'general.social.alt_text.share_on_whatsapp' | t }}</span>
+    </a>
+  </li>
+</ul>

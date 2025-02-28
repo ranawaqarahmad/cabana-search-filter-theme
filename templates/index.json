@@ -1,0 +1,1069 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "masonry_grid_dDWT78": {
+      "type": "masonry-grid",
+      "blocks": {
+        "image_gf6DGx": {
+          "type": "image",
+          "settings": {
+            "color_scheme": "scheme-581cb70d-7265-44ab-971a-24363331fffd",
+            "image": "shopify://shop_images/Web_banner_AB-MB-ON-SK.png",
+            "image_height": 65,
+            "mobile_image": "shopify://shop_images/Mobile_Web_banner_all.png",
+            "hide_for_ab": false,
+            "hide_for_bc": true,
+            "hide_for_logged_in": false,
+            "hide_for_elite": false,
+            "subheading": "",
+            "title": "",
+            "heading_size": "h2",
+            "description": "",
+            "secondary_description": "",
+            "make_button_full": false,
+            "button_label": "Learn More",
+            "button_link": "shopify://pages/craft-cannabis",
+            "button_style": "outline",
+            "text_alignment": "left",
+            "text_alignment_mobile": "center",
+            "content_position": "content_bottom",
+            "content_width": "default",
+            "scrolling_color_scheme": "scheme-3",
+            "scrolling_text": ""
+          }
+        },
+        "image_rX3mq4": {
+          "type": "image",
+          "settings": {
+            "color_scheme": "scheme-3",
+            "image": "shopify://shop_images/design-demo-banner-2.jpg",
+            "image_height": 65,
+            "mobile_image": "shopify://shop_images/homepage-cta-cabana-club-mobile.jpg",
+            "hide_for_ab": false,
+            "hide_for_bc": false,
+            "hide_for_logged_in": false,
+            "hide_for_elite": false,
+            "subheading": "",
+            "title": "<strong>Join Cabana Club for Free!</strong>",
+            "heading_size": "h4",
+            "description": "<p>Get instant access to our UNBEATABLE membership prices.</p>",
+            "secondary_description": "",
+            "make_button_full": false,
+            "button_label": "Join Now",
+            "button_link": "shopify://pages/cabana-club",
+            "button_style": "outline",
+            "text_alignment": "left",
+            "text_alignment_mobile": "center",
+            "content_position": "content_left",
+            "content_width": "middle_width",
+            "scrolling_color_scheme": "",
+            "scrolling_text": ""
+          }
+        },
+        "image_WXpipV": {
+          "type": "image",
+          "settings": {
+            "color_scheme": "scheme-4",
+            "image": "shopify://shop_images/elite-homepage-cta-banner-desktop.jpg",
+            "image_height": 65,
+            "mobile_image": "shopify://shop_images/elite-homepage-cta-banner-mobile.jpg",
+            "hide_for_ab": false,
+            "hide_for_bc": false,
+            "hide_for_logged_in": false,
+            "hide_for_elite": false,
+            "subheading": "",
+            "title": "Upgrade to ELITE",
+            "heading_size": "h4",
+            "description": "<p>Unlock exclusive flash sales & weekly accessory drops</p>",
+            "secondary_description": "<p> *T&C apply. For complete ELITE program details <a href=\"/pages/terms-of-service\" target=\"_blank\" title=\"Terms of service\">click here</a></p>",
+            "make_button_full": false,
+            "button_label": "Upgrade Now",
+            "button_link": "shopify://pages/elite",
+            "button_style": "outline",
+            "text_alignment": "left",
+            "text_alignment_mobile": "center",
+            "content_position": "content_left",
+            "content_width": "middle_width",
+            "scrolling_color_scheme": "scheme-3",
+            "scrolling_text": ""
+          }
+        }
+      },
+      "block_order": [
+        "image_gf6DGx",
+        "image_rX3mq4",
+        "image_WXpipV"
+      ],
+      "custom_css": [
+        ".grid_item_3 .media > img {object-fit: unset;}",
+        "@media only screen and (max-width: 768px) {.grid_item_3 a.button, .grid_item_2 a.button {margin: 0; }}",
+        "@media only screen and (min-width: 768px) {.grid_item_3 .secondary-description {width: 160px; } .grid_item_1 .cta-button {margin-left: 60px; }}",
+        "@media (max-width: 768px) {.grid_item_1 .cta-button a {margin-top: 50px !important; }}"
+      ],
+      "settings": {
+        "title": "",
+        "heading_size": "h2",
+        "heading_alignment": "center",
+        "color_scheme": "",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "swipe_on_mobile": true,
+        "hide_for_ab": false,
+        "hide_for_bc": true,
+        "hide_for_other_province": false
+      }
+    },
+    "masonry_grid_UCzd3x": {
+      "type": "masonry-grid",
+      "blocks": {
+        "image_aGc9xa": {
+          "type": "image",
+          "settings": {
+            "color_scheme": "scheme-1",
+            "image": "shopify://shop_images/Web_banner_BC.png",
+            "image_height": 50,
+            "mobile_image": "shopify://shop_images/Mobile_Web_banner_all.png",
+            "hide_for_ab": false,
+            "hide_for_bc": false,
+            "hide_for_logged_in": false,
+            "hide_for_elite": false,
+            "subheading": "",
+            "title": "",
+            "heading_size": "h2",
+            "description": "",
+            "secondary_description": "",
+            "make_button_full": false,
+            "button_label": "Learn More",
+            "button_link": "shopify://pages/craft-cannabis",
+            "button_style": "outline",
+            "text_alignment": "left",
+            "text_alignment_mobile": "center",
+            "content_position": "content_bottom",
+            "content_width": "default",
+            "scrolling_color_scheme": "scheme-9f459313-d482-46ca-b82d-99b7d5128e5d",
+            "scrolling_text": ""
+          }
+        }
+      },
+      "block_order": [
+        "image_aGc9xa"
+      ],
+      "custom_css": [
+        "@media (max-width: 768px) {.grid_item_1 .cta-button a {width: 100%; margin-top: 50px; }}",
+        ".grid_item_1 .cta-button a {color: #e1251c; border-color: #e1251c;}",
+        "@media only screen and (min-width: 768px) {.grid_item_1 .cta-button {position: absolute; left: 25px; top: 75%; }}"
+      ],
+      "settings": {
+        "title": "",
+        "heading_size": "h2",
+        "heading_alignment": "center",
+        "color_scheme": "scheme-1",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "swipe_on_mobile": true,
+        "hide_for_ab": true,
+        "hide_for_bc": false,
+        "hide_for_other_province": true
+      }
+    },
+    "featured_collection_PKzr7J": {
+      "type": "featured-collection",
+      "blocks": {
+        "featured_collection_7QNq94": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "best-sellers",
+            "color_scheme": "",
+            "title": ""
+          }
+        }
+      },
+      "block_order": [
+        "featured_collection_7QNq94"
+      ],
+      "disabled": true,
+      "settings": {
+        "title": "<strong>Our Bestsellers</strong>",
+        "heading_size": "h1",
+        "enable_shop_all": true,
+        "shop_all_link": "shopify://collections/best-sellers",
+        "shop_all_text": "Shop All",
+        "heading_alignment": "left",
+        "hide_for_bc": false,
+        "hide_for_ab": false,
+        "color_scheme": "scheme-1",
+        "products_to_show": 6,
+        "products_per_row": 4,
+        "enable_slider_scrollbar": true,
+        "show_view_all": false,
+        "grid_color_scheme": "",
+        "grid_style": "simple",
+        "image_ratio": "square",
+        "show_secondary_image": true,
+        "show_vendor": true,
+        "show_rating": false,
+        "show_color_swatches": false,
+        "grid_text_alignment": "left",
+        "products_per_row_mobile": "1",
+        "swipe_on_mobile": true,
+        "enable_elite_styling": false,
+        "elite_button_link": "",
+        "elite_subtitle": "",
+        "ab_subtitle": ""
+      }
+    },
+    "collection_list_hLGWyB": {
+      "type": "collection-list",
+      "blocks": {
+        "featured_collection_HPMq6L": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "weed-online",
+            "color_scheme": "",
+            "image": "shopify://shop_images/Frame_724.png",
+            "title": "Dried Flower",
+            "link": "shopify://collections/weed-online",
+            "description": ""
+          }
+        },
+        "featured_collection_jpVHHi": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "pre-rolls",
+            "color_scheme": "",
+            "image": "shopify://shop_images/Rectangle_23858.png",
+            "title": "Pre-Rolls",
+            "link": "shopify://collections/pre-rolls",
+            "description": ""
+          }
+        },
+        "featured_collection_fPfnJD": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "vape-cartridges",
+            "color_scheme": "",
+            "image": "shopify://shop_images/Group_499.png",
+            "title": "Vape Cartridges",
+            "link": "shopify://collections/vape-cartridges",
+            "description": ""
+          }
+        },
+        "featured_collection_awnqFM": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "concentrates",
+            "color_scheme": "scheme-1",
+            "image": "shopify://shop_images/Rectangle_23858_2.png",
+            "title": "Concentrates",
+            "link": "shopify://collections/concentrates",
+            "description": ""
+          }
+        },
+        "featured_collection_zwYzVW": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "edibles",
+            "color_scheme": "scheme-1",
+            "image": "shopify://shop_images/Frame_41414.png",
+            "title": "Edibles",
+            "link": "shopify://collections/edibles",
+            "description": ""
+          }
+        },
+        "featured_collection_rNxyrq": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "cannabis-accessories",
+            "color_scheme": "scheme-1",
+            "image": "shopify://shop_images/Group_499_1.png",
+            "title": "Accessories",
+            "link": "shopify://collections/cannabis-accessories",
+            "description": ""
+          }
+        }
+      },
+      "block_order": [
+        "featured_collection_HPMq6L",
+        "featured_collection_jpVHHi",
+        "featured_collection_fPfnJD",
+        "featured_collection_awnqFM",
+        "featured_collection_zwYzVW",
+        "featured_collection_rNxyrq"
+      ],
+      "settings": {
+        "title": "<strong>Shop Top Categories</strong>",
+        "heading_size": "h3",
+        "heading_alignment": "center",
+        "color_scheme": "",
+        "collections_per_row": 6,
+        "enable_slider_scrollbar": false,
+        "show_view_all": true,
+        "view_all_text": "Shop all",
+        "style": "simple",
+        "image_width": "small",
+        "image_ratio": "square",
+        "custom_ratio": 1,
+        "title_size": "h6",
+        "grid_alignment": "center",
+        "show_product_count": false,
+        "collections_per_row_mobile": "2",
+        "swipe_on_mobile": false,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "masonry_grid_w39HmG": {
+      "type": "masonry-grid",
+      "blocks": {
+        "image_kTHzRb": {
+          "type": "image",
+          "settings": {
+            "color_scheme": "scheme-3",
+            "image": "shopify://shop_images/membership-banner_desktop_A.jpg",
+            "image_height": 50,
+            "mobile_image": "shopify://shop_images/membership-banner_mobile_A.jpg",
+            "hide_for_ab": false,
+            "hide_for_bc": false,
+            "hide_for_logged_in": true,
+            "hide_for_elite": false,
+            "subheading": "",
+            "title": "Join Cabana Club for Free",
+            "heading_size": "h3",
+            "description": "<p>Get instant access to our UNBEATABLE membership prices.</p>",
+            "secondary_description": "",
+            "make_button_full": false,
+            "button_label": "Learn More",
+            "button_link": "shopify://pages/cabana-club",
+            "button_style": "primary",
+            "text_alignment": "left",
+            "text_alignment_mobile": "center",
+            "content_position": "content_right",
+            "content_width": "half_width",
+            "scrolling_color_scheme": "",
+            "scrolling_text": ""
+          }
+        },
+        "image_kzP6Yx": {
+          "type": "image",
+          "settings": {
+            "color_scheme": "scheme-4",
+            "image": "shopify://shop_images/e2950b89f9f62c78101c189f399efbe9.png",
+            "image_height": 50,
+            "mobile_image": "shopify://shop_images/membership-banner_mobile_B.jpg",
+            "hide_for_ab": false,
+            "hide_for_bc": true,
+            "hide_for_logged_in": false,
+            "hide_for_elite": true,
+            "subheading": "",
+            "title": "Upgrade to ELITE",
+            "heading_size": "h4",
+            "description": "<p>Unlock exclusive flash sales & weekly accessory drops</p>",
+            "secondary_description": "<p> *T&C apply. For complete ELITE program details <a href=\"/pages/terms-of-service\" title=\"Terms of service\">click here</a></p>",
+            "make_button_full": false,
+            "button_label": "Upgrade Now",
+            "button_link": "shopify://pages/elite",
+            "button_style": "secondary",
+            "text_alignment": "left",
+            "text_alignment_mobile": "center",
+            "content_position": "content_right",
+            "content_width": "half_width",
+            "scrolling_color_scheme": "scheme-2",
+            "scrolling_text": ""
+          }
+        }
+      },
+      "block_order": [
+        "image_kTHzRb",
+        "image_kzP6Yx"
+      ],
+      "custom_css": [
+        "@media only screen and (max-width: 768px) {.masonry-grid-card .text-content-wrapper {height: 100%; max-height: 100%; padding-top: 15px; } .grid_item_1 a.button {position: absolute; margin: 0; min-width: 180px; left: 50%; transform: translatex(-50%); } .grid_item_2 a.button {margin: 0; }}"
+      ],
+      "settings": {
+        "title": "",
+        "heading_size": "h2",
+        "heading_alignment": "center",
+        "color_scheme": "",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "swipe_on_mobile": false,
+        "hide_for_ab": false,
+        "hide_for_bc": true,
+        "hide_for_other_province": false
+      }
+    },
+    "logo_list_XypidB": {
+      "type": "logo-list",
+      "blocks": {
+        "logo_JqHQK8": {
+          "type": "logo",
+          "settings": {
+            "image": "shopify://shop_images/design-demo-image-7.png",
+            "title": "",
+            "link": "shopify://collections/fraser-valley",
+            "hide_for_ab": false,
+            "hide_for_bc": false
+          }
+        },
+        "logo_GGYL8E": {
+          "type": "logo",
+          "settings": {
+            "image": "shopify://shop_images/design-demo-image-8.png",
+            "title": "",
+            "link": "shopify://collections/spinach",
+            "hide_for_ab": false,
+            "hide_for_bc": false
+          }
+        },
+        "logo_qFtLwh": {
+          "type": "logo",
+          "settings": {
+            "image": "shopify://shop_images/design-demo-image-12.png",
+            "title": "",
+            "link": "shopify://collections/good-supply",
+            "hide_for_ab": false,
+            "hide_for_bc": false
+          }
+        },
+        "logo_3WnKnH": {
+          "type": "logo",
+          "settings": {
+            "image": "shopify://shop_images/design-demo-image-13.png",
+            "title": "",
+            "link": "shopify://collections/back-forty",
+            "hide_for_ab": false,
+            "hide_for_bc": false
+          }
+        },
+        "logo_jMdDbM": {
+          "type": "logo",
+          "settings": {
+            "image": "shopify://shop_images/design-demo-image-14.png",
+            "title": "",
+            "link": "shopify://collections/boxhot",
+            "hide_for_ab": false,
+            "hide_for_bc": false
+          }
+        },
+        "logo_AcXG8C": {
+          "type": "logo",
+          "settings": {
+            "image": "shopify://shop_images/design-demo-image-15.png",
+            "title": "",
+            "link": "shopify://collections/shred",
+            "hide_for_ab": false,
+            "hide_for_bc": false
+          }
+        },
+        "logo_4ErBE3": {
+          "type": "logo",
+          "settings": {
+            "image": "shopify://shop_images/design-demo-image-16.png",
+            "title": "",
+            "link": "shopify://collections/cabana-cannabis-co",
+            "hide_for_ab": false,
+            "hide_for_bc": false
+          }
+        },
+        "logo_hCQAwk": {
+          "type": "logo",
+          "settings": {
+            "image": "shopify://shop_images/design-demo-image-17.png",
+            "title": "",
+            "link": "shopify://collections/general-admission",
+            "hide_for_ab": false,
+            "hide_for_bc": false
+          }
+        }
+      },
+      "block_order": [
+        "logo_JqHQK8",
+        "logo_GGYL8E",
+        "logo_qFtLwh",
+        "logo_3WnKnH",
+        "logo_jMdDbM",
+        "logo_AcXG8C",
+        "logo_4ErBE3",
+        "logo_hCQAwk"
+      ],
+      "settings": {
+        "title": "<strong>Shop Top-Selling Brands</strong>",
+        "heading_size": "h3",
+        "heading_alignment": "center",
+        "color_scheme": "",
+        "logo_per_row": 4,
+        "enable_slider_scrollbar": false,
+        "image_ratio": "original",
+        "title_size": "h6",
+        "text_alignment": "center",
+        "logo_per_row_mobile": "2",
+        "swipe_on_mobile": false,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "featured_collection_nweQCy": {
+      "type": "featured-collection",
+      "blocks": {
+        "featured_collection_kx39UN": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "newest-items",
+            "color_scheme": "",
+            "title": ""
+          }
+        }
+      },
+      "block_order": [
+        "featured_collection_kx39UN"
+      ],
+      "disabled": true,
+      "settings": {
+        "title": "<strong>New Arrivals</strong>",
+        "heading_size": "h3",
+        "enable_shop_all": false,
+        "shop_all_link": "",
+        "shop_all_text": "",
+        "heading_alignment": "left",
+        "hide_for_bc": false,
+        "hide_for_ab": false,
+        "color_scheme": "scheme-1",
+        "products_to_show": 4,
+        "products_per_row": 4,
+        "enable_slider_scrollbar": true,
+        "show_view_all": false,
+        "grid_color_scheme": "",
+        "grid_style": "simple",
+        "image_ratio": "square",
+        "show_secondary_image": false,
+        "show_vendor": true,
+        "show_rating": false,
+        "show_color_swatches": false,
+        "grid_text_alignment": "left",
+        "products_per_row_mobile": "2",
+        "swipe_on_mobile": true,
+        "enable_elite_styling": false,
+        "elite_button_link": "",
+        "elite_subtitle": "",
+        "ab_subtitle": ""
+      }
+    },
+    "slideshow_FgYRND": {
+      "type": "slideshow",
+      "blocks": {
+        "slide_jFVyfD": {
+          "type": "slide",
+          "settings": {
+            "mobile_image": "shopify://shop_images/banner-mobile-2.png",
+            "heading": "<strong>Top Brands at UNBEATABLE Prices</strong>",
+            "description": "",
+            "secondary_description": "",
+            "primary_button_label": "Shop Cannabis",
+            "primary_button_link": "shopify://collections/all-flower",
+            "primary_button_style": "outline",
+            "box_align": "middle-left",
+            "text_alignment": "left",
+            "show_text_box": false,
+            "color_scheme": "scheme-3",
+            "text_alignment_mobile": "center",
+            "hide_ab": false,
+            "hide_bc": false,
+            "image": "shopify://shop_images/Rectangle_23857_380745c3-2067-440c-a732-3ae1e2885d0f.png"
+          }
+        },
+        "slide_zUMAyK": {
+          "type": "slide",
+          "settings": {
+            "mobile_image": "shopify://shop_images/banner-mobile-1.png",
+            "heading": "<strong>Up to 80% OFF Accessories Every Day!</strong>",
+            "description": "",
+            "secondary_description": "",
+            "primary_button_label": "Shop Accessories",
+            "primary_button_link": "shopify://collections/cannabis-accessories",
+            "primary_button_style": "outline",
+            "box_align": "middle-left",
+            "text_alignment": "left",
+            "show_text_box": false,
+            "color_scheme": "scheme-3",
+            "text_alignment_mobile": "center",
+            "hide_ab": false,
+            "hide_bc": false,
+            "image": "shopify://shop_images/Rectangle_23857_5c49b546-bf42-464b-9a7b-1b8645f78351.png"
+          }
+        },
+        "slide_rcq9XX": {
+          "type": "slide",
+          "settings": {
+            "mobile_image": "shopify://shop_images/Rectangle_23857.png",
+            "heading": "<strong>VIP Access to Cannabis Flash Sales & Accessory Drops</strong>",
+            "description": "",
+            "secondary_description": "<p> *T&C apply. For complete ELITE program details <a href=\"/pages/elite-membership\" title=\"ELITE Membership\">click here</a></p>",
+            "primary_button_label": "Shop ELITE",
+            "primary_button_link": "shopify://collections/elite",
+            "primary_button_style": "outline",
+            "box_align": "middle-left",
+            "text_alignment": "left",
+            "show_text_box": false,
+            "color_scheme": "scheme-4",
+            "text_alignment_mobile": "center",
+            "hide_ab": false,
+            "hide_bc": true,
+            "image": "shopify://shop_images/Rectangle_23857_90106682-f145-414b-8b9a-12268316199f.png"
+          }
+        }
+      },
+      "block_order": [
+        "slide_jFVyfD",
+        "slide_zUMAyK",
+        "slide_rcq9XX"
+      ],
+      "settings": {
+        "expanded_width": false,
+        "slide_height": "original",
+        "auto_rotate": true,
+        "change_slides_speed": 5,
+        "image_animation": false,
+        "show_text_below": false,
+        "hide_for_ab": false,
+        "hide_for_bc": true,
+        "hide_for_other_province": false
+      }
+    },
+    "slideshow_mXHRbK": {
+      "type": "slideshow",
+      "blocks": {
+        "slide_93icGE": {
+          "type": "slide",
+          "settings": {
+            "mobile_image": "shopify://shop_images/banner-mobile-2.png",
+            "heading": "<strong>Top Brands at UNBEATABLE Prices</strong>",
+            "description": "",
+            "secondary_description": "",
+            "primary_button_label": "Shop Cannabis",
+            "primary_button_link": "shopify://collections/all-flower",
+            "primary_button_style": "outline",
+            "box_align": "middle-left",
+            "text_alignment": "left",
+            "show_text_box": false,
+            "color_scheme": "scheme-3",
+            "text_alignment_mobile": "center",
+            "hide_ab": false,
+            "hide_bc": false,
+            "image": "shopify://shop_images/Rectangle_23857_380745c3-2067-440c-a732-3ae1e2885d0f.png"
+          }
+        }
+      },
+      "block_order": [
+        "slide_93icGE"
+      ],
+      "settings": {
+        "expanded_width": false,
+        "slide_height": "original",
+        "auto_rotate": true,
+        "change_slides_speed": 5,
+        "image_animation": false,
+        "show_text_below": false,
+        "hide_for_ab": true,
+        "hide_for_bc": false,
+        "hide_for_other_province": true
+      }
+    },
+    "masonry_grid_jhENjB": {
+      "type": "masonry-grid",
+      "blocks": {
+        "image_p6XbXN": {
+          "type": "image",
+          "settings": {
+            "color_scheme": "scheme-3",
+            "image": "shopify://shop_images/design-demo-image-18.png",
+            "image_height": 50,
+            "hide_for_ab": false,
+            "hide_for_bc": false,
+            "hide_for_logged_in": false,
+            "hide_for_elite": false,
+            "subheading": "",
+            "title": "Gift Cards Are Available In Stores",
+            "heading_size": "h2",
+            "description": "",
+            "secondary_description": "",
+            "make_button_full": false,
+            "button_label": "",
+            "button_link": "",
+            "button_style": "secondary",
+            "text_alignment": "left",
+            "text_alignment_mobile": "center",
+            "content_position": "content_center",
+            "content_width": "default",
+            "scrolling_color_scheme": "scheme-3",
+            "scrolling_text": ""
+          }
+        },
+        "image_HyCUxN": {
+          "type": "image",
+          "settings": {
+            "color_scheme": "scheme-3",
+            "image": "shopify://shop_images/design-demo-image-19.png",
+            "image_height": 50,
+            "hide_for_ab": false,
+            "hide_for_bc": false,
+            "hide_for_logged_in": false,
+            "hide_for_elite": false,
+            "subheading": "",
+            "title": "Find Your Cabana",
+            "heading_size": "h2",
+            "description": "",
+            "secondary_description": "",
+            "make_button_full": true,
+            "button_label": "Store Locator",
+            "button_link": "shopify://pages/store-locator",
+            "button_style": "secondary",
+            "text_alignment": "left",
+            "text_alignment_mobile": "center",
+            "content_position": "content_left",
+            "content_width": "default",
+            "scrolling_color_scheme": "scheme-4",
+            "scrolling_text": ""
+          }
+        },
+        "image_AfNarq": {
+          "type": "image",
+          "settings": {
+            "color_scheme": "scheme-581cb70d-7265-44ab-971a-24363331fffd",
+            "image": "shopify://shop_images/design-demo-image-20.png",
+            "image_height": 50,
+            "hide_for_ab": false,
+            "hide_for_bc": false,
+            "hide_for_logged_in": false,
+            "hide_for_elite": false,
+            "subheading": "",
+            "title": "Altogether <br>Magazine",
+            "heading_size": "h4",
+            "description": "",
+            "secondary_description": "",
+            "make_button_full": false,
+            "button_label": "Get the Scoop",
+            "button_link": "shopify://pages/altogether-magazine",
+            "button_style": "primary",
+            "text_alignment": "right",
+            "text_alignment_mobile": "center",
+            "content_position": "content_right",
+            "content_width": "default",
+            "scrolling_color_scheme": "",
+            "scrolling_text": ""
+          }
+        },
+        "image_8YbMXK": {
+          "type": "image",
+          "settings": {
+            "color_scheme": "scheme-581cb70d-7265-44ab-971a-24363331fffd",
+            "image": "shopify://shop_images/design-demo-image-21.png",
+            "image_height": 50,
+            "hide_for_ab": false,
+            "hide_for_bc": false,
+            "hide_for_logged_in": false,
+            "hide_for_elite": false,
+            "subheading": "",
+            "title": "Know Your Weed",
+            "heading_size": "h4",
+            "description": "",
+            "secondary_description": "",
+            "make_button_full": false,
+            "button_label": "Blog",
+            "button_link": "shopify://blogs/all",
+            "button_style": "primary",
+            "text_alignment": "right",
+            "text_alignment_mobile": "center",
+            "content_position": "content_right",
+            "content_width": "half_width",
+            "scrolling_color_scheme": "",
+            "scrolling_text": ""
+          }
+        }
+      },
+      "block_order": [
+        "image_p6XbXN",
+        "image_HyCUxN",
+        "image_AfNarq",
+        "image_8YbMXK"
+      ],
+      "custom_css": [
+        "@media (max-width: 768px) {.masonry-grid-card {min-height: auto; } .button {padding: 10px; }}"
+      ],
+      "settings": {
+        "title": "",
+        "heading_size": "h2",
+        "heading_alignment": "center",
+        "color_scheme": "",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "swipe_on_mobile": false,
+        "hide_for_ab": false,
+        "hide_for_bc": false,
+        "hide_for_other_province": false
+      }
+    },
+    "related_products_bhjaM3": {
+      "type": "recommended-products",
+      "disabled": true,
+      "settings": {
+        "title": "Recommended For You",
+        "heading_size": "h3",
+        "heading_alignment": "left",
+        "color_scheme": "scheme-1",
+        "products_to_show": 4,
+        "products_per_row": 4,
+        "enable_slider_scrollbar": true,
+        "grid_color_scheme": "",
+        "grid_style": "classic",
+        "image_ratio": "portrait",
+        "show_secondary_image": true,
+        "show_vendor": true,
+        "show_rating": false,
+        "show_color_swatches": false,
+        "grid_text_alignment": "left",
+        "products_per_row_mobile": "1",
+        "swipe_on_mobile": true
+      }
+    },
+    "featured_collection_FNaWJC": {
+      "type": "featured-collection",
+      "blocks": {
+        "featured_collection_CAdt4U": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "vape-cartridges",
+            "color_scheme": "",
+            "title": ""
+          }
+        }
+      },
+      "block_order": [
+        "featured_collection_CAdt4U"
+      ],
+      "disabled": true,
+      "settings": {
+        "title": "<strong>Your Wishlist</strong>",
+        "heading_size": "h3",
+        "enable_shop_all": false,
+        "shop_all_link": "",
+        "shop_all_text": "",
+        "heading_alignment": "left",
+        "hide_for_bc": false,
+        "hide_for_ab": false,
+        "color_scheme": "scheme-1",
+        "products_to_show": 4,
+        "products_per_row": 4,
+        "enable_slider_scrollbar": true,
+        "show_view_all": true,
+        "grid_color_scheme": "",
+        "grid_style": "simple",
+        "image_ratio": "square",
+        "show_secondary_image": false,
+        "show_vendor": true,
+        "show_rating": false,
+        "show_color_swatches": false,
+        "grid_text_alignment": "left",
+        "products_per_row_mobile": "2",
+        "swipe_on_mobile": true,
+        "enable_elite_styling": false,
+        "elite_button_link": "",
+        "elite_subtitle": "",
+        "ab_subtitle": ""
+      }
+    },
+    "featured_collection_with_cta_UDYrJf": {
+      "type": "featured-collection-with-cta",
+      "blocks": {
+        "featured_collection_cta_7Mqk9i": {
+          "type": "featured_collection_cta",
+          "settings": {
+            "image": "shopify://shop_images/elite_flash_sales.jpg",
+            "title": "ELITE FLASH SALES",
+            "description": "<strong>Exclusive deals on top cannabis brands. New items added weekly!</strong>",
+            "change_ab_text": false,
+            "ab_description": ""
+          }
+        },
+        "featured_collection_QTmDma": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "elite",
+            "title": "Elite Flash Sales"
+          }
+        }
+      },
+      "block_order": [
+        "featured_collection_cta_7Mqk9i",
+        "featured_collection_QTmDma"
+      ],
+      "custom_css": [],
+      "settings": {
+        "title": "Featured collection",
+        "heading_size": "h2",
+        "heading_alignment": "center",
+        "color_scheme": "scheme-2",
+        "products_to_show": 8,
+        "products_per_row": 4,
+        "hide_for_ab": false,
+        "hide_for_bc": true,
+        "enable_slider_scrollbar": true,
+        "show_view_all": true,
+        "grid_color_scheme": "scheme-eb74d6cc-1dbb-476d-9948-e64813c2d326",
+        "grid_style": "classic",
+        "image_ratio": "portrait",
+        "show_secondary_image": true,
+        "show_vendor": true,
+        "show_rating": false,
+        "show_color_swatches": false,
+        "grid_text_alignment": "left",
+        "products_per_row_mobile": "2",
+        "swipe_on_mobile": true
+      }
+    },
+    "location_EQPLLg": {
+      "type": "location",
+      "settings": {
+        "section_color_scheme": "scheme-9f459313-d482-46ca-b82d-99b7d5128e5d",
+        "fallback_image": "shopify://shop_images/cannacabana-store-interior_2.jpg",
+        "image_position_right": false,
+        "color_scheme": "scheme-9f459313-d482-46ca-b82d-99b7d5128e5d",
+        "desktop_content_position": "middle",
+        "desktop_content_alignment": "left",
+        "mobile_content_alignment": "left",
+        "padding_top": 100,
+        "padding_bottom": 100
+      }
+    },
+    "featured_blog_QTbFTp": {
+      "type": "featured-blog",
+      "settings": {
+        "heading": "<strong>Know Your Weed Blog</strong>",
+        "heading_size": "h3",
+        "heading_alignment": "center",
+        "color_scheme": "scheme-1",
+        "post_limit": 4,
+        "show_view_all": true,
+        "color_scheme_blog": "",
+        "blog": "all",
+        "filter_tags": "",
+        "image_ratio": "square",
+        "custom_ratio": 3,
+        "show_date": true,
+        "show_author": false,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "animated_text_columns_QT6J39": {
+      "type": "animated-text-columns",
+      "blocks": {
+        "column_39ka3T": {
+          "type": "column",
+          "settings": {
+            "color_scheme": "",
+            "image": "shopify://shop_images/Frame_41335.svg",
+            "mobile_image": "shopify://shop_images/Frame_40989.svg",
+            "title": "",
+            "metric": "1",
+            "unit_suffix": "+",
+            "animated_counting": false,
+            "text": "",
+            "button_label": "Learn More",
+            "button_link": "shopify://pages/altogether-magazine",
+            "text_alignment": "center",
+            "content_position": "content_center"
+          }
+        },
+        "column_kEKXgA": {
+          "type": "column",
+          "settings": {
+            "color_scheme": "",
+            "title": "",
+            "metric": "180",
+            "unit_suffix": "+",
+            "animated_counting": true,
+            "text": "<p><strong>Stores Across Canada</strong></p>",
+            "button_label": "",
+            "button_link": "",
+            "text_alignment": "left",
+            "content_position": "content_center"
+          }
+        },
+        "column_NWgAf9": {
+          "type": "column",
+          "settings": {
+            "color_scheme": "",
+            "title": "",
+            "metric": "1000s",
+            "unit_suffix": "s of",
+            "animated_counting": true,
+            "text": "<p><strong>5-Star Reviews</strong></p>",
+            "button_label": "",
+            "button_link": "",
+            "text_alignment": "left",
+            "content_position": "content_center"
+          }
+        },
+        "column_WENtLd": {
+          "type": "column",
+          "settings": {
+            "color_scheme": "",
+            "title": "",
+            "metric": "1.5",
+            "unit_suffix": "m+",
+            "animated_counting": true,
+            "text": "<p><strong>Cabana Club Members</strong></p>",
+            "button_label": "",
+            "button_link": "",
+            "text_alignment": "left",
+            "content_position": "content_center"
+          }
+        }
+      },
+      "block_order": [
+        "column_39ka3T",
+        "column_kEKXgA",
+        "column_NWgAf9",
+        "column_WENtLd"
+      ],
+      "custom_css": [
+        ".text-columns-with-icons {margin-bottom: 0;}"
+      ],
+      "settings": {
+        "title": "",
+        "heading_size": "h2",
+        "heading_alignment": "left",
+        "color_scheme": "scheme-9f459313-d482-46ca-b82d-99b7d5128e5d",
+        "column_per_row": 4,
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    }
+  },
+  "order": [
+    "masonry_grid_dDWT78",
+    "masonry_grid_UCzd3x",
+    "featured_collection_PKzr7J",
+    "collection_list_hLGWyB",
+    "masonry_grid_w39HmG",
+    "logo_list_XypidB",
+    "featured_collection_nweQCy",
+    "slideshow_FgYRND",
+    "slideshow_mXHRbK",
+    "masonry_grid_jhENjB",
+    "related_products_bhjaM3",
+    "featured_collection_FNaWJC",
+    "featured_collection_with_cta_UDYrJf",
+    "location_EQPLLg",
+    "featured_blog_QTbFTp",
+    "animated_text_columns_QT6J39"
+  ]
+}

@@ -1,0 +1,134 @@
+.product-details__wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.product-details__content {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-left: 8rem;
+  padding-right: 8rem;
+  margin-bottom: var(--Spacingspacing-sm);
+}
+
+.product-details__text {
+  max-width: 50%;
+}
+
+.product-details__text-content {
+  display: flex;
+  align-items: flex-end;
+}
+
+.product-details__title {
+  margin-block-start: 0.83em;
+  margin-block-end: 0;
+}
+
+.product-details__icons {
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+  gap: var(--grid-desktop-horizontal-spacing);
+  padding-inline-start: 0;
+}
+
+.product-details__icon .title {
+  font-size: var(--text-small);
+  font-weight: 700;
+  margin-block-end: 0;
+}
+
+.product-details__icon .subtitle {
+  font-size: var(--text-small);
+  font-weight: 400;
+  margin-block-start: 0;
+  margin-block-end: 0;
+}
+
+.product-details__icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.product-details__table {
+  margin-top: var(--Spacingspacing-sm);
+}
+
+.product-details__table table {
+  width: 100%;
+}
+
+.product-details__table-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.table-title.table-title {
+  width: 25%;
+  padding: 0.75em 1em;
+}
+
+.table-desc.table-desc {
+  width: 75%;
+  padding: 0.75em 1em;
+}
+
+@media screen and (max-width: 1200px) {
+  .product-details__content {
+    padding-left: unset;
+    padding-right: unset;
+  }
+}
+
+@media screen and (max-width: 864px) {
+  .product-details__content {
+    flex-direction: column;
+    align-items: center;
+    gap: 4rem;
+  }
+
+  .product-details__text {
+    max-width: unset;
+  }
+}
+
+@media screen and (max-width: 460px) {
+  .table-title.table-title {
+    width: 35%;
+  }
+
+  .table-desc.table-desc {
+    width: 65%;
+  }
+}
+
+.product-description {
+  max-height: 85px;
+  overflow: hidden;
+  position: relative;
+  transition: max-height 0.5s ease-in-out;
+}
+
+.toggle-description svg {
+  color: var(--red-500);
+}
+
+.product-description.expanded {
+  max-height: 100%;
+}
+
+.toggle-description {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+}
+
+.toggle-description.expanded svg {
+  transform: rotate(180deg);
+}

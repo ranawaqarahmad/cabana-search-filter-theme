@@ -1,0 +1,141 @@
+{{ 'section-elite-login-cta.css' | asset_url | stylesheet_tag }}
+{{ 'province-settings.js' | asset_url | script_tag }}
+
+{% liquid
+
+    if customer 
+      assign customer_av = true
+    endif
+
+
+ %} 
+{% unless product.tags contains 'Elite Annual' %}
+{% comment %}
+{% unless customer and customer.tags contains 'ELITE' %}
+{% endcomment %}
+  <div class="page-width js-hide-by-province" data-hide-province="{% if section.settings.hide_for_bc %}British Columbia{% endif %}{% if section.settings.hide_for_ab %}Alberta{% endif %}">
+    <div class="elite-login-cta page-width color-{{ section.settings.color_scheme }}">
+      <div class="elite-banner__content">
+        <div class="elite-banner__image">
+          <img
+            src="{{ section.settings.image | image_url: width: section.settings.image.width }}"
+            alt="{{ section.settings.image.alt | escape }}"
+            loading="lazy"
+            class="medium-hide large-up-hide"
+            width="{{ section.settings.image.width }}"
+            height="{{ section.settings.image.height }}">
+        </div>
+        <div class="elite-banner__text">
+          {% if section.settings.heading %}
+            <h3 class="h5">
+              {{ section.settings.heading | strip_html }}
+            </h3>
+          {% endif %}
+          {% if section.settings.sub_heading %}
+            <p>
+              {{ section.settings.sub_heading | strip_html }}
+            </p>
+          {% endif %}
+        </div>
+        <div class="elite-banner__buttons">
+          {% unless customer_av  %}
+          {% if section.settings.button_link != blank and section.settings.button_label != blank %}
+            <div class="elite-banner__button">
+              <a
+                href="{{ section.settings.button_link }}"
+                class="button button--outline">
+                {{- section.settings.button_label | escape -}}
+              </a>
+            </div>
+          {% endif %}
+          {% endunless %}
+          {% if customer_av %}
+          {% if section.settings.secondary_button_link != blank and section.settings.secondary_button_label != blank %}
+            <div class="elite-banner__button">
+              <a
+                href="{{ section.settings.secondary_button_link }}"
+                class="button button--elite">
+                {{- section.settings.secondary_button_label | escape -}}
+              </a>
+            </div>
+          {% endif %}
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+  {% comment %}
+{% endunless %}
+{% endcomment %}
+{% endunless %}
+{% schema %}
+{
+  "name": "Elite Login CTA",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": [
+      "footer",
+      "custom.popups"
+    ]
+  },
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "t:sections.all.heading.label"
+    },
+    {
+      "type": "richtext",
+      "id": "sub_heading",
+      "label": "t:sections.event.blocks.content.settings.subheading.label"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:sections.image-banner.settings.image.label"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "t:sections.masonry-grid.blocks.image.settings.button_label.label"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "t:sections.masonry-grid.blocks.image.settings.button_link.label"
+    },
+    {
+      "type": "text",
+      "id": "secondary_button_label",
+      "label": "t:sections.slideshow.blocks.slide.settings.elite_button_label.label"
+    },
+    {
+      "type": "url",
+      "id": "secondary_button_link",
+      "label": "t:sections.slideshow.blocks.slide.settings.elite_button_link.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_for_ab",
+      "label": "t:settings_schema.general.settings.hide_section_for_ab"
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_for_bc",
+      "label": "t:settings_schema.general.settings.hide_section_for_bc"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Elite Login CTA"
+    }
+  ]
+}
+{% endschema %}

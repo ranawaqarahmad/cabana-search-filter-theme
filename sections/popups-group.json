@@ -1,0 +1,74 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "type": "custom.popups",
+  "name": "Popups",
+  "sections": {
+    "age-verification": {
+      "type": "age-verification",
+      "settings": {
+        "popup_show_again": 7,
+        "popup_show_warning_icon": false,
+        "popup_logo": "shopify://shop_images/logo-cannacabana-color.png",
+        "description": "<p>Please select your region and confirm you are over the legal age to proceed.</p>",
+        "button_label": "Enter"
+      }
+    },
+    "cart-toast": {
+      "type": "cart-toast",
+      "settings": {}
+    },
+    "cart-reminder": {
+      "type": "cart-reminder",
+      "disabled": true,
+      "settings": {}
+    },
+    "navigation-hub": {
+      "type": "navigation-hub",
+      "disabled": true,
+      "settings": {
+        "logo_width": 150,
+        "product_heading": "",
+        "product_list": [],
+        "image_ratio": "original",
+        "enable_product_slider": true,
+        "collection_heading": "Popular collections 🔥",
+        "collection_list": [],
+        "collection_image_ratio": "original",
+        "custom_ratio": 1.8,
+        "title_size": "h6",
+        "text_alignment": "center",
+        "show_product_count": false,
+        "enable_collection_slider": true,
+        "get_in_touch_heading": "Get in touch",
+        "show_social_icons": false,
+        "additional_info": "<h3>example@gmail.com <br/>+1 0123 456789</h3>"
+      }
+    },
+    "newsletter-popup": {
+      "type": "newsletter-popup",
+      "disabled": true,
+      "settings": {
+        "popup_show_again": 7,
+        "popup_delay_seconds": 2,
+        "heading": "Let's keep in touch!",
+        "heading_size": "h2",
+        "description": "<p>Get monthly newsletter updates and exclusive offers on your favourite products by subscribing!</p>"
+      }
+    }
+  },
+  "order": [
+    "age-verification",
+    "cart-toast",
+    "cart-reminder",
+    "navigation-hub",
+    "newsletter-popup"
+  ]
+}

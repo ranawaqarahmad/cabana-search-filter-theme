@@ -1,0 +1,130 @@
+<script src="{{ 'popups.js' | asset_url }}" defer="defer"></script>
+<div class="theme-modal-popup theme-modal-popup__age-verification color-scheme-1{% if request.design_mode %} design__mode{% endif %}"
+     aria-label="age-verification" data-popup-type="age-verification"
+     data-popup-delay-days="{{ section.settings.popup_show_again }}" tabindex="-1" role="dialog" aria-modal="true">
+  <div class="theme-modal-popup_inner overflow-scrollbar">
+    <div class="modal-content sp-small">
+      {% if section.settings.popup_show_warning_icon == true %}
+        {% render 'theme-icons', icon: 'icon-age-warning' %}
+      {% endif %}
+      {% if section.settings.popup_logo %}
+        <div class="modal-popup__image-container">
+          <img
+            src="{{ section.settings.popup_logo | image_url: width: 760 }}"
+            alt="{{ section.settings.popup_logo.alt | escape }}"
+            loading="lazy"
+            width="{{ section.settings.popup_logo.width | divided_by: 1.05 }}"
+            height="{{ section.settings.popup_logo.height | divided_by: 1.05 }}">
+        </div>
+      {% endif %}
+      {% if section.settings.description != blank %}
+        <div class="modal-popup__description">
+          {{ section.settings.description }}
+        </div>
+      {% endif %}
+      <div class="modal-popup__province-select">
+        <label for="province-select" class="hidden">{{ 'age_gate.province_select' | t }}</label>
+        <div class="modal-popup__select">
+          <select name="age-verification-province" id="province-select" class="field__input">
+            <option value="">{{ 'age_gate.province_select' | t }}</option>
+          </select>
+          <div class="modal-popup__icon">
+            {% render 'theme-icons', icon: 'icon-chevron-down' %}
+          </div>
+        </div>
+      </div>
+      <div class="modal-popup__province-select hidden">
+        <label for="store-select" class="hidden">{{ 'age_gate.store_select' | t }}</label>
+        <div class="modal-popup__select">
+          <select name="age-verification-store" id="store-select" class="field__input">
+            <option value="">{{ 'age_gate.store_select' | t }}</option>
+          </select>
+          <div class="modal-popup__icon">
+            {% render 'theme-icons', icon: 'icon-chevron-down' %}
+          </div>
+        </div>
+      </div>
+      <div class="modal-popup__legal-age-consent">
+        <div class="modal-popup__legal-age-consent-header">
+          <strong>{{ 'age_gate.age_requirement' | t }}</strong><br>
+        </div>
+
+        <div class="button--age-verification-wrapper">
+          <div class="modal-popup__buttons button--age-verification">
+            <input type="radio" id="yes" name="age-verification" value="true" required>
+            <label for="yes">{{ 'age_gate.age_yes' | t }}</label>
+          </div>
+          <div class="modal-popup__buttons button--age-verification">
+            <input type="radio" id="no" name="age-verification" value="false">
+            <label for="no">{{ 'age_gate.age_no' | t }}</label>
+          </div>
+        </div>
+      </div>
+
+      <p class="modal-popup__legal-age-consent-header modal-popup__legal-age-consent-message hidden">
+        {% render 'theme-icons', icon: 'check' %}<strong>{{ 'age_gate.proceed' | t }}</strong>
+      </p>
+
+      <p class="hidden modal-popup__age-error" style="color: var(--warning-900);">{{ 'age_gate.age_error' | t }}</p>
+      <div class="modal-popup__buttons">
+        {% if section.settings.button_label != blank %}
+          <a href="{{ request.path }}?sID=0" class="age-varified__button button button--full-width disabled">
+            {{- section.settings.button_label | escape -}}
+          </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "t:sections.popups.age_verification.name",
+  "tag": "section",
+  "class": "section section-theme-modal__popup",
+  "disabled_on": {
+    "groups": [
+      "header",
+      "footer"
+    ]
+  },
+  "settings": [
+    {
+      "type": "range",
+      "id": "popup_show_again",
+      "min": 1,
+      "max": 30,
+      "step": 1,
+      "default": 7,
+      "label": "t:sections.popups.age_verification.settings.popup_delay.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "popup_show_warning_icon",
+      "default": false,
+      "label": "t:sections.popups.age_verification.settings.popup_show_warning_icon.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.popups.age_verification.settings.header__1.content"
+    },
+    {
+      "type": "image_picker",
+      "id": "popup_logo",
+      "label": "Store Logo"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "default": "<p>Verification required to ensure security and legitimacy of your identity or information.</p>",
+      "label": "t:sections.all.description.label"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "default": "Yes",
+      "label": "t:sections.popups.age_verification.settings.approve_button_label.label"
+    }
+  ]
+}
+{% endschema %}

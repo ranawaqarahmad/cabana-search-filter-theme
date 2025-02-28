@@ -1,0 +1,236 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "breadcrumbs_yJmh48": {
+      "type": "breadcrumbs",
+      "disabled": true,
+      "settings": {
+        "padding_top": 32,
+        "padding_bottom": 32
+      }
+    },
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {}
+    },
+    "rich_text_tLfGMP": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_PPKGbL": {
+          "type": "heading",
+          "settings": {
+            "subheading": "",
+            "heading": "Order Confirmed",
+            "heading_size": "h0",
+            "autoslide": ""
+          }
+        }
+      },
+      "block_order": [
+        "heading_PPKGbL"
+      ],
+      "settings": {
+        "expanded_width": true,
+        "color_scheme": "",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "text_columns_with_icons_9KncYw": {
+      "type": "text-columns-with-icons",
+      "blocks": {
+        "column_9QcMgb": {
+          "type": "column",
+          "settings": {
+            "color_scheme": "",
+            "image": "shopify://shop_images/Frame_521_2.svg",
+            "title": "Confirm your pickup time",
+            "text": "<p>Ensure that you know what store and what time you need to </p>",
+            "text_alignment": "center",
+            "button_label": "",
+            "button_link": "",
+            "button_style": "primary"
+          }
+        },
+        "column_qYwhak": {
+          "type": "column",
+          "settings": {
+            "color_scheme": "",
+            "image": "shopify://shop_images/Frame_521.svg",
+            "title": "Bring Photo ID and receipt of Purchase",
+            "text": "<p>You must bring a receipt of purchase and a valid photo ID that matches the name on the order</p>",
+            "text_alignment": "center",
+            "button_label": "",
+            "button_link": "",
+            "button_style": "primary"
+          }
+        },
+        "column_GkNFwt": {
+          "type": "column",
+          "settings": {
+            "color_scheme": "",
+            "image": "shopify://shop_images/Frame_521_1.svg",
+            "title": "Talk to a budtender",
+            "text": "<p>Talk to a bud-tender to have them assist in getting you your items</p>",
+            "text_alignment": "center",
+            "button_label": "",
+            "button_link": "",
+            "button_style": "primary"
+          }
+        }
+      },
+      "block_order": [
+        "column_9QcMgb",
+        "column_qYwhak",
+        "column_GkNFwt"
+      ],
+      "custom_css": [
+        ".section-template--23204178133298__text_columns_with_icons_9KncYw-padding {max-width: 1060px; margin: auto;}"
+      ],
+      "settings": {
+        "title": "Pickup instructions",
+        "heading_size": "h4",
+        "heading_alignment": "center",
+        "color_scheme": "scheme-1",
+        "style": "simple",
+        "column_per_row": 3,
+        "title_size": "h5",
+        "text_alignment": "center",
+        "column_per_row_mobile": "1",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "custom_liquid_hbtCxB": {
+      "type": "custom-liquid",
+      "custom_css": [
+        "a {margin: auto; display: flex; justify-content: center; max-width: 420px;}"
+      ],
+      "settings": {
+        "custom_liquid": "<a href=\"/account\" class=\"button button--primary\">Go to your Account</a>",
+        "expand_width": true,
+        "remove_spacing": false,
+        "color_scheme": "",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "collection_list_hLGWyB": {
+      "type": "collection-list",
+      "blocks": {
+        "featured_collection_HPMq6L": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "weed-online",
+            "color_scheme": "",
+            "image": "shopify://shop_images/design-demo-image-1.png",
+            "title": "Dried Flower",
+            "link": "shopify://collections/weed-online",
+            "description": ""
+          }
+        },
+        "featured_collection_jpVHHi": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "pre-rolls",
+            "color_scheme": "",
+            "image": "shopify://shop_images/design-demo-image-2.png",
+            "title": "Pre-Rolls",
+            "link": "shopify://collections/pre-rolls",
+            "description": ""
+          }
+        },
+        "featured_collection_fPfnJD": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "vape-cartridges",
+            "color_scheme": "",
+            "image": "shopify://shop_images/design-demo-image-3.png",
+            "title": "Vape Cartridges",
+            "link": "shopify://collections/vape-cartridges",
+            "description": ""
+          }
+        },
+        "featured_collection_awnqFM": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "concentrates",
+            "color_scheme": "scheme-1",
+            "image": "shopify://shop_images/design-demo-image-4.png",
+            "title": "Concentrates",
+            "link": "shopify://collections/concentrates",
+            "description": ""
+          }
+        },
+        "featured_collection_zwYzVW": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "edibles",
+            "color_scheme": "scheme-1",
+            "image": "shopify://shop_images/design-demo-image-5.png",
+            "title": "Edibles",
+            "link": "shopify://products/11-week-pink",
+            "description": ""
+          }
+        },
+        "featured_collection_rNxyrq": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "cannabis-accessories",
+            "color_scheme": "scheme-1",
+            "image": "shopify://shop_images/design-demo-image-6.png",
+            "title": "Accessories",
+            "link": "shopify://collections/cannabis-accessories",
+            "description": ""
+          }
+        }
+      },
+      "block_order": [
+        "featured_collection_HPMq6L",
+        "featured_collection_jpVHHi",
+        "featured_collection_fPfnJD",
+        "featured_collection_awnqFM",
+        "featured_collection_zwYzVW",
+        "featured_collection_rNxyrq"
+      ],
+      "settings": {
+        "title": "<strong>Shop Top Categories</strong>",
+        "heading_size": "h3",
+        "heading_alignment": "center",
+        "color_scheme": "",
+        "collections_per_row": 6,
+        "enable_slider_scrollbar": false,
+        "show_view_all": true,
+        "view_all_text": "Shop all",
+        "style": "simple",
+        "image_width": "small",
+        "image_ratio": "square",
+        "custom_ratio": 1,
+        "title_size": "h6",
+        "grid_alignment": "center",
+        "show_product_count": false,
+        "collections_per_row_mobile": "2",
+        "swipe_on_mobile": false,
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    }
+  },
+  "order": [
+    "breadcrumbs_yJmh48",
+    "main",
+    "rich_text_tLfGMP",
+    "text_columns_with_icons_9KncYw",
+    "custom_liquid_hbtCxB",
+    "collection_list_hLGWyB"
+  ]
+}

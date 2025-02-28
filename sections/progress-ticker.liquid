@@ -1,0 +1,652 @@
+{{ 'progress-ticker.css' | asset_url | stylesheet_tag }}
+{{ 'circle-rotate.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'progress-ticker.js' | asset_url }}" defer></script>
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.50 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.50 | round: 0 }}px;
+  }
+
+ @media screen and (min-width: 990px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+
+ .section-{{ section.id }}-padding {
+    margin-top: 16px;
+    margin-bottom: 16px;
+  }
+
+  @media screen and (min-width: 769px) {
+    .section-{{ section.id }}-padding {
+      margin-top: 32px;
+      margin-bottom: 32px;
+    }
+  }
+
+  @media screen and (min-width: 1201px) {
+    .section-{{ section.id }}-padding {
+     margin-top: 64px;
+     margin-bottom: 64px;
+    }
+  }
+
+{%- endstyle -%}
+
+{%- liquid
+  assign fetch_priority = 'auto'
+  if section.index == 1
+    assign fetch_priority = 'high'
+  endif
+  assign blockClass = ''
+  for block in section.blocks
+    case block.type
+      when 'content'
+        assign blockClass = blockClass | append: 'content-'
+      when 'image'
+        assign blockClass = blockClass | append: 'image-'
+      when 'progress'
+        assign blockClass = blockClass | append: 'progress-'
+    endcase
+  endfor
+-%}
+<div class="section-{{ section.id }}-padding gradient color-{{ section.settings.color_scheme }}">
+  <div class="page-width">
+    {%- unless section.settings.title == blank -%}
+      <div class="section-heading__bar sp-small mgb-medium text-{{ section.settings.heading_alignment }}">
+        <h2 class="title {{ section.settings.heading_size }}">
+          {{ section.settings.title }}
+        </h2>
+      </div>
+    {%- endunless -%}
+    <div class="progess-ticker{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+      <div class="progess-ticker__grid {{ blockClass | remove_last: '-' }}__blocks{% if section.blocks.size == 3 %} progess-ticker-column__three{% endif %}">
+        {% for block in section.blocks %}
+          {% case block.type %}
+            {% when 'content' %}
+              <div class="progess-ticker-section__content sp-small text-{{ block.settings.content_alignment }}" {{ block.shopify_attributes }}>
+                {% if block.settings.badge != blank %}
+                  <div class="progess-ticker-badge justify-{{ block.settings.content_alignment }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+                    {% if settings.animations_reveal_on_scroll %}
+                    data-cascade
+                    style="--animation-order: {{ forloop.index }};"
+                  {% endif %}
+                  >
+                    {%- assign badge_height = block.settings.badge_width | divided_by: block.settings.badge.aspect_ratio -%}
+                    <div class="animated-text-image" style="--badge-height:{{ badge_height | times: 4 | round }}px;--badge-height-reduce: -{{ badge_height | minus: 15 | round }}px;">
+                      {% capture sizes %}(max-width: {{ block.settings.badge_width | times: 2 }}px) 50vw, {{ block.settings.badge_width }}px{% endcapture %}
+                      {% capture widths %}{{ block.settings.badge_width }}, {{ block.settings.badge_width | times: 1.5 | round }}, {{ block.settings.badge_width | times: 2 }}{% endcapture %}
+                      {{ block.settings.badge | image_url: width: 100 | image_tag:
+                        class: 'circle-badge-image motion-reduce',
+                        widths: widths,
+                        height: badge_height,
+                        width: block.settings.badge_width,
+                        sizes: sizes,
+                        preload: true
+                      }}
+                      {% assign badge_height = badge_height | times: 1.0 %}
+                      <svg class="animated-circle-svg" width="{{ badge_height | times: 4 | round }}" height="{{ badge_height | times: 4 | round }}" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="{{ badge_height | times: 2 | round }}" cy="{{ badge_height | times: 2 | round }}" r="{{ badge_height | round }}" fill="none"/>
+                        <text fill="currentColor">
+                          <textPath xlink:href="#circlePath-progress">{{ block.settings.outside_rotate_text }}</textPath>
+                        </text>
+                        <defs>
+                          <path id="circlePath-progress" d="M {{ badge_height | times: 2 | round }},{{ badge_height | times: 2 | round }} m -{{ badge_height | round }},0 a {{ badge_height | round }},{{ badge_height | round }} 0 1,1 {{ badge_height | times: 2 | round }},0 a {{ badge_height | round }},{{ badge_height | round }} 0 1,1 -{{ badge_height | times: 2 | round }},0"/>
+                        </defs>
+                      </svg>
+                    </div>
+                  </div>
+                {% endif %}
+                {%- if block.settings.subheading != blank -%}
+                  <div class="subheading__text rte">
+                    <p>{{ block.settings.subheading }}</p>
+                  </div>
+                {%- endif -%}
+                 {% if block.settings.heading != blank %}
+                  <h2
+                    class="progess-ticker-block__heading inline-richtext {{ block.settings.heading_size }}"
+                  >
+                    {{ block.settings.heading }}
+                  </h2>
+                {%- endif -%}
+                {% if block.settings.description != blank %}
+                  <div class="progess-ticker-block__description rte">
+                    {{ block.settings.description }}
+                  </div>
+                {% endif %}
+                {%- if block.settings.button_label != blank -%}
+                  <a
+                    {% if block.settings.button_link == blank %}
+                      role="link" aria-disabled="true"
+                    {% else %}
+                      href="{{ block.settings.button_link }}"
+                    {% endif %}
+                    class="button button--{{ block.settings.button_style }}"
+                  >
+                    {{ block.settings.button_label | escape }}
+                  </a>
+                {%- endif -%}
+              </div>
+            {% when 'image' %}
+              <div class="progress-ticker__media global-media-settings media{% if block.settings.image_animation %} animate--ambient{% endif %}" {{ block.shopify_attributes }}
+                {%- if block.settings.image != blank %}style="padding-bottom: {{ 1 | divided_by: block.settings.image.aspect_ratio | times: 100 }}%;"{% endif %}
+              >
+                {%- if block.settings.image != blank %}
+                  {%- assign widths = '165, 360, 535, 750, 1070, 1500' -%}
+                  {%- capture sizes -%}
+                    (min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 100 | divided_by: 2 }}px,
+                    (min-width: 750px) calc((100vw - 130px) / 2), calc((100vw - 50px) / 2)
+                  {%- endcapture -%}
+                  {{
+                    block.settings.image
+                    | image_url: width: 1500
+                    | image_tag: sizes: sizes, widths: widths, fetchpriority: fetch_priority
+                  }}
+               {% else %}
+                  {{ 'detailed-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
+               {% endif %}
+              </div>
+            {% when 'progress' %}
+              <div class="progress-ticker__progress sp-small gradient color-{{ block.settings.color_scheme }}" {{ block.shopify_attributes }}>
+                {% if block.settings.heading != blank %}
+                  <h2
+                    class="progess-ticker-block__heading inline-richtext {{ block.settings.heading_size }}"
+                  >
+                    {{ block.settings.heading }}
+                  </h2>
+                {%- endif -%}
+                {% if block.settings.description != blank %}
+                  <div class="progess-ticker-block__description rte">
+                    {{ block.settings.description }}
+                  </div>
+                {% endif %}
+                <progress-bar-container class="progress-ticker__items">
+                  <div class="progress-ticker__item sp-small">
+                    {% if block.settings.heading_1 != blank %}
+                      <p>{{ block.settings.heading_1 }}</p>
+                    {% endif %}
+                    {% if block.settings.heading_1 != blank %}
+                      <number-progress-bar data-progress="{{ block.settings.progress_1 }}" style="--progress: {{ block.settings.progress_1 }}%;">
+                        <div class="number-progress-bar__inner">
+                          <span class="progress__bar"></span><span class="progress__count">{{ block.settings.progress_1 }}%</span>
+                        </div>
+                      </number-progress-bar>
+                    {% endif %}
+                  </div>
+                  <div class="progress-ticker__item sp-small">
+                    {% if block.settings.heading_2 != blank %}
+                      <p>{{ block.settings.heading_2 }}</p>
+                    {% endif %}
+                    {% if block.settings.heading_2 != blank %}
+                      <number-progress-bar data-progress="{{ block.settings.progress_2 }}" style="--progress: {{ block.settings.progress_2 }}%;">
+                        <div class="number-progress-bar__inner">
+                          <span class="progress__bar"></span><span class="progress__count">{{ block.settings.progress_2 }}%</span>
+                        </div>
+                      </number-progress-bar>
+                    {% endif %}
+                  </div>
+                  <div class="progress-ticker__item sp-small">
+                    {% if block.settings.heading_3 != blank %}
+                      <p>{{ block.settings.heading_3 }}</p>
+                    {% endif %}
+                    {% if block.settings.heading_3 != blank %}
+                      <number-progress-bar data-progress="{{ block.settings.progress_3 }}" style="--progress: {{ block.settings.progress_3 }}%;">
+                        <div class="number-progress-bar__inner">
+                          <span class="progress__bar"></span><span class="progress__count">{{ block.settings.progress_3 }}%</span>
+                        </div>
+                      </number-progress-bar>
+                    {% endif %}
+                  </div>
+                  <div class="progress-ticker__item sp-small">
+                    {% if block.settings.heading_4 != blank %}
+                      <p>{{ block.settings.heading_4 }}</p>
+                    {% endif %}
+                    {% if block.settings.heading_4 != blank %}
+                      <number-progress-bar data-progress="{{ block.settings.progress_4 }}" style="--progress: {{ block.settings.progress_4 }}%;">
+                        <div class="number-progress-bar__inner">
+                          <span class="progress__bar"></span><span class="progress__count">{{ block.settings.progress_4 }}%</span>
+                        </div>
+                      </number-progress-bar>
+                    {% endif %}
+                  </div>
+                  <div class="progress-ticker__item sp-small">
+                    {% if block.settings.heading_5 != blank %}
+                      <p>{{ block.settings.heading_5 }}</p>
+                    {% endif %}
+                    {% if block.settings.heading_5 != blank %}
+                      <number-progress-bar data-progress="{{ block.settings.progress_5 }}" style="--progress: {{ block.settings.progress_5 }}%;">
+                        <div class="number-progress-bar__inner">
+                          <span class="progress__bar"></span><span class="progress__count">{{ block.settings.progress_5 }}%</span>
+                        </div>
+                      </number-progress-bar>
+                    {% endif %}
+                  </div>
+                  <div class="progress-ticker__item sp-small">
+                    {% if block.settings.heading_6 != blank %}
+                      <p>{{ block.settings.heading_6 }}</p>
+                    {% endif %}
+                    {% if block.settings.heading_6 != blank %}
+                      <number-progress-bar data-progress="{{ block.settings.progress_6 }}" style="--progress: {{ block.settings.progress_6 }}%;">
+                        <div class="number-progress-bar__inner">
+                          <span class="progress__bar"></span><span class="progress__count">{{ block.settings.progress_6 }}%</span>
+                        </div>
+                      </number-progress-bar>
+                    {% endif %}
+                  </div>
+                </progress-bar-container>
+              </div>
+          {% endcase %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "t:sections.progess-ticker.name",
+  "class": "section",
+  "disabled_on": {
+    "groups": [
+      "header",
+      "footer",
+      "custom.popups"
+    ]
+  },
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "t:sections.all.heading.label"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        {
+          "value": "h3",
+          "label": "t:sections.all.heading_size.options__2.label"
+        },
+        {
+          "value": "h2",
+          "label": "t:sections.all.heading_size.options__3.label"
+        },
+        {
+          "value": "h1",
+          "label": "t:sections.all.heading_size.options__4.label"
+        },
+        {
+          "value": "h0",
+          "label": "t:sections.all.heading_size.options__5.label"
+        }
+      ],
+      "default": "h2",
+      "label": "t:sections.all.heading_size.label"
+    },
+    {
+      "type": "select",
+      "id": "heading_alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "t:sections.all.heading_alignment.options__1.label"
+        },
+        {
+          "value": "center",
+          "label": "t:sections.all.heading_alignment.options__2.label"
+        },
+        {
+          "value": "right",
+          "label": "t:sections.all.heading_alignment.options__3.label"
+        }
+      ],
+      "default": "center",
+      "label": "t:sections.all.heading_alignment.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.layout.content"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-2"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.section_spacing.content",
+      "info": "t:sections.all.section_spacing.info"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "t:sections.all.section_spacing.above",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "t:sections.all.section_spacing.below",
+      "default": 100
+    }
+  ],
+  "blocks": [
+    {
+      "type": "content",
+      "name": "t:sections.progess-ticker.blocks.content.name",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "badge",
+          "label": "t:sections.progess-ticker.blocks.content.settings.badge.label",
+          "info": "t:sections.progess-ticker.blocks.content.settings.badge.info"
+        },
+        {
+          "type": "range",
+          "id": "badge_width",
+          "min": 50,
+          "max": 100,
+          "step": 5,
+          "default": 50,
+          "unit": "px",
+          "label": "t:sections.progess-ticker.blocks.content.settings.badge_width.label"
+        },
+        {
+          "type": "text",
+          "id": "outside_rotate_text",
+          "label": "t:sections.progess-ticker.blocks.content.settings.rotating_text.label",
+          "default": "Circle rotating text! Circle rotating text! Circle rotating text!"
+        },
+        {
+          "type": "header",
+          "content": "t:sections.progess-ticker.blocks.content.settings.header__1.content"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "subheading",
+          "label": "t:sections.progess-ticker.blocks.content.settings.subheading.label",
+          "default": "<strong>Add the subheading here!</strong>"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "heading",
+          "default": "Progress ticker",
+          "label": "t:sections.all.heading.label"
+        },
+        {
+          "type": "select",
+          "id": "heading_size",
+          "options": [
+            {
+              "value": "h4",
+              "label": "t:sections.all.heading_size.options__2.label"
+            },
+            {
+              "value": "h3",
+              "label": "t:sections.all.heading_size.options__3.label"
+            },
+            {
+              "value": "h2",
+              "label": "t:sections.all.heading_size.options__4.label"
+            },
+            {
+              "value": "h1",
+              "label": "t:sections.all.heading_size.options__5.label"
+            }
+          ],
+          "default": "h2",
+          "label": "t:sections.all.heading_size.label"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "t:sections.all.description.label",
+          "default": "<p>A progress ticker is a visual or numerical representation used to track the advancement or completion of a task, project, or goal.</p>"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "default": "Button label",
+          "label": "t:sections.progess-ticker.blocks.content.settings.button_label.label"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "t:sections.progess-ticker.blocks.content.settings.button_link.label"
+        },
+        {
+          "type": "select",
+          "id": "button_style",
+          "options": [
+            {
+              "value": "primary",
+              "label": "t:sections.all.button_style.options__1.label"
+            },
+            {
+              "value": "secondary",
+              "label": "t:sections.all.button_style.options__2.label"
+            },
+            {
+              "value": "outline",
+              "label": "t:sections.all.button_style.options__3.label"
+            }
+          ],
+          "default": "primary",
+          "label": "t:sections.all.button_style.label"
+        },
+        {
+          "type": "select",
+          "id": "content_alignment",
+          "options": [
+            {
+              "value": "left",
+              "label": "t:sections.image-with-text.settings.desktop_content_alignment.options__1.label"
+            },
+            {
+              "value": "center",
+              "label": "t:sections.image-with-text.settings.desktop_content_alignment.options__2.label"
+            },
+            {
+              "value": "right",
+              "label": "t:sections.image-with-text.settings.desktop_content_alignment.options__3.label"
+            }
+          ],
+          "default": "center",
+          "label": "t:sections.image-with-text.settings.desktop_content_alignment.label"
+        }
+      ]
+    },
+    {
+      "type": "image",
+      "name": "t:sections.progess-ticker.blocks.image.name",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "t:sections.progess-ticker.blocks.image.settings.image.label"
+        }
+      ]
+    },
+    {
+      "type": "progress",
+      "name": "t:sections.progess-ticker.blocks.progress.name",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "color_scheme",
+          "id": "color_scheme",
+          "label": "t:sections.all.colors.label",
+          "default": "scheme-1"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "heading",
+          "default": "Progress ticker",
+          "label": "t:sections.all.heading.label"
+        },
+        {
+          "type": "select",
+          "id": "heading_size",
+          "options": [
+            {
+              "value": "h4",
+              "label": "t:sections.all.heading_size.options__2.label"
+            },
+            {
+              "value": "h3",
+              "label": "t:sections.all.heading_size.options__3.label"
+            },
+            {
+              "value": "h2",
+              "label": "t:sections.all.heading_size.options__4.label"
+            },
+            {
+              "value": "h1",
+              "label": "t:sections.all.heading_size.options__5.label"
+            }
+          ],
+          "default": "h3",
+          "label": "t:sections.all.heading_size.label"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "t:sections.all.description.label",
+          "default": "<p>Insert the description for the progress ticker in this section.</p>"
+        },
+        {
+          "type": "header",
+          "content": "t:sections.progess-ticker.blocks.progress.settings.header_1.content"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "heading_1",
+          "label": "t:sections.all.heading.label",
+          "default": "Give customers details about the progress"
+        },
+        {
+          "type": "range",
+          "id": "progress_1",
+          "min": 0,
+          "max": 100,
+          "step": 5,
+          "default": 70,
+          "unit": "%",
+          "label": "t:sections.progess-ticker.blocks.progress.settings.progress.label"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "heading_2",
+          "label": "t:sections.all.heading.label",
+          "default": "Give customers details about the progress"
+        },
+        {
+          "type": "range",
+          "id": "progress_2",
+          "min": 0,
+          "max": 100,
+          "step": 5,
+          "default": 40,
+          "unit": "%",
+          "label": "t:sections.progess-ticker.blocks.progress.settings.progress.label"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "heading_3",
+          "label": "t:sections.all.heading.label",
+          "default": "Give customers details about the progress"
+        },
+        {
+          "type": "range",
+          "id": "progress_3",
+          "min": 0,
+          "max": 100,
+          "step": 5,
+          "default": 80,
+          "unit": "%",
+          "label": "t:sections.progess-ticker.blocks.progress.settings.progress.label"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "heading_4",
+          "label": "t:sections.all.heading.label",
+          "default": "Give customers details about the progress"
+        },
+        {
+          "type": "range",
+          "id": "progress_4",
+          "min": 0,
+          "max": 100,
+          "step": 5,
+          "default": 30,
+          "unit": "%",
+          "label": "t:sections.progess-ticker.blocks.progress.settings.progress.label"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "heading_5",
+          "label": "t:sections.all.heading.label",
+          "default": "Give customers details about the progress"
+        },
+        {
+          "type": "range",
+          "id": "progress_5",
+          "min": 0,
+          "max": 100,
+          "step": 5,
+          "default": 45,
+          "unit": "%",
+          "label": "t:sections.progess-ticker.blocks.progress.settings.progress.label"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "heading_6",
+          "label": "t:sections.all.heading.label",
+          "default": "Give customers details about the progress"
+        },
+        {
+          "type": "range",
+          "id": "progress_6",
+          "min": 0,
+          "max": 100,
+          "step": 5,
+          "default": 90,
+          "unit": "%",
+          "label": "t:sections.progess-ticker.blocks.progress.settings.progress.label"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.progess-ticker.presets.name",
+      "blocks": [
+        {
+          "type": "progress"
+        },
+        {
+          "type": "content"
+        },
+        {
+          "type": "image"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

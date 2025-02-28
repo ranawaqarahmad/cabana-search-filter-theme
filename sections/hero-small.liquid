@@ -1,0 +1,67 @@
+{% if collection.metafields.custom.collection_hero_image and collection.metafields.custom.collection_hero_title %}
+  {{ 'section-image-banner.css' | asset_url | stylesheet_tag }}
+  {{ 'section-hero-small.css' | asset_url | stylesheet_tag }}
+
+  {%- liquid
+    assign full_width = '100vw'
+    assign widths = '375, 550, 750, 1100, 1500, 1780, 2000, 3000, 3840'
+    assign fetch_priority = 'auto'
+    if section.index == 1
+      assign fetch_priority = 'high'
+    endif
+  -%}
+  <div class="page-width">
+    <div id="Hero-{{ section.id }}" class="banner page-width hero-small__container scroll-trigger animate--fade-in">
+      <div class="banner__media hero-small__banner__media media scroll-trigger animate--fade-in">
+        {%- liquid
+          assign image_height = collection.metafields.custom.collection_hero_image.image.width
+        -%}
+        {{
+        collection.metafields.custom.collection_hero_image
+        | image_url: width: 3840
+        | image_tag:
+        class: "banner__media-image"
+        }}
+      </div>
+      <div class="hero-small__content scroll-trigger animate--slide-in">
+        <div class="hero-small__collection-title content-container content-container--full-width-mobile">
+          <p class="h1 inline-richtext">
+            {{ collection.metafields.custom.collection_hero_title }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Hero Small",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": [
+      "footer",
+      "custom.popups"
+    ]
+  },
+  "settings": [
+    {
+      "type": "richtext",
+      "id": "content",
+      "label": "t:sections.announcement-bar.settings.content.label",
+      "default": "<p>Hero Small</p>"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:sections.image-banner.settings.image.label"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero Small"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,38 @@
+{{ 'section-main-page.css' | asset_url | stylesheet_tag }}
+
+{% comment %}@formatter:off{% endcomment %}
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    margin-top: 32px;
+    margin-bottom: 32px;
+  }
+
+  @media screen and (min-width: 1201px) {
+    .section-{{ section.id }}-padding {
+      margin-top: 64px;
+      margin-bottom: 64px;
+    }
+  }
+{%- endstyle -%}
+{% comment %}@formatter:on{% endcomment %}
+
+
+
+<div class="page-width section-{{ section.id }}-padding">
+  <h1 class="main-page-title page-title h2{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
+    {{ page.title | escape }}
+  </h1>
+  <div class="rte{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+    {{ page.content }}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "t:sections.main-page.name",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+  ]
+}
+{% endschema %}

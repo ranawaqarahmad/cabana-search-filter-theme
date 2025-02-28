@@ -1,0 +1,18 @@
+{% comment %}
+Usage examples:
+  {% render 'badge' , type: 'orange', label: 'Craft', size: 'small' %}
+  {% render 'badge' , type: 'red', label: 'New' %}
+{% endcomment %}
+
+<div class="badge badge--{{ type }} badge--{{ size }}">
+  {% assign type = type | downcase %}
+  {% case type %}
+    {% when 'hybrid' %}
+      {% render 'theme-icons', icon: 'icon-hybrid' %}
+    {% when 'sativa' %}
+      {% render 'theme-icons', icon: 'icon-sativa' %}
+    {% when 'indica' %}
+      {% render 'theme-icons', icon: 'icon-indica' %}
+  {% endcase %}
+  {{ label }}
+</div>

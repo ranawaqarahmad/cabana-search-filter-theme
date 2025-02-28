@@ -1,0 +1,40 @@
+{% unless template == 'cart' %}
+  {{ 'component-cart-drawer.css' | asset_url | stylesheet_tag }}
+  {{ 'component-cart.css' | asset_url | stylesheet_tag }}
+  {{ 'component-totals.css' | asset_url | stylesheet_tag }}
+  {{ 'component-price.css' | asset_url | stylesheet_tag }}
+  {{ 'component-discounts.css' | asset_url | stylesheet_tag }}
+  {%- render 'cart-drawer' -%}
+  <script src="{{ 'cart-drawer.js' | asset_url }}" defer="defer"></script>
+{% endunless %}
+{% schema %}
+  {
+    "name": "t:sections.popups.cart-drawer.name",
+    "class": "section cart-drawer",
+    "settings": [
+      {
+        "type": "color_scheme",
+        "id": "color_scheme",
+        "label": "t:sections.popups.cart-drawer.settings.color_scheme.label",
+        "default": "scheme-3"
+      },
+      {
+        "type": "header",
+        "content": "t:sections.popups.cart-drawer.settings.header__1.content",
+        "info": "t:sections.popups.cart-drawer.settings.header__1.info"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_recommendations",
+        "label": "t:sections.popups.cart-drawer.settings.enable.label",
+        "default": false
+      },
+      {
+        "type": "inline_richtext",
+        "id": "title",
+        "label": "t:sections.all.heading.label",
+        "default": "Recommendations"
+      }
+    ]
+  }
+{% endschema %}

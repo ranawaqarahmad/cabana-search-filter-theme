@@ -1,0 +1,249 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "image_with_caption_eBaP8c": {
+      "type": "image-with-caption",
+      "settings": {
+        "section_color_scheme": "",
+        "image": "shopify://shop_images/page-banner_about-us.jpg",
+        "image_mbl": "shopify://shop_images/Rectangle_23857_115c6229-43e2-4783-afdd-c63650742106.png",
+        "image_caption": "",
+        "height": "original",
+        "color_scheme": "scheme-1",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "main": {
+      "type": "main-page",
+      "custom_css": [
+        "h1,.rte {max-width: 870px; margin-right: auto; margin-left: auto; text-align: left;}"
+      ],
+      "settings": {}
+    },
+    "text_columns_with_icons_Va7MiN": {
+      "type": "text-columns-with-icons",
+      "blocks": {
+        "column_gTEhir": {
+          "type": "column",
+          "settings": {
+            "color_scheme": "scheme-1",
+            "image": "shopify://shop_images/cannacabana-store-interior_2.jpg",
+            "title": "Cannabis Store & Head Shop",
+            "text": "<p>At <strong>Canna Cabana</strong>, we’ve got more than just weed: we’re talking bongs, pipes, vapes, dab rigs, grinders, and anything else a smoker could ever want. There’s nothing like walking into a <strong>Cabana</strong> and browsing our walls of stunning glassware from brands like Famous Design, Dopezilla, Vodka Glass, and many more.</p><p>And the best part? We’re on a mission to offer the best deals in town, with <strong>absolutely unbeatable prices on cannabis and smoking accessories</strong>. There’s always a sale going on—sign up to <a href=\"/pages/cabana-club\" title=\"Cabana Club\"><strong>Cabana</strong> <strong>Club</strong></a> to be the first in the know!</p>",
+            "ab_description": "<p>Include a description for the image and showcase your brand to a wider audience.</p>",
+            "text_alignment": "left",
+            "button_label": "Find a Canna Cabana Store",
+            "button_link": "shopify://pages/store-locator",
+            "button_style": "primary"
+          }
+        },
+        "column_yRRRWX": {
+          "type": "column",
+          "settings": {
+            "color_scheme": "",
+            "image": "shopify://shop_images/cabana-club_cd6c8476-0e90-4fbd-9691-25cd3ddacc57.jpg",
+            "title": "The Cabana Club",
+            "text": "<p>There’s nothing else like it in Canada. With exclusive pricing, awesome coupons, and alerts about fresh buds, the Cabana Club is all about making your green go further!</p><p>Join our Cabana Club family for:</p><ul><li>Access to unbeatable membership prices</li><li>Sweet giveaways</li><li>Price Match</li></ul>",
+            "ab_description": "<p>Include a description for the image and showcase your brand to a wider audience.</p>",
+            "text_alignment": "left",
+            "button_label": "Join For Free",
+            "button_link": "shopify://pages/cabana-club",
+            "button_style": "primary"
+          }
+        }
+      },
+      "block_order": [
+        "column_gTEhir",
+        "column_yRRRWX"
+      ],
+      "custom_css": [
+        ".text-with-icons-list {align-items: flex-start;}"
+      ],
+      "settings": {
+        "title": "",
+        "hide_for_ab": false,
+        "hide_for_bc": true,
+        "heading_size": "h2",
+        "heading_alignment": "left",
+        "color_scheme": "scheme-1",
+        "style": "simple",
+        "column_per_row": 2,
+        "title_size": "h5",
+        "text_alignment": "left",
+        "column_per_row_mobile": "1",
+        "padding_top": 32,
+        "padding_bottom": 32
+      }
+    },
+    "featured_collection_axNkT9": {
+      "type": "featured-collection",
+      "blocks": {
+        "featured_collection_xw3H6L": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "weed-online",
+            "color_scheme": "",
+            "title": "Recommended Products"
+          }
+        }
+      },
+      "block_order": [
+        "featured_collection_xw3H6L"
+      ],
+      "disabled": true,
+      "settings": {
+        "title": "Recommended Products",
+        "heading_size": "h2",
+        "enable_shop_all": false,
+        "shop_all_link": "",
+        "shop_all_text": "",
+        "heading_alignment": "center",
+        "hide_for_bc": false,
+        "hide_for_ab": false,
+        "color_scheme": "scheme-1",
+        "products_to_show": 8,
+        "products_per_row": 4,
+        "enable_slider_scrollbar": true,
+        "show_view_all": true,
+        "grid_color_scheme": "",
+        "grid_style": "classic",
+        "image_ratio": "portrait",
+        "show_secondary_image": true,
+        "show_vendor": true,
+        "show_rating": false,
+        "show_color_swatches": false,
+        "grid_text_alignment": "left",
+        "products_per_row_mobile": "2",
+        "swipe_on_mobile": true,
+        "enable_elite_styling": false,
+        "elite_button_link": "",
+        "elite_subtitle": "",
+        "ab_subtitle": ""
+      }
+    },
+    "related_products_RiTJxL": {
+      "type": "recommended-products",
+      "settings": {
+        "title": "Recommended for You",
+        "heading_size": "h2",
+        "heading_alignment": "left",
+        "color_scheme": "",
+        "products_to_show": 4,
+        "products_per_row": 4,
+        "enable_slider_scrollbar": true,
+        "grid_color_scheme": "",
+        "grid_style": "classic",
+        "image_ratio": "portrait",
+        "show_secondary_image": true,
+        "show_vendor": true,
+        "show_rating": false,
+        "show_color_swatches": false,
+        "grid_text_alignment": "left",
+        "products_per_row_mobile": "1",
+        "swipe_on_mobile": true
+      }
+    },
+    "animated_text_columns_QT6J39": {
+      "type": "animated-text-columns",
+      "blocks": {
+        "column_39ka3T": {
+          "type": "column",
+          "settings": {
+            "color_scheme": "",
+            "image": "shopify://shop_images/design-demo-image-9.png",
+            "mobile_image": "shopify://shop_images/logo_mobile.png",
+            "title": "",
+            "metric": "1",
+            "unit_suffix": "+",
+            "animated_counting": false,
+            "text": "",
+            "button_label": "Learn More",
+            "button_link": "shopify://pages/altogether-magazine",
+            "text_alignment": "center",
+            "content_position": "content_center"
+          }
+        },
+        "column_kEKXgA": {
+          "type": "column",
+          "settings": {
+            "color_scheme": "",
+            "title": "",
+            "metric": "180",
+            "unit_suffix": "+",
+            "animated_counting": true,
+            "text": "<p><strong>Stores Across Canada</strong></p>",
+            "button_label": "",
+            "button_link": "",
+            "text_alignment": "left",
+            "content_position": "content_center"
+          }
+        },
+        "column_NWgAf9": {
+          "type": "column",
+          "settings": {
+            "color_scheme": "",
+            "title": "",
+            "metric": "1000",
+            "unit_suffix": "s of",
+            "animated_counting": true,
+            "text": "<p><strong>5-Star Reviews</strong></p>",
+            "button_label": "",
+            "button_link": "",
+            "text_alignment": "left",
+            "content_position": "content_center"
+          }
+        },
+        "column_WENtLd": {
+          "type": "column",
+          "settings": {
+            "color_scheme": "",
+            "title": "",
+            "metric": "1.5",
+            "unit_suffix": "m+",
+            "animated_counting": true,
+            "text": "<p><strong>Cabana Club Members</strong></p>",
+            "button_label": "",
+            "button_link": "",
+            "text_alignment": "left",
+            "content_position": "content_center"
+          }
+        }
+      },
+      "block_order": [
+        "column_39ka3T",
+        "column_kEKXgA",
+        "column_NWgAf9",
+        "column_WENtLd"
+      ],
+      "custom_css": [
+        ".text-columns-with-icons {margin-bottom: 0;}"
+      ],
+      "settings": {
+        "title": "",
+        "heading_size": "h2",
+        "heading_alignment": "left",
+        "color_scheme": "scheme-9f459313-d482-46ca-b82d-99b7d5128e5d",
+        "column_per_row": 4,
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    }
+  },
+  "order": [
+    "image_with_caption_eBaP8c",
+    "main",
+    "text_columns_with_icons_Va7MiN",
+    "featured_collection_axNkT9",
+    "related_products_RiTJxL",
+    "animated_text_columns_QT6J39"
+  ]
+}

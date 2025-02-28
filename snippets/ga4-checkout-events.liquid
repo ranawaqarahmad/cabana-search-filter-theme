@@ -1,0 +1,59 @@
+{% comment %}
+  Renders gtag data for GA4.
+
+  Note: script tags are not included in the file. If you need them, wrap the render tag with them.
+
+  Accepts:
+  - step: {String} Event step (purchase, etc.).
+  - cart: {Object} Cart data.
+  - store_id: {String} The current store ID
+  Usage:
+  {% render 'ga4-checkout-events', step: '',  cart: cart, store_id: store_id %}
+{% endcomment %}
+
+{% comment %}@formatter: off{% endcomment %}
+var cartTotal = document.getElementById('review-cart-subtotal').innerHTML;
+
+gtag('event', '{{ step }}', {
+  currency: "{{ shop.currency }}",
+  value   : `${cartTotal}`,
+  items   : [
+    {% for item in cart.items %}
+      {% liquid
+        assign product_metadata = item.variant.metafields.jane[store_id] | split: ','
+
+        unless product_metadata
+          assign product_metadata = item.product.metafields.jane[store_id] | split: ','
+        endunless
+
+        assign purchase_price = product_metadata[1]
+
+         if purchase_price == blank or purchase_price == "N.A."
+          assign purchase_price = 0
+         endif 
+
+        assign sku = product_metadata[7] | split: ':' | first
+      %}
+      {
+      item_id       : "{{ sku | escape }}",
+      item_name     : "{{ item.product.title | escape }}",
+      affiliation   : "{{ shop.name | escape }}",
+      index         : {{ forloop.index0 }},
+      item_brand    : "{{ item.product.vendor | escape }}",
+      {% assign category_index = 1 %}
+      {% for collection in item.product.collections %}
+        {% if category_index <= 5 %}
+          'item_category{{ category_index }}': "{{ collection.title | escape }}",
+          {% assign category_index = category_index | plus: 1 %}
+        {% endif %}
+      {% endfor %}
+      item_list_id  : 'cart_items',
+      item_list_name: 'Cart Items',
+      item_variant  : "{{ item.variant.title | escape }}",
+      location_id   : '{{ store_id }}',
+      price         : {{ purchase_price }},
+      quantity      : {{ item.quantity }}
+      }{% unless forloop.last %},{% endunless %}
+    {% endfor %}
+  ]
+});

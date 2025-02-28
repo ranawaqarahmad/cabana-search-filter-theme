@@ -1,0 +1,13 @@
+{% if settings.scroll_to_top_homepage %}
+    {% if template == 'index' %}
+        <div class="scroll-top-btn hidden">
+            <button class="btn-scroll-top">{% render 'theme-icons', icon: 'icon-arrow-up' %}</button>
+        </div>
+    {% endif %}
+  {% else %} 
+    <div class="scroll-top-btn hidden">
+        <button class="btn-scroll-top">{% render 'theme-icons', icon: 'icon-arrow-up' %}</button>
+    </div>
+  {% endif %}
+  <script src="{{ 'scroll-to-top.js' | asset_url }}" defer="defer"></script>
+    

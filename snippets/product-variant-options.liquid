@@ -1,0 +1,197 @@
+{% comment %}
+  Renders product variant options
+
+  Accepts:
+  - product: {Object} product object.
+  - option: {Object} current product_option object.
+  - block: {Object} block object.
+
+  Usage:
+  {% render 'product-variant-options',
+    product: product,
+    option: option,
+    block: block
+  %}
+{% endcomment %}
+{%- liquid
+  assign product_form_id = 'product-form-' | append: section.id
+  assign variants_available_arr = product.variants | map: 'available'
+  assign variants_option1_arr = product.variants | map: 'option1'
+  assign variants_option2_arr = product.variants | map: 'option2'
+  assign variants_option3_arr = product.variants | map: 'option3'
+-%}
+
+{%- for value in option.values -%}
+
+  {%- liquid
+    assign option_disabled = true
+    assign optionName = option.name | downcase
+    assign default_price = 'N.A.'
+    assign metafield_price = null
+
+    for variant in product.variants
+      case option.position
+        when 1
+          if variant.option1 == value
+            assign option_disabled = false
+            assign default_price = 'N.A.'
+            assign metafield_price = variant.metafields.jane[store_id] | split: ','
+            assign stock = metafield_price[0]
+            assign purchase_price = metafield_price[1] | default: default_price
+            assign market_price = metafield_price[2] | default: default_price
+
+            assign elite_variant_metadata = variant.metafields.elite[store_id]
+            break
+          endif
+        when 2
+          if variant.option1 == product.selected_or_first_available_variant.option1 and variant.option2 == value
+            assign option_disabled = false
+            assign default_price = 'N.A.'
+            assign metafield_price = variant.metafields.jane[store_id] | split: ','
+            assign stock = metafield_price[0]
+            assign purchase_price = metafield_price[1] | default: default_price
+            assign market_price = metafield_price[2] | default: default_price
+
+            assign elite_variant_metadata = variant.metafields.elite[store_id]
+            break
+          endif
+        when 3
+          if variant.option1 == product.selected_or_first_available_variant.option1 and variant.option2 == product.selected_or_first_available_variant.option2 and variant.option3 == value
+            assign option_disabled = false
+            assign default_price = 'N.A.'
+            assign metafield_price = variant.metafields.jane[store_id] | split: ','
+            assign stock = metafield_price[0]
+            assign purchase_price = metafield_price[1] | default: default_price
+            assign market_price = metafield_price[2] | default: default_price
+
+            assign elite_variant_metadata = variant.metafields.elite[store_id]
+            break
+          endif
+      endcase
+    endfor
+
+    assign variant_price = purchase_price
+    assign variant_elite_price = elite_variant_metadata
+    assign variant_market_price = market_price
+    assign stock = stock
+
+    if variant_price == 'N.A.'
+      assign option_disabled = true
+    endif
+
+    unless variant_price
+      assign option_disabled = true
+    endunless
+
+    if stock == '0'
+      assign option_disabled = true
+    endif
+
+    unless stock
+      assign option_disabled = true
+    endunless
+  -%}
+
+  {%- assign variant_elite_price_string = variant_elite_price | divided_by: 1.0 | string -%}
+  {%- assign parts = variant_elite_price_string | split: '.' -%}
+  {%- assign integer_part = parts[0] -%}
+  {%- assign decimal_part = parts[1] | default: '00' -%}
+
+  {%- if decimal_part.size == 1 -%}
+    {%- assign decimal_part = decimal_part | append: '0' -%}
+  {%- elsif decimal_part.size == 0 -%}
+    {%- assign decimal_part = '00' -%}
+  {%- endif -%}
+
+  {%- assign variant_elite_price_hidden = integer_part | append: '.' | append: decimal_part -%}
+
+  {%- assign variant_price_string = variant_price | divided_by: 1.0 | string -%}
+  {%- assign parts = variant_price_string | split: '.' -%}
+  {%- assign integer_part = parts[0] -%}
+  {%- assign decimal_part = parts[1] | default: '00' -%}
+
+  {%- if decimal_part.size == 1 -%}
+    {%- assign decimal_part = decimal_part | append: '0' -%}
+  {%- elsif decimal_part.size == 0 -%}
+    {%- assign decimal_part = '00' -%}
+  {%- endif -%}
+
+  {%- assign variant_price_hidden = integer_part | append: '.' | append: decimal_part -%}
+
+  {%- assign variant_market_price_string = variant_market_price | divided_by: 1.0 | string -%}
+  {%- assign parts = variant_market_price_string | split: '.' -%}
+  {%- assign integer_part = parts[0] -%}
+  {%- assign decimal_part = parts[1] | default: '00' -%}
+
+  {%- if decimal_part.size == 1 -%}
+    {%- assign decimal_part = decimal_part | append: '0' -%}
+  {%- elsif decimal_part.size == 0 -%}
+    {%- assign decimal_part = '00' -%}
+  {%- endif -%}
+
+  {%- assign variant_market_price_hidden = integer_part | append: '.' | append: decimal_part -%}
+
+  {% if variant_price %}
+    {%- if block.settings.picker_type == 'button' -%}
+      {% if block.settings.color_swatch and optionName == 'color' or optionName == 'colour' %}
+        {% liquid
+          assign colorName = value | handleize
+          assign color_file_name = value | handle | append: '.png'
+          assign color_image = color_file_name | file_img_url: '50x50' | prepend: 'https:' | split: '?' | first
+        -%}
+        <input
+          type="radio"
+          id="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}"
+          name="{{ option.name }}"
+          value="{{ value | escape }}"
+          form="{{ product_form_id }}"
+          {% if option.selected_value == value %}
+            checked
+          {% endif %}
+          {% if option_disabled %}
+            class="disabled"
+          {% endif %}
+        >
+        <label for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}" class="product-color__swatches" style="{% if images[color_file_name] != blank %}  background-image: url({{ color_image }});{% else %}background-color: {{ colorName }};{% endif %}">
+          {{ value }} - ${{ variant_price }}<span class="visually-hidden">{{ 'products.product.variant_sold_out_or_unavailable' | t }}</span>
+        </label>
+      {% else %}
+        <input
+          type="radio"
+          id="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}"
+          name="{{ option.name }}"
+          value="{{ value | escape }}"
+          form="{{ product_form_id }}"
+          {% if option.selected_value == value %}
+            checked
+          {% endif %}
+          {% if option_disabled %}
+            class="disabled"
+          {% endif %}
+        >
+        <label for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}"
+               data-purchase="{{ variant_price_hidden }}"
+               data-elite="{{ variant_elite_price_hidden }}"
+               data-market="{{ variant_market_price_hidden }}"
+               data-stock="{{ stock }}"
+        >
+          <span class="product__variant-value">{{ value }}</span>
+          <span class="visually-hidden">{{ 'products.product.variant_sold_out_or_unavailable' | t }}</span>
+        </label>
+      {% endif %}
+    {%- elsif block.settings.picker_type == 'dropdown' -%}
+      <option
+        value="{{ value | escape }}"
+        {% if option.selected_value == value %}
+          selected="selected"
+        {% endif %}
+      >
+        {% if option_disabled -%}
+          {{ 'products.product.value_unavailable' | t: option_value: value }}
+        {%- else -%}
+          {{ value }} - {{ variant_price | money }}
+        {%- endif %}
+      </option>
+    {%- endif -%}
+  {% endif %}
+{%- endfor -%}

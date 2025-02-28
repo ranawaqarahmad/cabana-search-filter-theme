@@ -1,0 +1,11 @@
+<script>
+function getEnvironment() {
+  const shopifyUrl = "{{ shop.url }}";
+
+  if (shopifyUrl === 'https://canna-cabana-dev.myshopify.com') {
+    return 'dev';
+  }
+
+  return 'prod';
+}
+</script>

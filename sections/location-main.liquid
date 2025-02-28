@@ -1,0 +1,259 @@
+{{ 'component-image-with-text.css' | asset_url | stylesheet_tag }}
+{{ 'section-main-location.css' | asset_url | stylesheet_tag }}
+{{ 'component-collection-hero.css' | asset_url | stylesheet_tag }}
+
+<script src="{{ 'collection-description.js' | asset_url }}" defer="defer"></script>
+{% render 'locations-js' %}
+
+{% comment %}@formatter:off{% endcomment %}
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.50 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.50 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 990px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .section-{{ section.id }}-padding {
+    margin-top: 16px;
+    margin-bottom: 16px;
+  }
+
+  @media screen and (min-width: 769px) {
+    .section-{{ section.id }}-padding {
+      margin-top: 32px;
+      margin-bottom: 32px;
+    }
+  }
+
+  @media screen and (min-width: 1201px) {
+    .section-{{ section.id }}-padding {
+      margin-top: 64px;
+      margin-bottom: 64px;
+    }
+  }
+{%- endstyle -%}
+{% comment %}@formatter:on{% endcomment %}
+
+<div class="js-location-section location-page-section section-{{ section.id }}-padding gradient color-{{ section.settings.section_color_scheme }}">
+  <div class="page-width">
+    <div class="image-with-text image-with-text--{{ section.settings.content_layout }} isolate{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+      <div class="image-with-text__grid grid grid--1-col grid--2-col-tablet image-with-text__grid--reverse">
+        <h1 class="js-location-title medium-hide large-up-hide">Shopping {{ metaobject.name }}</h1>
+        <div class="image-with-text__media-item image-with-text__media-item--medium image-with-text__media-item--{{ section.settings.desktop_content_position }} grid__item">
+          <div class="image-with-text__media media image-with-text__media--{{ section.settings.height }} background-transparent{% if section.settings.image_animation %} animate--ambient{% endif %}">
+  
+            {% assign images = metaobject.images.value %}
+            {% assign imagesAlt = metaobject.name | append: " Cannabis Store" %}
+            {% if images %}
+              {% for image in images %}
+                {% comment %}TODO: build out slider{% endcomment %}
+                <img src="{{ image | image_url }}" alt="{{ image.alt |  default: imagesAlt }} " width="700" height="400" class="location-main__image">
+                {% break %}
+              {% endfor %}
+            {% else %}
+              <img src="{{ 'cannacabana-store-default.webp' | asset_url }}" alt="" width="700" height="400" class="location-main__image">
+            {% endif %}
+          </div>
+          {% if metaobject.body_content %}
+            <div class="location-main__text-content">
+              <div class="location-description js-location-description">
+                {{ metaobject.body_content | metafield_tag }}
+              </div>
+              <button class="toggle-description js-toggle-description" aria-expanded="false" aria-controls="collection-description" aria-label="Toggle description">
+                {% render 'theme-icons', icon: 'icon-chevron-down' %}
+              </button>
+            </div>
+          {% endif %}
+        </div>
+        <div class="image-with-text__text-item grid__item">
+          <div
+            id="ImageWithText--{{ section.id }}"
+            class="js-store-container image-with-text__content image-with-text__content--{{ section.settings.desktop_content_position }} image-with-text__content--desktop-{{ section.settings.desktop_content_alignment }} image-with-text__content--mobile-{{ section.settings.mobile_content_alignment }} image-with-text__content--{{ section.settings.height }} content-container gradient color-{{ section.settings.color_scheme }}"
+          >
+            {%- render 'theme-icons', icon: 'loader', class: 'loading__spinner' -%}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const toggleDescription  = document.querySelector('.js-toggle-description');
+  const productDescription = document.querySelector('.js-location-description');
+
+  if (toggleDescription) {
+    toggleDescription.addEventListener('click', function () {
+      const isExpanded = toggleDescription.getAttribute('aria-expanded') === 'true';
+      toggleDescription.setAttribute('aria-expanded', !isExpanded);
+      productDescription.classList.toggle('expanded');
+      toggleDescription.classList.toggle('expanded');
+    });
+  }
+});
+</script>
+
+<script>
+async function generateMainStoreData(store, storeDeliveryOption) {
+  const address = store.address;
+
+  let googleMapsLink = '';
+  if (address && address.latitude && address.longitude) {
+    googleMapsLink = `https://www.google.com/maps/dir/?api=1&destination=${address.latitude},${address.longitude}`;
+  }
+
+  const distance        = await getLocation(store),
+        displayDistance = distance ? `<span class="location-page__distance">${distance ? distance.toFixed(0) + 'km away' : ''} </span>` : '';
+
+  const storeStatus = generateStoreStatus(store, storeDeliveryOption);
+
+  return `
+  <div class="location-page__store-content">
+    <div>
+      ${store.title ? `<h2 class="small-hide">{{ 'locations.shopping' | t }} ${store.title} {{ 'locations.store' | t }}</h2>` : ''}
+      ${store.licence_id ? `<p class="location-page__store-license">{{ 'locations.licensee' | t }}: #${store.licence_id}</p>` : ''}
+    </div>
+
+    <div class="location-page__status">
+      ${storeStatus ? storeStatus : ''} ${displayDistance ? displayDistance : ''}
+    </div>
+    ${address ? `<p class="location-page__address"><a href="${googleMapsLink}" target="_blank"><small><strong>${address.street1}</strong>, ${address.city}, ${address.province}, ${address.zip}, ${address.country}</small></a></p>` : ''}
+
+    <div>
+      ${store.hours ? `
+        <div class="location-page__detail">
+          <span class="location-page__detail-icon">
+            {% render 'theme-icons', icon: 'icon-clock' %}
+          </span>
+          <div>
+            <h3 class="h6">{{ 'locations.hours' | t }}</h3>
+            <p>${store.hours}</p>
+          </div>
+        </div>
+      ` : ''}
+      ${store.phone ? `
+        <div class="location-page__detail">
+          <span class="location-page__detail-icon">
+            {% render 'theme-icons', icon: 'icon-phone-outgoing' %}
+          </span>
+          <div>
+            <h3 class="h6">{{ 'locations.contact' | t }}</h3>
+            <p>${store.phone}</p>
+          </div>
+        </div>
+      ` : ''}
+    </div>
+    <div class="location-page__buttons">
+      ${store.phone ? `<a href="tel:${store.phone}" class="button button--secondary">{% render 'theme-icons', icon: 'icon-phone-outgoing' %} {{ 'locations.call' | t }}</a>` : ''}
+      ${googleMapsLink ? `<a href="${googleMapsLink}" target="_blank" class="button button--secondary">{% render 'theme-icons', icon: 'icon-location' %} {{ 'locations.directions' | t }}</a>` : ''}
+      ${store.store_id && store.address && store.address.province ? `<button class="button button--primary location-page__shop-here" onclick="shopThisStore(${store.store_id}, '${store.address.province}')">{{ 'locations.shop_here' | t }}</button>` : ''}
+    </div>
+  </div>
+`;
+}
+
+function generateStoreTitle(store) {
+  if (store.title) {
+    return `{{ 'locations.shopping' | t }} ${store.title} {{ 'locations.store' | t }}`;
+  }
+}
+
+function getLocation(store) {
+  return new Promise((resolve, reject) => {
+    navigator.permissions.query({name: 'geolocation'}).then((result) => {
+      if (result.state === 'granted') {
+        navigator.geolocation.getCurrentPosition((position) => {
+          const userLatitude  = position.coords.latitude;
+          const userLongitude = position.coords.longitude;
+
+          const distance = getDistanceFromLatLonInKm(
+            userLatitude, userLongitude, store.address.latitude, store.address.longitude
+          );
+
+          resolve(distance);
+        }, (error) => {
+          resolve(false);
+        });
+      } else {
+        resolve(false);
+      }
+    }).catch((error) => {
+      resolve(false);
+    });
+  });
+}
+
+function renderProducts(thisStoreId) {
+  const collectionSection = document.querySelector('.collection');
+
+  if (!collectionSection) {
+    return;
+  }
+
+  const selectedStoreId = localStorage.getItem('global_store_id');
+
+  if (thisStoreId == selectedStoreId) {
+    collectionSection.style.display = 'block';
+  }
+}
+
+async function displayStoreData() {
+  const storeJsonData       = {{ metaobject.jsonData }},
+        storeDeliveryOption = {% if metaobject.has_delivery %}{{ metaobject.has_delivery }}{% else %}false{% endif %};
+
+  if (!storeJsonData) {
+    document.querySelector('.js-location-section').style.display = 'none';
+    console.error('No store found with the provided handle');
+    return;
+  }
+
+  const container = document.querySelector('.js-store-container');
+  const title     = document.querySelector('.js-location-title');
+
+  if (container) {
+    container.innerHTML = await generateMainStoreData(storeJsonData, storeDeliveryOption);
+  }
+
+  if (title) {
+    title.innerHTML = generateStoreTitle(storeJsonData);
+  }
+}
+
+displayStoreData();
+
+window.addEventListener('DOMContentLoaded', () => {
+  const storePage = {{ metaobject.jsonData }};
+
+  renderProducts(storePage.store_id);
+});
+</script>
+
+{% render 'location-schema', metaobject: metaobject.jsonData %}
+
+{% schema %}
+{
+  "name": "t:sections.main-location.name",
+  "class": "section",
+  "disabled_on": {
+    "groups": [
+      "header",
+      "footer",
+      "custom.popups"
+    ]
+  },
+  "settings": [
+  ],
+  "presets": [
+    {
+      "name": "t:sections.main-location.presets.name"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,378 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-article",
+      "blocks": {
+        "featured_image": {
+          "type": "featured_image",
+          "settings": {
+            "image_height": "adapt"
+          }
+        },
+        "title": {
+          "type": "title",
+          "settings": {
+            "blog_show_date": true,
+            "blog_show_author": false,
+            "share_icon": true
+          }
+        },
+        "content": {
+          "type": "content",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "featured_image",
+        "title",
+        "content"
+      ],
+      "settings": {
+        "display_tags": false,
+        "display_blogs": true
+      }
+    },
+    "image_with_caption_r8TAmL": {
+      "type": "image-with-caption",
+      "disabled": true,
+      "settings": {
+        "section_color_scheme": "",
+        "image": "shopify://shop_images/elite-homepage-cta-banner-desktop.jpg",
+        "image_caption": "Image caption test",
+        "height": "original",
+        "color_scheme": "",
+        "padding_top": 100,
+        "padding_bottom": 100
+      }
+    },
+    "decorative_list_jcnyNU": {
+      "type": "decorative-list",
+      "blocks": {
+        "item_Axg83t": {
+          "type": "item",
+          "settings": {
+            "heading": "Heading",
+            "description": "<p>Include frequently asked questions (FAQs) in this section to provide comprehensive information and address common queries.</p>"
+          }
+        },
+        "item_qjP7Tn": {
+          "type": "item",
+          "settings": {
+            "heading": "Item 1",
+            "description": "<p>Include frequently asked questions (FAQs) in this section to provide comprehensive information and address common queries.</p>"
+          }
+        },
+        "item_N674C4": {
+          "type": "item",
+          "settings": {
+            "heading": "Heading2",
+            "description": "<p>Include frequently asked questions (FAQs) in this section to provide comprehensive information and address common queries. Include frequently asked questions (FAQs) in this section to provide comprehensive information and address common queries.Include frequently asked questions (FAQs) in this section to provide comprehensive information and address common queries.Include frequently asked questions (FAQs) in this section to provide comprehensive information and address common queries.</p>"
+          }
+        },
+        "item_9yrbWG": {
+          "type": "item",
+          "settings": {
+            "heading": "Heading",
+            "description": "<p>Include frequently asked questions (FAQs) in this section to provide comprehensive information and address common queries.</p>"
+          }
+        },
+        "item_yMJA7L": {
+          "type": "item",
+          "settings": {
+            "heading": "Heading",
+            "description": "<p>Include frequently asked questions (FAQs) in this section to provide comprehensive information and address common queries.</p>"
+          }
+        },
+        "item_TAtFMY": {
+          "type": "item",
+          "settings": {
+            "heading": "Heading",
+            "description": "<p>Include frequently asked questions (FAQs) in this section to provide comprehensive information and address common queries.</p>"
+          }
+        },
+        "item_Ehk7U8": {
+          "type": "item",
+          "settings": {
+            "heading": "Heading",
+            "description": "<p>Include frequently asked questions (FAQs) in this section to provide comprehensive information and address common queries.</p>"
+          }
+        },
+        "item_iQF3Hf": {
+          "type": "item",
+          "settings": {
+            "heading": "Heading",
+            "description": "<p>Include frequently asked questions (FAQs) in this section to provide comprehensive information and address common queries.</p>"
+          }
+        },
+        "item_kzfLEq": {
+          "type": "item",
+          "settings": {
+            "heading": "Heading",
+            "description": "<p>Include frequently asked questions (FAQs) in this section to provide comprehensive information and address common queries.</p>"
+          }
+        },
+        "item_7f6CjU": {
+          "type": "item",
+          "settings": {
+            "heading": "Heading",
+            "description": "<p>Include frequently asked questions (FAQs) in this section to provide comprehensive information and address common queries.</p>"
+          }
+        },
+        "item_8DVBmR": {
+          "type": "item",
+          "settings": {
+            "heading": "Heading",
+            "description": "<p>Include frequently asked questions (FAQs) in this section to provide comprehensive information and address common queries.</p>"
+          }
+        },
+        "item_YWkYcL": {
+          "type": "item",
+          "settings": {
+            "heading": "Heading",
+            "description": "<p>Include frequently asked questions (FAQs) in this section to provide comprehensive information and address common queries.</p>"
+          }
+        },
+        "item_f7LeA4": {
+          "type": "item",
+          "settings": {
+            "heading": "Heading",
+            "description": "<p>Include frequently asked questions (FAQs) in this section to provide comprehensive information and address common queries.</p>"
+          }
+        },
+        "item_tJ3dLX": {
+          "type": "item",
+          "settings": {
+            "heading": "Heading",
+            "description": "<p>Include frequently asked questions (FAQs) in this section to provide comprehensive information and address common queries.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "item_Axg83t",
+        "item_qjP7Tn",
+        "item_N674C4",
+        "item_9yrbWG",
+        "item_yMJA7L",
+        "item_TAtFMY",
+        "item_Ehk7U8",
+        "item_iQF3Hf",
+        "item_kzfLEq",
+        "item_7f6CjU",
+        "item_8DVBmR",
+        "item_YWkYcL",
+        "item_f7LeA4",
+        "item_tJ3dLX"
+      ],
+      "disabled": true,
+      "settings": {
+        "padding_top": 16,
+        "padding_bottom": 16
+      }
+    },
+    "rich_text_ATMYXX": {
+      "type": "rich-text",
+      "blocks": {
+        "text_ke4XW6": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut Lorem ipsum dolor sit amet. Lorem ipsum</p>",
+            "text_alignment": "left",
+            "text_color": "#2d2e34"
+          }
+        }
+      },
+      "block_order": [
+        "text_ke4XW6"
+      ],
+      "disabled": true,
+      "settings": {
+        "expanded_width": true,
+        "color_scheme": "",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "rich_text_FAChnk": {
+      "type": "rich-text",
+      "blocks": {
+        "text_JC7pHQ": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut Lorem ipsum dolor sit amet. Lorem ipsum</p>",
+            "text_alignment": "left",
+            "text_color": "#666d80"
+          }
+        }
+      },
+      "block_order": [
+        "text_JC7pHQ"
+      ],
+      "disabled": true,
+      "settings": {
+        "expanded_width": true,
+        "color_scheme": "",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "featured_blog_QTbFTp": {
+      "type": "featured-blog",
+      "settings": {
+        "heading": "<strong>Recent Blogs</strong>",
+        "heading_size": "h3",
+        "heading_alignment": "left",
+        "color_scheme": "scheme-1",
+        "post_limit": 4,
+        "show_view_all": true,
+        "color_scheme_blog": "",
+        "blog": "news",
+        "filter_tags": "",
+        "image_ratio": "square",
+        "custom_ratio": 3,
+        "show_date": true,
+        "show_author": false,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "featured_collection_PKzr7J": {
+      "type": "featured-collection",
+      "blocks": {
+        "featured_collection_7QNq94": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "{{ article.metafields.blog.related_collection.value }}",
+            "title": ""
+          }
+        }
+      },
+      "block_order": [
+        "featured_collection_7QNq94"
+      ],
+      "settings": {
+        "title": "<strong>Featured in This Post</strong>",
+        "heading_size": "h1",
+        "heading_alignment": "left",
+        "color_scheme": "scheme-1",
+        "products_to_show": 4,
+        "products_per_row": 4,
+        "enable_slider_scrollbar": true,
+        "show_view_all": true,
+        "grid_color_scheme": "",
+        "grid_style": "simple",
+        "image_ratio": "square",
+        "show_secondary_image": true,
+        "show_vendor": true,
+        "show_rating": false,
+        "show_color_swatches": false,
+        "grid_text_alignment": "left",
+        "products_per_row_mobile": "1",
+        "swipe_on_mobile": true
+      }
+    },
+    "animated_text_columns_QT6J39": {
+      "type": "animated-text-columns",
+      "blocks": {
+        "column_39ka3T": {
+          "type": "column",
+          "settings": {
+            "color_scheme": "",
+            "image": "shopify://shop_images/design-demo-image-9.png",
+            "mobile_image": "shopify://shop_images/logo_mobile.png",
+            "title": "",
+            "metric": "1",
+            "unit_suffix": "+",
+            "animated_counting": false,
+            "text": "",
+            "button_label": "Learn More",
+            "button_link": "shopify://pages/altogether-magazine",
+            "text_alignment": "center",
+            "content_position": "content_center"
+          }
+        },
+        "column_kEKXgA": {
+          "type": "column",
+          "settings": {
+            "color_scheme": "",
+            "title": "",
+            "metric": "180",
+            "unit_suffix": "+",
+            "animated_counting": true,
+            "text": "<p><strong>Stores Across Canada</strong></p>",
+            "button_label": "",
+            "button_link": "",
+            "text_alignment": "left",
+            "content_position": "content_center"
+          }
+        },
+        "column_NWgAf9": {
+          "type": "column",
+          "settings": {
+            "color_scheme": "",
+            "title": "",
+            "metric": "1000s",
+            "unit_suffix": "&nbsp;of",
+            "animated_counting": true,
+            "text": "<p><strong>5 Star Reviews</strong></p>",
+            "button_label": "",
+            "button_link": "",
+            "text_alignment": "left",
+            "content_position": "content_center"
+          }
+        },
+        "column_WENtLd": {
+          "type": "column",
+          "settings": {
+            "color_scheme": "",
+            "title": "",
+            "metric": "1.5",
+            "unit_suffix": "m+",
+            "animated_counting": true,
+            "text": "<p><strong>Cabana Club Members</strong></p>",
+            "button_label": "",
+            "button_link": "",
+            "text_alignment": "left",
+            "content_position": "content_center"
+          }
+        }
+      },
+      "block_order": [
+        "column_39ka3T",
+        "column_kEKXgA",
+        "column_NWgAf9",
+        "column_WENtLd"
+      ],
+      "custom_css": [
+        ".text-columns-with-icons {margin-bottom: 0;}"
+      ],
+      "settings": {
+        "title": "",
+        "heading_size": "h2",
+        "heading_alignment": "left",
+        "color_scheme": "scheme-9f459313-d482-46ca-b82d-99b7d5128e5d",
+        "column_per_row": 4,
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    }
+  },
+  "order": [
+    "main",
+    "image_with_caption_r8TAmL",
+    "decorative_list_jcnyNU",
+    "rich_text_ATMYXX",
+    "rich_text_FAChnk",
+    "featured_blog_QTbFTp",
+    "featured_collection_PKzr7J",
+    "animated_text_columns_QT6J39"
+  ]
+}

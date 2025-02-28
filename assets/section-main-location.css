@@ -1,0 +1,153 @@
+.location-page__store-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--Spacingspacing-xs);
+
+  h1 {
+    margin-top: 0;
+    margin-bottom: var(--Spacingspacing-xxs);
+  }
+
+  p {
+    margin-top: 0;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .location-page__store-content {
+    width: 100%;
+  }
+}
+
+.location-page__store-license {
+  font-size: var(--text-xs);
+  margin-bottom: 0;
+}
+
+.location-page__address {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.location-page__buttons {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--Spacingspacing-sm);
+
+  .button {
+    width: 100%;
+  }
+}
+
+@media screen and (min-width: 769px) {
+  .location-page__buttons {
+    grid-template-columns: auto;
+  }
+
+  .location-page__shop-here {
+    grid-area: 2/1/3/3;
+  }
+}
+
+.location-page__detail {
+  display: flex;
+  align-items: center;
+  gap: var(--Spacingspacing-sm);
+  margin-top: var(--Spacingspacing-sm);
+  margin-bottom: var(--Spacingspacing-sm);
+
+  h3 {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  p {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
+
+.location-page__detail-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--red-900);
+  color: var(--white);
+  width: 50px;
+  min-width: 50px;
+  height: 50px;
+  border-radius: var(--radius-50);
+}
+
+.location-page-section {
+  .image-with-text__content {
+    padding: 0;
+    border-radius: 0;
+  }
+
+  .grid {
+    align-items: flex-start;
+  }
+}
+
+.location-main__image {
+  position: relative !important;
+  border-radius: var(--radius-10);
+  max-height: 400px;
+  width: 100%;
+  object-fit: cover;
+}
+
+.location-page__status {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.location-page__distance {
+  font-size: var(--text-xs);
+  color: var(--red-500);
+}
+
+.locations-view-all {
+  margin-top: var(--Spacingspacing-xl);
+
+  .button {
+    width: 100%;
+    max-width: 420px;
+  }
+}
+
+.location-page__text-content {
+  display: flex;
+  align-items: flex-end;
+}
+
+.location-description {
+  max-height: 4rem;
+  overflow: hidden;
+  position: relative;
+  transition: max-height 0.5s ease-in-out;
+  padding-right: var(--Spacingsmall);
+}
+
+.toggle-description svg {
+  color: var(--red-500);
+}
+
+.location-description.expanded {
+  max-height: 9999px;
+}
+
+.toggle-description {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  appearance: none;
+  background: none;
+  border: 0;
+}
+
+.toggle-description.expanded svg {
+  transform: rotate(180deg);
+}

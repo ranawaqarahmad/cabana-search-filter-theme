@@ -1,0 +1,202 @@
+{{ 'testimonials.css' | asset_url | stylesheet_tag }}
+{{ 'component-slider.css' | asset_url | stylesheet_tag }}
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.50 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.50 | round: 0 }}px;
+  }
+
+ @media screen and (min-width: 990px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+
+ .section-{{ section.id }}-padding {
+    margin-top: 16px;
+    margin-bottom: 16px;
+  }
+
+  @media screen and (min-width: 769px) {
+    .section-{{ section.id }}-padding {
+      margin-top: 32px;
+      margin-bottom: 32px;
+    }
+  }
+
+  @media screen and (min-width: 1201px) {
+    .section-{{ section.id }}-padding {
+     margin-top: 64px;
+     margin-bottom: 64px;
+    }
+  }
+
+{%- endstyle -%}
+
+<div class="color-{{ section.settings.color_scheme }} gradient">
+  <div class="page-width isolate section-{{ section.id }}-padding">
+    <div class="testimonial-wrapper">
+      <slider-component class="slider-mobile-gutter{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+        <ul
+          class="grid grid--1-col-desktop grid--1-col-tablet-down grid--1-col-tablet{% if section.blocks.size > 1 %} slider slider--everywhere mandatory{% endif %}"
+          id="Slider-{{ section.id }}"
+          role="list"
+        >
+          {%- for block in section.blocks -%}
+            <li
+              id="Slide-{{ section.id }}-{{ forloop.index }}"
+              class="testimonials-list__item grid__item{% if section.blocks.size > 1 %} slider__slide{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+              {{ block.shopify_attributes }}
+              {% if settings.animations_reveal_on_scroll %}
+                data-cascade
+                style="--animation-order: {{ forloop.index }};"
+              {% endif %}
+            >
+              <div class="testimonial-content-details text-center">
+                <div class="testimonial0avatar-svg">{% render 'theme-icons', icon: 'testimonial' %}</div>
+                {% if block.settings.quote != blank %}
+                  <blockquote class="testimonial-quote rte">
+                    <p>{{ block.settings.quote }}</p>
+                  </blockquote>
+                {% endif %}
+                {% if block.settings.author_designation != blank or block.settings.author_name != blank %}
+                  <div class="testimonial-avatar">
+                    {% if block.settings.author_designation != blank %}
+                      <p>{{ block.settings.author_designation }}</p>
+                    {% endif %}
+                    {% if block.settings.author_name != blank %}
+                      <h4 class="h5">{{ block.settings.author_name }}</h4>
+                    {% endif %}
+                  </div>
+                {% endif %}
+                {% if block.settings.varified_customer %}
+                  <div class="verified-badge">{% render 'theme-icons', icon: 'check-circle' %}{{ 'sections.testimonials.verified_customer' | t }}</div>
+                {% endif %}
+              </div>
+            </li>
+          {% endfor %}
+        </ul>
+        {% if section.blocks.size > 1 %}
+          <div class="slider__controls-area-tablet slider-buttons no-js-hidden">
+            <div class="slider-counter">
+              <div class="slideshow__control-wrapper slider__controls-arrow">
+                <button type="button" class="slider-button slider-button--prev arrow-with-dots" name="previous" aria-label="{{ 'general.slider.previous_slide' | t }}">
+                  {% render 'theme-icons', icon: 'slider-icon-left' %}
+                </button>
+                {% for block in section.blocks %}
+                  <button class="slider-counter__link--dots" data-id="testimonial-{{ block.id }}" aria-label="testimonial-slider-dots" aria-controls="Slider-{{ section.id }}">
+                    <span class="slider-counter-dots">
+                      <span class="dot"></span>
+                    </span>
+                  </button>
+                {%- endfor -%}
+                <button  type="button" class="slider-button slider-button--next arrow-with-dots" name="next" aria-label="{{ 'general.slider.next_slide' | t }}">
+                  {% render 'theme-icons', icon: 'slider-icon-right' %}
+                </button>
+              </div>
+            </div>
+          </div>
+        {% endif %}
+      </slider-component>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "t:sections.testimonials.name",
+  "tag": "section",
+  "class": "section section-testimonials",
+  "max_blocks": 5,
+  "disabled_on": {
+    "groups": [
+      "header",
+      "footer",
+      "custom.popups"
+    ]
+  },
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.section_spacing.content",
+      "info": "t:sections.all.section_spacing.info"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "t:sections.all.section_spacing.above",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "t:sections.all.section_spacing.below",
+      "default": 100
+    }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "t:sections.testimonials.blocks.testimonial.name",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "quote",
+          "label": "t:sections.testimonials.blocks.testimonial.settings.quote.label",
+          "default": "<h3>Exceptional service! Their product surpassed my expectations, offering unparalleled quality and value. Highly recommend!</h3>"
+        },
+        {
+          "type": "text",
+          "id": "author_designation",
+          "label": "t:sections.testimonials.blocks.testimonial.settings.author_designation.label",
+          "default": "Specify the author's title or position here."
+        },
+        {
+          "type": "text",
+          "id": "author_name",
+          "label": "t:sections.testimonials.blocks.testimonial.settings.author_name.label",
+          "default": "Name of the outhor"
+        },
+        {
+          "type": "checkbox",
+          "id": "varified_customer",
+          "label": "t:sections.testimonials.blocks.testimonial.settings.varified_customer.label",
+          "default": true
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.testimonials.presets.name",
+      "blocks": [
+        {
+          "type": "testimonial"
+        },
+        {
+          "type": "testimonial"
+        },
+        {
+          "type": "testimonial"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

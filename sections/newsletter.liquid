@@ -1,0 +1,332 @@
+{{ 'component-newsletter.css' | asset_url | stylesheet_tag }}
+{{ 'newsletter-section.css' | asset_url | stylesheet_tag }}
+{{ 'circle-rotate.css' | asset_url | stylesheet_tag }}
+{% assign rotating_badge = section.blocks | where: 'type', 'rotating_badge' %}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+  padding-top: 16px;
+  padding-bottom: 16px;
+  }
+  .newsletter.page-width.section-{{ section.id }}-padding {
+  padding-left: {{ section.settings.padding_bottom | times: 0.50 | round: 0 }}px;
+  padding-right: {{ section.settings.padding_bottom | times: 0.50 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 990px) {
+  .section-{{ section.id }}-padding {
+  padding-top: 44px;
+  padding-bottom: 44px;
+  }
+  .newsletter.page-width.section-{{ section.id }}-padding {
+  padding-left: {{ section.settings.padding_top }}px;
+  padding-right: {{ section.settings.padding_top }}px;
+  }
+  }
+{%- endstyle -%}
+{% assign success_title = 'newsletter.success_title' | t %}
+{% assign success_description = 'newsletter.success' | t %}
+{% assign aready_registered = 'newsletter.already_signed_up' | t %}
+
+{% if section.settings.expanded_width == false %}
+<div class="page-width">
+  {% endif %}
+  <div class="newsletter center color-{{ section.settings.color_scheme }} gradient content-container isolate{% if section.settings.expanded_width == false %} page-width{% endif %} section-{{ section.id }}-padding{% if section.settings.expanded_width %} content-container--full-width{% endif %}">
+    <div class="{% if section.settings.expanded_width == true %}page-width {% endif %}newsletter__wrapper{% if rotating_badge.size > 0 %} newsletter-rotating{% endif %}">
+      {% if rotating_badge.size > 0 %}
+        {% for block in rotating_badge %}
+          {% if block.settings.badge != blank %}
+            <div class="newsletter-animated--{{ section.settings.text_alignment }}">
+              {%- assign badge_height = block.settings.badge_width | divided_by: block.settings.badge.aspect_ratio -%}
+              <div class="animated-text-image" style="--badge-height:{{ badge_height | times: 4 | round }}px;--badge-height-reduce: -{{ badge_height | minus: 15 | round }}px;">
+                {% capture sizes %}(max-width: {{ block.settings.badge_width | times: 2 }}px) 50vw, {{ block.settings.badge_width }}px{% endcapture %}
+                {% capture widths %}{{ block.settings.badge_width }}, {{ block.settings.badge_width | times: 1.5 | round }}, {{ block.settings.badge_width | times: 2 }}{% endcapture %}
+                {{ block.settings.badge | image_url: width: 100 | image_tag:
+                class: 'circle-badge-image motion-reduce',
+                widths: widths,
+                height: badge_height,
+                width: block.settings.badge_width,
+                sizes: sizes,
+                preload: true
+                }}
+                {% assign badge_height = badge_height | times: 1.0 %}
+                <svg class="animated-circle-svg" width="{{ badge_height | times: 4 | round }}" height="{{ badge_height | times: 4 | round }}" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="{{ badge_height | times: 2 | round }}" cy="{{ badge_height | times: 2 | round }}" r="{{ badge_height | round }}" fill="none" />
+                  <text fill="currentColor">
+                    <textPath xlink:href="#circlePath-newsletter">{{ block.settings.outside_rotate_text }}</textPath>
+                  </text>
+                  <defs>
+                    <path id="circlePath-newsletter" d="M {{ badge_height | times: 2 | round }},{{ badge_height | times: 2 | round }} m -{{ badge_height | round }},0 a {{ badge_height | round }},{{ badge_height | round }} 0 1,1 {{ badge_height | times: 2 | round }},0 a {{ badge_height | round }},{{ badge_height | round }} 0 1,1 -{{ badge_height | times: 2 | round }},0" />
+                  </defs>
+                </svg>
+              </div>
+            </div>
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+      <div class="newsletter-content--inner text-{{ section.settings.text_alignment }}">
+        <div class="newsletter-content--text">
+          {%- for block in section.blocks -%}
+            {%- case block.type -%}
+              {%- when '@app' -%}
+                {% render block %}
+              {%- when 'heading' -%}
+                <h2
+                  class="inline-richtext h5{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+                  {{ block.shopify_attributes }}
+                  {% if settings.animations_reveal_on_scroll %}
+                    data-cascade
+                    style="--animation-order: {{ forloop.index }};"
+                  {% endif %}
+                >
+                  {{ block.settings.heading }}
+                </h2>
+              {%- when 'paragraph' -%}
+                <div
+                  class="newsletter__subheading rte{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+                  {{ block.shopify_attributes }}
+                  {% if settings.animations_reveal_on_scroll %}
+                    data-cascade
+                    style="--animation-order: {{ forloop.index }};"
+                  {% endif %}
+                >
+                  {{ block.settings.text }}
+                </div>
+              {%- when 'email_form' -%}
+                {% continue %}
+            {%- endcase -%}
+          {%- endfor -%}
+        </div>
+        {% if customer and customer.tags contains 'newsletter' %}
+          <div class="newsletter-already-registered">
+            {% render 'toast', title: success_title, description: aready_registered, toast-type: 'success' %}
+          </div>
+        {% else %}
+          <div class="newsletter-content--form">
+            {%- for block in section.blocks -%}
+              {%- if block.type == 'email_form' -%}
+                <div class="newsletter-email-form" {{ block.shopify_attributes }}>
+                  {% form 'customer', class: 'newsletter-form' %}
+                    <input type="hidden" name="contact[tags]" value="newsletter">
+                    <div
+                      class="newsletter-form__field-wrapper{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+                      {% if settings.animations_reveal_on_scroll %}
+                        data-cascade
+                        style="--animation-order: {{ forloop.index }};"
+                      {% endif %}
+                    >
+                      <div class="field-with-button">
+                        <div class="field">
+                          <input
+                            id="NewsletterForm--{{ section.id }}"
+                            type="email"
+                            name="contact[email]"
+                            class="field__input"
+                            value="{{ form.email }}"
+                            aria-required="true"
+                            autocorrect="off"
+                            autocapitalize="off"
+                            autocomplete="email"
+                            {% if form.errors %}
+                              autofocus
+                              aria-invalid="true"
+                              aria-describedby="Newsletter-error--{{ section.id }}"
+                            {% elsif form.posted_successfully? %}
+                              aria-describedby="Newsletter-success--{{ section.id }}"
+                            {% endif %}
+                            placeholder="{{ 'newsletter.label' | t }}"
+                            required
+                          >
+                          <label class="field__label" for="NewsletterForm--{{ section.id }}">
+                            {{ 'newsletter.label' | t }}
+                          </label>
+                        </div>
+                        <button
+                          type="submit"
+                          class="newsletter-form__button button button--outline button-icon"
+                          name="commit"
+                          id="Subscribe"
+                          aria-label="{{ 'newsletter.button_label' | t }}"
+                        >
+                          {{ 'newsletter.button_label' | t }}
+                          {% render 'theme-icons', icon: 'icon-chevron-right' %}
+                        </button>
+                      </div>
+
+                      <p class="newsletter-form__privacy">{{ 'newsletter.privacy_policy' | t }} <a href="{{ shop.privacy_policy.url }}" target="_blank">{{ 'newsletter.privacy_policy_link' | t }}</a>*
+                      </p>
+
+                      {%- if form.errors -%}
+                        <div class="newsletter-already-registered">
+                          {% render 'toast', description: aready_registered, toast-type: 'error' %}
+                        </div>
+                      {%- endif -%}
+                    </div>
+                    {%- if form.posted_successfully? -%}
+                      {% render 'toast', title: success_title, description: success_description, toast-type: 'success' %}
+                    {%- endif -%}
+                  {% endform %}
+                </div>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  {% if section.settings.expanded_width == false %}
+</div>
+{% endif %}
+{% schema %}
+{
+  "name": "t:sections.newsletter.name",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": [
+      "header",
+      "custom.popups"
+    ]
+  },
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "expanded_width",
+      "label": "t:sections.all.layout.expanded_width.label",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "t:sections.all.heading_alignment.options__1.label"
+        },
+        {
+          "value": "center",
+          "label": "t:sections.all.heading_alignment.options__2.label"
+        },
+        {
+          "value": "right",
+          "label": "t:sections.all.heading_alignment.options__3.label"
+        }
+      ],
+      "default": "left",
+      "label": "t:sections.newsletter.settings.text_alignment.label"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-2"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.section_spacing.content",
+      "info": "t:sections.all.section_spacing.info"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "t:sections.all.section_spacing.above",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "t:sections.all.section_spacing.below",
+      "default": 50
+    }
+  ],
+  "blocks": [
+    {
+      "type": "heading",
+      "name": "t:sections.newsletter.blocks.heading.name",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "heading",
+          "default": "Subscribe to our emails",
+          "label": "t:sections.all.heading.label"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "name": "t:sections.newsletter.blocks.paragraph.name",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "text",
+          "default": "<p>Be the first to know about new collections and exclusive offers.</p>",
+          "label": "t:sections.all.description.label"
+        }
+      ]
+    },
+    {
+      "type": "email_form",
+      "name": "t:sections.newsletter.blocks.email_form.name",
+      "limit": 1
+    },
+    {
+      "type": "@app"
+    },
+    {
+      "type": "rotating_badge",
+      "name": "t:sections.newsletter.blocks.rotating_badge.name",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "badge",
+          "label": "t:sections.newsletter.blocks.rotating_badge.settings.badge.label",
+          "info": "t:sections.newsletter.blocks.rotating_badge.settings.badge.info"
+        },
+        {
+          "type": "range",
+          "id": "badge_width",
+          "min": 50,
+          "max": 100,
+          "step": 5,
+          "default": 50,
+          "unit": "px",
+          "label": "t:sections.newsletter.blocks.rotating_badge.settings.badge_width.label"
+        },
+        {
+          "type": "text",
+          "id": "outside_rotate_text",
+          "label": "t:sections.newsletter.blocks.rotating_badge.settings.rotating_text.label",
+          "default": "Circle rotating text! Circle rotating text! Circle rotating text!"
+        }
+      ],
+      "limit": 1
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.newsletter.presets.name",
+      "blocks": [
+        {
+          "type": "heading"
+        },
+        {
+          "type": "paragraph"
+        },
+        {
+          "type": "email_form"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

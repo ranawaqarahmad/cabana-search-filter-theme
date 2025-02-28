@@ -1,0 +1,107 @@
+{% comment %}
+  Renders an article card for a given blog with settings to either show the image or not.
+  Accepts:
+  - blog: {Object} Blog object
+  - article: {Object} Article object
+  - show_date: {String} The setting either show the article date or not. If it's not included it will not show the image by default
+  - show_author: {String} The setting either show the article author or not. If it's not included it will not show the author by default
+  - lazy_load: {Boolean} Image should be lazy loaded. Default: true (optional)
+  Usage:
+  {% render 'article-card' blog: blog, article: article %}
+{% endcomment %}
+
+{%- liquid
+  assign ratio = 1
+  if article.image and media_aspect_ratio == 'portrait'
+    assign ratio = 0.8
+  elsif article.image and media_aspect_ratio == 'original'
+    assign ratio = article.image.aspect_ratio
+  endif
+  if custom_ratio != 1
+    assign ratio = custom_ratio | times: 1.0
+  endif
+  assign placeholder_image = 'blog-apparel-1'
+-%}
+
+{%- if article and article != empty -%}
+  <div class="article-card-wrapper card-wrapper">
+    <div
+      class="card article-card grid
+        {% if article.image %} card--media {% endif %}
+        {% if image_right == true %} image-placement-right{% endif %}
+      "
+      style="--ratio-percent: {{ 1 | divided_by: ratio | times: 100 }}%;"
+    >
+      <div
+        class="card__inner ratio"
+        style="--ratio-percent: {{ 1 | divided_by: ratio | times: 100 }}%;"
+      >
+        {%- if article.image -%}
+          {% if article.url != blank %}
+            <a href="{{ article.url }}" class="overlay-link">{{ article.title }}</a>
+          {% endif %}
+          <div class="article-card__image-wrapper card__media">
+            <div
+              class="article-card__image media media--hover-effect">
+              <img
+                srcset="
+                  {%- if article.image.src.width >= 165 -%}{{ article.image.src | image_url: width: 165 }} 165w,{%- endif -%}
+                  {%- if article.image.src.width >= 360 -%}{{ article.image.src | image_url: width: 360 }} 360w,{%- endif -%}
+                  {%- if article.image.src.width >= 533 -%}{{ article.image.src | image_url: width: 533 }} 533w,{%- endif -%}
+                  {%- if article.image.src.width >= 720 -%}{{ article.image.src | image_url: width: 720 }} 720w,{%- endif -%}
+                  {%- if article.image.src.width >= 1000 -%}{{ article.image.src | image_url: width: 1000 }} 1000w,{%- endif -%}
+                  {%- if article.image.src.width >= 1500 -%}{{ article.image.src | image_url: width: 1500 }} 1500w,{%- endif -%}
+                  {{ article.image.src | image_url }} {{ article.image.src.width }}w
+                "
+                src="{{ article.image.src | image_url: width: 533 }}"
+                sizes="(min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 100 | divided_by: 2 }}px, (min-width: 750px) calc((100vw - 130px) / 2), calc((100vw - 50px) / 2)"
+                alt="{{ article.image.src.alt | escape }}"
+                class="motion-reduce"
+                {% unless lazy_load == false %}
+                  loading="lazy"
+                {% endunless %}
+                width="{{ article.image.width }}"
+                height="{{ article.image.height }}"
+              >
+            </div>
+          </div>
+        {%- else -%}
+          <div class="article-card__image-wrapper card__media">
+            <div class="article-card__image media media--hover-effect placeholder-bg">
+              {{ placeholder_image | placeholder_svg_tag: 'blog-placeholder-svg' }}
+            </div>
+          </div>
+        {%- endif -%}
+      </div>
+      <div class="card__content color-{{ color_scheme }}">
+        <div class="card__information text-left">
+          <h3 class="card__heading h5">
+            <a href="{{ article.url }}" class="full-unstyled-link">
+              {{ article.title | escape }}
+            </a>
+          </h3>
+          <div class="article-card__info caption-with-letter-spacing">
+            {%- if show_author -%}
+              <span>
+                {%- render 'theme-icons', icon: 'icon-blog-user' -%}
+                {{ article.author -}}
+              </span>
+            {%- endif -%}
+
+            {%- if show_date -%}
+              <span class="circle-divider">
+                {{ article.published_at | time_tag: format: 'date' -}}
+              </span>
+            {%- endif -%}
+          </div>
+
+          <p class="sign-up-link">
+            <a class="underlined-link bold" href="{{ article.url }}">
+              {{ 'blogs.article.read_more_title' | t }}
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+{%- endif -%}

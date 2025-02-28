@@ -1,0 +1,6 @@
+{{ 'custom-cursor.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'custom-cursor.js' | asset_url }}" defer="defer"></script>
+<custom-cursor>
+  <span class="moving-cursor"></span>
+  <span class="outer-border"></span>
+</custom-cursor>

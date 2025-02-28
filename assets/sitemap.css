@@ -1,0 +1,17 @@
+.sitemap-wrapper .grid .grid__item a {
+  color: var(--red-500);
+}
+
+.sitemap-wrapper .grid.grid {
+  row-gap: var(--grid-mobile-vertical-spacing);
+}
+
+.sitemap-wrapper .heading-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.sitemap-wrapper .heading-wrapper h2 {
+  margin: 0;
+}

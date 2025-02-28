@@ -1,0 +1,153 @@
+{{ 'section-rich-text.css' | asset_url | stylesheet_tag }}
+{{ 'section-search-block.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+  padding-top: {{ section.settings.padding_top | times: 0.50 | round: 0 }}px;
+  padding-bottom: {{ section.settings.padding_bottom | times: 0.50 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 990px) {
+  .section-{{ section.id }}-padding {
+  padding-top: {{ section.settings.padding_top }}px;
+  padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+  }
+
+
+  .section-{{ section.id }}-padding {
+  margin-top: 32px;
+  margin-bottom: 32px;
+  }
+
+  @media screen and (min-width: 1201px) {
+  .section-{{ section.id }}-padding {
+  margin-top: 64px;
+  margin-bottom: 64px;
+  }
+  }
+
+  @media only screen and (max-width:768px){
+    .content-container .search-bar__text h2{
+    font-size: 14px;
+    line-height: 20px;
+    margin-bottom: 10px;
+}
+   .content-container p.rich-text__heading.inline-richtext {
+    margin-bottom: 5px;
+     font-size: 14px;
+}
+    .content-container .field{
+      margin-bottom:0;
+    }
+    .content-container .search-bar__scroll-button-wrapper{
+      margin-top:16px;
+    }
+  }
+
+{%- endstyle -%}
+
+<div class="isolate">
+  <div class="rich-text content-container color-{{ section.settings.color_scheme }} gradient rich-text--full-width content-container--full-width section-{{ section.id }}-padding">
+    <div class="rich-text__wrapper rich-text__wrapper--center page-width">
+      <div class="search-bar__text rich-text__blocks text-center">
+        {% if section.settings.heading != blank %}
+          <h2 class="h5 subheading rte">{{ section.settings.heading }}</h2>
+        {% endif %}
+        <p class="rich-text__heading inline-richtext scroll-trigger animate--slide-in">
+          {{ section.settings.sub_heading }}
+        </p>
+      </div>
+    </div>
+    <div class="page-width search-bar__form">
+      {% render 'inline-search', input_id: 'inline-search' %}
+    </div>
+    {% if section.settings.show_button %}
+      <div class="search-bar__scroll-button-wrapper">
+        <button id="scrollToTopBtn" class="button button--primary button--icon search-bar__scroll-button">
+          {% render 'theme-icons', icon: 'icon-chevron-up' %}
+        </button>
+        <p class="search-bar__button-text">{{- 'general.search.to_top' | t -}}</p>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+<script>
+const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+
+scrollToTopBtn.addEventListener('click', function () {
+  window.scrollTo({
+    top     : 0,
+    behavior: 'smooth'
+  });
+});
+</script>
+
+{% schema %}
+{
+  "name": "Search Block",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": [
+      "header",
+      "custom.popups"
+    ]
+  },
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "t:sections.all.heading.label"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "sub_heading",
+      "label": "t:sections.all.description.label"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_button",
+      "label": "t:sections.all.show_button.label",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.section_spacing.content",
+      "info": "t:sections.all.section_spacing.info"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "t:sections.all.section_spacing.above",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "t:sections.all.section_spacing.below",
+      "default": 100
+    }
+  ],
+  "presets": [
+    {
+      "name": "Search Block"
+    }
+  ]
+}
+{% endschema %}

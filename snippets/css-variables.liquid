@@ -1,0 +1,340 @@
+{%- liquid
+  assign body_font_bold = settings.type_body_font | font_modify: 'weight', 'bold'
+  assign body_font_italic = settings.type_body_font | font_modify: 'style', 'italic'
+  assign body_font_bold_italic = body_font_bold | font_modify: 'style', 'italic'
+%}
+
+{% style %}
+  {{ settings.type_body_font | font_face: font_display: 'swap' }}
+  {{ body_font_bold | font_face: font_display: 'swap' }}
+  {{ body_font_italic | font_face: font_display: 'swap' }}
+  {{ body_font_bold_italic | font_face: font_display: 'swap' }}
+  {{ settings.type_header_font | font_face: font_display: 'swap' }}
+
+  {% for scheme in settings.color_schemes -%}
+    {% assign scheme_classes = scheme_classes | append: ', .color-' | append: scheme.id %}
+    {% if forloop.index == 1 -%}
+      :root,
+    {%- endif %}
+    .color-{{ scheme.id }} {
+      --color-background: {{ scheme.settings.background.red }},{{ scheme.settings.background.green }},{{ scheme.settings.background.blue }};
+      --gradient-background: {{ scheme.settings.background }};
+
+    {% liquid
+      assign background_color = scheme.settings.background
+      assign background_color_brightness = background_color | color_brightness
+      if background_color_brightness <= 26
+        assign background_color_contrast = background_color | color_lighten: 50
+      elsif background_color_brightness <= 65
+        assign background_color_contrast = background_color | color_lighten: 5
+      else
+        assign background_color_contrast = background_color | color_darken: 25
+      endif
+    %}
+
+    --color-foreground: {{ scheme.settings.text.red }},{{ scheme.settings.text.green }},{{ scheme.settings.text.blue }};
+    --color-background-contrast: {{ background_color_contrast.red }},{{ background_color_contrast.green }},{{ background_color_contrast.blue }};
+    --color-shadow: #121212;
+    --color-button: {{ scheme.settings.button.red }},{{ scheme.settings.button.green }},{{ scheme.settings.button.blue }};
+    --color-button-text: {{ scheme.settings.button_label.red }},{{ scheme.settings.button_label.green }},{{ scheme.settings.button_label.blue }};
+    --color-button-border: {{ scheme.settings.primary_button_border.red }},{{ scheme.settings.primary_button_border.green }},{{ scheme.settings.primary_button_border.blue }};
+    --color-button-hover: {{ scheme.settings.primary_button_hover.red }},{{ scheme.settings.primary_button_hover.green }},{{ scheme.settings.primary_button_hover.blue }};
+    --color-secondary-button: {{ scheme.settings.secondary_button_background.red }},{{ scheme.settings.secondary_button_background.green }},{{ scheme.settings.secondary_button_background.blue }};
+    --color-secondary-button-text: {{ scheme.settings.secondary_button_label.red }},{{ scheme.settings.secondary_button_label.green }},{{ scheme.settings.secondary_button_label.blue }};
+    --color-secondary-button-border: {{ scheme.settings.secondary_button_border.red }},{{ scheme.settings.secondary_button_border.green }},{{ scheme.settings.secondary_button_border.blue }};
+    --color-secondary-button-hover: {{ scheme.settings.secondary_button_hover.red }},{{ scheme.settings.secondary_button_hover.green }},{{ scheme.settings.secondary_button_hover.blue }};
+    --color-outline-button-hover: {{ scheme.settings.outline_button_hover.red }},{{ scheme.settings.outline_button_hover.green }},{{ scheme.settings.outline_button_hover.blue }};
+    --color-link: {{ scheme.settings.text.red }},{{ scheme.settings.text.green }},{{ scheme.settings.text.blue }};
+    --color-badge-foreground: {{ scheme.settings.text.red }},{{ scheme.settings.text.green }},{{ scheme.settings.text.blue }};
+    --color-badge-background: {{ scheme.settings.background.red }},{{ scheme.settings.background.green }},{{ scheme.settings.background.blue }};
+    --color-badge-border: {{ scheme.settings.text.red }},{{ scheme.settings.text.green }},{{ scheme.settings.text.blue }};
+    --payment-terms-background-color: rgb({{ scheme.settings.background.rgb }});
+    --color-sale-price: #E1251C;
+
+    --color-cards-background: {{ scheme.settings.cards_background_color.red }},{{ scheme.settings.cards_background_color.green }},{{ scheme.settings.cards_background_color.blue }};
+    --color-cards-text: {{ scheme.settings.cards_text_color.red }},{{ scheme.settings.cards_text_color.green }},{{ scheme.settings.cards_text_color.blue }};
+
+    }
+  {% endfor %}
+
+  {{ scheme_classes | prepend: 'body' }} {
+    color: rgba(var(--color-foreground));
+    background-color: rgb(var(--color-background));
+  }
+  {% liquid
+    assign body_scale = 100
+    assign body_font_size_mobile = 1.4
+    assign body_font_size = 1.4
+    if settings.body_base_size == 16
+      assign body_font_size_mobile = 1.5
+      assign body_font_size = 1.6
+    elsif settings.body_base_size == 18
+      assign body_font_size_mobile = 1.6
+      assign body_font_size = 1.8
+    endif
+  %}
+  :root {
+    --red-100: #FFE5E4;
+    --red-500: #E1251C;
+    --red-900: #B52E27;
+    --white: #ffffff;
+    --black: #000000;
+    --blue-100: #3F6BA0;
+    --blue-500: #1C355E;
+    --blue-900: #031546;
+    --gold-0: #FDF6AF;
+    --gold-900: #D5A03A;
+    --neutral-0: #ffffff;
+    --neutral-200: #ECEFF3;
+    --neutral-300: #F8FAFB;
+    --neutral-400: #E1E6ED;
+    --neutral-500: #C1C7D0;
+    --neutral-700: #818898;
+    --neutral-800: #666D80;
+    --neutral-900: #2D2E34;
+    --grey-300: #C9C9C9;
+    --price-label: #FFD600;
+    --price-member: #E1251C;
+    --price-elite: #1C355E;
+    --strain-hybrid: #9BBD00;
+    --strain-indica: #1FA7E1;
+    --strain-sativa: #FE9F0F;
+    --warning-100: #FFF6E0;
+    --warning-900: #FD7A00;
+    --success-100: #DDFEEC;
+  --success-300: #3EAE72;
+    --success-900: #0BB359;
+
+    --font-body-family: {{ settings.type_body_font.family }}, {{ settings.type_body_font.fallback_families }};
+    --font-body-style: {{ settings.type_body_font.style }};
+    --font-body-weight: {{ settings.type_body_font.weight }};
+    --font-body-weight-bold: {{ settings.type_body_font.weight | plus: 300 | at_most: 1000 }};
+    --font-body-size-mobile: {{ body_font_size_mobile }}rem;
+    --font-body-size: {{ body_font_size }}rem;
+
+    --font-heading-family: {{ settings.type_header_font.family }}, {{ settings.type_header_font.fallback_families }};
+    --font-heading-style: normal;
+    --font-heading-weight: bold;
+
+    --font-body-scale: {{ body_scale | divided_by: 100.0 }};
+    --font-heading-scale: {{ settings.heading_base_size }};
+    --font-heading-case: {{ settings.heading_font_case }};
+
+    {% assign headingSmallDevice = settings.heading_base_size %}
+    {% if settings.heading_base_size == 18 %}
+      {% assign headingSmallDevice = 16 %}
+    {% elsif settings.heading_base_size == 16 %}
+      {% assign headingSmallDevice = 14 %}
+    {% endif %}
+
+    {% if settings.heading_font_type == 'extra_small' %}
+      --heading-h0-size: {{ settings.heading_base_size | times: 2.027 }}px;
+      --heading-h1-size: {{ settings.heading_base_size | times: 1.802 }}px;
+      --heading-h2-size: {{ settings.heading_base_size | times: 1.602 }}px;
+      --heading-h3-size: {{ settings.heading_base_size | times: 1.424 }}px;
+      --heading-h4-size: {{ settings.heading_base_size | times: 1.266 }}px;
+      --heading-h5-size: {{ settings.heading_base_size | times: 1.125 }}px;
+      --heading-h6-size: {{ settings.heading_base_size | times: 1 }}px;
+
+      --heading-h0-tb-size: {{ headingSmallDevice | times: 2.027 }}px;
+      --heading-h1-tb-size: {{ headingSmallDevice | times: 1.802 }}px;
+      --heading-h2-tb-size: {{ headingSmallDevice | times: 1.602 }}px;
+      --heading-h3-tb-size: {{ headingSmallDevice | times: 1.424 }}px;
+      --heading-h4-tb-size: {{ headingSmallDevice | times: 1.266 }}px;
+      --heading-h5-tb-size: {{ headingSmallDevice | times: 1.125 }}px;
+      --heading-h6-tb-size: {{ headingSmallDevice | times: 1 }}px;
+
+      --heading-h0-mb-size: {{ headingSmallDevice | times: 2.027 }}px;
+      --heading-h1-mb-size: {{ headingSmallDevice | times: 1.802 }}px;
+      --heading-h2-mb-size: {{ headingSmallDevice | times: 1.602 }}px;
+      --heading-h3-mb-size: {{ headingSmallDevice | times: 1.424 }}px;
+      --heading-h4-mb-size: {{ headingSmallDevice | times: 1.266 }}px;
+      --heading-h5-mb-size: {{ headingSmallDevice | times: 1.125 }}px;
+      --heading-h6-mb-size: {{ headingSmallDevice | times: 1 }}px;
+
+    {% elsif settings.heading_font_type == 'small' %}
+      --heading-h0-size: {{ settings.heading_base_size | times: 2.986 }}px;
+      --heading-h1-size: {{ settings.heading_base_size | times: 2.488 }}px;
+      --heading-h2-size: {{ settings.heading_base_size | times: 2.074 }}px;
+      --heading-h3-size: {{ settings.heading_base_size | times: 1.728 }}px;
+      --heading-h4-size: {{ settings.heading_base_size | times: 1.44 }}px;
+      --heading-h5-size: {{ settings.heading_base_size | times: 1.2 }}px;
+      --heading-h6-size: {{ settings.heading_base_size | times: 1 }}px;
+
+      --heading-h0-tb-size: {{ headingSmallDevice | times: 2.986 }}px;
+      --heading-h1-tb-size: {{ headingSmallDevice | times: 2.488 }}px;
+      --heading-h2-tb-size: {{ headingSmallDevice | times: 2.074 }}px;
+      --heading-h3-tb-size: {{ headingSmallDevice | times: 1.728 }}px;
+      --heading-h4-tb-size: {{ headingSmallDevice | times: 1.44 }}px;
+      --heading-h5-tb-size: {{ headingSmallDevice | times: 1.2 }}px;
+      --heading-h6-tb-size: {{ headingSmallDevice | times: 1 }}px;
+
+      --heading-h0-mb-size: {{ headingSmallDevice | times: 2.027 }}px;
+      --heading-h1-mb-size: {{ headingSmallDevice | times: 1.802 }}px;
+      --heading-h2-mb-size: {{ headingSmallDevice | times: 1.602 }}px;
+      --heading-h3-mb-size: {{ headingSmallDevice | times: 1.424 }}px;
+      --heading-h4-mb-size: {{ headingSmallDevice | times: 1.266 }}px;
+      --heading-h5-mb-size: {{ headingSmallDevice | times: 1.125 }}px;
+      --heading-h6-mb-size: {{ headingSmallDevice | times: 1 }}px;
+    {% elsif settings.heading_font_type == 'medium' %}
+      --heading-h0-size: 3.6rem;
+      --heading-h1-size: 3.6rem;
+      --heading-h2-size: 3.2rem;
+      --heading-h3-size: 2.9rem;
+      --heading-h4-size: 2.6rem;
+      --heading-h5-size: 2.3rem;
+      --heading-h6-size: 2.0rem;
+
+      --heading-h0-tb-size: 3.6rem;
+      --heading-h1-tb-size: 3.6rem;
+      --heading-h2-tb-size: 3.2rem;
+      --heading-h3-tb-size: 2.9rem;
+      --heading-h4-tb-size: 2.6rem;
+      --heading-h5-tb-size: 2.3rem;
+      --heading-h6-tb-size: 2.0rem;
+
+      --heading-h0-mb-size: 3.2rem;
+      --heading-h1-mb-size: 3.2rem;
+      --heading-h2-mb-size: 2.9rem;
+      --heading-h3-mb-size: 2.6rem;
+      --heading-h4-mb-size: 2.3rem;
+      --heading-h5-mb-size: 2.0rem;
+      --heading-h6-mb-size: 1.8rem;
+    {% elsif settings.heading_font_type == 'large' %}
+      --heading-h0-size: {{ settings.heading_base_size | times: 5.61 }}px;
+      --heading-h1-size: {{ settings.heading_base_size | times: 4.209 }}px;
+      --heading-h2-size: {{ settings.heading_base_size | times: 3.157 }}px;
+      --heading-h3-size: {{ settings.heading_base_size | times: 2.369 }}px;
+      --heading-h4-size: {{ settings.heading_base_size | times: 1.777 }}px;
+      --heading-h5-size: {{ settings.heading_base_size | times: 1.333 }}px;
+      --heading-h6-size: {{ settings.heading_base_size | times: 1 }}px;
+
+      --heading-h0-tb-size: {{ headingSmallDevice | times: 3.815 }}px;
+      --heading-h1-tb-size: {{ headingSmallDevice | times: 3.052 }}px;
+      --heading-h2-tb-size: {{ headingSmallDevice | times: 2.441 }}px;
+      --heading-h3-tb-size: {{ headingSmallDevice | times: 1.953 }}px;
+      --heading-h4-tb-size: {{ headingSmallDevice | times: 1.563 }}px;
+      --heading-h5-tb-size: {{ headingSmallDevice | times: 1.25 }}px;
+      --heading-h6-tb-size: {{ headingSmallDevice | times: 1 }}px;
+
+      --heading-h0-mb-size: {{ headingSmallDevice | times: 2.027 }}px;
+      --heading-h1-mb-size: {{ headingSmallDevice | times: 1.802 }}px;
+      --heading-h2-mb-size: {{ headingSmallDevice | times: 1.602 }}px;
+      --heading-h3-mb-size: {{ headingSmallDevice | times: 1.424 }}px;
+      --heading-h4-mb-size: {{ headingSmallDevice | times: 1.266 }}px;
+      --heading-h5-mb-size: {{ headingSmallDevice | times: 1.125 }}px;
+      --heading-h6-mb-size: {{ headingSmallDevice | times: 1 }}px;
+    {% elsif settings.heading_font_type == 'extra_large' %}
+      --heading-h0-size: {{ settings.heading_base_size | times: 7.993 }}px;
+      --heading-h1-size: {{ settings.heading_base_size | times: 5.653 }}px;
+      --heading-h2-size: {{ settings.heading_base_size | times: 3.998 }}px;
+      --heading-h3-size: {{ settings.heading_base_size | times: 2.826 }}px;
+      --heading-h4-size: {{ settings.heading_base_size | times: 1.999 }}px;
+      --heading-h5-size: {{ settings.heading_base_size | times: 1.414 }}px;
+      --heading-h6-size: {{ settings.heading_base_size | times: 1 }}px;
+
+      --heading-h0-tb-size: {{ headingSmallDevice | times: 3.815 }}px;
+      --heading-h1-tb-size: {{ headingSmallDevice | times: 3.052 }}px;
+      --heading-h2-tb-size: {{ headingSmallDevice | times: 2.441 }}px;
+      --heading-h3-tb-size: {{ headingSmallDevice | times: 1.953 }}px;
+      --heading-h4-tb-size: {{ headingSmallDevice | times: 1.563 }}px;
+      --heading-h5-tb-size: {{ headingSmallDevice | times: 1.25 }}px;
+      --heading-h6-tb-size: {{ headingSmallDevice | times: 1 }}px;
+
+      --heading-h0-mb-size: {{ headingSmallDevice | times: 2.027 }}px;
+      --heading-h1-mb-size: {{ headingSmallDevice | times: 1.802 }}px;
+      --heading-h2-mb-size: {{ headingSmallDevice | times: 1.602 }}px;
+      --heading-h3-mb-size: {{ headingSmallDevice | times: 1.424 }}px;
+      --heading-h4-mb-size: {{ headingSmallDevice | times: 1.266 }}px;
+      --heading-h5-mb-size: {{ headingSmallDevice | times: 1.125 }}px;
+      --heading-h6-mb-size: {{ headingSmallDevice | times: 1 }}px;
+    {% endif %}
+    --color-success-background: {{ settings.success_message_background.red }},{{ settings.success_message_background.green }},{{ settings.success_message_background.blue }};
+    --color-success: {{ settings.success_message_color.red }},{{ settings.success_message_color.green }},{{ settings.success_message_color.blue }};
+    --color-error-background: {{ settings.error_message_background.red }},{{ settings.error_message_background.green }},{{ settings.error_message_background.blue }};
+    --color-error: {{ settings.error_message_color.red }},{{ settings.error_message_color.green }},{{ settings.error_message_color.blue }};
+
+    --text-base: 1.6rem;
+    --text-large: 1.8rem;
+    --text-small: 1rem;
+    --text-xs: 1.2rem;
+
+    {% if settings.theme_radius %}
+      --radius-5: 4px;
+      --radius-10: 8px;
+      --radius-12: 12px;
+      --radius-15: 16px;
+      --radius-20: 32px;
+      --radius-50: 50px;
+    {% else %}
+      --radius-5: 0px;
+      --radius-10: 0px;
+      --radius-20: 0px;
+      --radius-50: 0px;
+    {% endif %}
+
+    --page-width: {{ settings.page_width | divided_by: 10 }}rem;
+    --page-width-margin: {% if settings.page_width == '1600' %}2{% else %}0{% endif %}rem;
+
+    --grid-desktop-vertical-spacing: 3.2rem;
+    --grid-desktop-horizontal-spacing: 3.2rem;
+    --grid-tablet-vertical-spacing: 2.4rem;
+    --grid-tablet-horizontal-spacing: 2.4rem;
+    --grid-mobile-vertical-spacing: 1.6rem;
+    --grid-mobile-horizontal-spacing: 1.6rem;
+
+    --Spacingspacing-xxs: 4px;
+    --Spacingspacing-xs: 8px;
+    --Spacingspacing-sm: 16px;
+    --Spacingsmall: 16px;
+    --Spacingspacing-md: 24px;
+    --Spacingmedium: 24px;
+    --Spacingspacing-lg: 32px;
+    --Spacinglarge: 32px;
+    --Spacingspacing-xl: 40px;
+    --Spacingspacing-xxl: 64px;
+  }
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: inherit;
+  }
+
+  html {
+    box-sizing: border-box;
+    font-size: calc(var(--font-body-scale) * 62.5%);
+    height: 100%;
+  }
+
+  body {
+    display: grid;
+    grid-template-rows: auto auto 1fr auto;
+    grid-template-columns: 100%;
+    min-height: 100%;
+    margin: 0;
+    font-size: var(--font-body-size-mobile);
+    line-height: 1.5;
+    font-family: var(--font-body-family);
+    font-style: var(--font-body-style);
+    font-weight: var(--font-body-weight);
+  }
+  .no-js .shopify-section-group-popups-group {
+    display: none;
+  }
+
+  @media screen and (min-width: 769px) {
+    body {
+      font-size: var(--font-body-size);
+    }
+  }
+
+ @media screen and (min-width: 1200px) {
+    body {
+      {% if settings.custom_cursor %}cursor: none;{% endif %}
+    }
+  }
+  .country-flag {
+    background-image: url({{ 'country-flags.png' | asset_url | split: '?' | first }});
+  }
+{% endstyle %}

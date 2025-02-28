@@ -1,0 +1,237 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "hero_small_qRjMNz": {
+      "type": "hero-small",
+      "settings": {
+        "content": "<p>{{ collection.metafields.custom.collection_hero_title.value }}</p>",
+        "image": "{{ collection.metafields.custom.collection_hero_image.value }}"
+      }
+    },
+    "breadcrumbs_zPJpXy": {
+      "type": "breadcrumbs",
+      "settings": {
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "banner": {
+      "type": "main-collection-banner",
+      "custom_css": [
+        ".collection-hero {margin-top: 0; padding-top: 0.8rem;}"
+      ],
+      "settings": {
+        "color_scheme": "",
+        "show_collection_description": true,
+        "show_collection_image": false,
+        "collapse_content": true
+      }
+    },
+    "featured_collection_Cq4qNj": {
+      "type": "featured-collection",
+      "blocks": {
+        "featured_collection_VkTYQ6": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "milled-blended-flower",
+            "color_scheme": "",
+            "title": ""
+          }
+        }
+      },
+      "block_order": [
+        "featured_collection_VkTYQ6"
+      ],
+      "settings": {
+        "title": "Blended Flower",
+        "heading_size": "h3",
+        "enable_shop_all": true,
+        "shop_all_link": "",
+        "shop_all_text": "",
+        "heading_alignment": "left",
+        "hide_for_bc": false,
+        "hide_for_ab": false,
+        "color_scheme": "",
+        "products_to_show": 8,
+        "products_per_row": 4,
+        "enable_slider_scrollbar": true,
+        "show_view_all": true,
+        "grid_color_scheme": "",
+        "grid_style": "classic",
+        "image_ratio": "portrait",
+        "show_secondary_image": true,
+        "show_vendor": true,
+        "show_rating": false,
+        "show_color_swatches": false,
+        "grid_text_alignment": "left",
+        "products_per_row_mobile": "2",
+        "swipe_on_mobile": true,
+        "enable_elite_styling": false,
+        "elite_button_link": "",
+        "elite_subtitle": "",
+        "ab_subtitle": ""
+      }
+    },
+    "featured_collection_49c3V3": {
+      "type": "featured-collection",
+      "blocks": {
+        "featured_collection_mWp6X6": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "parkland-flower",
+            "color_scheme": "",
+            "title": ""
+          }
+        }
+      },
+      "block_order": [
+        "featured_collection_mWp6X6"
+      ],
+      "settings": {
+        "title": "Parkland Flower",
+        "heading_size": "h3",
+        "enable_shop_all": true,
+        "shop_all_link": "",
+        "shop_all_text": "",
+        "heading_alignment": "left",
+        "hide_for_bc": false,
+        "hide_for_ab": false,
+        "color_scheme": "",
+        "products_to_show": 8,
+        "products_per_row": 4,
+        "enable_slider_scrollbar": true,
+        "show_view_all": true,
+        "grid_color_scheme": "",
+        "grid_style": "classic",
+        "image_ratio": "portrait",
+        "show_secondary_image": true,
+        "show_vendor": true,
+        "show_rating": false,
+        "show_color_swatches": false,
+        "grid_text_alignment": "left",
+        "products_per_row_mobile": "2",
+        "swipe_on_mobile": true,
+        "enable_elite_styling": false,
+        "elite_button_link": "",
+        "elite_subtitle": "",
+        "ab_subtitle": ""
+      }
+    },
+    "collection_list_x3AYNN": {
+      "type": "collection-list",
+      "blocks": {
+        "featured_collection_baVwWG": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "weed-online",
+            "color_scheme": "",
+            "image": "shopify://shop_images/Frame_724.png",
+            "title": "Dried Flower",
+            "link": "shopify://collections/weed-online",
+            "description": ""
+          }
+        },
+        "featured_collection_74wijw": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "pre-rolls",
+            "color_scheme": "",
+            "image": "shopify://shop_images/Rectangle_23858.png",
+            "title": "Pre-Rolls",
+            "link": "shopify://collections/pre-rolls",
+            "description": ""
+          }
+        },
+        "featured_collection_H9h3dF": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "vape-cartridges",
+            "color_scheme": "",
+            "image": "shopify://shop_images/Group_499.png",
+            "title": "Vape Cartridges",
+            "link": "shopify://collections/vape-cartridges",
+            "description": ""
+          }
+        },
+        "featured_collection_ew3dXi": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "concentrates",
+            "color_scheme": "scheme-1",
+            "image": "shopify://shop_images/Rectangle_23858_1.png",
+            "title": "Concentrates",
+            "link": "shopify://collections/concentrates",
+            "description": ""
+          }
+        },
+        "featured_collection_7bMTKT": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "edibles",
+            "color_scheme": "scheme-1",
+            "image": "shopify://shop_images/Frame_41414.png",
+            "title": "Edibles",
+            "link": "shopify://collections/edibles",
+            "description": ""
+          }
+        },
+        "featured_collection_XHgbiY": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "cannabis-accessories",
+            "color_scheme": "scheme-1",
+            "image": "shopify://shop_images/Group_499_1.png",
+            "title": "Accessories",
+            "link": "shopify://collections/cannabis-accessories",
+            "description": ""
+          }
+        }
+      },
+      "block_order": [
+        "featured_collection_baVwWG",
+        "featured_collection_74wijw",
+        "featured_collection_H9h3dF",
+        "featured_collection_ew3dXi",
+        "featured_collection_7bMTKT",
+        "featured_collection_XHgbiY"
+      ],
+      "settings": {
+        "title": "<strong>Shop Top Categories</strong>",
+        "heading_size": "h2",
+        "heading_alignment": "center",
+        "color_scheme": "",
+        "collections_per_row": 6,
+        "enable_slider_scrollbar": false,
+        "show_view_all": true,
+        "view_all_text": "Shop all",
+        "style": "simple",
+        "image_width": "small",
+        "image_ratio": "square",
+        "custom_ratio": 1,
+        "title_size": "h6",
+        "grid_alignment": "left",
+        "show_product_count": false,
+        "collections_per_row_mobile": "2",
+        "swipe_on_mobile": false,
+        "padding_top": 100,
+        "padding_bottom": 100
+      }
+    }
+  },
+  "order": [
+    "hero_small_qRjMNz",
+    "breadcrumbs_zPJpXy",
+    "banner",
+    "featured_collection_Cq4qNj",
+    "featured_collection_49c3V3",
+    "collection_list_x3AYNN"
+  ]
+}

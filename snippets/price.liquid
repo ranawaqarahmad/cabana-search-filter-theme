@@ -1,0 +1,224 @@
+{% comment %}
+{% liquid
+  assign show_elite_pricing = false
+
+  if product.tags contains 'Elite'
+    assign show_elite_pricing = true
+  endif
+%}
+{% endcomment %}
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const globalProvince = localStorage.getItem('global_province');
+  let elitePrice       = document.querySelectorAll('.js-elite-price-col');
+  let memberPriceCol   = document.querySelectorAll('.js-member-price-col');
+
+  let isAlberta = false;
+  let isBc      = false;
+
+  if (globalProvince === 'Alberta') {
+    isAlberta = true;
+
+    memberPriceCol.forEach(function (item) {
+      item.classList.add('hidden');
+    });
+  }
+
+  if (globalProvince !== 'Alberta') {
+    memberPriceCol.forEach(function (item) {
+      item.classList.remove('hidden');
+    });
+  }
+
+  if (globalProvince === 'British Columbia') {
+    isBc = true;
+    elitePrice.forEach(function (item) {
+      item.classList.add('hidden');
+    });
+  }
+});
+</script>
+
+{% assign hide_price_table = false %}
+{% assign hide_elite_column = false %}
+
+{% if purchase_price == empty or purchase_price == '0' or purchase_price == '0.00' or purchase_price == 'N.A.' or purchase_price == '' or market_price == empty or market_price == 'N.A.' or market_price == '0' or market_price == '0.00' or market_price == '' %}
+  {% assign hide_price_table = true %}
+{% endif %}
+
+{% if elite_price %}
+  {% if elite_price == '0' or elite_price == '0.00' or elite_price == 'N.A.' or elite_price == '' %}
+    {% assign hide_elite_column = true %}
+  {% endif %}
+{% else %}
+  {% assign hide_elite_column = true %}
+{% endif %}
+
+<div class="price js-price-table {% if hide_price_table %}hidden{% endif %} {{ price_class }}">
+  <table>
+    <thead>
+      <tr>
+        <td class="js-market-price price-table-cell ">{{ 'general.price.market' | t }}</td>
+        <td class="member-price--label price-table-cell js-member-price-label{% if hide_elite_column %} price-table-cell-rounded-top {% else %} hidden js-member-price-col{% endif %}">{{ 'general.price.market_price' | t }}</td>
+        {% unless hide_elite_column %}
+          <td class="js-elite-price-col elite-price--label price-table-cell">{{ 'general.price.elite' | t }}</td>
+        {% endunless %}
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="js-market-price price-table-cell ">
+          {% if market_price != '0.00' and market_price != 'N.A.' %}
+            <span class="js-market-table-price">${{ market_price }}</span>
+          {% elsif market_price == 'N.A.' or market_price == '0' or market_price == '0.00' %}
+            <span class="js-market-table-price">N.A.</span>
+          {% endif %}
+        </td>
+        <td class="price-table-cell {% if hide_elite_column %} price-table-cell-rounded-bottom {% else %}hidden js-member-price-col{% endif %} member-price">
+          {% if purchase_price != '0.00' and purchase_price != 'N.A.' and purchase_price != '' %}
+            <span class="js-purchase-table-price">${{ purchase_price }}</span>
+          {% elsif purchase_price == 'N.A.' or purchase_price == '0.00' or purchase_price == '' %}
+            {% if market_price == 'N.A.' or market_price == '0.00' %}
+              <span class="js-purchase-table-price">N.A.</span>
+            {% else %}
+              <span class="js-purchase-table-price">${{ market_price }}</span>
+            {% endif %}
+          {% endif %}
+        </td>
+        {% unless hide_elite_column %}
+          <td class="js-elite-price-col price-table-cell elite-price ">
+            <span class="js-elite-table-price">${{ elite_price }}</span>
+          </td>
+        {% endunless %}
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<script>
+(function () {
+  document.addEventListener('DOMContentLoaded', function () {
+    const purchaseTablePrice = document.querySelector('.js-purchase-table-price'),
+          eliteTablePrice    = document.querySelector('.js-elite-table-price'),
+          eliteCol           = document.querySelectorAll('.js-elite-price-col '),
+          marketTablePrice   = document.querySelector('.js-market-table-price'),
+          priceTable         = document.querySelector('.js-price-table'),
+          purchasePriceInput = this.querySelector('input[type="hidden"][name="purchase_price"]'),
+          elitePriceInput    = this.querySelector('input[type="hidden"][name="elite_price"]'),
+          marketPriceInput   = this.querySelector('input[type="hidden"][name="market_price"]'),
+          submitButton       = this.querySelector('.js-product-form__submit');
+
+    const formInputs       = document.querySelectorAll('.js .product-form__input'),
+          provinceStorage  = localStorage.getItem('global_province'),
+          priceLabels      = document.querySelectorAll('.js-member-price-label'),
+          elitePriceLabels = document.querySelectorAll('.js-elite-price-col');
+
+    let isElites = localStorage.getItem('is_elite') === 'true';
+
+    switch (provinceStorage) {
+      case 'British Columbia':
+        priceLabels.forEach(function (item) {
+          item.innerText = "{{ 'general.price.our' | t }}";
+        });
+        break;
+      default:
+        if (isElites) {
+          elitePriceLabels.forEach(function (item) {
+            item.innerText = "{{ 'general.price.elite' | t }}";
+          });
+        } else {
+          priceLabels.forEach(function (item) {
+            item.innerText = "{{ 'general.price.member' | t }}";
+          });
+        }
+    }
+
+    let isCustomer = {% if customer %}true{% else %}false{% endif %};
+
+    formInputs.forEach((item) => {
+      let labels = item.querySelectorAll('label');
+
+      labels.forEach((label) => {
+        label.addEventListener('click', function () {
+          let labelPrice  = '',
+              labelElite  = '',
+              labelMarket = '';
+
+          if (label.dataset.purchase !== 'N.A.' && label.dataset.purchase !== '0.00' && label.dataset.purchase !== '') {
+            labelPrice = '$' + label.dataset.purchase;
+            priceTable.classList.remove('hidden');
+          } else if (label.dataset.purchase === '0' || label.dataset.purchase === '') {
+            labelPrice = 'N.A.';
+            priceTable.classList.add('hidden');
+          } else {
+            priceTable.classList.add('hidden');
+            labelPrice = label.dataset.purchase;
+          }
+
+          if (label.dataset.elite !== 'N.A.' && label.dataset.elite !== '0.00' && label.dataset.elite !== '') {
+            labelElite = '$' + label.dataset.elite;
+            if (eliteTablePrice) {
+              eliteTablePrice.classList.remove('hidden');
+            }
+
+            if (submitButton && isCustomer && isElites) {
+              submitButton.classList.add('button--quaternary');
+            }
+          } else {
+            if (eliteTablePrice) {
+              priceTable.classList.add('hidden');
+            }
+
+            if (submitButton) {
+              submitButton.classList.remove('button--quaternary');
+            }
+          }
+
+          if (label.dataset.market !== 'N.A.' && label.dataset.market !== '0.00' && label.dataset.market !== '') {
+            labelMarket = '$' + label.dataset.market;
+            priceTable.classList.remove('hidden');
+          } else if (label.dataset.market === '0' || label.dataset.market === '') {
+            labelMarket = 'N.A.';
+            priceTable.classList.add('hidden');
+          } else {
+            labelMarket = label.dataset.market;
+            priceTable.classList.add('hidden');
+          }
+
+          if (purchaseTablePrice) {
+            purchaseTablePrice.innerHTML = labelPrice;
+          }
+
+          if (eliteTablePrice) {
+            eliteTablePrice.innerHTML = labelElite;
+          }
+
+          if (marketTablePrice.innerHTML) {
+            marketTablePrice.innerHTML = labelMarket;
+          }
+
+          if (purchasePriceInput) {
+            purchasePriceInput.value = label.dataset.purchase;
+          }
+
+          if (elitePriceInput && label.dataset.elite) {
+            elitePriceInput.value = label.dataset.elite;
+            eliteCol.forEach(function (item) {
+              item.classList.remove('hidden');
+            });
+          } else {
+            eliteCol.forEach(function (item) {
+              item.classList.add('hidden');
+            });
+          }
+
+          if (marketPriceInput) {
+            marketPriceInput.value = label.dataset.market;
+          }
+        });
+      });
+    });
+  });
+})();
+</script>

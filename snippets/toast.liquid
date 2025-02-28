@@ -1,0 +1,105 @@
+{% comment %}
+  Renders a notification popup with a warning, offer or notification, with an optional explanation and a button
+
+  All of these texts including button text are configurable.
+
+  toast-type: 'error', 'warning' 'notification', 'success'
+
+  Usage:
+  {% render 'toast', title: 'Toast title here', description: 'Toast description here', button-content: 'Button Text Here', link: 'link here', toast-type: 'toast-type', store_id: store_id %}
+{% endcomment %}
+
+
+<div class="toast js-toast toast--{{ toast-type }}" aria-describedby="toast">
+  <div class="content-wrapper">
+    {% assign iconFill = '' %}
+    {% assign strokeColor = '' %}
+    {% assign iconPath = '' %}
+
+    {% case toast-type %}
+      {% when 'warning' %}
+      <svg width="24" height="22" viewBox="0 0 18 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M11.4497 1.88378C10.3963 0.0387358 7.60375 0.0387457 6.5504 1.88378L1.00596 11.5953C-0.0536603 13.4513 1.45611 15.5 3.4556 15.5H14.5445C16.544 15.5 18.0537 13.4513 16.9941 11.5953L11.4497 1.88378ZM7.99779 2.71012C8.41147 1.98552 9.58859 1.98552 10.0023 2.71011L15.5467 12.4216C15.8642 12.9778 15.4883 13.8333 14.5445 13.8333H3.4556C2.51178 13.8333 2.13584 12.9778 2.45335 12.4216L7.99779 2.71012ZM9.83336 5.08333C9.83336 4.6231 9.46027 4.25 9.00003 4.25C8.53979 4.25 8.1667 4.6231 8.1667 5.08333V9.25C8.1667 9.71024 8.53979 10.0833 9.00003 10.0833C9.46027 10.0833 9.83336 9.71024 9.83336 9.25V5.08333ZM9.00003 12.5833C9.46027 12.5833 9.83336 12.2102 9.83336 11.75C9.83336 11.2898 9.46027 10.9167 9.00003 10.9167C8.53979 10.9167 8.1667 11.2898 8.1667 11.75C8.1667 12.2102 8.53979 12.5833 9.00003 12.5833Z" fill="var( --warning-900)"/>
+      </svg>
+      {% when 'notification' %}
+      {% assign iconPath = 'M2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12Z' %}
+      {% assign iconFill = 'var(--blue-100)' %}
+      {% assign strokeColor = 'var(--white)' %}
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="{{ iconPath }}" fill="#031546"/>
+          <path d="M7 12L10 15L16 9" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      {% when 'success' %}
+      {% assign iconFill = 'var(--success-900)' %}
+      {% assign strokeColor = 'var(--success-100)' %}
+      {% assign iconPath = 'M2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12Z' %}
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="{{ iconPath }}" fill="{{ iconFill }}"/>
+          <path d="M7 12L10 15L16 9" stroke="{{ strokeColor }}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+    {% endcase %}
+
+    <div class="toast-content" role="alert" id="toast">
+      <h5 class="toast-title">{{ title }}</h5>
+      {% if description != blank %}
+        <p class="toast-description">{{ description }}</p>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="buttons-wrapper">
+    {% if button-content != blank %}
+      {% case toast-type %}
+        {% when 'warning' or 'error' %}
+          <a class="button button--primary" href="{{ link }}?sID={{ store_id }}">
+            {{ button-content }}
+          </a>
+        {% when 'notification' %}
+        <a class="button button--secondary" href="{{ link }}?sID={{ store_id }}">
+          {{ button-content }}
+        </a>
+        {% when 'success' %}
+        <a class="button button--primary button--green" href="{{ link }}?sID={{ store_id }}">
+          {{ button-content }}
+        </a>
+      {% endcase %}
+    {% endif %}
+
+    <button class="js-close-toast-button close-button desktop"><svg width="15" height="15" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+        {% case toast-type %}
+          {% when 'warning' or 'error' %}
+            <path d="M9 1L5 5L1 9M1 1L5 5L9 9" stroke="#818898" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          {% when 'notification' %}
+            <path d="M9 1L5 5L1 9M1 1L5 5L9 9" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          {% when 'success' %}
+            <path d="M9 1L5 5L1 9M1 1L5 5L9 9" stroke="#0BB359" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        {% endcase %}
+      </svg>
+    </button>
+  </div>
+
+  <button class="js-close-toast-button close-button mobile"><svg width="15" height="15" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+      {% case toast-type %}
+        {% when 'warning' or 'error' %}
+          <path d="M9 1L5 5L1 9M1 1L5 5L9 9" stroke="#818898" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        {% when 'notification' %}
+          <path d="M9 1L5 5L1 9M1 1L5 5L9 9" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        {% when 'success' %}
+          <path d="M9 1L5 5L1 9M1 1L5 5L9 9" stroke="#0BB359" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      {% endcase %}
+    </svg>
+  </button>
+</div>
+
+<script>
+var closeButtons = document.querySelectorAll('.js-close-toast-button');
+
+closeButtons.forEach((button) => {
+  button.addEventListener('click', (event) => {
+    var toast = button.closest('.js-toast');
+    if (toast) {
+      toast.style.display = 'none';
+    }
+  });
+});
+</script>

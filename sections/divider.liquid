@@ -1,0 +1,63 @@
+{%- style -%}
+  @media screen and (max-width: 749px) {
+    #shopify-section-{{ section.id }} {
+      margin-bottom: {{ section.settings.margin_mobile }}px;
+    }
+  }
+
+ @media screen and (min-width: 750px) {
+    #shopify-section-{{ section.id }} {
+      margin-bottom: {{ section.settings.margin_desktop }}px;
+    }
+  }
+{%- endstyle -%}
+
+{% schema %}
+{
+  "name": "t:sections.divider.name",
+  "tag": "section",
+  "class": "section-divider",
+  "disabled_on": {
+    "groups": [
+      "custom.popups"
+    ]
+  },
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "t:sections.divider.settings.paragraph.content"
+    },
+    {
+      "type": "range",
+      "id": "margin_desktop",
+      "min": -100,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "t:sections.divider.settings.margin.desktop.label",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "margin_mobile",
+      "min": -50,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "label": "t:sections.divider.settings.margin.mobile.label",
+      "default": 50
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.divider.presets.name"
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

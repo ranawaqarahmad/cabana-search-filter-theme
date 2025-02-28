@@ -1,0 +1,174 @@
+{% comment %}
+  Renders a megamenu for the header.
+  Usage:
+  {% render 'header-mega-menu' %}
+{% endcomment %}
+
+<nav class="header__inline-menu-container">
+  <div class="header__inline-menu page-width">
+    <button class="menu-slide-arrow-left btn--slide" aria-label="navigation-slide-prev">{% render 'theme-icons', icon: 'icon-slide-left' %}</button>
+    <ul class="list-menu list-menu--inline{% if menu_as_button == true %} button--style{% endif %}" role="list">
+      {%- for link in section.settings.menu.links -%}
+        {% if link.title == '<span class="menu-hide-for-bc">Cabana Club</span>' and customer %}
+          
+        {% elsif link.title == '<span class="menu-hide-for-bc">ELITE Membership</span>' and customer and customer.tags contains 'ELITE'  %}
+
+        {% else %}
+        <li class="{{ link.title | escape }}">
+          {%- if link.links != blank -%}
+            <header-menu>
+              <details id="Details-HeaderMenu-{{ forloop.index }}" class="mega-menu">
+                <summary
+                  id="HeaderMenu-{{ link.handle }}"
+                  class="header__menu-item list-menu__item link focus-inset{% if menu_as_button == true %} header__menu-button{% endif %}"
+                >
+                  <span class="link--hover{%- if link.current %} active--hover{% endif %} link-with--icon">
+                    {{- link.title -}}
+                    {% render 'theme-icons', icon: 'icon-chevron-down' %}
+                  </span>
+                </summary>
+                <div
+                  id="MegaMenu-Content-{{ forloop.index }}"
+                  class="mega-menu__content color-{{ section.settings.menu_color_scheme }} overflow-scrollbar gradient motion-reduce global-settings-popup"
+                  tabindex="-1"
+                >
+                  <ul
+                    class="mega-menu__list{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+                    role="list"
+                  >
+                    {%- for childlink in link.links -%}
+                      <li{% if settings.animations_reveal_on_scroll %} class="scroll-trigger animate--slide-in"{% endif %}
+                        {% if settings.animations_reveal_on_scroll %}
+                          data-cascade
+                          style="--animation-order: {{ forloop.index }};"
+                        {% endif %}
+                      >
+                        {% if collection_image == true %}
+                          {%- if childlink.url contains '/collections/' -%}
+                            {% assign card_collection = collections[childlink.object.handle] %}
+                            {%- if card_collection.featured_image != blank -%}
+                              <a
+                                href="{{ childlink.url }}"
+                                class="collection-megamenu-image global-media-settings media"
+                              >
+                                <img
+                                  srcset="
+                                  {%- if card_collection.featured_image.width >= 500 -%}{{ card_collection.featured_image | image_url: width: 500 }} 500w,{%- endif -%}
+                                  {%- if card_collection.featured_image.width >= 535 -%}{{ card_collection.featured_image | image_url: width: 535 }} 535w,{%- endif -%}
+                                  {%- if card_collection.featured_image.width >= 750 -%}{{ card_collection.featured_image | image_url: width: 750 }} 750w,{%- endif -%}
+                                  {%- if card_collection.featured_image.width >= 1000 -%}{{ card_collection.featured_image | image_url: width: 1000 }} 1000w,{%- endif -%}
+                                  {%- if card_collection.featured_image.width >= 1500 -%}{{ card_collection.featured_image | image_url: width: 1500 }} 1500w,{%- endif -%}
+                                  {%- if card_collection.featured_image.width >= 3000 -%}{{ card_collection.featured_image | image_url: width: 3000 }} 3000w,{%- endif -%}
+                                  {{ card_collection.featured_image | image_url }} {{ card_collection.featured_image.width }}w
+                                "
+                                  src="{{ card_collection.featured_image | image_url: width: 1500 }}"
+                                  sizes="
+                                  (min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 100 | divided_by: link.links.size }}px,
+                                  (min-width: 750px) {% if link.links.size > 1 %}calc((100vw - 10rem) / 2){% else %}calc(100vw - 10rem){% endif %},
+                                  calc(100vw - 3rem)
+                                "
+                                  alt=""
+                                  height="{{ card_collection.featured_image.height }}"
+                                  width="{{ card_collection.featured_image.width }}"
+                                  loading="lazy"
+                                  class="motion-reduce"
+                                >
+                              </a>
+                            {%- endif -%}
+                          {%- endif -%}
+                        {% endif %}
+                        <a
+                          id="HeaderMenu-{{ link.handle }}-{{ childlink.handle }}"
+                          href="{{ childlink.url }}"
+                          class="mega-menu__link mega-menu__link--level-2 link"
+                          {% if childlink.current %}
+                            aria-current="page"
+                          {% endif %}
+                        >
+                          <h5 class="mg-none text-base">
+                            {{ childlink.title }}
+                          </h5>
+                        </a>
+                        {%- if childlink.links != blank -%}
+                          <ul class="list-unstyled" role="list">
+                            {%- for grandchildlink in childlink.links -%}
+                              <li>
+                                <a
+                                  id="HeaderMenu-{{ link.handle }}-{{ childlink.handle }}-{{ grandchildlink.handle }}"
+                                  href="{{ grandchildlink.url }}"
+                                  class="mega-menu__link link{% if grandchildlink.current %} mega-menu__link--active{% endif %}"
+                                  {% if grandchildlink.current %}
+                                    aria-current="page"
+                                  {% endif %}
+                                >
+                                  <span class="link--hover{%- if link.current %} active--hover{% endif %}">
+                                    {{ grandchildlink.title  }}
+                                  </span>
+                                </a>
+                              </li>
+                            {%- endfor -%}
+                          </ul>
+                        {%- endif -%}
+                      </li>
+                    {%- endfor -%}
+                  </ul>
+                </div>
+              </details>
+            </header-menu>
+          {%- else -%}
+            <a
+              id="HeaderMenu-{{ link.handle }}"
+              href="{{ link.url }}"
+              class="header__menu-item list-menu__item link link--text focus-inset{% if menu_as_button == true %} header__menu-button{% endif %}"
+              {% if link.current %}
+                aria-current="page"
+              {% endif %}
+            >
+              <span class="link--hover{%- if link.current %} active--hover{% endif %}">
+                
+                {{- link.title -}}
+              
+              </span>
+            </a>
+          {%- endif -%}
+        </li>
+        {% endif %}
+      {%- endfor -%}
+
+      <li>
+        {%- if shop.customer_accounts_enabled -%}
+          <a href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}" class="header__menu-button header__icon header__icon--account header__menu-item list-menu__item link link--text focus-inset{% if section.settings.menu != blank %} small-hide{% endif %}">
+            {% render 'theme-icons', icon: 'icon-user-circled' %}
+            <span class="link--hover">
+              {%- liquid
+                if customer
+                  echo customer.first_name
+                else
+                  echo 'customer.log_in' | t
+                endif
+              -%}
+            </span>
+          </a>
+        {%- endif -%}
+      </li>
+    </ul>
+    <button class="menu-slide-arrow-right btn--slide" aria-label="navigation-slide-next">{% render 'theme-icons', icon: 'icon-slide-right' %}</button>
+  </div>
+</nav>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const globalProvince = localStorage.getItem('global_province');
+
+  if (globalProvince === 'British Columbia') {
+    const itemsToHide = document.querySelectorAll('header ul.list-menu li span.menu-hide-for-bc');
+
+    itemsToHide.forEach(function(span) {
+      const listItem = span.closest('li');
+      if (listItem) {
+        listItem.remove();
+      }
+    });
+  }
+});
+</script>

@@ -1,0 +1,29 @@
+{% liquid
+    assign variantId = product.selected_or_first_available_variant.id
+    assign primaryImage = product
+    for variant in product.variants
+      if variant.id == variantId and variant.featured_media != null
+        assign primaryImage = variant
+      endif
+    endfor
+  %}
+  {%- if primaryImage.featured_media != null -%}
+    <img
+      srcset="
+        {%- if primaryImage.featured_media.width >= 165 -%}{{ primaryImage.featured_media | image_url: width: 165 }} 165w,{%- endif -%}
+        {%- if primaryImage.featured_media.width >= 360 -%}{{ primaryImage.featured_media | image_url: width: 360 }} 360w,{%- endif -%}
+        {%- if primaryImage.featured_media.width >= 533 -%}{{ primaryImage.featured_media | image_url: width: 533 }} 533w,{%- endif -%}
+        {%- if primaryImage.featured_media.width >= 720 -%}{{ primaryImage.featured_media | image_url: width: 720 }} 720w,{%- endif -%}
+        {%- if primaryImage.featured_media.width >= 940 -%}{{ primaryImage.featured_media | image_url: width: 940 }} 940w,{%- endif -%}
+        {%- if primaryImage.featured_media.width >= 1066 -%}{{ primaryImage.featured_media | image_url: width: 1066 }} 1066w,{%- endif -%}
+        {{ primaryImage.featured_media | image_url }} {{ primaryImage.featured_media.width }}w
+      "
+      src="{{ primaryImage.featured_media | image_url: width: 533 }}"
+      sizes="(min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 130 | divided_by: 4 }}px, (min-width: 990px) calc((100vw - 130px) / 4), (min-width: 750px) calc((100vw - 120px) / 3), calc((100vw - 35px) / 2)"
+      alt="{{ primaryImage.featured_media.alt | escape }}"
+      class="motion-reduce product-grid-primary__image"
+      loading="lazy"
+      width="{{ primaryImage.featured_media.width }}"
+      height="{{ primaryImage.featured_media.height }}"
+    >
+  {% endif %}

@@ -1,0 +1,77 @@
+.navigation-hub-btn {
+  min-height: 56px;
+  width: 56px;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  margin-right: 3rem;
+  cursor: pointer;
+  grid-area: hub;
+  justify-content: center;
+  border-radius: var(--radius-5);
+}
+
+.navigation-hub-popup {
+  display: none;
+  opacity: 0;
+  position: fixed;
+  top: 0;
+  overflow: auto;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgb(var(--color-background));
+  z-index: 4;
+  padding: 10rem;
+  -webkit-transition: all 0.45s ease-in-out;
+  -moz-transition: all 0.45s ease-in-out;
+  -o-transition: all 0.45s ease-in-out;
+  -ms-transition: all 0.45s ease-in-out;
+  transition: all 0.45s ease-in-out;
+}
+.section-header-loaded .navigation-hub-popup {
+  transition: none;
+}
+.navigation-hub-logo {
+  margin-left: -0.75rem;
+}
+
+.navigation-hub-get-in-touch {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  column-gap: 30px;
+}
+
+.popup-close-btn {
+  position: absolute;
+  right: 3rem;
+  top: 3rem;
+}
+
+.email-number-info > * {
+  margin: 0px;
+}
+
+.social-media-block .list-social {
+  justify-content: left;
+}
+
+.navigation-hub-get-in-touch > * + * {
+  text-align: right;
+}
+
+.navigation-hub-inner {
+  display: grid;
+  grid-row-gap: 5rem;
+  grid-template-columns: 100%;
+}
+
+@media screen and (min-width: 1250px) {
+  .slider--scrollbar.empty-scrollbar {
+    padding-bottom: 0px;
+    overflow: hidden;
+  }
+}

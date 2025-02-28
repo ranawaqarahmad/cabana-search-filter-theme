@@ -1,0 +1,332 @@
+/*
+* ------------------------------------------------------------
+* IMPORTANT: The contents of this file are auto-generated.
+*
+* This file may be updated by the Shopify admin theme editor
+* or related systems. Please exercise caution as any changes
+* made to this file may be overwritten.
+* ------------------------------------------------------------
+*/
+{
+  "sections": {
+    "breadcrumbs_yJmh48": {
+      "type": "breadcrumbs",
+      "disabled": true,
+      "settings": {
+        "padding_top": 32,
+        "padding_bottom": 32
+      }
+    },
+    "image_banner_Fg9cUa": {
+      "type": "image-banner",
+      "settings": {
+        "image_height": "original",
+        "image": "shopify://shop_images/CB_Craft2024_LandingPage_20240920KC_header_landing_desktop_0438a7ad-cc5f-4427-b347-9d6f36625a35.jpg",
+        "image_overlay_opacity": 0,
+        "fixed_background_image": false,
+        "subheading": "",
+        "heading": "",
+        "heading_size": "h1",
+        "description": "",
+        "button_label": "",
+        "button_link": "https://cannacabana.com/blogs/all/explore-craft-at-unbeatable-prices",
+        "button_style": "primary",
+        "desktop_content_position": "middle-center",
+        "show_text_box": false,
+        "desktop_content_alignment": "center",
+        "color_scheme": "",
+        "mobile_content_alignment": "center",
+        "show_text_below": false,
+        "bottom_banner_text": ""
+      }
+    },
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+      }
+    },
+    "custom_liquid_WD7Qtd": {
+      "type": "custom-liquid",
+      "settings": {
+        "custom_liquid": "<div style=\"display: flex; flex-wrap: wrap; gap: 20px;\">\n<div style=\"flex: 2 1 0%; padding-right: 20px; min-width: 250px;\">\n<h1>Explore Craft at UNBEATABLE prices </h1>\n\n<p><strong>In Stores October 1st to 14th</strong></p>\n<h2>Celebrate Craft: Where Passion Meets Cannabis</h2>\n<p style=\"color: var(--red-500);\"><strong>In-store pop-ups, free swag and the largest selection of craft week in Canada!</strong></p>\n<p>While cannabis may be readily available and budget-friendly, it often falls short when it comes to the artistry and dedication that craft growers pour into their products. Commercial grows, with their focus on large-scale production, often miss the nuanced care and attention to detail that define craft cannabis.&nbsp;</p>\n<h3>Craft Cannabis: A Labour of Love</h3>\n<p>At its core, craft cannabis is about a deep connection to the plant. It's about small-scale growers who prioritize sustainable, organic practices and meticulous cultivation techniques. It's cannabis that's nurtured from seed to harvest with a focus on quality, not quantity.&nbsp;</p>\n</div>\n<div style=\"flex: 1 1 0%; min-width: 200px;\">\n\n\n<div style=\"background-color: #E1251C; padding: 20px; margin-bottom: 10px; border-radius: var(--radius-12);\">\n<p style=\"color: #fff !important;\">What makes craft different? Learn more on our blog!</p>\n<a style=\"color: #fff !important;\" class=\"button button--outline button--icon\" href=\"https://cannacabana.com/blogs/all/explore-craft-at-unbeatable-prices\"> Read Now</a></div>\n\n<div style=\"background-color: #01538c; padding: 20px; margin-bottom: 10px; border-radius: var(--radius-12);\">\n<p style=\"color: #fff !important;\">Discover our craft collection handpicked by our experts for you!</p>\n<a style=\"color: #fff !important;\" class=\"button button--outline button--icon\" href=\"https://cannacabana.com/collections/craft-cannabis\">Shop Craft Weed </a></div>\n\n<div style=\"background-color: #000; padding: 20px; margin-bottom: 10px; border-radius: var(--radius-12);\">\n<p style=\"color: #fff !important;\">Connect with the passionate people behind the plant.</p>\n<a style=\"color:  #fff!important;\" class=\"button button--outline button--icon\" href=\"https://cannacabana.com/pages/craft-profiles\">Meet your Craft Growers</a></div>\n\n</div>\n<style><!--\n/* Media query for smaller devices */\n  @media (max-width: 768px) {\n    div[style*=\"display: flex\"] {\n      flex-direction: column;\n    }\n    div[style*=\"padding-right: 20px\"] {\n      padding-right: 0;\n    }\n  }\n--></style>\n<style><!--\n.button--outline{\nborder: 3px solid white !important  ;\n{\n--></style>",
+        "expand_width": false,
+        "remove_spacing": true,
+        "color_scheme": "scheme-8346fd63-d842-4b2e-a254-5cd9b9d31de9",
+        "padding_top": 40,
+        "padding_bottom": 0
+      }
+    },
+    "rich_text_pXVCh4": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_YaW4cd": {
+          "type": "heading",
+          "settings": {
+            "subheading": "",
+            "heading": "Meet the Masters: Canadian Craft Growers",
+            "heading_size": "h0",
+            "autoslide": ""
+          }
+        },
+        "text_8cGrXr": {
+          "type": "text",
+          "settings": {
+            "text": "<p><strong>Prepare to be inspired by these participating Canadian growers, each with a unique story and passion for the art of craft cannabis:</strong></p>",
+            "text_alignment": "center",
+            "text_color": "#ffffff"
+          }
+        }
+      },
+      "block_order": [
+        "heading_YaW4cd",
+        "text_8cGrXr"
+      ],
+      "settings": {
+        "expanded_width": true,
+        "color_scheme": "scheme-9f459313-d482-46ca-b82d-99b7d5128e5d",
+        "padding_top": 20,
+        "padding_bottom": 18
+      }
+    },
+    "image_with_text_6Exx4i": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_8xLQQj": {
+          "type": "heading",
+          "settings": {
+            "subheading": "",
+            "heading": "<strong>SIMPLY BARE</strong>",
+            "heading_size": "h2"
+          }
+        },
+        "text_mYTzEz": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Inspired by the raw nature and beauty of British Columbia, we grow cannabis in the image of the rugged landscape we call our home. Beautiful yet formidable.</p>"
+          }
+        },
+        "button_wwUMMW": {
+          "type": "button",
+          "settings": {
+            "button_label": "Explore",
+            "button_link": "https://cannacabana.com/blogs/all/craft-cannabis-from-simply-bare",
+            "button_style": "primary"
+          }
+        }
+      },
+      "block_order": [
+        "heading_8xLQQj",
+        "text_mYTzEz",
+        "button_wwUMMW"
+      ],
+      "settings": {
+        "section_color_scheme": "scheme-1",
+        "image": "shopify://shop_images/CB_Craft2024_LandingPage_20240920KC_simplebare_f36073b3-d17c-41af-bd8d-fec2dbd414e2.jpg",
+        "image_position_right": false,
+        "height": "original",
+        "color_scheme": "",
+        "desktop_content_position": "middle",
+        "desktop_content_alignment": "center",
+        "image_animation": false,
+        "mobile_content_alignment": "center",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "image_with_text_8zMHxi": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_cjjEMb": {
+          "type": "heading",
+          "settings": {
+            "subheading": "",
+            "heading": "<strong>Broken Coast</strong>",
+            "heading_size": "h2"
+          }
+        },
+        "text_enXCrE": {
+          "type": "text",
+          "settings": {
+            "text": "<p>No machine can match a human eye and a well-trained hand. We trim every Broken Coast harvest by hand, rather than using an automated tumbler. By choosing the slower path, we can inspect the quality of each individual bud.</p>"
+          }
+        },
+        "button_FqFbmw": {
+          "type": "button",
+          "settings": {
+            "button_label": "Explore",
+            "button_link": "https://cannacabana.com/blogs/all/craft-cannabis-from-broken-coast",
+            "button_style": "primary"
+          }
+        }
+      },
+      "block_order": [
+        "heading_cjjEMb",
+        "text_enXCrE",
+        "button_FqFbmw"
+      ],
+      "settings": {
+        "section_color_scheme": "",
+        "image": "shopify://shop_images/CB_Craft2024_LandingPage_20240920KC_brokencoast_6f604894-2548-4548-898e-a79a22fbc540.jpg",
+        "image_position_right": true,
+        "height": "original",
+        "color_scheme": "",
+        "desktop_content_position": "middle",
+        "desktop_content_alignment": "center",
+        "image_animation": false,
+        "mobile_content_alignment": "center",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "image_with_text_Yb46bE": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_VQAVkT": {
+          "type": "heading",
+          "settings": {
+            "subheading": "",
+            "heading": "<strong>Coterie</strong>",
+            "heading_size": "h2"
+          }
+        },
+        "text_nCh94h": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Whether you’re a seasoned connoisseur or just cannabis curious, we’ve curated a sophisticated, yet uncomplicated experience. The highest calibre products, in the most accessible ways possible.</p>"
+          }
+        },
+        "button_NRHbzF": {
+          "type": "button",
+          "settings": {
+            "button_label": "Explore",
+            "button_link": "https://cannacabana.com/blogs/all/craft-cannabis-from-coterie",
+            "button_style": "primary"
+          }
+        }
+      },
+      "block_order": [
+        "heading_VQAVkT",
+        "text_nCh94h",
+        "button_NRHbzF"
+      ],
+      "settings": {
+        "section_color_scheme": "",
+        "image": "shopify://shop_images/CB_Craft2024_LandingPage_20240920KC_coterie_c39a647e-22f0-435b-a16a-41fa12f004eb.jpg",
+        "image_position_right": false,
+        "height": "original",
+        "color_scheme": "",
+        "desktop_content_position": "middle",
+        "desktop_content_alignment": "center",
+        "image_animation": false,
+        "mobile_content_alignment": "center",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "image_with_text_BbxR4U": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_gzPU6C": {
+          "type": "heading",
+          "settings": {
+            "subheading": "",
+            "heading": "Pistol & Paris",
+            "heading_size": "h2"
+          }
+        },
+        "text_Hby8jT": {
+          "type": "text",
+          "settings": {
+            "text": "<p>At Pistol & Paris, the sky's the limit. All of our top-shelf flowers were bred, pheno-hunted and cultivated using Capulator Genetics. Cap has a true legendary reputation for producing quads, and settles for nothing less than absurdly good cannabis.</p>"
+          }
+        },
+        "button_xBaUqU": {
+          "type": "button",
+          "settings": {
+            "button_label": "Explore",
+            "button_link": "https://cannacabana.com/blogs/all/craft-cannabis-from-pistol-paris",
+            "button_style": "primary"
+          }
+        }
+      },
+      "block_order": [
+        "heading_gzPU6C",
+        "text_Hby8jT",
+        "button_xBaUqU"
+      ],
+      "settings": {
+        "section_color_scheme": "",
+        "image": "shopify://shop_images/CB_Craft2024_LandingPage_20240920KC_pistolandparis_600x600_c82279af-8237-434f-9f6f-a7c759d03438.jpg",
+        "image_position_right": true,
+        "height": "original",
+        "color_scheme": "",
+        "desktop_content_position": "middle",
+        "desktop_content_alignment": "center",
+        "image_animation": false,
+        "mobile_content_alignment": "center",
+        "padding_top": 0,
+        "padding_bottom": 2
+      }
+    },
+    "rich_text_yihHxy": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_E6kKjV": {
+          "type": "heading",
+          "settings": {
+            "subheading": "",
+            "heading": "<strong>Celebrate Craft with Us!</strong>",
+            "heading_size": "h1",
+            "autoslide": ""
+          }
+        },
+        "text_NxCe6J": {
+          "type": "text",
+          "settings": {
+            "text": "<p><strong>Oct 1st - 14th 2024</strong><br/>At every Canna Cabana location in Canada Join us for pop-ups, free swag giveaways and shop the largest collection of craft weed in Canada!</p>",
+            "text_alignment": "center",
+            "text_color": "#ffffff"
+          }
+        },
+        "button_CDXNBp": {
+          "type": "button",
+          "disabled": true,
+          "settings": {
+            "button_label": "Button label",
+            "button_suggestions": "Suggestion",
+            "button_link": "",
+            "button_style_primary": "primary",
+            "button_label_2": "Button label",
+            "button_suggestions_2": "",
+            "button_link_2": "",
+            "button_style_secondary": "outline"
+          }
+        }
+      },
+      "block_order": [
+        "heading_E6kKjV",
+        "text_NxCe6J",
+        "button_CDXNBp"
+      ],
+      "settings": {
+        "expanded_width": true,
+        "color_scheme": "scheme-9f459313-d482-46ca-b82d-99b7d5128e5d",
+        "padding_top": 28,
+        "padding_bottom": 28
+      }
+    }
+  },
+  "order": [
+    "breadcrumbs_yJmh48",
+    "image_banner_Fg9cUa",
+    "main",
+    "custom_liquid_WD7Qtd",
+    "rich_text_pXVCh4",
+    "image_with_text_6Exx4i",
+    "image_with_text_8zMHxi",
+    "image_with_text_Yb46bE",
+    "image_with_text_BbxR4U",
+    "rich_text_yihHxy"
+  ]
+}

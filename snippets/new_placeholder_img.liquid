@@ -1,0 +1,150 @@
+{% assign img_found = false %}
+{% assign dried_folower_tags = 'Whole Flower,Flower,Whole Flower / Bud,Milled Flower,Milled / Blend' %}
+{% assign dried_flower_img = 'https://cdn.shopify.com/s/files/1/0882/0113/4386/files/dried_flower_ph.jpg?v=1724966676' %}
+
+{% assign joints_tags = 'Pre-Rolls,Joints,Blunts,Infused Pre-Rolls,Infused Blunts' %}
+{% assign joints_img = 'https://cdn.shopify.com/s/files/1/0882/0113/4386/files/Pre-Roll_ph.jpg?v=1724967575' %}
+
+{% assign vape_tags = '510 battery,Vape Batteries,Vape-Cartridge 510 w/battery,510 Thread Battery,Pod Systems,All-In-Ones,Vapes,Live Resin Carts,Liquid Diamond Carts' %}
+{% assign vape_img = 'https://cdn.shopify.com/s/files/1/0882/0113/4386/files/vapes_ph.jpg?v=1724967873' %}
+
+{% assign resin_tags = 'Concentrates,Resin,Badder & Wax,Rosin,Hash & Kief,Shatter,Isolate,Distillate' %}
+{% assign resin_img = 'https://cdn.shopify.com/s/files/1/0882/0113/4386/files/resin_ph.jpg?v=1724968220' %}
+
+{% assign edibls_tags = 'Gummies,Candies,Chocolates,Edibles' %}
+{% assign edibls_img = 'https://cdn.shopify.com/s/files/1/0882/0113/4386/files/edibles_ph.jpg?v=1724968462' %}
+
+{% assign bevs_tags = 'Beverages' %}
+{% assign bevs_img = 'https://cdn.shopify.com/s/files/1/0882/0113/4386/files/Beverages_ph.jpg?v=1724968596' %}
+
+{% assign topi_tags = 'Topicals' %}
+{% assign topi_img = 'https://cdn.shopify.com/s/files/1/0882/0113/4386/files/Topicals_ph.jpg?v=1724968687' %}
+
+{% assign oil_tags = 'Oils,Capsules & Soft Gels' %}
+{% assign oil_img = 'https://cdn.shopify.com/s/files/1/0882/0113/4386/files/Oils_ph.jpg?v=1724968786' %}
+
+{% assign accs_tags = 'Handpipes,Accessories,bubbler,Bongs,Replacement Parts,Herb Vaporizers' %}
+{% assign accs_img = 'https://cdn.shopify.com/s/files/1/0882/0113/4386/files/Accessories_ph.jpg?v=1724969068' %}
+
+{% assign seeds_tags = 'Seeds' %}
+{% assign seeds_img = 'https://cdn.shopify.com/s/files/1/0882/0113/4386/files/Seeds_ph.jpg?v=1724969511' %}
+
+{% for tag in placeholder_product.tags %}
+  {% if dried_folower_tags contains tag %}
+    <img src="{{ dried_flower_img }}" {{ tag }}  {{ tag }}/>
+    {% assign img_found = true %}
+    {% break %}
+
+  {% elsif joints_tags contains tag %}
+    <img src="{{ joints_img }}" {{ tag }}  {{ tag }}/>
+    {% assign img_found = true %}
+    {% break %}
+    
+  {% elsif vape_tags contains tag %}
+    {% if placeholder_product.tags contains 'Batteries' or placeholder_product.tags contains 'Vape Batteries' %}
+      <img src="https://cdn.shopify.com/s/files/1/0520/7713/4012/files/Vape_Batteries.jpg?v=1725989440"  {{ tag }}/>
+      {% assign img_found = true %}
+      {% break %}
+    {% else %}
+      <img src="{{ accs_img }}"  {{ tag }}/>
+      {% assign img_found = true %}
+      {% break %}
+    {% endif %}
+
+  {% elsif resin_tags contains tag %}
+    <img src="{{ resin_img }}"  {{ tag }}/>
+    {% assign img_found = true %}
+    {% break %}
+
+  {% elsif edibls_tags contains tag %}
+    <img src="{{ edibls_img }}"  {{ tag }}/>
+    {% assign img_found = true %}
+    {% break %}
+
+  {% elsif bevs_tags contains tag %}
+    <img src="{{ bevs_img }}"  {{ tag }}/>
+    {% assign img_found = true %}
+    {% break %}
+
+  {% elsif topi_tags contains tag %}
+    <img src="{{ topi_img }}"  {{ tag }}/>
+    {% assign img_found = true %}
+    {% break %}
+
+  {% elsif oil_tags contains tag %}
+    <img src="{{ oil_img }}"  {{ tag }}/>
+    {% assign img_found = true %}
+    {% break %}
+
+  {% elsif accs_tags contains tag %}
+
+    {% if placeholder_product.tags contains 'Bongs' %}
+      <img src="https://cdn.shopify.com/s/files/1/0520/7713/4012/files/Bongs.jpg?v=1725986360"  {{ tag }}/>
+      {% assign img_found = true %}
+      {% break %}
+    {% elsif placeholder_product.tags contains 'Bubbler' %}
+      <img src="https://cdn.shopify.com/s/files/1/0520/7713/4012/files/Bubblers.jpg?v=1725987543"  {{ tag }}/>
+      {% assign img_found = true %}
+      {% break %}
+    {% elsif placeholder_product.tags contains 'Cleaning' %}
+      <img src="https://cdn.shopify.com/s/files/1/0520/7713/4012/files/Cleaning.jpg?v=1725987681"  {{ tag }}/>
+      {% assign img_found = true %}
+      {% break %}
+    {% elsif placeholder_product.tags contains 'Concentrate Vaporizers' or placeholder_product.tags contains 'Herbal Infuser' %}
+      <img src="https://cdn.shopify.com/s/files/1/0520/7713/4012/files/Concentrate_Vaporizers.jpg?v=1725987791"  {{ tag }}/>
+      {% assign img_found = true %}
+      {% break %}
+    {% elsif placeholder_product.tags contains 'Dab Rigs' %}
+      <img src="https://cdn.shopify.com/s/files/1/0520/7713/4012/files/Dab_Rigs.jpg?v=1725988014"  {{ tag }}/>
+      {% assign img_found = true %}
+      {% break %}
+    {% elsif placeholder_product.tags contains 'Grinders' %}
+      <img src="https://cdn.shopify.com/s/files/1/0520/7713/4012/files/Grinders.jpg?v=1725988125"  {{ tag }}/>
+      {% assign img_found = true %}
+      {% break %}
+    {% elsif placeholder_product.tags contains 'Handpipes' or placeholder_product.tags contains 'Hash Pipe' %}
+      <img src="https://cdn.shopify.com/s/files/1/0520/7713/4012/files/Handpipes.jpg?v=1725988223"  {{ tag }}/>
+      {% assign img_found = true %}
+      {% break %}
+    {% elsif placeholder_product.tags contains 'Herb Vaporizers' %}
+      <img src="https://cdn.shopify.com/s/files/1/0520/7713/4012/files/Herb_Vaporizers.jpg?v=1725988520"  {{ tag }}/>
+      {% assign img_found = true %}
+      {% break %}
+    {% elsif placeholder_product.tags contains 'Lighters & Torches' or placeholder_product.tags contains 'Lighter' %}
+      <img src="https://cdn.shopify.com/s/files/1/0520/7713/4012/files/Lighters_Torches.jpg?v=1725988685"  {{ tag }}/>
+      {% assign img_found = true %}
+      {% break %}
+    {% elsif placeholder_product.tags contains 'Papers & Cones' %}
+      <img src="https://cdn.shopify.com/s/files/1/0520/7713/4012/files/Papers_Cones.jpg?v=1725989078"  {{ tag }}/>
+      {% assign img_found = true %}
+      {% break %}
+    {% elsif placeholder_product.tags contains 'Rolling Machine' or placeholder_product.tags contains 'Rolling Accessories' %}
+      <img src="https://cdn.shopify.com/s/files/1/0520/7713/4012/files/Rolling_Accessories.jpg?v=1725989227"  {{ tag }}/>
+      {% assign img_found = true %}
+      {% break %}
+    {% elsif placeholder_product.tags contains 'Storage' %}
+      <img src="https://cdn.shopify.com/s/files/1/0520/7713/4012/files/Storage.jpg?v=1725989335"  {{ tag }}/>
+      {% assign img_found = true %}
+      {% break %}
+    {% elsif placeholder_product.tags contains 'Batteries' or placeholder_product.tags contains 'Vape Batteries' %}
+      <img src="https://cdn.shopify.com/s/files/1/0520/7713/4012/files/Vape_Batteries.jpg?v=1725989440"  {{ tag }}/>
+      {% assign img_found = true %}
+      {% break %}
+    {% else %}
+      <img src="{{ accs_img }}"  {{ tag }}/>
+      {% assign img_found = true %}
+      {% break %}
+    {% endif %} 
+
+  {% elsif seeds_tags contains tag %}
+    <img src="{{ seeds_img }}"  {{ tag }}/>
+    {% assign img_found = true %}
+    {% break %}
+
+    
+  {% endif %}
+{% endfor %}
+
+{% if img_found == false %}
+   <img src="https://cdn.shopify.com/s/files/1/0882/0113/4386/files/Universal_Image.jpg?v=1725046259"   {{ tag }}/>
+{% endif %}

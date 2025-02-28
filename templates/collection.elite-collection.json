@@ -1,0 +1,202 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "hero_small_qRjMNz": {
+      "type": "hero-small",
+      "settings": {
+        "content": "<p>{{ collection.metafields.custom.collection_hero_title.value }}</p>",
+        "image": "{{ collection.metafields.custom.collection_hero_image.value }}"
+      }
+    },
+    "breadcrumbs_hWjTRK": {
+      "type": "breadcrumbs",
+      "settings": {
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "banner": {
+      "type": "main-collection-banner",
+      "custom_css": [
+        ".collection-hero {margin-top: 0; padding-top: 0.8rem;}"
+      ],
+      "settings": {
+        "color_scheme": "",
+        "show_collection_description": true,
+        "show_collection_image": false,
+        "collapse_content": true
+      }
+    },
+    "elite_login_cta_wChNah": {
+      "type": "elite-login-cta",
+      "settings": {
+        "color_scheme": "scheme-09e7d173-6378-4e51-8923-3cb8d72dd7f1",
+        "heading": "<p>ELITE Members Get VIP Access to Exclusive Flash Sales & Accessory Drops</p>",
+        "sub_heading": "<p>You must be a member to shop our ELITE collection</p>",
+        "button_label": "Log In",
+        "button_link": "/account",
+        "secondary_button_label": "Upgrade Now",
+        "secondary_button_link": "shopify://pages/elite",
+        "hide_for_ab": true,
+        "hide_for_bc": true
+      }
+    },
+    "product-grid": {
+      "type": "main-collection-product-grid",
+      "blocks": {
+        "image_block_1": {
+          "type": "image_block",
+          "disabled": true,
+          "settings": {
+            "color_scheme": "",
+            "block_position": 5,
+            "image_ratio": "normal",
+            "image_width": "large",
+            "subheading": "Subheading",
+            "heading": "Image block",
+            "button_label": "Button label",
+            "button_link": "",
+            "vertical_alignment": "bottom",
+            "horizontal_alignment": "left"
+          }
+        },
+        "image_block_2": {
+          "type": "image_block",
+          "disabled": true,
+          "settings": {
+            "color_scheme": "",
+            "block_position": 11,
+            "image_ratio": "normal",
+            "image_width": "small",
+            "subheading": "Subheading",
+            "heading": "Image block",
+            "button_label": "Button label",
+            "button_link": "",
+            "vertical_alignment": "middle",
+            "horizontal_alignment": "center"
+          }
+        }
+      },
+      "block_order": [
+        "image_block_1",
+        "image_block_2"
+      ],
+      "custom_css": [
+        ".product-grid-container {background-color: var(--blue-900); border-radius: 16px; padding: 5rem;}"
+      ],
+      "settings": {
+        "products_per_page": 15,
+        "products_per_row": 4,
+        "infinite_scroll": false,
+        "grid_color_scheme": "scheme-eb74d6cc-1dbb-476d-9948-e64813c2d326",
+        "grid_style": "classic",
+        "image_ratio": "original",
+        "show_secondary_image": true,
+        "show_vendor": true,
+        "show_rating": false,
+        "show_color_swatches": false,
+        "grid_text_alignment": "left",
+        "enable_filtering": true,
+        "color_filter": true,
+        "enable_sorting": true,
+        "products_per_row_mobile": "2",
+        "padding_top": 100,
+        "padding_bottom": 100
+      }
+    },
+    "elite_login_cta_Kgrg8x": {
+      "type": "elite-login-cta",
+      "settings": {
+        "color_scheme": "scheme-09e7d173-6378-4e51-8923-3cb8d72dd7f1",
+        "heading": "<p>Upgrade to ELITE & Get a 25% OFF Accessory Coupon!</p>",
+        "sub_heading": "",
+        "button_label": "",
+        "button_link": "shopify://products/cabana-elite-annual",
+        "secondary_button_label": "Upgrade Now",
+        "secondary_button_link": "shopify://products/cabana-elite-annual",
+        "hide_for_ab": false,
+        "hide_for_bc": true
+      }
+    },
+    "featured_collection_with_cta_zMCtfP": {
+      "type": "featured-collection-with-cta",
+      "blocks": {
+        "featured_collection_cta_tHAXQX": {
+          "type": "featured_collection_cta",
+          "settings": {
+            "image": "shopify://shop_images/elite_flash_sales.jpg",
+            "title": "ELITE FLASH SALES",
+            "description": "<strong>Exclusive deals on top cannabis brands. New items added weekly!</strong>",
+            "change_ab_text": false,
+            "ab_description": ""
+          }
+        },
+        "featured_collection_mri6in": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "elite",
+            "title": "Elite Flash Sales"
+          }
+        }
+      },
+      "block_order": [
+        "featured_collection_cta_tHAXQX",
+        "featured_collection_mri6in"
+      ],
+      "settings": {
+        "title": "Elite Flash Sale",
+        "heading_size": "h2",
+        "heading_alignment": "center",
+        "color_scheme": "",
+        "products_to_show": 8,
+        "products_per_row": 4,
+        "hide_for_ab": false,
+        "hide_for_bc": true,
+        "enable_slider_scrollbar": true,
+        "show_view_all": true,
+        "grid_color_scheme": "scheme-2",
+        "grid_style": "classic",
+        "image_ratio": "portrait",
+        "show_secondary_image": true,
+        "show_vendor": true,
+        "show_rating": false,
+        "show_color_swatches": false,
+        "grid_text_alignment": "left",
+        "products_per_row_mobile": "2",
+        "swipe_on_mobile": true
+      }
+    },
+    "location_6MjpJR": {
+      "type": "location",
+      "settings": {
+        "section_color_scheme": "scheme-9f459313-d482-46ca-b82d-99b7d5128e5d",
+        "fallback_image": "shopify://shop_images/cannacabana-store-interior_2.jpg",
+        "image_position_right": false,
+        "color_scheme": "scheme-9f459313-d482-46ca-b82d-99b7d5128e5d",
+        "desktop_content_position": "middle",
+        "desktop_content_alignment": "left",
+        "mobile_content_alignment": "left",
+        "padding_top": 100,
+        "padding_bottom": 100
+      }
+    }
+  },
+  "order": [
+    "hero_small_qRjMNz",
+    "breadcrumbs_hWjTRK",
+    "banner",
+    "elite_login_cta_wChNah",
+    "product-grid",
+    "elite_login_cta_Kgrg8x",
+    "featured_collection_with_cta_zMCtfP",
+    "location_6MjpJR"
+  ]
+}

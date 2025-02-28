@@ -1,0 +1,40 @@
+.search-bar__scroll-button-wrapper {
+  text-align: center;
+  margin-top: var(--Spacingspacing-lg);
+}
+
+.search-bar__scroll-button {
+  height: 40px;
+  width: 40px;
+}
+
+.search-bar__form {
+  max-width: 675px;
+}
+
+.search-bar__text h2 {
+  margin-bottom: var(--Spacingspacing-md);
+}
+
+.search-bar__text h2,
+.search-bar__text p {
+  text-align: center;
+}
+
+.search-bar__button-text {
+  font-size: 14px;
+}
+
+.search-bar__scroll-button-wrapper button {
+  min-height: unset;
+}
+
+.search-bar__scroll-button {
+  gap: 0;
+  min-width: unset;
+  padding: 1rem 1.25rem;
+}
+
+.search-bar__text {
+  margin-bottom: var(--Spacingspacing-xs);
+}

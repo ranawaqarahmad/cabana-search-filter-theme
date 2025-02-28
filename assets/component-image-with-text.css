@@ -1,0 +1,337 @@
+.image-with-text .grid {
+  margin-bottom: 0;
+}
+
+.image-with-text .grid__item {
+  position: relative;
+}
+
+.media-overlap__images {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+}
+.media-overlap__images .image-with-text__media {
+  width: calc(50% + 1.5rem);
+  border: 0px;
+}
+.media-overlap__images .image-with-text__media--original {
+  height: max-content;
+}
+.media-overlap__images .image-with-text__media:nth-child(2){
+  margin-top: var(--secondary-media-height);
+}
+.media-overlap__images .image-with-text__media:nth-child(2) {
+  margin-top: var(--secondary-media-height);
+  margin-left: -3rem;
+}
+.promote-links {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+.image-with-text__content>*+*.app-promotion {
+  margin-top: 3rem;
+}
+
+@media screen and (min-width: 1201px) {
+  .icon-google-store,
+  .icon-apple-store{
+    width: 170px;
+  }
+}
+@media screen and (min-width: 769px) {
+  .image-with-text__grid--reverse {
+    flex-direction: row-reverse;
+  }
+}
+
+.image-with-text__media {
+  min-height: 100%;
+  overflow: visible;
+}
+
+.image-with-text__media.placeholder {
+  background-color: transparent;
+}
+.image-with-text__media--small {
+  height: 19.4rem;
+}
+
+.media-overlap__images .image-with-text__media--small:nth-child(2) {
+  margin-top: 9.7rem;
+}
+
+.image-with-text__media--medium {
+  height: 29.6rem;
+}
+
+.media-overlap__images .image-with-text__media--medium:nth-child(2) {
+  margin-top: 14.8rem;
+}
+
+
+.image-with-text__media--large {
+  height: 43.5rem;
+}
+
+.media-overlap__images .image-with-text__media--large:nth-child(2) {
+  margin-top: 21.75rem;
+}
+
+@media screen and (min-width: 769px) {
+  .image-with-text__media--small {
+    height: 31.4rem;
+  }
+
+  .media-overlap__images .image-with-text__media--small:nth-child(2) {
+    margin-top: 15.7rem;
+  }
+
+  .image-with-text__media--medium {
+    height: 46rem;
+  }
+
+  .media-overlap__images .image-with-text__media--medium:nth-child(2) {
+    margin-top: 23rem;
+  }
+
+  .image-with-text__media--large {
+    height: 69.5rem;
+  }
+
+  .media-overlap__images .image-with-text__media--large:nth-child(2) {
+    margin-top: 34.75rem;
+  }
+}
+
+.image-with-text__media--placeholder {
+  position: relative;
+  overflow: hidden;
+}
+
+.image-with-text__media--placeholder:after {
+  content: '';
+  position: absolute;
+  background: rgba(var(--color-foreground), 0.04);
+}
+
+.image-with-text__media--placeholder.image-with-text__media--original {
+  height: 30rem;
+}
+
+@media screen and (min-width: 769px) {
+  .image-with-text__media--placeholder.image-with-text__media--original {
+    height: 40rem;
+  }
+}
+
+.image-with-text__media--placeholder > svg {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: calc(100% + 1px);
+  height: 100%;
+  fill: currentColor;
+}
+
+.image-with-text__media--placeholder:is(.animate--ambient, .animate--zoom-in) > svg {
+  top: 0;
+  left: 0;
+  transform: translate(0);
+}
+
+.image-with-text__content {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: center;
+  align-self: center;
+  padding: 3rem;
+  position: relative;
+  z-index: 1;
+}
+
+.image-with-text .grid__item::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.image-with-text .image-with-text__media-item:after {
+  border-radius: var(--radius-20);
+  box-shadow: 0px 4px 5px
+    rgba(var(--color-shadow), 0.0);
+}
+
+.image-with-text .image-with-text__text-item:after {
+  border-radius: var(--radius-20);
+  box-shadow: var(--text-boxes-shadow-horizontal-offset) var(--text-boxes-shadow-vertical-offset)
+    var(--text-boxes-shadow-blur-radius) rgba(var(--color-shadow), var(--text-boxes-shadow-opacity));
+}
+
+.image-with-text .image-with-text__media-item .image-with-text__media {
+  border-radius: var(--radius-10);
+  overflow: hidden;
+  box-shadow: 0px 4px 5px
+    rgba(var(--color-shadow), 0.0);
+}
+
+.image-with-text .global-media-settings {
+  overflow: hidden !important;
+}
+
+.image-with-text .image-with-text__text-item > * {
+  border-radius: var(--radius-20);
+  overflow: hidden;
+  box-shadow: var(--text-boxes-shadow-horizontal-offset) var(--text-boxes-shadow-vertical-offset)
+    var(--text-boxes-shadow-blur-radius) rgba(var(--color-shadow), var(--text-boxes-shadow-opacity));
+}
+
+.image-with-text .image-with-text__media-item > *,
+.image-with-text .image-with-text__text-item > * {
+  box-shadow: none;
+}
+
+.image-with-text__content--mobile-right > * {
+  align-self: flex-end;
+  text-align: right;
+}
+
+.image-with-text__content--mobile-center > * {
+  align-self: center;
+  text-align: center;
+}
+
+@media screen and (min-width: 769px) {
+  .image-with-text__grid--reverse .image-with-text__content {
+    margin-left: auto;
+  }
+  .image-with-text__content {
+    padding: 5rem;
+  }
+
+  .image-with-text__content--bottom {
+    justify-content: flex-end;
+    align-self: flex-end;
+  }
+
+  .image-with-text__content--top {
+    justify-content: flex-start;
+    align-self: flex-start;
+  }
+
+  .image-with-text__content--desktop-right > * {
+    align-self: flex-end;
+    text-align: right;
+  }
+
+  .image-with-text__content--desktop-left > * {
+    align-self: flex-start;
+    text-align: left;
+  }
+
+  .image-with-text__content--desktop-center > * {
+    align-self: center;
+    text-align: center;
+  }
+
+  .image-with-text__media-item--small,
+  .image-with-text__media-item--large + .image-with-text__text-item {
+    flex-grow: 0;
+  }
+}
+
+.image-with-text .image-with-text__media-item {
+  z-index: 2;
+}
+
+/* Needed for gradient continuity with or without animation so that transparent PNG images come up as we would expect */
+.image-with-text .background-transparent {
+  background: transparent;
+}
+
+/* Needed for gradient continuity with or without animation, the transform scopes the gradient to its container which happens already when animation are turned on */
+.image-with-text .gradient {
+  transform: perspective(0);
+}
+
+.image-with-text__content {
+  border-radius: var(--radius-20);
+  box-shadow: var(--text-boxes-shadow-horizontal-offset) var(--text-boxes-shadow-vertical-offset)
+    var(--text-boxes-shadow-blur-radius) rgba(var(--color-shadow), var(--text-boxes-shadow-opacity));
+  word-break: break-word;
+}
+
+.image-with-text__content > * + * {
+  margin-top: 1.5rem;
+}
+
+.image-with-text__content > .image-with-text__text:empty ~ a {
+  margin-top: 2rem;
+}
+
+.image-with-text__content > :first-child:is(.image-with-text__heading),
+.image-with-text__text--caption + .image-with-text__heading,
+.image-with-text__text--caption:first-child {
+  margin-top: 0;
+}
+
+.image-with-text__content :last-child:is(.image-with-text__heading),
+.image-with-text__text--caption {
+  margin-bottom: 0;
+}
+
+.image-with-text__content .button + .image-with-text__text {
+  margin-top: 2rem;
+}
+
+.image-with-text__heading {
+  margin-bottom: 0;
+}
+
+.image-with-text__text p {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+@media screen and (max-width: 768px) {
+  .image-with-text__content,
+  .image-with-text .image-with-text__text-item > *,
+  .image-with-text .image-with-text__media-item:after,
+  .image-with-text .image-with-text__text-item:after,
+  .image-with-text .image-with-text__media-item > * {
+    border-radius: var(--radius-10);
+  }
+  .collapse-padding .image-with-text__grid .image-with-text__content {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+@media screen and (min-width: 769px) {
+  .collapse-padding
+    .image-with-text__grid:not(.image-with-text__grid--reverse)
+    .image-with-text__content:not(.image-with-text__content--desktop-center) {
+    padding-right: 0;
+  }
+
+  .collapse-padding
+    .image-with-text__grid--reverse
+    .image-with-text__content:not(.image-with-text__content--desktop-center) {
+    padding-left: 0;
+  }
+}
+
+/* check for flexbox gap in older Safari versions */
+@supports not (inset: 10px) {
+  .image-with-text .grid {
+    margin-left: 0;
+  }
+}

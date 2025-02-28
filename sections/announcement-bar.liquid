@@ -1,0 +1,39 @@
+<div
+  class="announcement-bar color-{{ section.settings.color_scheme }} gradient">
+  <div class="announcement-bar-inner">
+    <div class="text-center">
+      {{ section.settings.content }}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "t:sections.announcement-bar.name",
+  "class": "announcement-bar-section",
+  "enabled_on": {
+    "groups": [
+      "header"
+    ]
+  },
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-2"
+    },
+    {
+      "type": "richtext",
+      "id": "content",
+      "label": "t:sections.announcement-bar.settings.content.label",
+      "default": "<p><strong>Make an Announcement Here! 📣</strong></p>"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.announcement-bar.presets.name"
+    }
+  ]
+}
+{% endschema %}

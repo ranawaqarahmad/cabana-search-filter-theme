@@ -1,0 +1,129 @@
+.section__countdown-clock {
+  display: flex;
+  flex-wrap: wrap;
+}
+.countdown-clock-media {
+  width: 100%;
+  height: 100%;
+}
+.page-width .section__countdown-clock {
+  border-radius: var(--radius-20);
+}
+.section__countdown-clock-image {
+  width: 40%;
+}
+.countdown__clock {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+.countdown__clock-block>h2 {
+  margin: 0;
+  text-align: center;
+}
+.clock-small-text {
+  margin-top: 1.5rem;
+  display: block;
+  text-align: center;
+}
+.countdown-heading>h2,
+.countdown-richtext>p {
+  margin: 0;
+}
+.countdown__block+.countdown__block {
+  margin-top: 2rem;
+}
+.countdown__text-wrapper>*+* {
+  margin-top: 1.5rem;
+}
+.section__countdown-clock-content:empty+.section__countdown-clock-image {
+  width: 100%;
+}
+.section__countdown-clock-image.image-placement-left {
+  order: 1;
+}
+.section__countdown-clock-content {
+  order: 2;
+}
+.countdown__clock-message:not(:only-child) {
+  max-width: max-content;
+  margin: 1.5rem auto auto;
+}
+.countdown__clock-message * {
+  margin: 0px;
+}
+.countdown__clock--hidden {
+  display: none;
+}
+@media screen and (max-width: 769px){
+  .page-width .section__countdown-clock {
+    border-radius: var(--radius-20);
+    overflow: hidden;
+  }
+  .section__countdown-clock-content {
+    width: 100%;
+    padding: 3rem;
+  }
+  .section__countdown-clock-image {
+    width: 100%;
+  }
+  .section__countdown-clock-image .media.countdown-clock-media>* {
+    position: relative;
+  }
+}
+@media screen and (min-width: 750px) and (max-width : 989px) {
+  .section__countdown-clock-content:not(:only-child) {
+    width: 60%;
+  }
+  .countdown__clock {
+    gap: 3rem;
+  }
+  .section-fullscreen {
+    min-height: 100vh;
+  }
+  .section-fullscreen .section__countdown-clock-content {
+    height: max-content;
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+  .section__countdown-clock-content:only-child {
+    width: 100%;
+  }
+  .countdown__block+.countdown__block {
+    margin-top: 3rem;
+  }
+  .section__countdown-clock-content:empty+.section__countdown-clock-image {
+    min-height: 40rem;
+  }
+  .section__countdown-clock-image.image-placement-right {
+    order: 3;
+  }
+}
+@media screen and (min-width: 1201px){
+  .section__countdown-clock-content:not(:only-child) {
+    width: 60%;
+  }
+  .section__countdown-clock-content:empty+.section__countdown-clock-image {
+    min-height: 50rem;
+  }
+  .countdown__clock {
+    gap: 3rem;
+  }
+  .section__countdown-clock-content:only-child {
+    width: 100%;
+  }
+  .section-fullscreen {
+    min-height: 100vh;
+  }
+  .section-fullscreen .section__countdown-clock-content {
+    height: max-content;
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+  .countdown__block+.countdown__block {
+    margin-top: 5rem;
+  }
+  .section__countdown-clock-image.image-placement-right {
+    order: 3;
+  }
+}

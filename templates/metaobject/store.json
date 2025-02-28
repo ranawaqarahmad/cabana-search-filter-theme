@@ -1,0 +1,181 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "location_main_Pf3GaH": {
+      "type": "location-main",
+      "settings": {}
+    },
+    "location_events_qKJcbw": {
+      "type": "location-events",
+      "settings": {
+        "title": "Upcoming Events At Your Local Store",
+        "heading_size": "h3",
+        "heading_alignment": "left",
+        "color_scheme": "scheme-1",
+        "columns_per_row": 3,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "featured_collection_NC6wVt": {
+      "type": "featured-collection",
+      "blocks": {
+        "featured_collection_djwK4t": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "best-sellers",
+            "color_scheme": "",
+            "title": "Best sellers at this store"
+          }
+        }
+      },
+      "block_order": [
+        "featured_collection_djwK4t"
+      ],
+      "custom_css": [
+        ".collection {display: none;}"
+      ],
+      "settings": {
+        "title": "Best sellers at this store",
+        "heading_size": "h2",
+        "enable_shop_all": false,
+        "shop_all_link": "",
+        "shop_all_text": "",
+        "heading_alignment": "left",
+        "hide_for_bc": false,
+        "hide_for_ab": false,
+        "color_scheme": "scheme-1",
+        "products_to_show": 8,
+        "products_per_row": 4,
+        "enable_slider_scrollbar": true,
+        "show_view_all": false,
+        "grid_color_scheme": "",
+        "grid_style": "classic",
+        "image_ratio": "portrait",
+        "show_secondary_image": true,
+        "show_vendor": true,
+        "show_rating": false,
+        "show_color_swatches": false,
+        "grid_text_alignment": "left",
+        "products_per_row_mobile": "2",
+        "swipe_on_mobile": true,
+        "enable_elite_styling": false,
+        "elite_button_link": "",
+        "elite_subtitle": "",
+        "ab_subtitle": ""
+      }
+    },
+    "locations_nearby_6fA3Nc": {
+      "type": "locations-nearby",
+      "settings": {
+        "title": "Nearby Stores",
+        "heading_size": "h2",
+        "heading_alignment": "left",
+        "color_scheme": "scheme-1",
+        "columns_per_row": 3,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "animated_text_columns_QT6J39": {
+      "type": "animated-text-columns",
+      "blocks": {
+        "column_39ka3T": {
+          "type": "column",
+          "settings": {
+            "color_scheme": "",
+            "image": "shopify://shop_images/design-demo-image-9.png",
+            "mobile_image": "shopify://shop_images/logo_mobile.png",
+            "title": "",
+            "metric": "1",
+            "unit_suffix": "+",
+            "animated_counting": false,
+            "text": "",
+            "button_label": "Learn More",
+            "button_link": "shopify://pages/about",
+            "text_alignment": "center",
+            "content_position": "content_center"
+          }
+        },
+        "column_kEKXgA": {
+          "type": "column",
+          "settings": {
+            "color_scheme": "",
+            "title": "",
+            "metric": "180",
+            "unit_suffix": "+",
+            "animated_counting": true,
+            "text": "<p><strong>Stores Across Canada</strong></p>",
+            "button_label": "",
+            "button_link": "",
+            "text_alignment": "left",
+            "content_position": "content_center"
+          }
+        },
+        "column_NWgAf9": {
+          "type": "column",
+          "settings": {
+            "color_scheme": "",
+            "title": "",
+            "metric": "1000",
+            "unit_suffix": "s of",
+            "animated_counting": true,
+            "text": "<p><strong>5 Star Reviews</strong></p>",
+            "button_label": "",
+            "button_link": "",
+            "text_alignment": "left",
+            "content_position": "content_center"
+          }
+        },
+        "column_WENtLd": {
+          "type": "column",
+          "settings": {
+            "color_scheme": "",
+            "title": "",
+            "metric": "1.5",
+            "unit_suffix": "m+",
+            "animated_counting": true,
+            "text": "<p><strong>Cabana Club Members</strong></p>",
+            "button_label": "",
+            "button_link": "",
+            "text_alignment": "left",
+            "content_position": "content_center"
+          }
+        }
+      },
+      "block_order": [
+        "column_39ka3T",
+        "column_kEKXgA",
+        "column_NWgAf9",
+        "column_WENtLd"
+      ],
+      "custom_css": [
+        ".text-columns-with-icons {margin-bottom: 0;}"
+      ],
+      "settings": {
+        "title": "",
+        "heading_size": "h2",
+        "heading_alignment": "left",
+        "color_scheme": "scheme-9f459313-d482-46ca-b82d-99b7d5128e5d",
+        "column_per_row": 4,
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    }
+  },
+  "order": [
+    "location_main_Pf3GaH",
+    "location_events_qKJcbw",
+    "featured_collection_NC6wVt",
+    "locations_nearby_6fA3Nc",
+    "animated_text_columns_QT6J39"
+  ]
+}

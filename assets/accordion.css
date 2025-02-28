@@ -1,0 +1,99 @@
+.accordion-toggle-content:not(.is-active) {
+  height: 0;
+  opacity: 0;
+}
+
+.accordion-toggle-content {
+  overflow: hidden;
+  transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition-property: opacity, height;
+  will-change: opacity, contents;
+  padding-left: 5.9rem;
+}
+
+.accordion-toggle-btn[aria-disabled="true"] {
+  opacity: .5;
+  pointer-events: none;
+}
+
+.is-active .accordion-toggle-content {
+  overflow: unset;
+  height: auto;
+  opacity: 1;
+}
+
+.accordion-toggle-btn {
+  width: 100%;
+  cursor: pointer;
+  text-align: left;
+  background: transparent;
+  border: 0;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1.5rem 0rem;
+}
+footer .accordion-toggle-btn{
+  text-align: center;
+  justify-content:center;
+}
+
+
+@media only screen and (max-width: 767px) {
+    footer .accordion-toggle-btn {
+        width: 200px; /* Adjust the width to fit the screen */
+        justify-content: space-between; /* Center the content */
+    }
+      ul.footer-block__details-content.list-unstyled {
+        text-align: left !Important;
+        width: 200px !Important;
+    }
+
+}
+.toggle-svg {
+  position: relative;
+  border-radius: var(--radius-5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 4.4rem;
+  width: 4.4rem;
+  min-width: 4.4rem;
+  padding: 10px;
+}
+
+.toggle-svg .svg-icon {
+  -webkit-transition: all .1s ease-in-out;
+  -moz-transition: all .1s ease-in-out;
+  -o-transition: all .1s ease-in-out;
+  -ms-transition: all .1s ease-in-out;
+  transition: all .1s ease-in-out
+}
+
+.is-active .icon-plus {
+  transform: rotate(45deg);
+}
+
+.is-active .icon-chevron-down {
+  /* transform: rotate(180deg); */
+}
+
+.accordion-block--items {
+  border-bottom: solid 0.1rem rgba(var(--color-foreground), .08);
+}
+
+.is-active .close-arrow {
+  visibility: visible;
+  opacity: 1;
+}
+
+@media screen and (min-width: 750px) {
+  .accordion-toggle-btn {
+    padding: 3rem 0rem;
+    gap: 3rem;
+  }
+
+  .accordion-toggle-content {
+    padding-left: 7.4rem;
+  }
+}

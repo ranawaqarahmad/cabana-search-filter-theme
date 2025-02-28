@@ -1,0 +1,53 @@
+{% if request.design_mode %}
+  {% assign store_id = 3164 %}
+{% else %}
+  {%- capture contentForQuerystring -%}{{ content_for_header }}{%- endcapture -%}
+
+  {%- assign pageUrl = contentForQuerystring
+    | split: '"pageurl":"'
+    | last
+    | split: '"'
+    | first
+    | split: '.myshopify.com'
+    | last
+    | replace: '\/', '/'
+    | replace: '%20', ' '
+    | replace: '\u0026', '&'
+  -%}
+
+  {% liquid
+    assign query_params = pageUrl | split: '?' | last
+    assign params_array = query_params | split: '&'
+    assign sID_value = ''
+    assign cbd_value_min = 0
+    assign cbd_value_max = 100
+    assign thc_value_min = 0
+    assign thc_value_max = 100
+    assign market_price_value_min = 0.00
+    assign market_price_value_max = 9999.00
+    assign sort_by = ''
+
+    for param in params_array
+      assign key_value = param | split: '='
+      if key_value[0] == 'sID'
+        assign sID_value = key_value[1]
+      elsif key_value[0] == 'filter.v.cbd.gte'
+        assign cbd_value_min = key_value[1] | plus: 0
+      elsif key_value[0] == 'filter.v.cbd.lte'
+        assign cbd_value_max = key_value[1] | plus: 0
+      elsif key_value[0] == 'filter.v.thc.gte'
+        assign thc_value_min = key_value[1] | plus: 0
+      elsif key_value[0] == 'filter.v.thc.lte'
+        assign thc_value_max = key_value[1] | plus: 0
+      elsif key_value[0] == 'filter.v.mp.gte'
+        assign market_price_value_min = key_value[1] | plus: 0.0 | divided_by: 100
+      elsif key_value[0] == 'filter.v.mp.lte'
+        assign market_price_value_max = key_value[1] | plus: 0.0 | divided_by: 100
+      elsif key_value[0] == 'sort_by'
+        assign sort_by = key_value[1]
+      endif
+    endfor
+
+    assign store_id = sID_value
+  %}
+{% endif %}

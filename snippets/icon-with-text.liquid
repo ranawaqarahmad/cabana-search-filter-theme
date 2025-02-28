@@ -1,0 +1,51 @@
+{% comment %}
+  Renders icon with text block
+
+  Accepts:
+  - block: {Object} passes in the block information.
+
+
+  Usage:
+  {% render 'icon-with-text',
+    block: block
+  %}
+{% endcomment %}
+{%- liquid
+  assign hiddenblock = true
+  if block.settings.heading_1 != blank
+    assign hiddenblock = false
+  elsif block.settings.heading_2 != blank
+    assign hiddenblock = false
+  elsif block.settings.heading_3 != blank
+    assign hiddenblock = false
+  endif
+-%}
+<ul
+  class="icon-with-text icon-with-text--horizontal list-unstyled{% if hiddenblock %} hidden{% endif %}"
+  {{ block.shopify_attributes }}
+>
+  {%- if block.settings.heading_1 != blank -%}
+    <li class="icon-with-text__item">
+      {% render 'theme-icons', icon: block.settings.icon_1 %}
+      <span class="inline-richtext">
+        {{- block.settings.heading_1 -}}
+      </span>
+    </li>
+  {%- endif -%}
+  {%- if block.settings.heading_2 != blank -%}
+    <li class="icon-with-text__item">
+      {% render 'theme-icons', icon: block.settings.icon_2 -%}
+      <span class="inline-richtext">
+        {{- block.settings.heading_2 -}}
+      </span>
+    </li>
+  {%- endif -%}
+  {%- if block.settings.heading_3 != blank -%}
+    <li class="icon-with-text__item">
+      {% render 'theme-icons', icon: block.settings.icon_3 -%}
+      <span class="inline-richtext">
+        {{- block.settings.heading_3 -}}
+      </span>
+    </li>
+  {%- endif -%}
+</ul>

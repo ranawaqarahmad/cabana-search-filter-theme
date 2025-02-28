@@ -1,0 +1,81 @@
+.progess-ticker__grid {
+  display: grid;
+  column-gap: 3rem;
+  row-gap: 1.5rem;
+}
+.number-progress-bar__inner {
+  display: grid;
+  align-items: center;
+  gap: 1rem;
+  grid-template-columns: 1fr auto;
+}
+.progress-ticker__media {
+  min-height: 320px;
+}
+.progess-ticker-badge {
+  display: flex;
+}
+.progress__bar {
+  position: relative;
+  margin: 2px 0px;
+  display: block;
+  width: 100%;
+  height: 1px;
+  background: rgba(var(--color-foreground),.2);
+}
+.progress__bar:after {
+  position: absolute;
+  top: -2px;
+  left: 0;
+  background: rgba(var(--color-foreground));
+  bottom: 0;
+  content: '';
+  width: var(--progress);
+  height: 5px;
+  border-radius: var(--radius-10);
+}
+.progress-ticker__progress {
+  position: relative;
+  width: 100%;
+  padding: 3rem;
+  border-radius: var(--radius-10);
+}
+.progress-ticker__progress .progess-ticker-block__heading {
+  margin-bottom: 3rem;
+}
+.progress-ticker__item+.progress-ticker__item {
+  margin-top: 3rem;
+}
+@media screen and (min-width: 750px){
+  .progress-ticker__progress {
+    border-radius: var(--radius-20);
+  }
+  .progress__bar:after {
+    border-radius: var(--radius-5);
+  }
+}
+@media screen and (min-width: 1201px){
+  .progess-ticker-section__content {
+    position: sticky;
+    top: calc(var(--header-height) + 3rem);
+    height: max-content;
+  }
+  .content-image__blocks,
+  .content-progress__blocks {
+    grid-template-columns: 1fr 2fr;
+  }
+  .image-progress__blocks,
+  .progress-image__blocks{
+    grid-template-columns: 1fr 1fr;
+  }
+  .image-content__blocks,
+  .progress-content__blocks{
+    grid-template-columns: 2fr 1fr;
+  }
+  .progess-ticker-column__three {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+  .image__blocks .progress-ticker__media {
+    min-height: 56rem;
+  }
+}

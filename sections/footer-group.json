@@ -1,0 +1,215 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "name": "t:sections.footer.name",
+  "type": "footer",
+  "sections": {
+    "search_block_ht7mJm": {
+      "type": "search-block",
+      "custom_css": [
+        ".content-container {margin-top: 0; margin-bottom: 0;}"
+      ],
+      "settings": {
+        "heading": "Can't find what you're looking for?",
+        "sub_heading": "Tell us what it is!",
+        "color_scheme": "scheme-8346fd63-d842-4b2e-a254-5cd9b9d31de9",
+        "show_button": true,
+        "padding_top": 64,
+        "padding_bottom": 44
+      }
+    },
+    "custom_liquid_bWbAdy": {
+      "type": "custom-liquid",
+      "custom_css": [
+        "p {padding-top: 8px; padding-bottom: 8px; font-size: 1.2rem; margin: 0;}"
+      ],
+      "settings": {
+        "custom_liquid": "{% if template == 'page.elite-landing-page' %}\n<p>\n    *T & C apply.  For complete ELITE program details click here.<br>\n\n   <br> **Exclusive Flash Sales will be available to Cabana Elite members in the provinces of Ontario, Alberta, Manitoba, and Saskatchewan. In Alberta, “Flash Sales” means sale of exclusive cannabis products that will be available for a limited time to exclusive members. Discounts will not be provided on these items in Alberta. In Ontario, Manitoba, and Saskatchewan, “Flash Sales” will include Elite exclusive time-limited discounts on designated items. Sales are based on product availability and are only applicable for a limited time or while supplies last. The Company is not obligated to offer flash sales on any items and retains the right to cancel or end a sale early without notice if deemed necessary for any reason. Differences in the contents and nature of flash sales are based on differing regulatory requirements across regions and are not intended to provide unequal benefits.<br>\n\n <br>   ***Terms and conditions apply. No purchase necessary. Full contest rules can be found here. Elite members are automatically entered daily, no in-store visit required. Free alternative method of entry available.\n</p>\n{% endif %}",
+        "expand_width": false,
+        "remove_spacing": true,
+        "color_scheme": "scheme-d2303648-89a2-4044-993f-58b196c2a08c",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "footer": {
+      "type": "footer",
+      "blocks": {
+        "connectivity_tMQKce": {
+          "type": "connectivity",
+          "settings": {
+            "image": "shopify://shop_images/cannacabana-logo-white.png",
+            "newsletter_heading": "Join Cabana Club For Free!",
+            "button_label": "Join Now",
+            "newsletter_enable": true,
+            "show_social": false,
+            "show_payment_icons": false,
+            "enable_language_selector": false,
+            "enable_country_selector": false,
+            "enable_country_flags": false,
+            "enable_country_name": false
+          }
+        },
+        "link_list_Wc8ppL": {
+          "type": "link_list",
+          "settings": {
+            "heading": "Explore",
+            "menu": "footer",
+            "show_contact_enable": false
+          }
+        },
+        "link_list_xcAF7A": {
+          "type": "link_list",
+          "settings": {
+            "heading": "Find a Store",
+            "menu": "footer-find-a-store",
+            "show_contact_enable": false
+          }
+        },
+        "link_list_f3tMwT": {
+          "type": "link_list",
+          "settings": {
+            "heading": "Our Company",
+            "menu": "footer-our-company",
+            "show_contact_enable": true
+          }
+        },
+        "text_wAV9AP": {
+          "type": "text",
+          "settings": {
+            "heading": "",
+            "subtext": "<p><strong>Disclaimer:</strong> Our products have intoxicating effects and may be habit forming. Cannabis can impair concentration, coordination, and judgement. Do not operate a vehicle or machinery under the influence of cannabis. There may be health risks associated with consumption of cannabis infused products. For use only by adults nineteen and older. Keep out of the reach of children.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "connectivity_tMQKce",
+        "link_list_Wc8ppL",
+        "link_list_xcAF7A",
+        "link_list_f3tMwT",
+        "text_wAV9AP"
+      ],
+      "custom_css": [
+        ".footer__content-bottom {padding-bottom: 6rem;}"
+      ],
+      "settings": {
+        "divider_line": false,
+        "color_scheme": "scheme-92cabf89-3e5a-424b-8f66-3e8c6def48e7",
+        "contact_info": "",
+        "badge_width": 50,
+        "outside_rotate_text": "Circle rotating text! Circle rotating text! Circle rotating text!",
+        "copyright_text": "A <a href=\"https://hightideinc.com/\" target=\"_blank\" title=\"High Tide Inc\"><strong>High Tide Inc.</strong></a> Company",
+        "show_powered_by": false,
+        "show_policy": true,
+        "show_social": true,
+        "enable_follow_on_shop": false,
+        "use_accordion": true,
+        "padding_top": 64,
+        "padding_bottom": 32
+      }
+    },
+    "scrolling_text_j4d3yk": {
+      "type": "scrolling-text",
+      "blocks": {
+        "scrolling_text_BrtHtr": {
+          "type": "scrolling_text",
+          "settings": {
+            "text": "",
+            "link": "https://dankstop.com/",
+            "image": "shopify://shop_images/Mask_group.png",
+            "text_stroke": false
+          }
+        },
+        "scrolling_text_jaqwFy": {
+          "type": "scrolling_text",
+          "settings": {
+            "text": "",
+            "link": "https://cannacabana.com/",
+            "image": "shopify://shop_images/Group_18_c9eed4d7-1544-461b-9c68-7fada2d6b9c0.png",
+            "text_stroke": false
+          }
+        },
+        "scrolling_text_7EDaL4": {
+          "type": "scrolling_text",
+          "settings": {
+            "text": "",
+            "link": "shopify://collections/famous-brands",
+            "image": "shopify://shop_images/Group_13.png",
+            "text_stroke": true
+          }
+        },
+        "scrolling_text_7tAcJD": {
+          "type": "scrolling_text",
+          "settings": {
+            "text": "",
+            "link": "https://dailyhighclub.com/",
+            "image": "shopify://shop_images/DHC_Logo.png",
+            "text_stroke": true
+          }
+        },
+        "scrolling_text_QJe6a3": {
+          "type": "scrolling_text",
+          "settings": {
+            "text": "",
+            "link": "https://nuleafcanada.ca/?v=e4b09f3f8402",
+            "image": "shopify://shop_images/Group_6.png",
+            "text_stroke": true
+          }
+        },
+        "scrolling_text_yCnVte": {
+          "type": "scrolling_text",
+          "settings": {
+            "text": "",
+            "link": "https://www.grasscity.com/",
+            "text_stroke": true
+          }
+        },
+        "scrolling_text_C87TeY": {
+          "type": "scrolling_text",
+          "settings": {
+            "text": "",
+            "link": "https://www.valiantdist.com/",
+            "text_stroke": true
+          }
+        }
+      },
+      "block_order": [
+        "scrolling_text_BrtHtr",
+        "scrolling_text_jaqwFy",
+        "scrolling_text_7EDaL4",
+        "scrolling_text_7tAcJD",
+        "scrolling_text_QJe6a3",
+        "scrolling_text_yCnVte",
+        "scrolling_text_C87TeY"
+      ],
+      "settings": {
+        "expanded_width": true,
+        "enable_brand": true,
+        "brand_logo": "shopify://shop_images/Clip_path_group.png",
+        "brand_logo_mobile": "shopify://shop_images/hightide-logo-vertical.png",
+        "button_link": "https://hightideinc.com/brands/",
+        "button_text": "Our Brands",
+        "color_scheme": "scheme-92cabf89-3e5a-424b-8f66-3e8c6def48e7",
+        "text_size": "h0",
+        "scrolling_speed": "0.75",
+        "enable_sticky": false,
+        "enable_border_top": true,
+        "padding_top": 52,
+        "padding_bottom": 52
+      }
+    }
+  },
+  "order": [
+    "search_block_ht7mJm",
+    "custom_liquid_bWbAdy",
+    "footer",
+    "scrolling_text_j4d3yk"
+  ]
+}

@@ -1,0 +1,122 @@
+.rich-text {
+  z-index: 1;
+}
+
+.auto-slide-text-inner>span:not(.active) {
+  height: 0px;
+  opacity: 0;
+}
+.before-active {
+  transform: translateY(-100%);
+}
+.auto-slide-text-inner>span {
+  display: block;
+  transition: transform 0.5s ease-in-out;
+  transform: translateY(100%);
+}
+
+.auto-slide-text-inner>span.active {
+  transform: translateY(0);
+}
+.auto-slide-text .auto-slide-text-inner {
+  clear: both;
+  flex-direction: column;
+  display: flex;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.rich-text__heading {
+  line-height: 1.2;
+}
+.rich-text__heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: 1rem;
+  justify-content: center;
+}
+.auto-slide-text-inner::-webkit-scrollbar {
+  display: none;
+}
+.auto-slide-text-inner>span:nth-child(even) {
+  -webkit-text-fill-color: rgb(var(--color-background));
+  -webkit-text-stroke-width: .80px;
+  -webkit-text-stroke-color: rgba(var(--color-foreground));
+}
+
+.rich-text__wrapper {
+  display: flex;
+  justify-content: center;
+  width: calc(100% - 4rem / var(--font-body-scale));
+}
+
+.rich-text:not(.rich-text--full-width) .rich-text__wrapper {
+  margin: auto;
+  width: calc(100% - 8rem / var(--font-body-scale));
+}
+
+.rich-text__blocks {
+  width: 100%;
+}
+
+@media screen and (min-width: 769px) {
+  .rich-text__wrapper {
+    width: 100%;
+  }
+  .rich-text__heading {
+    column-gap: 1.5rem;
+  }
+  .rich-text__wrapper--left {
+    justify-content: flex-start;
+  }
+
+  .rich-text__wrapper--right {
+    justify-content: flex-end;
+  }
+}
+
+.rich-text__blocks * {
+  overflow-wrap: break-word;
+}
+
+.rich-text__blocks > * {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.rich-text__blocks>.subheading+*.rich-text__heading {
+  margin-top: .5rem;
+}
+.rich-text__blocks > * + * {
+  margin-top: 1.5rem;
+}
+
+.rich-text__blocks > * + a {
+  margin-top: 3rem;
+}
+
+.rich-text__buttons {
+  display: inline-flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 50rem;
+  word-break: break-word;
+}
+
+.rich-text__buttons--multiple > * {
+  flex-grow: 1;
+  max-width: max-content;
+}
+
+.rich-text__buttons + .rich-text__buttons {
+  margin-top: 1rem;
+}
+
+.rich-text__blocks.left .rich-text__buttons {
+  justify-content: flex-start;
+}
+
+.rich-text__blocks.right .rich-text__buttons {
+  justify-content: flex-end;
+}

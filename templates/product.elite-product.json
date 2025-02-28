@@ -1,0 +1,337 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "title": {
+          "type": "title",
+          "settings": {
+            "heading_size": "h1"
+          }
+        },
+        "thc_cbd_gmEm7b": {
+          "type": "thc-cbd",
+          "settings": {}
+        },
+        "equivalency_kaQXK7": {
+          "type": "equivalency",
+          "settings": {}
+        },
+        "offer": {
+          "type": "offer",
+          "disabled": true,
+          "settings": {
+            "color_scheme": "",
+            "content": "<p>🔥 Add your promotion title here.</p>"
+          }
+        },
+        "sku": {
+          "type": "sku",
+          "disabled": true,
+          "settings": {}
+        },
+        "vendor": {
+          "type": "vendor",
+          "settings": {}
+        },
+        "variant_picker": {
+          "type": "variant_picker",
+          "settings": {
+            "picker_type": "button",
+            "color_swatch": true
+          }
+        },
+        "price": {
+          "type": "price",
+          "settings": {}
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": false,
+            "button_suggestions": "Order now",
+            "position_top": 70,
+            "show_gift_card_recipient": false
+          }
+        },
+        "inventory": {
+          "type": "inventory",
+          "settings": {
+            "inventory_threshold": 10,
+            "low_inventory_notice": "Hurry, limited stock available! Only ||count|| left in stock.",
+            "available_message": "In stock, and ready to ship"
+          }
+        },
+        "icon-with-text": {
+          "type": "icon-with-text",
+          "disabled": true,
+          "settings": {
+            "icon_1": "icon-award",
+            "heading_1": "<strong>Icon</strong>",
+            "icon_2": "icon-return",
+            "heading_2": "<strong>Icon</strong>",
+            "icon_3": "icon-package",
+            "heading_3": "<strong>Icon</strong>"
+          }
+        },
+        "share": {
+          "type": "share",
+          "disabled": true,
+          "settings": {}
+        },
+        "complementary": {
+          "type": "complementary",
+          "disabled": true,
+          "settings": {
+            "block_heading": "Complementary products",
+            "product_list_limit": 5,
+            "image_ratio": "portrait"
+          }
+        }
+      },
+      "block_order": [
+        "title",
+        "thc_cbd_gmEm7b",
+        "equivalency_kaQXK7",
+        "offer",
+        "sku",
+        "vendor",
+        "variant_picker",
+        "price",
+        "buy_buttons",
+        "inventory",
+        "icon-with-text",
+        "share",
+        "complementary"
+      ],
+      "settings": {
+        "expanded_width": false,
+        "display_breadcrumbs": true,
+        "color_scheme": "",
+        "gallery_layout": "thumbnail_slider",
+        "constrain_to_viewport": true,
+        "media_fit": false,
+        "image_zoom": true,
+        "hide_variants": false,
+        "enable_video_looping": false
+      }
+    },
+    "product_details_cMiiph": {
+      "type": "product-details",
+      "settings": {
+        "title": "About this product",
+        "color_scheme": "scheme-8346fd63-d842-4b2e-a254-5cd9b9d31de9",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    },
+    "related-products": {
+      "type": "related-products",
+      "disabled": true,
+      "settings": {
+        "title": "More Like This",
+        "heading_size": "h3",
+        "heading_alignment": "left",
+        "color_scheme": "scheme-1",
+        "products_to_show": 4,
+        "products_per_row": 4,
+        "enable_slider_scrollbar": true,
+        "grid_color_scheme": "",
+        "grid_style": "classic",
+        "image_ratio": "portrait",
+        "show_secondary_image": true,
+        "show_vendor": true,
+        "show_rating": false,
+        "show_color_swatches": true,
+        "grid_text_alignment": "left",
+        "products_per_row_mobile": "1",
+        "swipe_on_mobile": true
+      }
+    },
+    "featured_collection_7TM3EY": {
+      "type": "featured-collection",
+      "blocks": {
+        "featured_collection_BgkhKc": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "{{ product.metafields.product.upsells.value }}",
+            "color_scheme": "",
+            "title": ""
+          }
+        }
+      },
+      "block_order": [
+        "featured_collection_BgkhKc"
+      ],
+      "settings": {
+        "title": "You may also like",
+        "heading_size": "h3",
+        "enable_shop_all": false,
+        "shop_all_link": "",
+        "shop_all_text": "",
+        "heading_alignment": "left",
+        "hide_for_bc": false,
+        "hide_for_ab": false,
+        "color_scheme": "scheme-1",
+        "products_to_show": 8,
+        "products_per_row": 4,
+        "enable_slider_scrollbar": true,
+        "show_view_all": true,
+        "grid_color_scheme": "",
+        "grid_style": "classic",
+        "image_ratio": "portrait",
+        "show_secondary_image": true,
+        "show_vendor": true,
+        "show_rating": false,
+        "show_color_swatches": false,
+        "grid_text_alignment": "left",
+        "products_per_row_mobile": "2",
+        "swipe_on_mobile": true,
+        "enable_elite_styling": false,
+        "elite_button_link": "",
+        "elite_subtitle": "",
+        "ab_subtitle": ""
+      }
+    },
+    "product_recommendations_grjFCE": {
+      "type": "recommended-products",
+      "disabled": true,
+      "settings": {
+        "title": "You may also like",
+        "heading_size": "h3",
+        "heading_alignment": "left",
+        "color_scheme": "scheme-1",
+        "products_to_show": 4,
+        "products_per_row": 4,
+        "enable_slider_scrollbar": true,
+        "grid_color_scheme": "",
+        "grid_style": "classic",
+        "image_ratio": "portrait",
+        "show_secondary_image": true,
+        "show_vendor": true,
+        "show_rating": false,
+        "show_color_swatches": true,
+        "grid_text_alignment": "left",
+        "products_per_row_mobile": "1",
+        "swipe_on_mobile": true
+      }
+    },
+    "collection_list_hLGWyB": {
+      "type": "collection-list",
+      "blocks": {
+        "featured_collection_HPMq6L": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "weed-online",
+            "color_scheme": "",
+            "image": "shopify://shop_images/Frame_724.png",
+            "title": "Dried Flower",
+            "link": "shopify://collections/weed-online",
+            "description": ""
+          }
+        },
+        "featured_collection_jpVHHi": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "pre-rolls",
+            "color_scheme": "",
+            "image": "shopify://shop_images/Rectangle_23858.png",
+            "title": "Pre-Rolls",
+            "link": "shopify://collections/pre-rolls",
+            "description": ""
+          }
+        },
+        "featured_collection_fPfnJD": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "vape-cartridges",
+            "color_scheme": "",
+            "image": "shopify://shop_images/Group_499.png",
+            "title": "Vape Cartridges",
+            "link": "shopify://collections/vape-cartridges",
+            "description": ""
+          }
+        },
+        "featured_collection_awnqFM": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "concentrates",
+            "color_scheme": "scheme-1",
+            "image": "shopify://shop_images/Rectangle_23858_1.png",
+            "title": "Concentrates",
+            "link": "shopify://collections/concentrates",
+            "description": ""
+          }
+        },
+        "featured_collection_zwYzVW": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "edibles",
+            "color_scheme": "scheme-1",
+            "image": "shopify://shop_images/Frame_41414.png",
+            "title": "Edibles",
+            "link": "shopify://products/11-week-pink",
+            "description": ""
+          }
+        },
+        "featured_collection_rNxyrq": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "cannabis-accessories",
+            "color_scheme": "scheme-1",
+            "image": "shopify://shop_images/Group_499_1.png",
+            "title": "Accessories",
+            "link": "shopify://collections/cannabis-accessories",
+            "description": ""
+          }
+        }
+      },
+      "block_order": [
+        "featured_collection_HPMq6L",
+        "featured_collection_jpVHHi",
+        "featured_collection_fPfnJD",
+        "featured_collection_awnqFM",
+        "featured_collection_zwYzVW",
+        "featured_collection_rNxyrq"
+      ],
+      "settings": {
+        "title": "<strong>Shop Top Categories</strong>",
+        "heading_size": "h2",
+        "heading_alignment": "center",
+        "color_scheme": "",
+        "collections_per_row": 6,
+        "enable_slider_scrollbar": false,
+        "show_view_all": true,
+        "view_all_text": "",
+        "style": "simple",
+        "image_width": "small",
+        "image_ratio": "square",
+        "custom_ratio": 1,
+        "title_size": "h6",
+        "grid_alignment": "center",
+        "show_product_count": false,
+        "collections_per_row_mobile": "2",
+        "swipe_on_mobile": false,
+        "padding_top": 0,
+        "padding_bottom": 64
+      }
+    }
+  },
+  "order": [
+    "main",
+    "product_details_cMiiph",
+    "related-products",
+    "featured_collection_7TM3EY",
+    "product_recommendations_grjFCE",
+    "collection_list_hLGWyB"
+  ]
+}
