@@ -200,6 +200,7 @@
       class="reset__button field__button"
       aria-label="{{ 'general.search.reset' | t }}"
       id="resetButton"
+      onclick="resetButtonHandle()"
     >
       <svg class="icon icon-close" aria-hidden="true" focusable="false">
         <use xlink:href="#icon-reset">
@@ -412,4 +413,9 @@
       popup.style.display = 'none';
     }
   });
+
+  function resetButtonHandle() {
+    let resetButton = document.getElementById('resetButton');
+    resetButton.style.display = 'none';
+  }
 </script>
