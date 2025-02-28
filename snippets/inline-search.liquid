@@ -11,7 +11,7 @@
     position: absolute;
     top: 100%;
     left: 0;
-    width: 400px;
+    width: 600px;
     background: white;
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -19,8 +19,12 @@
     max-height: 250px;
     overflow-y: auto;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
+    z-index: 9999;
     padding: 10px;
+  }
+
+  .reset__button {
+    display: none;
   }
 
   .popup-container,
@@ -126,11 +130,18 @@
     color: navy;
   }
 
+  @media (max-width: 1024px) {
+    .popup {
+      width: 400px;
+    }
+  }
   @media (max-width: 480px) {
     .popup {
       max-width: 100%;
       left: 0;
       right: 0;
+      height: 70vh;
+      max-height: 70vh;
     }
   }
 </style>
@@ -179,23 +190,16 @@
       id="searchInput"
       placeholder="{{ 'general.search.search' | t }}"
       onkeyup="showPopup()"
+      value="{{ search.terms | escape }}"
     >
-    <div class="popup" id="searchPopup">
-      <div class="recent-searches" id="recentSearchesContainer">
-        <h4 style="font-size: 18px; margin:5px">Recent Searches</h4>
-        <div id="recentSearches"></div>
-
-        <h4 style="font-size: 18px; margin:20px 5px">Products</h4>
-        <div id="searchedProducts"></div>
-      </div>
-    </div>
 
     <label class="field__label visibility-hidden" for="{{ input_id }}">{{ 'general.search.search' | t }}</label>
     <input name="sID" type="hidden" value="{{ store_id }}">
     <button
       type="reset"
-      class="reset__button field__button{% if search.terms == blank %} hidden{% endif %}"
+      class="reset__button field__button"
       aria-label="{{ 'general.search.reset' | t }}"
+      id="resetButton"
     >
       <svg class="icon icon-close" aria-hidden="true" focusable="false">
         <use xlink:href="#icon-reset">
@@ -204,6 +208,16 @@
     <button class="search__button field__button" aria-label="{{ 'general.search.search' | t }}">
       {% render 'theme-icons', icon: 'search' %}
     </button>
+  </div>
+
+  <div class="popup" id="searchPopup">
+    <div class="recent-searches" id="recentSearchesContainer">
+      <h4 style="font-size: 18px; margin:20px 5px">Products</h4>
+      <div id="searchedProducts"></div>
+
+      <h4 style="font-size: 18px; margin:5px">Recent Searches</h4>
+      <div id="recentSearches"></div>
+    </div>
   </div>
 
   {%- if settings.predictive_search_enabled -%}
@@ -273,21 +287,19 @@
     let container = document.getElementById('recentSearches');
 
     if (recentSearches.length === 0) {
-      container.innerHTML = "<p>No recent searches</p>"
+      container.innerHTML = '<p>No recent searches</p>';
     } else {
       container.innerHTML = recentSearches
-      .map(
-        (item) => `
+        .map(
+          (item) => `
   <div class="recent-item" onclick="searchRecent('${item.handle}')">
     <img src="${item.image}" alt="${item.title}"/>
     <span>${item.title}</span>
   </div>
 `
-      )
-      .join('');
+        )
+        .join('');
     }
-
-   
   }
 
   function saveRecentSearch(item) {
@@ -309,8 +321,11 @@
     let inputValue = document.getElementById('searchInput').value.toLowerCase();
     let popup = document.getElementById('searchPopup');
     let products = document.getElementById('searchedProducts');
+    let resetButton = document.getElementById('resetButton');
+
     if (inputValue.length === 0) {
       popup.style.display = 'none';
+      resetButton.style.display = 'none';
       return;
     }
 
@@ -379,6 +394,7 @@
     }
 
     popup.style.display = 'block';
+    resetButton.style.display = 'block';
   }, 300);
 
   function selectItem(title, handle, image) {
