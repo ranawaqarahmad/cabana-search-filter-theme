@@ -16,7 +16,7 @@
     border: 1px solid #ccc;
     border-radius: 5px;
     display: none;
-    max-height: 250px;
+    max-height: 450px;
     overflow-y: auto;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     z-index: 9999;
@@ -37,7 +37,7 @@
   .search-item,
   .recent-item {
     display: flex;
-    gap: 10px;
+    gap: 20px;
     align-items: center;
     border: 1px solid #efefef;
     padding: 10px;
@@ -55,8 +55,8 @@
 
   .search-item img,
   .recent-item img {
-    width: 60px;
-    height: 60px;
+    width: 80px;
+    height: 80px;
     object-fit: cover;
     border-radius: 5px;
   }
@@ -74,16 +74,20 @@
 
   .cabana-pricing-div {
     display: flex;
-    gap: 5px;
-    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    overflow: hidden;
+    width: max-content;
   }
 
   .price-container {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     text-align: center;
-    padding: 4px;
+    padding: 10px 15px;
+    flex: 1;
   }
 
   .price-title {
@@ -121,8 +125,12 @@
   }
 
   .member-price {
-    background-color: red;
+    background: red;
     color: white;
+    width: 100%;
+    padding: 10px 15px;
+    font-weight: bold;
+    border-bottom-right-radius: 8px;
   }
 
   .elite-price {
@@ -213,7 +221,7 @@
 
   <div class="popup" id="searchPopup">
     <div class="recent-searches" id="recentSearchesContainer">
-      <h4 style="font-size: 18px; margin:20px 5px">Products</h4>
+      <h4 style="font-size: 18px; margin:20px 5px; text-align:center">Products</h4>
       <div id="searchedProducts"></div>
 
       <h4 style="font-size: 18px; margin:5px">Recent Searches</h4>
@@ -273,7 +281,7 @@
 {%- endif -%}
 
 <script>
-  const baseUrl = 'http://localhost:5000/api';
+  const baseUrl = 'https://search.cannacabana.universal-apps.com/api';
 
   function debounce(func, delay) {
     let timeout;
@@ -356,34 +364,73 @@
                   let pricing = item.variants[0]?.pricing || {};
                   let pricingHTML = '';
 
-                  if (pricing.retail_price) {
-                    pricingHTML += `<div class="price-container">
-                        <span class="price-title retail-title">Market</span>
-                        <span class="price retail-price">$${pricing.retail_price.toFixed(2)}</span>
-                      </div>`;
-                  }
-                  if (pricing.member_price > 0) {
-                    pricingHTML += `<div class="price-container">
-                        <span class="price-title member-title">Member</span>
-                        <span class="price member-price">$${pricing.member_price.toFixed(2)}</span>
-                      </div>`;
-                  }
-                  if (pricing.elite_price > 0) {
-                    pricingHTML += `<div class="price-container">
-                        <span class="price-title elite-title">Elite</span>
-                        <span class="price elite-price">$${pricing.elite_price.toFixed(2)}</span>
-                      </div>`;
-                  }
+
+                  let columns = [];
+  let rows = [];
+
+  if (pricing.retail_price) {
+    columns.push(`<td class="cabana-market-price cabana-price-table-cell">Market</td>`);
+    rows.push(`<td class="cabana-market-price price-table-cell">
+                 <span class="cabana-market-table-price">$${pricing.retail_price.toFixed(2)}</span>
+               </td>`);
+  }
+
+  if (pricing.member_price > 0) {
+    columns.push(`<td class="cabana-member-price--label cabana-price-table-cell cabana-member-price-label cabana-price-table-cell-rounded-top">Member</td>`);
+    rows.push(`<td class="cabana-price-table-cell cabana-table-cell-rounded-bottom member-price">
+                 <span class="cabana-purchase-table-price">$${pricing.member_price.toFixed(2)}</span>
+               </td>`);
+  }
+
+  if (pricing.elite_price > 0) {
+    columns.push(`<td class="cabana-elite-price--label cabana-price-table-cell cabana-elite-price-label cabana-price-table-cell-rounded-top">Elite</td>`);
+    rows.push(`<td class="cabana-price-table-cell cabana-table-cell-rounded-bottom elite-price">
+                 <span class="cabana-purchase-table-price">$${pricing.elite_price.toFixed(2)}</span>
+               </td>`);
+  }
+
+                  // if (pricing.retail_price) {
+                  //   pricingHTML += `<div class="price-container">
+                  //       <span class="price-title retail-title">Market</span>
+                  //       <span class="price retail-price">$${pricing.retail_price.toFixed(2)}</span>
+                  //     </div>`;
+
+                  //     pricingHTML += `<table>
+                  //         <thead>
+                  //           <tr>
+                  //             <td class="cabana-market-price cabana-price-table-cell">Market</td>
+                  //     </table>`
+                  // }
+                  // if (pricing.member_price > 0) {
+                  //   pricingHTML += `<div class="price-container">
+                  //       <span class="price-title member-title">Member</span>
+                  //       <span class="price member-price">$${pricing.member_price.toFixed(2)}</span>
+                  //     </div>`;
+                  // }
+                  // if (pricing.elite_price > 0) {
+                  //   pricingHTML += `<div class="price-container">
+                  //       <span class="price-title elite-title">Elite</span>
+                  //       <span class="price elite-price">$${pricing.elite_price.toFixed(2)}</span>
+                  //     </div>`;
+                  // }
 
                   return `<div class="search-item" onclick='selectItem("${item.title}", "${item.handle}", "${
                     item.images[0] || '/placeholder.jpg'
                   }")'>
         <img src='${item.images[0] || '/placeholder.jpg'}' alt='${
                     item.title.split(' ')[0]
-                  }' height="50px" width="50px"/>
+                  }'/>
         <div>
           <h5 style="margin: 0;font-size:16px">${item.title}</h5>
-          <div class='cabana-pricing-div'>${pricingHTML}</div>
+          <div class='cabana-pricing-div'><table>
+            <thead>
+              <tr>${columns.join('')}</tr>
+            </thead>
+            <tbody>
+              <tr>${rows.join('')}</tr>
+            </tbody>
+          </table></div>
+
         </div>
       </div>`;
                 })
