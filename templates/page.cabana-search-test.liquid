@@ -8,10 +8,14 @@
   const urlforapi = 'https://search.cannacabana.universal-apps.com/api';
   const searchQuery = searchParams.get('q');
   const storeId = localStorage.getItem('global_store_id');
+  let currentPage = 1;
+  const limit = 20;
 
+
+  
   async function getSearchResults() {
     try {
-      const resp = await fetch(`${urlforapi}/product/search?title=${searchQuery}&storeId=${storeId}&limit=20&page=1`, {
+      const resp = await fetch(`${urlforapi}/product/search?title=${searchQuery}&storeId=${storeId}&limit=${limit}&page=${currentPage}`, {
         headers: { 'Content-type': 'application/json' },
       });
 
