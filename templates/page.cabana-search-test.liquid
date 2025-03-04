@@ -19,6 +19,7 @@
 const {totalPages, currentPage, hasNextPage, hasPreviousPage} = pagination
       console.log(data,pagination);
 
+      
       if (data && data.length > 0) {
         displayProducts(data);
               updatePagination(totalPages, currentPage, hasNextPage, hasPreviousPage);
