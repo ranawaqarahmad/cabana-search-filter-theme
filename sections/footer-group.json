@@ -13,6 +13,7 @@
   "sections": {
     "search_block_ht7mJm": {
       "type": "search-block",
+      "disabled": true,
       "custom_css": [
         ".content-container {margin-top: 0; margin-bottom: 0;}"
       ],
