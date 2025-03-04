@@ -16,7 +16,7 @@
 
       
       const { data,pagination } = await resp.json();
-      console.log(data);
+      console.log(data,pagination);
 
       if (data && data.length > 0) {
 const {totalPages, currentPage, hasNextPage, hasPreviousPage} = pagination
