@@ -39,7 +39,7 @@ const {totalPages, currentPage, hasNextPage, hasPreviousPage} = pagination
 
   function displayProducts(products) {
     const searchTitle = document.querySelector(".search-title")
-      searchTitle.innerHTML = `Search Result for <b>{" "} ${searchQuery}</b>`
+      searchTitle.innerHTML = `Search Result for <b>${searchQuery}</b>`
     const productGrid = document.querySelector('.product-grid');
     productGrid.innerHTML = '';
 
@@ -205,7 +205,8 @@ document.addEventListener('DOMContentLoaded', () => {
       }
   .search-title {
         display: flex;
-      justify-content: center;
+       gap: 5px;
+    justify-content: center;
       align-items: center;
       margin: 20px 0;
       font-size: larger;
