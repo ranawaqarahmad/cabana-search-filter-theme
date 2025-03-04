@@ -6,21 +6,21 @@ helloo
 
 <script>
     console.log("HELLLLLLLLLLLLLLLLOOOOOOdddddddddddddddddddddddddddddd")
-  const searchParams = new URLSearchParams(window.location.search);
-  const baseUrl = 'https://search.cannacabana.universal-apps.com/api';
-  const searchQuery = searchParams.get('q');
-  const storeId = localStorage.getItem('global_store_id');
+  // const searchParams = new URLSearchParams(window.location.search);
+  // const baseUrl = 'https://search.cannacabana.universal-apps.com/api';
+  // const searchQuery = searchParams.get('q');
+  // const storeId = localStorage.getItem('global_store_id');
 
 
-  async function getSearchResults() {
-    const resp = await fetch(`${baseUrl}/product/search?title=${searchQuery}&storeId=${storeId}&limit=3&page=1`, {
-      headers: { 'Content-type': 'application/json' },
-    });
+  // async function getSearchResults() {
+  //   const resp = await fetch(`${baseUrl}/product/search?title=${searchQuery}&storeId=${storeId}&limit=3&page=1`, {
+  //     headers: { 'Content-type': 'application/json' },
+  //   });
 
-    const { data } = await resp.json();
-    console.log(data);
-  };
-  getSearchResults();
+  //   const { data } = await resp.json();
+  //   console.log(data);
+  // };
+  // getSearchResults();
 
   console.log("HELLLLLLLLLLLLLLLLOOOOOOOOOOOOOOOOOOOOOOOOOo")
 </script>
