@@ -183,4 +183,30 @@ document.addEventListener('DOMContentLoaded', () => {
       .product-link {
         margin-top: 20px;
       }
+   .pagination {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 20px;
+    }
+
+    .pagination button {
+      margin: 0 10px;
+      padding: 10px 20px;
+      border: none;
+      background: #007bff;
+      color: white;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    .pagination button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+
+    .pagination span {
+      font-size: 16px;
+      margin: 0 10px;
+    }
 </style>
