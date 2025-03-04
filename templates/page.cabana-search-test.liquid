@@ -1,3 +1,4 @@
+<div class="search-title"></div>
 <div class="product-grid"></div>
 <div class="pagination"></div>
 
@@ -18,7 +19,6 @@
       const resp = await fetch(`${urlforapi}/product/search?title=${searchQuery}&storeId=${storeId}&limit=${limit}&page=${page}`, {
         headers: { 'Content-type': 'application/json' },
       });
-
       
       const { data,pagination } = await resp.json();
 const {totalPages, currentPage, hasNextPage, hasPreviousPage} = pagination
@@ -38,6 +38,7 @@ const {totalPages, currentPage, hasNextPage, hasPreviousPage} = pagination
   }
 
   function displayProducts(products) {
+    const searchTitle = document.querySelector(".search-title")
     const productGrid = document.querySelector('.product-grid');
     productGrid.innerHTML = '';
 
