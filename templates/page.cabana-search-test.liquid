@@ -86,40 +86,47 @@
 </script>
 
 <style>
-  .product-grid {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(200px, 1fr));
-    gap: 20px;
-    margin-top: 20px;
-    padding: 40px;
-    max-width: 1400px;
-    margin-left: auto;
-    margin-right: auto;
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(200px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+      padding: 40px;
+      max-width: 1400px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    @media (max-width: 768px) {
+      .product-grid {
+          grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Smaller columns */
+          padding: 20px;
+      }
   }
 
-  .product-card {
-    border: 1px solid #ddd;
-    padding: 20px;
-    text-align: center;
-    border-radius: 6px;
-  }
+    .product-card {
+      border: 1px solid #ddd;
+      padding: 20px;
+      text-align: center;
+      border-radius: 6px;
+    }
 
-  .product-image {
-    width: 270px;
-    height: 270px;
-  }
+    .product-image {
+      width: 270px;
+      height: 270px;
+    }
 
-  .product-title {
-    font-size: 16px;
-    margin: 10px 0;
-  }
+    .product-title {
+      font-size: 16px;
+      margin: 10px 0;
+    }
 
-  .product-price {
-    font-size: 14px;
-    color: green;
-  }
+    .product-price {
+      font-size: 14px;
+      color: green;
+    }
 
-  .product-link {
-    margin-top: 20px;
-  }
+    .product-link {
+      margin-top: 20px;
+    }
 </style>
