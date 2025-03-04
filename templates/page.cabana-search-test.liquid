@@ -5,7 +5,21 @@ helloo
 <button onclick="getSearchResults()">HELLO</button>
 
 <script>
- 
-console.log("HELLLLLLLLLLLLLLLLLLLLLLLLLLLLOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
+  const searchParams = new URLSearchParams(window.location.search);
+  const baseUrl = 'https://search.cannacabana.universal-apps.com/api';
+  const searchQuery = searchParams.get('q');
+  const storeId = localStorage.getItem('global_store_id');
 
+
+  async function getSearchResults() {
+    const resp = await fetch(`${baseUrl}/product/search?title=${searchQuery}&storeId=${storeId}&limit=3&page=1`, {
+      headers: { 'Content-type': 'application/json' },
+    });
+
+    const { data } = await resp.json();
+    console.log(data);
+  };
+  getSearchResults();
+
+  console.log("HELLLLLLLLLLLLLLLLOOOOOOOOOOOOOOOOOOOOOOOOOo")
 </script>
