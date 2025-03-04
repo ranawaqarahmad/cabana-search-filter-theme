@@ -13,9 +13,9 @@
 
 
   
-  async function getSearchResults() {
+  async function getSearchResults(page=1) {
     try {
-      const resp = await fetch(`${urlforapi}/product/search?title=${searchQuery}&storeId=${storeId}&limit=${limit}&page=${currentPage}`, {
+      const resp = await fetch(`${urlforapi}/product/search?title=${searchQuery}&storeId=${storeId}&limit=${limit}&page=${page}`, {
         headers: { 'Content-type': 'application/json' },
       });
 
