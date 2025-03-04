@@ -1,4 +1,5 @@
 <div class="product-grid"></div>
+<div class="pagination"></div>
 
 <script>
   console.log('Fetching products...');
@@ -91,7 +92,7 @@ const {totalPages, currentPage, hasNextPage, hasPreviousPage} = pagination
 function updatePagination(totalPages, currentPage, hasNextPage, hasPreviousPage) {
   const paginationContainer = document.querySelector('.pagination');
   paginationContainer.innerHTML = '';
-
+console.log("pagination .........",totalPages, currentPage, hasNextPage, hasPreviousPage)
   if (hasPreviousPage) {
     const prevButton = document.createElement('button');
     prevButton.innerText = 'Previous';
