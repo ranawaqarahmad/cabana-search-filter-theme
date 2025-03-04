@@ -1,70 +1,70 @@
-<div class="product-grid"></div>
+console.log('Fetching products...');
 
-<script>
-  console.log('Fetching products...');
+const searchParams = new URLSearchParams(window.location.search);
+const urlforapi = 'https://search.cannacabana.universal-apps.com/api';
+const searchQuery = searchParams.get('q');
+const storeId = localStorage.getItem('global_store_id');
+let currentPage = 1;
+const limit = 20;
 
-  const searchParams = new URLSearchParams(window.location.search);
-  const urlforapi = 'https://search.cannacabana.universal-apps.com/api';
-  const searchQuery = searchParams.get('q');
-  const storeId = localStorage.getItem('global_store_id');
+async function getSearchResults(page = 1) {
+  try {
+    const resp = await fetch(`${urlforapi}/product/search?title=${searchQuery}&storeId=${storeId}&limit=${limit}&page=${page}`, {
+      headers: { 'Content-type': 'application/json' },
+    });
 
-  async function getSearchResults() {
-    try {
-      const resp = await fetch(`${urlforapi}/product/search?title=${searchQuery}&storeId=${storeId}&limit=20&page=1`, {
-        headers: { 'Content-type': 'application/json' },
-      });
+    const { data, totalPages, currentPage, hasNextPage, hasPreviousPage } = await resp.json();
+    console.log(data);
 
-      const { data } = await resp.json();
-      console.log(data);
-
-      if (data && data.length > 0) {
-        displayProducts(data);
-      } else {
-        document.querySelector('.product-grid').innerHTML = '<p>No products found.</p>';
-      }
-    } catch (error) {
-      console.error('Error fetching products:', error);
+    if (data && data.length > 0) {
+      displayProducts(data);
+      updatePagination(totalPages, currentPage, hasNextPage, hasPreviousPage);
+    } else {
+      document.querySelector('.product-grid').innerHTML = '<p>No products found.</p>';
     }
+  } catch (error) {
+    console.error('Error fetching products:', error);
   }
+}
 
-  function displayProducts(products) {
-    const productGrid = document.querySelector('.product-grid');
-    productGrid.innerHTML = '';
+function displayProducts(products) {
+  const productGrid = document.querySelector('.product-grid');
+  productGrid.innerHTML = '';
 
-    products.forEach(product => {
-      if (!product.variants || product.variants.length === 0) return;
+  products.forEach(product => {
+    if (!product.variants || product.variants.length === 0) return;
 
-      const variant = product.variants[0];
-      const productImage = product.images.length > 0 ? product.images[0] : '';
+    const variant = product.variants[0];
+    const productImage = product.images.length > 0 ? product.images[0] : '';
 
-      const productCard = document.createElement('div');
-      productCard.classList.add('product-card');
+    const productCard = document.createElement('div');
+    productCard.classList.add('product-card');
 
-      let columns = [];
-      let rows = [];
+    let columns = [];
+    let rows = [];
 
-      if (variant.pricing.retail_price) {
-        columns.push(`<td class="js-market-price price-table-cell">Market</td>`);
-        rows.push(`<td class="js-market-price price-table-cell">
+    if (variant.pricing.retail_price) {
+      columns.push(`<td class="js-market-price price-table-cell">Market</td>`);
+      rows.push(`<td class="js-market-price price-table-cell">
         <span class="js-market-table-price">$${variant.pricing.retail_price.toFixed(2)}</span>
       </td>`);
-      }
+    }
 
-      if (variant.pricing.member_price > 0) {
-        columns.push(`<td class="member-price--label price-table-cell js-member-price-label price-table-cell-rounded-top ">Member</td>`);
-        rows.push(`<td class="price-table-cell price-table-cell-rounded-bottom member-price">
+    if (variant.pricing.member_price > 0) {
+      columns.push(`<td class="member-price--label price-table-cell js-member-price-label price-table-cell-rounded-top">Member</td>`);
+      rows.push(`<td class="price-table-cell price-table-cell-rounded-bottom member-price">
         <span class="js-purchase-table-price">$${variant.pricing.member_price.toFixed(2)}</span>
       </td>`);
-      }
+    }
 
-      if (variant.pricing.elite_price > 0) {
-        columns.push(`<td class="s-elite-price-col elite-price--label price-table-cell price-table-cell-rounded-top">Elite</td>`);
-        rows.push(`<td class="js-elite-price-col price-table-cell elite-price price-table-cell-rounded-bottom">
+    if (variant.pricing.elite_price > 0) {
+      columns.push(`<td class="s-elite-price-col elite-price--label price-table-cell price-table-cell-rounded-top">Elite</td>`);
+      rows.push(`<td class="js-elite-price-col price-table-cell elite-price price-table-cell-rounded-bottom">
         <span class="js-elite-table-price">$${variant.pricing.elite_price.toFixed(2)}</span>
       </td>`);
-      }
+    }
 
-      productCard.innerHTML = `
+    productCard.innerHTML = `
       <img src="${productImage}" alt="${product.title}" class="product-image" />
       <h3 class="product-title">${product.title}</h3>
       <div class="price js-price-table"><table>
@@ -78,73 +78,33 @@
       <a href="/products/${product.handle}" class="product-link button">View Product</a>
     `;
 
-      productGrid.appendChild(productCard);
-    });
-  }
-
-  getSearchResults();
-</script>
-
-<style>
-    .product-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(200px, 1fr));
-      gap: 20px;
-      margin-top: 20px;
-      padding: 40px;
-      max-width: 1400px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    @media (max-width: 768px) {
-      .product-grid {
-          grid-template-columns: repeat(2, minmax(150px, 1fr)); 
-          padding: 20px;
-      }
-    .product-card {
-      padding: 20px;
-    }
-  }
-  
-    @media (min-width: 768px) {
-    .product-card {
-      padding: 20px;
-    }
-  }
-
-  @media (max-width: 480px) {
-    .product-grid {
-        grid-template-columns: repeat(1, 1fr); /* Single column layout */
-        padding: 10px;
-    }
-    .product-card {
-      padding: 5px;
-    }
+    productGrid.appendChild(productCard);
+  });
 }
 
-    .product-card {
-      border: 1px solid #ddd;
-      text-align: center;
-      border-radius: 6px;
-    }
+function updatePagination(totalPages, currentPage, hasNextPage, hasPreviousPage) {
+  const paginationContainer = document.querySelector('.pagination');
+  paginationContainer.innerHTML = '';
 
-    .product-image {
-      width: 270px;
-      height: auto;
-    }
+  if (hasPreviousPage) {
+    const prevButton = document.createElement('button');
+    prevButton.innerText = 'Previous';
+    prevButton.addEventListener('click', () => getSearchResults(currentPage - 1));
+    paginationContainer.appendChild(prevButton);
+  }
 
-    .product-title {
-      font-size: 16px;
-      margin: 10px 0;
-    }
+  const pageIndicator = document.createElement('span');
+  pageIndicator.innerText = `Page ${currentPage} of ${totalPages}`;
+  paginationContainer.appendChild(pageIndicator);
 
-    .product-price {
-      font-size: 14px;
-      color: green;
-    }
+  if (hasNextPage) {
+    const nextButton = document.createElement('button');
+    nextButton.innerText = 'Next';
+    nextButton.addEventListener('click', () => getSearchResults(currentPage + 1));
+    paginationContainer.appendChild(nextButton);
+  }
+}
 
-    .product-link {
-      margin-top: 20px;
-    }
-</style>
+document.addEventListener('DOMContentLoaded', () => {
+  getSearchResults();
+});
