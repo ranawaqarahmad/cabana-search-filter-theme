@@ -20,7 +20,7 @@
     overflow-y: auto;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     z-index: 9999;
-    padding: 10px;
+    padding: 20px 30px;
   }
 
   .reset__button {
@@ -31,7 +31,7 @@
   #recentSearches {
     display: grid;
     grid-template-columns: repeat(1, 1fr);
-    gap: 10px;
+    gap: 15px;
   }
 
   .search-item,
@@ -70,14 +70,6 @@
     font-size: 14px;
     font-weight: bold;
     margin: 0;
-  }
-
-  .cabana-pricing-div {
-    display: flex;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    overflow: hidden;
-    width: max-content;
   }
 
   .price-container {
@@ -133,9 +125,27 @@
     border-bottom-right-radius: 8px;
   }
 
+  .cabana-pricing-div table {
+    width: 70%;
+  }
+
+  .cabana-price-table-cell {
+    padding: 7px !important;
+  }
+
   .elite-price {
     background-color: gold;
     color: navy;
+  }
+
+  .search-product-content {
+    width: 100%;
+  }
+
+  .search-heading {
+    font-size: 18px;
+    margin: 10px 5px 20px;
+    text-align: center;
   }
 
   @media (max-width: 1024px) {
@@ -162,12 +172,12 @@
 {%- else -%}
   <search-form class="color-scheme-1 search-modal__form">
 {%- endif -%}
-<form
+{% comment %} <form
   action="{{ routes.search_url }}"
   method="get"
   role="search"
   class="search search-modal__form inline-search-modal__form"
->
+> {% endcomment %}
   <div class="field">
     {% comment %}
       <input
@@ -214,17 +224,17 @@
         <use xlink:href="#icon-reset">
       </svg>
     </button>
-    <button class="search__button field__button" aria-label="{{ 'general.search.search' | t }}">
+    <button class="search__button field__button" aria-label="{{ 'general.search.search' | t }}"  onclick="redirectToSearchPageHandle()">
       {% render 'theme-icons', icon: 'search' %}
     </button>
   </div>
 
   <div class="popup" id="searchPopup">
     <div class="recent-searches" id="recentSearchesContainer">
-      <h4 style="font-size: 18px; margin:20px 5px; text-align:center">Products</h4>
+      <h4 class="search-heading">Products</h4>
       <div id="searchedProducts"></div>
 
-      <h4 style="font-size: 18px; margin:5px">Recent Searches</h4>
+      <h4 style="font-size: 18px; margin:20px 5px; text-align:center">Recent Searches</h4>
       <div id="recentSearches"></div>
     </div>
   </div>
@@ -273,7 +283,7 @@
 
     <span class="predictive-search-status visually-hidden" role="status" aria-hidden="true"></span>
   {%- endif -%}
-</form>
+{% comment %} </form> {% endcomment %}
 {%- if settings.predictive_search_enabled -%}
   </predictive-search>
 {%- else -%}
@@ -282,7 +292,7 @@
 
 <script>
   const baseUrl = 'https://search.cannacabana.universal-apps.com/api';
-
+  document.getElementById('searchInput').addEventListener('keypress', handleSearchEnter);
   function debounce(func, delay) {
     let timeout;
     return function (...args) {
@@ -299,14 +309,53 @@
       container.innerHTML = '<p>No recent searches</p>';
     } else {
       container.innerHTML = recentSearches
-        .map(
-          (item) => `
+        .map((item) => {
+          let columns = [];
+          let rows = [];
+
+          if (item.retail_price) {
+            columns.push(`<td class="js-market-price price-table-cell">Market</td>`);
+            rows.push(`<td class="js-market-price price-table-cell ">
+                 <span class="js-market-table-price">$${item.retail_price.toFixed(2)}</span>
+               </td>`);
+          }
+
+          if (item.member_price > 0) {
+            columns.push(
+              `<td class="member-price--label price-table-cell js-member-price-label price-table-cell-rounded-top ">Member</td>`
+            );
+            rows.push(`<td class="price-table-cell  price-table-cell-rounded-bottom  member-price">
+                 <span class="js-purchase-table-price">$${item.member_price.toFixed(2)}</span>
+               </td>`);
+          }
+
+          if (item.elite_price > 0) {
+            columns.push(
+              `<td class="s-elite-price-col elite-price--label price-table-cell price-table-cell-rounded-top">Elite</td>`
+            );
+            rows.push(`<td class="js-elite-price-col price-table-cell elite-price price-table-cell-rounded-bottom">
+                 <span class="js-elite-table-price">$${item.elite_price.toFixed(2)}</span>
+               </td>`);
+          }
+
+          return `
   <div class="recent-item" onclick="searchRecent('${item.handle}')">
     <img src="${item.image}" alt="${item.title}"/>
-    <span>${item.title}</span>
+    <div class="search-product-content">
+          <h5 style="margin: 0;font-size:16px">${item.title}</h5>
+          <div class='price js-price-table'><table>
+            <thead>
+              <tr>${columns.join('')}</tr>
+            </thead>
+            <tbody>
+              <tr>${rows.join('')}</tr>
+            </tbody>
+          </table></div>
+
+        </div>
   </div>
-`
-        )
+`;
+        })
         .join('');
     }
   }
@@ -345,7 +394,7 @@
         return;
       }
 
-      const resp = await fetch(`${baseUrl}/product/search?title=${inputValue}&storeId=${storeId}&limit=15&page=1`, {
+      const resp = await fetch(`${baseUrl}/product/search?title=${inputValue}&storeId=${storeId}&limit=3&page=1`, {
         headers: { 'Content-type': 'application/json' },
       });
 
@@ -364,65 +413,43 @@
                   let pricing = item.variants[0]?.pricing || {};
                   let pricingHTML = '';
 
-
                   let columns = [];
-  let rows = [];
+                  let rows = [];
 
-  if (pricing.retail_price) {
-    columns.push(`<td class="cabana-market-price cabana-price-table-cell">Market</td>`);
-    rows.push(`<td class="cabana-market-price price-table-cell">
-                 <span class="cabana-market-table-price">$${pricing.retail_price.toFixed(2)}</span>
+                  if (pricing.retail_price) {
+                    columns.push(`<td class="js-market-price price-table-cell">Market</td>`);
+                    rows.push(`<td class="js-market-price price-table-cell ">
+                 <span class="js-market-table-price">$${pricing.retail_price.toFixed(2)}</span>
                </td>`);
-  }
+                  }
 
-  if (pricing.member_price > 0) {
-    columns.push(`<td class="cabana-member-price--label cabana-price-table-cell cabana-member-price-label cabana-price-table-cell-rounded-top">Member</td>`);
-    rows.push(`<td class="cabana-price-table-cell cabana-table-cell-rounded-bottom member-price">
-                 <span class="cabana-purchase-table-price">$${pricing.member_price.toFixed(2)}</span>
+                  if (pricing.member_price > 0) {
+                    columns.push(
+                      `<td class="member-price--label price-table-cell js-member-price-label price-table-cell-rounded-top ">Member</td>`
+                    );
+                    rows.push(`<td class="price-table-cell  price-table-cell-rounded-bottom  member-price">
+                 <span class="js-purchase-table-price">$${pricing.member_price.toFixed(2)}</span>
                </td>`);
-  }
+                  }
 
-  if (pricing.elite_price > 0) {
-    columns.push(`<td class="cabana-elite-price--label cabana-price-table-cell cabana-elite-price-label cabana-price-table-cell-rounded-top">Elite</td>`);
-    rows.push(`<td class="cabana-price-table-cell cabana-table-cell-rounded-bottom elite-price">
-                 <span class="cabana-purchase-table-price">$${pricing.elite_price.toFixed(2)}</span>
+                  if (pricing.elite_price > 0) {
+                    columns.push(
+                      `<td class="js-elite-price-col elite-price--label price-table-cell price-table-cell-rounded-top">Elite</td>`
+                    );
+                    rows.push(`<td class="js-elite-price-col price-table-cell elite-price price-table-cell-rounded-bottom">
+                 <span class="js-elite-table-price">$${pricing.elite_price.toFixed(2)}</span>
                </td>`);
-  }
-
-                  // if (pricing.retail_price) {
-                  //   pricingHTML += `<div class="price-container">
-                  //       <span class="price-title retail-title">Market</span>
-                  //       <span class="price retail-price">$${pricing.retail_price.toFixed(2)}</span>
-                  //     </div>`;
-
-                  //     pricingHTML += `<table>
-                  //         <thead>
-                  //           <tr>
-                  //             <td class="cabana-market-price cabana-price-table-cell">Market</td>
-                  //     </table>`
-                  // }
-                  // if (pricing.member_price > 0) {
-                  //   pricingHTML += `<div class="price-container">
-                  //       <span class="price-title member-title">Member</span>
-                  //       <span class="price member-price">$${pricing.member_price.toFixed(2)}</span>
-                  //     </div>`;
-                  // }
-                  // if (pricing.elite_price > 0) {
-                  //   pricingHTML += `<div class="price-container">
-                  //       <span class="price-title elite-title">Elite</span>
-                  //       <span class="price elite-price">$${pricing.elite_price.toFixed(2)}</span>
-                  //     </div>`;
-                  // }
+                  }
 
                   return `<div class="search-item" onclick='selectItem("${item.title}", "${item.handle}", "${
                     item.images[0] || '/placeholder.jpg'
-                  }")'>
-        <img src='${item.images[0] || '/placeholder.jpg'}' alt='${
-                    item.title.split(' ')[0]
-                  }'/>
-        <div>
+                  }", ${pricing.retail_price.toFixed(2)},${pricing.member_price.toFixed(
+                    2
+                  )},${pricing.elite_price.toFixed(2)} )'>
+        <img src='${item.images[0] || '/placeholder.jpg'}' alt='${item.title.split(' ')[0]}'/>
+        <div class="search-product-content">
           <h5 style="margin: 0;font-size:16px">${item.title}</h5>
-          <div class='cabana-pricing-div'><table>
+          <div class='price js-price-table'><table>
             <thead>
               <tr>${columns.join('')}</tr>
             </thead>
@@ -445,11 +472,11 @@
     resetButton.style.display = 'block';
   }, 300);
 
-  function selectItem(title, handle, image) {
+  function selectItem(title, handle, image, retail_price, member_price, elite_price) {
     document.getElementById('searchInput').value = title;
     document.getElementById('searchPopup').style.display = 'none';
 
-    saveRecentSearch({ title, handle, image });
+    saveRecentSearch({ title, handle, image, member_price, retail_price, elite_price });
     window.location.href = `/products/${handle}`;
   }
 
@@ -465,4 +492,19 @@
     let resetButton = document.getElementById('resetButton');
     resetButton.style.display = 'none';
   }
+
+  function handleSearchEnter(event) {
+  if (event.key === 'Enter') {
+    event.preventDefault();
+    
+    let searchInput = event.target.value.trim();
+    if (searchInput.length > 0) {
+      window.location.href = `/pages/search-filter?q=${encodeURIComponent(searchInput)}`;
+    }
+  }
+}
+
+function redirectToSearchPageHandle(){
+   window.location.href = `/pages/search-filter`
+}
 </script>
