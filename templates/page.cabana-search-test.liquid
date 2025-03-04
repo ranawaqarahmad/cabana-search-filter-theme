@@ -82,7 +82,34 @@
     });
   }
 
+  
+function updatePagination(totalPages, currentPage, hasNextPage, hasPreviousPage) {
+  const paginationContainer = document.querySelector('.pagination');
+  paginationContainer.innerHTML = '';
+
+  if (hasPreviousPage) {
+    const prevButton = document.createElement('button');
+    prevButton.innerText = 'Previous';
+    prevButton.addEventListener('click', () => getSearchResults(currentPage - 1));
+    paginationContainer.appendChild(prevButton);
+  }
+
+  const pageIndicator = document.createElement('span');
+  pageIndicator.innerText = `Page ${currentPage} of ${totalPages}`;
+  paginationContainer.appendChild(pageIndicator);
+
+  if (hasNextPage) {
+    const nextButton = document.createElement('button');
+    nextButton.innerText = 'Next';
+    nextButton.addEventListener('click', () => getSearchResults(currentPage + 1));
+    paginationContainer.appendChild(nextButton);
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
   getSearchResults();
+});
+  
 </script>
 
 <style>
