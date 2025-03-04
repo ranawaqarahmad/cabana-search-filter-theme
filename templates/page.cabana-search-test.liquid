@@ -99,7 +99,7 @@ function updatePagination(totalPages, currentPage, hasNextPage, hasPreviousPage)
 console.log("pagination .........",totalPages, currentPage, hasNextPage, hasPreviousPage)
   if (hasPreviousPage) {
     const prevButton = document.createElement('button');
-    prevButton.classlist.add = 'button';
+    prevButton.classList.add = 'button';
     prevButton.innerText = 'Previous';
     prevButton.addEventListener('click', () => getSearchResults(currentPage - 1));
     paginationContainer.appendChild(prevButton);
@@ -111,7 +111,7 @@ console.log("pagination .........",totalPages, currentPage, hasNextPage, hasPrev
 
   if (hasNextPage) {
     const nextButton = document.createElement('button');
-    nextButton.classlist.add = 'button';
+    nextButton.classList.add = 'button';
     nextButton.innerText = 'Next';
     nextButton.addEventListener('click', () => getSearchResults(currentPage + 1));
     paginationContainer.appendChild(nextButton);
