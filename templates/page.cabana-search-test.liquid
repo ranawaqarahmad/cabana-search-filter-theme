@@ -17,11 +17,12 @@ async function getSearchResults(page = 1) {
       headers: { 'Content-type': 'application/json' },
     });
 
-    const { data, totalPages, currentPage, hasNextPage, hasPreviousPage } = await resp.json();
+    const { data, pagination } = await resp.json();
     console.log(data);
 
     if (data && data.length > 0) {
       displayProducts(data);
+      const {totalPages, currentPage, hasNextPage, hasPreviousPage} = pagination
       updatePagination(totalPages, currentPage, hasNextPage, hasPreviousPage);
     } else {
       document.querySelector('.product-grid').innerHTML = '<p>No products found.</p>';
