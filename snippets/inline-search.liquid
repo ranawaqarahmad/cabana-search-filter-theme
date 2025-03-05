@@ -20,7 +20,7 @@
     overflow-y: auto;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     z-index: 9999;
-    padding: 20px 30px;
+    padding: 0px 30px 30px;
   }
 
   .reset__button {
@@ -144,8 +144,16 @@
 
   .search-heading {
     font-size: 18px;
-    margin: 10px 5px 20px;
+    margin: 20px 5px;
     text-align: center;
+  }
+
+  .sm-title {
+    font-size: 10px;
+    cursor: pointer;
+    display: block;
+    text-decoration: none;
+    margin-bottom: 3px;
   }
 
   @media (max-width: 1024px) {
@@ -172,117 +180,129 @@
 {%- else -%}
   <search-form class="color-scheme-1 search-modal__form">
 {%- endif -%}
-{% comment %} <form
-  action="{{ routes.search_url }}"
-  method="get"
-  role="search"
-  class="search search-modal__form inline-search-modal__form"
-> {% endcomment %}
-  <div class="field">
-    {% comment %}
-      <input
-        class="search__input field__input"
-        id="{{ input_id }}"
-        type="search"
-        name="q"
-        value="{{ search.terms | escape }}"
-        placeholder="{{ 'general.search.search' | t }}"
-        {%- if settings.predictive_search_enabled -%}
-          role="combobox"
-          aria-expanded="false"
-          aria-owns="predictive-search-results"
-          aria-controls="predictive-search-results"
-          aria-haspopup="listbox"
-          aria-autocomplete="list"
-          autocorrect="off"
-          autocomplete="off"
-          autocapitalize="off"
-          spellcheck="false"
-        {%- endif -%}
-      >
-    {% endcomment %}
-
+{% comment %}
+  <form
+    action="{{ routes.search_url }}"
+    method="get"
+    role="search"
+    class="search search-modal__form inline-search-modal__form"
+  >
+{% endcomment %}
+<div class="field">
+  {% comment %}
     <input
-      type="text"
       class="search__input field__input"
-      id="searchInput"
-      placeholder="{{ 'general.search.search' | t }}"
-      onkeyup="showPopup()"
+      id="{{ input_id }}"
+      type="search"
+      name="q"
       value="{{ search.terms | escape }}"
+      placeholder="{{ 'general.search.search' | t }}"
+      {%- if settings.predictive_search_enabled -%}
+        role="combobox"
+        aria-expanded="false"
+        aria-owns="predictive-search-results"
+        aria-controls="predictive-search-results"
+        aria-haspopup="listbox"
+        aria-autocomplete="list"
+        autocorrect="off"
+        autocomplete="off"
+        autocapitalize="off"
+        spellcheck="false"
+      {%- endif -%}
     >
+  {% endcomment %}
 
-    <label class="field__label visibility-hidden" for="{{ input_id }}">{{ 'general.search.search' | t }}</label>
-    <input name="sID" type="hidden" value="{{ store_id }}">
-    <button
-      type="reset"
-      class="reset__button field__button"
-      aria-label="{{ 'general.search.reset' | t }}"
-      id="resetButton"
-      onclick="resetButtonHandle()"
-    >
-      <svg class="icon icon-close" aria-hidden="true" focusable="false">
-        <use xlink:href="#icon-reset">
-      </svg>
-    </button>
-    <button class="search__button field__button" aria-label="{{ 'general.search.search' | t }}"  onclick="redirectToSearchPageHandle()">
-      {% render 'theme-icons', icon: 'search' %}
-    </button>
+  <input
+    type="text"
+    class="search__input field__input"
+    id="searchInput"
+    placeholder="{{ 'general.search.search' | t }}"
+    onkeyup="showPopup()"
+    value="{{ search.terms | escape }}"
+  >
+
+  <label class="field__label visibility-hidden" for="{{ input_id }}">{{ 'general.search.search' | t }}</label>
+  <input name="sID" type="hidden" value="{{ store_id }}">
+  <button
+    type="reset"
+    class="reset__button field__button"
+    aria-label="{{ 'general.search.reset' | t }}"
+    id="resetButton"
+    onclick="resetButtonHandle()"
+  >
+    <svg class="icon icon-close" aria-hidden="true" focusable="false">
+      <use xlink:href="#icon-reset">
+    </svg>
+  </button>
+  <button
+    class="search__button field__button"
+    aria-label="{{ 'general.search.search' | t }}"
+    onclick="redirectToSearchPageHandle()"
+  >
+    {% render 'theme-icons', icon: 'search' %}
+  </button>
+</div>
+
+<div class="popup" id="searchPopup">
+  <div class="recent-searches" id="recentSearchesContainer">
+    <h4 class="search-heading">Products</h4>
+    <div id="searchedProducts"></div>
+
+    <h4 class="search-heading">Recent Searches</h4>
+    <div id="recentSearches"></div>
+
+    <h4 class="search-heading">Collections</h4>
+    <div id="searchedCollections"></div>
+
+    <h4 class="search-heading">Pages</h4>
+    <div id="searchedPages"></div>
   </div>
+</div>
 
-  <div class="popup" id="searchPopup">
-    <div class="recent-searches" id="recentSearchesContainer">
-      <h4 class="search-heading">Products</h4>
-      <div id="searchedProducts"></div>
-
-      <h4 style="font-size: 18px; margin:20px 5px; text-align:center">Recent Searches</h4>
-      <div id="recentSearches"></div>
-    </div>
-  </div>
-
-  {%- if settings.predictive_search_enabled -%}
-    <div
-      class="predictive-search predictive-search--header overflow-scrollbar{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
-      tabindex="-1"
-      data-predictive-search
-    >
-      {%- render 'theme-icons', icon: 'loader', class: 'predictive-search__loading-state' -%}
-      {% if settings.suggestions_menu != blank %}
-        <div class="predictive-search__result-group custom-suggestions">
-          <div>
-            <h2 id="predictive-search-custom-queries" class="predictive-search__heading lead">
-              {{ settings.suggestions_heading | escape }}
-            </h2>
-            <ul
-              id="predictive-search-custom-queries-list"
-              class="predictive-search__results-list list-unstyled"
-              role="group"
-              aria-labelledby="predictive-search-custom-queries"
-            >
-              {%- for link in linklists[settings.suggestions_menu].links -%}
-                {% assign link_title = link.title | downcase %}
-                <li
-                  id="predictive-search-option-query-{{ forloop.index }}"
-                  class="predictive-search__list-item {% if link_title contains 'elite' %}hidden js-predictive-search-item{% endif %}"
-                  role="option"
-                  aria-selected="false"
+{%- if settings.predictive_search_enabled -%}
+  <div
+    class="predictive-search predictive-search--header overflow-scrollbar{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+    tabindex="-1"
+    data-predictive-search
+  >
+    {%- render 'theme-icons', icon: 'loader', class: 'predictive-search__loading-state' -%}
+    {% if settings.suggestions_menu != blank %}
+      <div class="predictive-search__result-group custom-suggestions">
+        <div>
+          <h2 id="predictive-search-custom-queries" class="predictive-search__heading lead">
+            {{ settings.suggestions_heading | escape }}
+          </h2>
+          <ul
+            id="predictive-search-custom-queries-list"
+            class="predictive-search__results-list list-unstyled"
+            role="group"
+            aria-labelledby="predictive-search-custom-queries"
+          >
+            {%- for link in linklists[settings.suggestions_menu].links -%}
+              {% assign link_title = link.title | downcase %}
+              <li
+                id="predictive-search-option-query-{{ forloop.index }}"
+                class="predictive-search__list-item {% if link_title contains 'elite' %}hidden js-predictive-search-item{% endif %}"
+                role="option"
+                aria-selected="false"
+              >
+                <a
+                  href="{{ link.url }}"
+                  class="predictive-search__item link link--text"
+                  tabindex="-1"
                 >
-                  <a
-                    href="{{ link.url }}"
-                    class="predictive-search__item link link--text"
-                    tabindex="-1"
-                  >
-                    {{ link.title }}
-                  </a>
-                </li>
-              {% endfor %}
-            </ul>
-          </div>
+                  {{ link.title }}
+                </a>
+              </li>
+            {% endfor %}
+          </ul>
         </div>
-      {% endif %}
-    </div>
+      </div>
+    {% endif %}
+  </div>
 
-    <span class="predictive-search-status visually-hidden" role="status" aria-hidden="true"></span>
-  {%- endif -%}
+  <span class="predictive-search-status visually-hidden" role="status" aria-hidden="true"></span>
+{%- endif -%}
 {% comment %} </form> {% endcomment %}
 {%- if settings.predictive_search_enabled -%}
   </predictive-search>
@@ -364,7 +384,7 @@
     let recentSearches = JSON.parse(localStorage.getItem('recentSearches')) || [];
     recentSearches = recentSearches.filter((search) => search.handle !== item.handle);
     recentSearches.unshift(item);
-    if (recentSearches.length > 5) {
+    if (recentSearches.length > 2) {
       recentSearches.pop();
     }
     localStorage.setItem('recentSearches', JSON.stringify(recentSearches));
@@ -379,6 +399,8 @@
     let inputValue = document.getElementById('searchInput').value.toLowerCase();
     let popup = document.getElementById('searchPopup');
     let products = document.getElementById('searchedProducts');
+    let collectionsElement = document.getElementById('searchedCollections');
+    let pagesElement = document.getElementById('searchedPages');
     let resetButton = document.getElementById('resetButton');
 
     if (inputValue.length === 0) {
@@ -398,12 +420,34 @@
         headers: { 'Content-type': 'application/json' },
       });
 
-      const { data } = await resp.json();
+      const respData = await resp.json();
+      const { collections, pages } = respData;
+      const { data } = respData.products;
+      loadRecentSearches();
+
+      if (collections.length === 0) {
+        collectionsElement.innerHTML = '<div>No results found</div>';
+      } else {
+        collectionsElement.innerHTML = collections
+          .map((collection) => `<a class="sm-title" href='/collections/${collection.handle}'>${collection.title}</a>`)
+          .join('');
+      }
+
+      if (pages.length === 0) {
+        pagesElement.innerHTML = '<div>No results found</div>';
+      } else {
+        pagesElement.innerHTML = pages
+          .map((page) => {
+            return `
+            <a class="sm-title" href='/pages/${page.handle}'>${page.title}</a>
+          `;
+          })
+          .join('');
+      }
 
       if (data.length === 0) {
         products.innerHTML = '<div>No results found</div>';
       } else {
-        loadRecentSearches();
         products.innerHTML = `
             <div class="popup-container">
               ${data
@@ -494,17 +538,17 @@
   }
 
   function handleSearchEnter(event) {
-  if (event.key === 'Enter') {
-    event.preventDefault();
-    
-    let searchInput = event.target.value.trim();
-    if (searchInput.length > 0) {
-      window.location.href = `/pages/search-filter?q=${encodeURIComponent(searchInput)}`;
+    if (event.key === 'Enter') {
+      event.preventDefault();
+
+      let searchInput = event.target.value.trim();
+      if (searchInput.length > 0) {
+        window.location.href = `/pages/search-filter?q=${encodeURIComponent(searchInput)}`;
+      }
     }
   }
-}
 
-function redirectToSearchPageHandle(){
-   window.location.href = `/pages/search-filter`
-}
+  function redirectToSearchPageHandle() {
+    window.location.href = `/pages/search-filter`;
+  }
 </script>
