@@ -145,6 +145,12 @@
   .popup-container{
     display:flex;
   }
+  .popup-container > popup-collections-container{
+    display:flex;
+    flex-direction: column;
+  }
+
+
 
     .search-heading {
       font-size: 18px;
@@ -249,6 +255,7 @@
 
 <div class="popup" id="searchPopup">
   <div class="popup-container">
+    <div class="popup-collections-container"></div>
     <div class="recent-searches" id="recentSearchesContainer">
       <h4 class="search-heading">Products</h4>
       <div id="searchedProducts"></div>
