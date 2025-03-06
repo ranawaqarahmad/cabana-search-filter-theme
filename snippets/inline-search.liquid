@@ -1,175 +1,179 @@
 <style>
-  .search-input {
-    width: 100%;
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-
-  .popup {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 600px;
-    background: white;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    display: none;
-    max-height: 450px;
-    overflow-y: auto;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    z-index: 9999;
-    padding: 0px 30px 30px;
-  }
-
-  .reset__button {
-    display: none;
-  }
-
-  .popup-container,
-  #recentSearches {
-    display: grid;
-    grid-template-columns: repeat(1, 1fr);
-    gap: 15px;
-  }
-
-  .search-item,
-  .recent-item {
-    display: flex;
-    gap: 20px;
-    align-items: center;
-    border: 1px solid #efefef;
-    padding: 10px;
-    border-radius: 5px;
-    text-decoration: none;
-    color: black;
-    transition: background 0.2s;
-    cursor: pointer;
-  }
-
-  .search-item:hover,
-  .recent-item:hover {
-    background: #f9f9f9;
-  }
-
-  .search-item img,
-  .recent-item img {
-    width: 80px;
-    height: 80px;
-    object-fit: cover;
-    border-radius: 5px;
-  }
-
-  .item-details {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .item-title {
-    font-size: 14px;
-    font-weight: bold;
-    margin: 0;
-  }
-
-  .price-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 10px 15px;
-    flex: 1;
-  }
-
-  .price-title {
-    font-size: 12px;
-    font-weight: bold;
-    padding: 2px 5px;
-    border-radius: 4px;
-    margin-bottom: 2px;
-  }
-
-  .retail-title {
-    background-color: #f8f9fa;
-    color: #000;
-  }
-
-  .member-title {
-    background-color: red;
-    color: white;
-  }
-
-  .elite-title {
-    background-color: gold;
-    color: navy;
-  }
-
-  .price {
-    font-weight: bold;
-    padding: 4px 8px;
-    border-radius: 4px;
-  }
-
-  .retail-price {
-    background-color: #f8f9fa;
-    color: #000;
-  }
-
-  .member-price {
-    background: red;
-    color: white;
-    width: 100%;
-    padding: 10px 15px;
-    font-weight: bold;
-    border-bottom-right-radius: 8px;
-  }
-
-  .cabana-pricing-div table {
-    width: 70%;
-  }
-
-  .cabana-price-table-cell {
-    padding: 7px !important;
-  }
-
-  .elite-price {
-    background-color: gold;
-    color: navy;
-  }
-
-  .search-product-content {
-    width: 100%;
-  }
-
-  .search-heading {
-    font-size: 18px;
-    margin: 20px 5px;
-    text-align: center;
-  }
-
-  .sm-title {
-    font-size: 10px;
-    cursor: pointer;
-    display: block;
-    text-decoration: none;
-    margin-bottom: 3px;
-  }
-
-  @media (max-width: 1024px) {
-    .popup {
-      width: 400px;
+    .search-input {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
     }
-  }
-  @media (max-width: 480px) {
+
     .popup {
-      max-width: 100%;
+      position: absolute;
+      top: 100%;
       left: 0;
-      right: 0;
-      height: 70vh;
-      max-height: 70vh;
+      width: 600px;
+      background: white;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      display: none;
+      max-height: 450px;
+      overflow-y: auto;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      z-index: 9999;
+      padding: 0px 30px 30px;
     }
+
+    .reset__button {
+      display: none;
+    }
+
+    .popup-container,
+    #recentSearches {
+      display: grid;
+      grid-template-columns: repeat(1, 1fr);
+      gap: 15px;
+    }
+
+    .search-item,
+    .recent-item {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      border: 1px solid #efefef;
+      padding: 10px;
+      border-radius: 5px;
+      text-decoration: none;
+      color: black;
+      transition: background 0.2s;
+      cursor: pointer;
+    }
+
+    .search-item:hover,
+    .recent-item:hover {
+      background: #f9f9f9;
+    }
+
+    .search-item img,
+    .recent-item img {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 5px;
+    }
+
+    .item-details {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .item-title {
+      font-size: 14px;
+      font-weight: bold;
+      margin: 0;
+    }
+
+    .price-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 10px 15px;
+      flex: 1;
+    }
+
+    .price-title {
+      font-size: 12px;
+      font-weight: bold;
+      padding: 2px 5px;
+      border-radius: 4px;
+      margin-bottom: 2px;
+    }
+
+    .retail-title {
+      background-color: #f8f9fa;
+      color: #000;
+    }
+
+    .member-title {
+      background-color: red;
+      color: white;
+    }
+
+    .elite-title {
+      background-color: gold;
+      color: navy;
+    }
+
+    .price {
+      font-weight: bold;
+      padding: 4px 8px;
+      border-radius: 4px;
+    }
+
+    .retail-price {
+      background-color: #f8f9fa;
+      color: #000;
+    }
+
+    .member-price {
+      background: red;
+      color: white;
+      width: 100%;
+      padding: 10px 15px;
+      font-weight: bold;
+      border-bottom-right-radius: 8px;
+    }
+
+    .cabana-pricing-div table {
+      width: 70%;
+    }
+
+    .cabana-price-table-cell {
+      padding: 7px !important;
+    }
+
+    .elite-price {
+      background-color: gold;
+      color: navy;
+    }
+
+    .search-product-content {
+      width: 100%;
+    }
+
+  .popup-container{
+    display:flex;
   }
+
+    .search-heading {
+      font-size: 18px;
+      margin: 20px 5px;
+      text-align: center;
+    }
+
+    .sm-title {
+      font-size: 10px;
+      cursor: pointer;
+      display: block;
+      text-decoration: none;
+      margin-bottom: 3px;
+    }
+
+    @media (max-width: 1024px) {
+      .popup {
+        width: 400px;
+      }
+    }
+    @media (max-width: 480px) {
+      .popup {
+        max-width: 100%;
+        left: 0;
+        right: 0;
+        height: 70vh;
+        max-height: 70vh;
+      }
+    }
 </style>
 
 {%- if settings.predictive_search_enabled -%}
@@ -244,18 +248,20 @@
 </div>
 
 <div class="popup" id="searchPopup">
-  <div class="recent-searches" id="recentSearchesContainer">
-    <h4 class="search-heading">Products</h4>
-    <div id="searchedProducts"></div>
+  <div class="popup-container">
+    <div class="recent-searches" id="recentSearchesContainer">
+      <h4 class="search-heading">Products</h4>
+      <div id="searchedProducts"></div>
 
-    <h4 class="search-heading">Recent Searches</h4>
-    <div id="recentSearches"></div>
+      <h4 class="search-heading">Recent Searches</h4>
+      <div id="recentSearches"></div>
 
-    <h4 class="search-heading">Collections</h4>
-    <div id="searchedCollections"></div>
+      <h4 class="search-heading">Collections</h4>
+      <div id="searchedCollections"></div>
 
-    <h4 class="search-heading">Pages</h4>
-    <div id="searchedPages"></div>
+      <h4 class="search-heading">Pages</h4>
+      <div id="searchedPages"></div>
+    </div>
   </div>
 </div>
 
