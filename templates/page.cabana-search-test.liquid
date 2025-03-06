@@ -21,8 +21,8 @@
         }
       );
 
-      const { products, pagination } = await resp.json();
-      const { data } = products;
+      const { products } = await resp.json();
+      const { data, pagination } = products;
       const { totalPages, currentPage, hasNextPage, hasPreviousPage } = pagination;
       console.log(data, pagination);
 
