@@ -330,6 +330,12 @@
 
 <script>
   const baseUrl = 'https://search.cannacabana.universal-apps.com/api';
+
+  const selectedProvince = localStorage.getItem("global_province")
+  const isBC = selectedProvince === "British Columbia";
+
+  console.log("GLOBAL PROVINCE", selectedProvince)
+
   document.getElementById('searchInput').addEventListener('keypress', handleSearchEnter);
   function debounce(func, delay) {
     let timeout;
@@ -360,7 +366,7 @@
 
           if (item.member_price > 0) {
             columns.push(
-              `<td class="member-price--label price-table-cell js-member-price-label price-table-cell-rounded-top ">Member</td>`
+              `<td class="member-price--label price-table-cell js-member-price-label price-table-cell-rounded-top ">${isBC ? "Our Price" : "Member"}</td>`
             );
             rows.push(`<td class="price-table-cell  price-table-cell-rounded-bottom  member-price">
                  <span class="js-purchase-table-price">$${item.member_price.toFixed(2)}</span>
@@ -487,7 +493,7 @@
 
                   if (pricing.member_price > 0) {
                     columns.push(
-                      `<td class="member-price--label price-table-cell js-member-price-label price-table-cell-rounded-top ">Member</td>`
+                      `<td class="member-price--label price-table-cell js-member-price-label price-table-cell-rounded-top ">${isBC ? "Our Price" : "Member"}</td>`
                     );
                     rows.push(`<td class="price-table-cell  price-table-cell-rounded-bottom  member-price">
                  <span class="js-purchase-table-price">$${pricing.member_price.toFixed(2)}</span>
